@@ -1,0 +1,42 @@
+# Rust Clippy Configuration
+# Comprehensive linting rules for code quality and consistency
+
+# Allow some lints that are too strict for our use case
+# but enable most quality and performance lints
+
+# Performance lints
+avoid-breaking-exported-api = false
+avoid-missing-assertions-for-tests = true
+blacklisted-name = ["foo", "bar", "baz", "tmp", "temp"]
+cognitive-complexity-threshold = 30
+cyclomatic-complexity-threshold = 20
+disallowed-name = ["foo", "bar", "baz", "tmp", "temp"]
+disallowed-types = []
+doc-valid-idents = []
+enum-variant-names = true
+enum-variant-name-threshold = 3
+excessive-bools = 3
+excessive-nesting = 4
+float-arithmetic = true
+float-comparison = true
+implicit-return = true
+large-enum-variant-ratio = 0.8
+large-stack-arrays = 1024
+large-types-passed-by-value = 200
+literal-representation = ["octal", "binary"]
+max-suggested-slice-pattern-length = 2
+max-struct-bools = 3
+max-trait-bounds = 3
+max-variants = 10
+min-similarity = 0.8
+module-name-repetitions = true
+msrv = "1.70.0"
+must-use-candidate = ["std::collections::HashMap::insert", "std::collections::HashSet::insert"]
+must-use-suggested = true
+single-char-lifetime-names = true
+too-many-arguments = 7
+too-many-lines = 100
+trivial-casts = true
+trivial-numeric-casts = true
+type-complexity = 250
+verbose-file-reads = true
