@@ -6,13 +6,12 @@
 // Static analysis wrongly picks the IO variant, thus ignore this
 // ignore_for_file: argument_type_not_assignable
 
+import 'api/simple.dart';
+import 'api/wrdl_helper.dart';
 import 'dart:async';
 import 'dart:convert';
-
-import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated_web.dart';
-
-import 'api/simple.dart';
 import 'frb_generated.dart';
+import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated_web.dart';
 
 abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   RustLibApiImplPlatform({
@@ -35,13 +34,34 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int dco_decode_box_autoadd_i_32(raw);
 
   @protected
+  IntelligentSolver dco_decode_box_autoadd_intelligent_solver(raw);
+
+  @protected
   double dco_decode_f_64(raw);
+
+  @protected
+  GuessResult dco_decode_guess_result(raw);
 
   @protected
   int dco_decode_i_32(raw);
 
   @protected
+  IntelligentSolver dco_decode_intelligent_solver(raw);
+
+  @protected
+  LetterResult dco_decode_letter_result(raw);
+
+  @protected
+  LetterResultArray5 dco_decode_letter_result_array_5(raw);
+
+  @protected
   List<String> dco_decode_list_String(raw);
+
+  @protected
+  List<GuessResult> dco_decode_list_guess_result(raw);
+
+  @protected
+  List<LetterResult> dco_decode_list_letter_result(raw);
 
   @protected
   Uint32List dco_decode_list_prim_u_32_strict(raw);
@@ -50,10 +70,19 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Uint8List dco_decode_list_prim_u_8_strict(raw);
 
   @protected
+  List<(String, List<String>)> dco_decode_list_record_string_list_string(raw);
+
+  @protected
   List<(String, String)> dco_decode_list_record_string_string(raw);
 
   @protected
+  String? dco_decode_opt_String(raw);
+
+  @protected
   int? dco_decode_opt_box_autoadd_i_32(raw);
+
+  @protected
+  (String, List<String>) dco_decode_record_string_list_string(raw);
 
   @protected
   (String, String) dco_decode_record_string_string(raw);
@@ -85,13 +114,40 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int sse_decode_box_autoadd_i_32(SseDeserializer deserializer);
 
   @protected
+  IntelligentSolver sse_decode_box_autoadd_intelligent_solver(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   double sse_decode_f_64(SseDeserializer deserializer);
+
+  @protected
+  GuessResult sse_decode_guess_result(SseDeserializer deserializer);
 
   @protected
   int sse_decode_i_32(SseDeserializer deserializer);
 
   @protected
+  IntelligentSolver sse_decode_intelligent_solver(SseDeserializer deserializer);
+
+  @protected
+  LetterResult sse_decode_letter_result(SseDeserializer deserializer);
+
+  @protected
+  LetterResultArray5 sse_decode_letter_result_array_5(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   List<String> sse_decode_list_String(SseDeserializer deserializer);
+
+  @protected
+  List<GuessResult> sse_decode_list_guess_result(SseDeserializer deserializer);
+
+  @protected
+  List<LetterResult> sse_decode_list_letter_result(
+    SseDeserializer deserializer,
+  );
 
   @protected
   Uint32List sse_decode_list_prim_u_32_strict(SseDeserializer deserializer);
@@ -100,12 +156,25 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer);
 
   @protected
+  List<(String, List<String>)> sse_decode_list_record_string_list_string(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   List<(String, String)> sse_decode_list_record_string_string(
     SseDeserializer deserializer,
   );
 
   @protected
+  String? sse_decode_opt_String(SseDeserializer deserializer);
+
+  @protected
   int? sse_decode_opt_box_autoadd_i_32(SseDeserializer deserializer);
+
+  @protected
+  (String, List<String>) sse_decode_record_string_list_string(
+    SseDeserializer deserializer,
+  );
 
   @protected
   (String, String) sse_decode_record_string_string(
@@ -140,13 +209,49 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_box_autoadd_i_32(int self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_intelligent_solver(
+    IntelligentSolver self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_f_64(double self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_guess_result(GuessResult self, SseSerializer serializer);
 
   @protected
   void sse_encode_i_32(int self, SseSerializer serializer);
 
   @protected
+  void sse_encode_intelligent_solver(
+    IntelligentSolver self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_letter_result(LetterResult self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_letter_result_array_5(
+    LetterResultArray5 self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_list_String(List<String> self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_guess_result(
+    List<GuessResult> self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_list_letter_result(
+    List<LetterResult> self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_list_prim_u_32_strict(
@@ -161,13 +266,28 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_list_record_string_list_string(
+    List<(String, List<String>)> self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_list_record_string_string(
     List<(String, String)> self,
     SseSerializer serializer,
   );
 
   @protected
+  void sse_encode_opt_String(String? self, SseSerializer serializer);
+
+  @protected
   void sse_encode_opt_box_autoadd_i_32(int? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_record_string_list_string(
+    (String, List<String>) self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_record_string_string(

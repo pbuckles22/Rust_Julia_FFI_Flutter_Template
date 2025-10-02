@@ -57,7 +57,12 @@ class _MyAppState extends State<MyApp> {
       await RustLib.init();
     } catch (e) {
       // In test environment, Rust might already be initialized
-      // or might fail, so we just continue
+      // This is expected and not an error - just continue
+      if (e.toString().contains('Should not initialize flutter_rust_bridge twice')) {
+        // This is expected in test environment - Rust is already initialized
+        return;
+      }
+      // For other errors, print them but continue
       print('Rust initialization note: $e');
     }
   }
