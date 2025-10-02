@@ -27,6 +27,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/main.dart';
+import 'package:wrdlhelper/service_locator.dart';
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
 
 void main() {
@@ -37,7 +38,12 @@ void main() {
       await RustLib.init();
     });
 
-    // No tearDown needed - no global state to reset!
+    setUp(() {
+      // Reset all services before each test to ensure clean state
+      resetAllServices();
+    });
+
+    // No tearDown needed - services are reset in setUp!
 
     testWidgets('MyApp should render correctly', (WidgetTester tester) async {
       // Build our app and trigger a frame
@@ -53,17 +59,19 @@ void main() {
       await tester.pumpWidget(const MyApp());
 
       // Verify the AppBar title
-      expect(find.text('wrdlHelper'), findsOneWidget);
+      expect(find.text('Wordle Helper'), findsOneWidget);
     });
 
-    testWidgets('Body should display initialization text', (WidgetTester tester) async {
+    testWidgets('Body should display Wordle game screen', (WidgetTester tester) async {
       await tester.pumpWidget(const MyApp());
 
-      // Wait for FutureBuilder to complete
+      // Wait for the FutureBuilder to complete (services initialization)
       await tester.pumpAndSettle();
       
-      // After FutureBuilder completes, it should show ready state
-      expect(find.textContaining('✅ Rust FFI library ready!'), findsOneWidget);
+      // Should show the Wordle game screen with key elements
+      expect(find.byKey(const Key('game_grid')), findsOneWidget);
+      expect(find.byKey(const Key('virtual_keyboard')), findsOneWidget);
+      expect(find.text('New Game'), findsOneWidget);
     });
 
     testWidgets('App should have proper layout structure', (WidgetTester tester) async {

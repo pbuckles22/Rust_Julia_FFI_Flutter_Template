@@ -8,6 +8,9 @@
 
 use std::collections::HashMap;
 use std::f64::consts::LN_2;
+use std::sync::Mutex;
+use once_cell::sync::Lazy;
+use flutter_rust_bridge::frb;
 
 /// FFI-compatible enum for letter results
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -37,6 +40,50 @@ impl GuessResult {
 pub struct IntelligentSolver {
     pub words: Vec<String>,
 }
+
+/// Global word manager to avoid passing large word lists across FFI
+#[frb(opaque)]
+pub struct WordManager {
+    pub answer_words: Vec<String>,
+    pub guess_words: Vec<String>,
+}
+
+impl WordManager {
+    pub fn new() -> Self {
+        Self {
+            answer_words: Vec::new(),
+            guess_words: Vec::new(),
+        }
+    }
+
+    pub fn load_words(&mut self) -> Result<(), String> {
+        // For now, use hardcoded words - in production, load from files
+        self.answer_words = vec![
+            "CRANE".to_string(), "SLATE".to_string(), "CRATE".to_string(), 
+            "PLATE".to_string(), "GRATE".to_string(), "TRACE".to_string(),
+            "CHASE".to_string(), "CLOTH".to_string(), "CLOUD".to_string(),
+            "SLOTH".to_string(), "BLIMP".to_string(), "WORLD".to_string(),
+            "HELLO".to_string(), "FLUTE".to_string(), "PRIDE".to_string(),
+            "SHINE".to_string(), "BRAVE".to_string(), "QUICK".to_string(),
+        ];
+        
+        self.guess_words = self.answer_words.clone();
+        Ok(())
+    }
+
+    pub fn get_answer_words(&self) -> &[String] {
+        &self.answer_words
+    }
+
+    pub fn get_guess_words(&self) -> &[String] {
+        &self.guess_words
+    }
+}
+
+/// Global word manager instance
+pub static WORD_MANAGER: Lazy<Mutex<WordManager>> = Lazy::new(|| {
+    Mutex::new(WordManager::new())
+});
 
 impl IntelligentSolver {
     /// Create a new intelligent solver

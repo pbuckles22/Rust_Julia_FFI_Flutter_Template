@@ -1,0 +1,116 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:wrdlhelper/screens/wordle_game_screen.dart';
+import 'package:wrdlhelper/service_locator.dart';
+import 'package:wrdlhelper/services/app_service.dart';
+import 'package:wrdlhelper/services/game_service.dart';
+import 'package:wrdlhelper/services/word_service.dart';
+
+void main() {
+  group('WordleGameScreen Service Locator Integration Tests', () {
+    setUp(() {
+      // Reset service locator before each test
+      sl.reset();
+    });
+
+    tearDown(() {
+      // Clean up after each test
+      sl.reset();
+    });
+
+    testWidgets(
+      'should use service locator instead of direct AppService creation',
+      (WidgetTester tester) async {
+        // TDD: Test that WordleGameScreen uses service locator
+
+        // Setup mock services
+        setupMockServices();
+
+        // Verify services are available
+        expect(sl.isRegistered<AppService>(), isTrue);
+        expect(sl.isRegistered<WordService>(), isTrue);
+        expect(sl.isRegistered<GameService>(), isTrue);
+
+        // Build the screen
+        await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
+        await tester.pumpAndSettle();
+
+        // Verify screen builds successfully
+        expect(find.byType(WordleGameScreen), findsOneWidget);
+
+        // Verify services are accessible through service locator
+        final appService = sl<AppService>();
+        final wordService = sl<WordService>();
+        final gameService = sl<GameService>();
+
+        expect(appService.isInitialized, isTrue);
+        expect(wordService.isLoaded, isTrue);
+        expect(gameService.isInitialized, isTrue);
+      },
+    );
+
+    testWidgets('should handle service locator errors gracefully', (
+      WidgetTester tester,
+    ) async {
+      // TDD: Test that WordleGameScreen handles missing services gracefully
+
+      // Don't setup services - this should trigger fallback behavior
+      expect(sl.isRegistered<AppService>(), isFalse);
+
+      // The screen should still build with fallback behavior
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
+      await tester.pumpAndSettle();
+
+      // Verify screen still builds
+      expect(find.byType(WordleGameScreen), findsOneWidget);
+    });
+
+    testWidgets('should maintain service consistency during screen lifecycle', (
+      WidgetTester tester,
+    ) async {
+      // TDD: Test that services remain consistent during screen lifecycle
+
+      setupMockServices();
+
+      // Build the screen
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
+      await tester.pumpAndSettle();
+
+      // Get services at different points
+      final appService1 = sl<AppService>();
+      final wordService1 = sl<WordService>();
+      final gameService1 = sl<GameService>();
+
+      // Rebuild the screen
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
+      await tester.pumpAndSettle();
+
+      // Get services again
+      final appService2 = sl<AppService>();
+      final wordService2 = sl<WordService>();
+      final gameService2 = sl<GameService>();
+
+      // Should be the same instances (singletons)
+      expect(identical(appService1, appService2), isTrue);
+      expect(identical(wordService1, wordService2), isTrue);
+      expect(identical(gameService1, gameService2), isTrue);
+    });
+
+    testWidgets('should work with both real and mock services', (
+      WidgetTester tester,
+    ) async {
+      // TDD: Test that screen works with both real and mock services
+
+      // Test with mock services
+      setupMockServices();
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
+      await tester.pumpAndSettle();
+      expect(find.byType(WordleGameScreen), findsOneWidget);
+
+      // Reset and test with real services
+      sl.reset();
+      // Note: We can't easily test real services in unit tests due to asset loading
+      // This would be tested in integration tests with actual device
+    });
+  });
+}

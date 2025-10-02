@@ -3,12 +3,34 @@
 
 // ignore_for_file: invalid_use_of_internal_member, unused_import, unnecessary_import
 
-import '../frb_generated.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
+import '../frb_generated.dart';
+
 // These functions are ignored because they are not marked as `pub`: `get_candidate_words`
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_receiver_is_total_eq`, `clone`, `clone`, `eq`, `fmt`, `fmt`
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<WordManager>>
+abstract class WordManager implements RustOpaqueInterface {
+  List<String> get answerWords;
+
+  List<String> get guessWords;
+
+  set answerWords(List<String> answerWords);
+
+  set guessWords(List<String> guessWords);
+
+  Future<void> getAnswerWords();
+
+  Future<void> getGuessWords();
+
+  Future<void> loadWords();
+
+  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
+  static Future<WordManager> newInstance() =>
+      RustLib.instance.api.crateApiWrdlHelperWordManagerNew();
+}
 
 /// FFI-compatible struct for guess results
 class GuessResult {

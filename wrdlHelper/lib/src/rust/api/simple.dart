@@ -3,8 +3,9 @@
 
 // ignore_for_file: invalid_use_of_internal_member, unused_import, unnecessary_import
 
-import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
+
+import '../frb_generated.dart';
 
 /// * Greet a user with a personalized message
 /// *
@@ -267,6 +268,39 @@ bool isPalindrome({required String text}) =>
 ///
 int simpleHash({required String input}) =>
     RustLib.instance.api.crateApiSimpleSimpleHash(input: input);
+
+/// * Initialize word lists in Rust (call once at startup)
+/// *
+/// * This function loads word lists into Rust memory to avoid passing large
+/// * data structures across the FFI boundary on every call.
+///
+void initializeWordLists() =>
+    RustLib.instance.api.crateApiSimpleInitializeWordLists();
+
+/// * Get intelligent guess using advanced algorithms (optimized version)
+/// *
+/// * This function uses the wrdlHelper intelligent solver with Rust-managed word lists
+/// * to avoid passing large data structures across FFI. Much faster than the original.
+/// *
+/// * # Arguments
+/// * - `remaining_words`: Words that are still possible given current constraints
+/// * - `guess_results`: Previous guess results with patterns
+/// *
+/// * # Returns
+/// * The best word to guess next, or None if no valid guesses remain
+/// *
+/// * # Performance
+/// * - Time complexity: O(n*m) where n is candidate words, m is remaining words
+/// * - Space complexity: O(n) for pattern analysis
+/// * - Target response time: < 200ms (much faster with Rust-managed words)
+///
+String? getIntelligentGuessFast({
+  required List<String> remainingWords,
+  required List<(String, List<String>)> guessResults,
+}) => RustLib.instance.api.crateApiSimpleGetIntelligentGuessFast(
+  remainingWords: remainingWords,
+  guessResults: guessResults,
+);
 
 /// * Get intelligent word suggestion using advanced algorithms
 /// *

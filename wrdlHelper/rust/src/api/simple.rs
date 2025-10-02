@@ -365,6 +365,78 @@ pub fn simple_hash(input: String) -> u32 {
 // ============================================================================
 
 /**
+ * Initialize word lists in Rust (call once at startup)
+ * 
+ * This function loads word lists into Rust memory to avoid passing large
+ * data structures across the FFI boundary on every call.
+ */
+#[flutter_rust_bridge::frb(sync)]
+pub fn initialize_word_lists() -> Result<(), String> {
+    use crate::api::wrdl_helper::WORD_MANAGER;
+    
+    let mut manager = WORD_MANAGER.lock().map_err(|e| format!("Failed to lock word manager: {}", e))?;
+    manager.load_words()?;
+    Ok(())
+}
+
+/**
+ * Get intelligent guess using advanced algorithms (optimized version)
+ * 
+ * This function uses the wrdlHelper intelligent solver with Rust-managed word lists
+ * to avoid passing large data structures across FFI. Much faster than the original.
+ * 
+ * # Arguments
+ * - `remaining_words`: Words that are still possible given current constraints
+ * - `guess_results`: Previous guess results with patterns
+ * 
+ * # Returns
+ * The best word to guess next, or None if no valid guesses remain
+ * 
+ * # Performance
+ * - Time complexity: O(n*m) where n is candidate words, m is remaining words
+ * - Space complexity: O(n) for pattern analysis
+ * - Target response time: < 200ms (much faster with Rust-managed words)
+ */
+#[flutter_rust_bridge::frb(sync)]
+pub fn get_intelligent_guess_fast(
+    remaining_words: Vec<String>,
+    guess_results: Vec<(String, Vec<String>)>, // (word, pattern) where pattern is ["G", "Y", "X", ...]
+) -> Option<String> {
+    use crate::api::wrdl_helper::{WORD_MANAGER, IntelligentSolver};
+    
+    if remaining_words.is_empty() {
+        return None;
+    }
+
+    // Get words from global manager
+    let manager = WORD_MANAGER.lock().ok()?;
+    let all_words = manager.get_guess_words().to_vec();
+    drop(manager); // Release lock early
+    
+    let solver = IntelligentSolver::new(all_words);
+    
+    // Convert FFI guess results to internal format
+    let mut internal_guess_results = Vec::new();
+    for (word, pattern) in guess_results {
+        let mut results = Vec::new();
+        for letter_result in pattern {
+            let result = match letter_result.as_str() {
+                "G" => LetterResult::Green,
+                "Y" => LetterResult::Yellow,
+                "X" => LetterResult::Gray,
+                _ => LetterResult::Gray, // Default to gray for unknown patterns
+            };
+            results.push(result);
+        }
+        internal_guess_results.push(GuessResult::new(word, [
+            results[0], results[1], results[2], results[3], results[4]
+        ]));
+    }
+    
+    solver.get_best_guess(&remaining_words, &internal_guess_results)
+}
+
+/**
  * Get intelligent word suggestion using advanced algorithms
  * 
  * This function uses Shannon entropy analysis, statistical analysis, and

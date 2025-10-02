@@ -34,10 +34,23 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  
+  # Dependency injection
+  get_it: ^7.7.0
+  
+  # FFI bridge for calling Rust functions from Dart
+  flutter_rust_bridge: 2.11.1
+  
+  # State management for Flutter app
+  provider: ^6.1.2
+  
+  # JSON handling for word lists
+  json_annotation: ^4.9.0
+  
   rust_lib_wrdlhelper:
     path: rust_builder
-  flutter_rust_bridge: 2.11.1
 
+  collection: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -48,8 +61,21 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
+  
+  # Code generation for JSON serialization
+  json_serializable: ^6.8.0
+  
+  # Flutter Driver for UI testing
+  flutter_driver:
+    sdk: flutter
+  
+  # Integration testing (recommended approach)
   integration_test:
     sdk: flutter
+    
+  build_runner: ^2.4.13
+  # YAML parsing for configuration tests
+  yaml: ^3.1.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -65,6 +91,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/word_lists/
+    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
