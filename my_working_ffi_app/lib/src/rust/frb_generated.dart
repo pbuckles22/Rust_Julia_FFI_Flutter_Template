@@ -3,20 +3,21 @@
 
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
-import 'api/simple.dart';
 import 'dart:async';
 import 'dart:convert';
+
+import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
+
+import 'api/simple.dart';
 import 'frb_generated.dart';
 import 'frb_generated.io.dart'
     if (dart.library.js_interop) 'frb_generated.web.dart';
-import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 /// Main entrypoint of the Rust API
 class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
+  RustLib._();
   @internal
   static final instance = RustLib._();
-
-  RustLib._();
 
   /// Initialize flutter_rust_bridge
   static Future<void> init({
@@ -111,270 +112,268 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   });
 
   @override
-  int? crateApiSimpleAddNumbers({required int a, required int b}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_i_32(a, serializer);
-          sse_encode_i_32(b, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 1)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_opt_box_autoadd_i_32,
-          decodeErrorData: null,
+  int? crateApiSimpleAddNumbers({required int a, required int b}) =>
+      handler.executeSync(
+        SyncTask(
+          callFfi: () {
+            final serializer = SseSerializer(generalizedFrbRustBinding);
+            sse_encode_i_32(a, serializer);
+            sse_encode_i_32(b, serializer);
+            return pdeCallFfi(
+              generalizedFrbRustBinding,
+              serializer,
+              funcId: 1,
+            )!;
+          },
+          codec: SseCodec(
+            decodeSuccessData: sse_decode_opt_box_autoadd_i_32,
+            decodeErrorData: null,
+          ),
+          constMeta: kCrateApiSimpleAddNumbersConstMeta,
+          argValues: [a, b],
+          apiImpl: this,
         ),
-        constMeta: kCrateApiSimpleAddNumbersConstMeta,
-        argValues: [a, b],
-        apiImpl: this,
-      ),
-    );
-  }
+      );
 
   TaskConstMeta get kCrateApiSimpleAddNumbersConstMeta =>
-      const TaskConstMeta(debugName: "add_numbers", argNames: ["a", "b"]);
+      const TaskConstMeta(debugName: 'add_numbers', argNames: ['a', 'b']);
 
   @override
   Map<String, String> crateApiSimpleCreateStringMap({
     required List<(String, String)> pairs,
-  }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_list_record_string_string(pairs, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 2)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_Map_String_String_None,
-          decodeErrorData: null,
-        ),
-        constMeta: kCrateApiSimpleCreateStringMapConstMeta,
-        argValues: [pairs],
-        apiImpl: this,
+  }) => handler.executeSync(
+    SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_list_record_string_string(pairs, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 2)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_Map_String_String_None,
+        decodeErrorData: null,
       ),
-    );
-  }
+      constMeta: kCrateApiSimpleCreateStringMapConstMeta,
+      argValues: [pairs],
+      apiImpl: this,
+    ),
+  );
 
   TaskConstMeta get kCrateApiSimpleCreateStringMapConstMeta =>
-      const TaskConstMeta(debugName: "create_string_map", argNames: ["pairs"]);
+      const TaskConstMeta(debugName: 'create_string_map', argNames: ['pairs']);
 
   @override
-  int crateApiSimpleFactorial({required int n}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_u_32(n, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 3)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_u_32,
-          decodeErrorData: null,
-        ),
-        constMeta: kCrateApiSimpleFactorialConstMeta,
-        argValues: [n],
-        apiImpl: this,
+  int crateApiSimpleFactorial({required int n}) => handler.executeSync(
+    SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_u_32(n, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 3)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_u_32,
+        decodeErrorData: null,
       ),
-    );
-  }
+      constMeta: kCrateApiSimpleFactorialConstMeta,
+      argValues: [n],
+      apiImpl: this,
+    ),
+  );
 
   TaskConstMeta get kCrateApiSimpleFactorialConstMeta =>
-      const TaskConstMeta(debugName: "factorial", argNames: ["n"]);
+      const TaskConstMeta(debugName: 'factorial', argNames: ['n']);
 
   @override
-  BigInt crateApiSimpleGetCurrentTimestamp() {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 4)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_u_64,
-          decodeErrorData: null,
-        ),
-        constMeta: kCrateApiSimpleGetCurrentTimestampConstMeta,
-        argValues: [],
-        apiImpl: this,
+  BigInt crateApiSimpleGetCurrentTimestamp() => handler.executeSync(
+    SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 4)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_u_64,
+        decodeErrorData: null,
       ),
-    );
-  }
+      constMeta: kCrateApiSimpleGetCurrentTimestampConstMeta,
+      argValues: [],
+      apiImpl: this,
+    ),
+  );
 
   TaskConstMeta get kCrateApiSimpleGetCurrentTimestampConstMeta =>
-      const TaskConstMeta(debugName: "get_current_timestamp", argNames: []);
+      const TaskConstMeta(debugName: 'get_current_timestamp', argNames: []);
 
   @override
-  Uint32List crateApiSimpleGetStringLengths({required List<String> strings}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_list_String(strings, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 5)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_list_prim_u_32_strict,
-          decodeErrorData: null,
+  Uint32List crateApiSimpleGetStringLengths({required List<String> strings}) =>
+      handler.executeSync(
+        SyncTask(
+          callFfi: () {
+            final serializer = SseSerializer(generalizedFrbRustBinding);
+            sse_encode_list_String(strings, serializer);
+            return pdeCallFfi(
+              generalizedFrbRustBinding,
+              serializer,
+              funcId: 5,
+            )!;
+          },
+          codec: SseCodec(
+            decodeSuccessData: sse_decode_list_prim_u_32_strict,
+            decodeErrorData: null,
+          ),
+          constMeta: kCrateApiSimpleGetStringLengthsConstMeta,
+          argValues: [strings],
+          apiImpl: this,
         ),
-        constMeta: kCrateApiSimpleGetStringLengthsConstMeta,
-        argValues: [strings],
-        apiImpl: this,
-      ),
-    );
-  }
+      );
 
   TaskConstMeta get kCrateApiSimpleGetStringLengthsConstMeta =>
       const TaskConstMeta(
-        debugName: "get_string_lengths",
-        argNames: ["strings"],
+        debugName: 'get_string_lengths',
+        argNames: ['strings'],
       );
 
   @override
-  String crateApiSimpleGreet({required String name}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_String(name, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_String,
-          decodeErrorData: null,
-        ),
-        constMeta: kCrateApiSimpleGreetConstMeta,
-        argValues: [name],
-        apiImpl: this,
+  String crateApiSimpleGreet({required String name}) => handler.executeSync(
+    SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_String(name, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_String,
+        decodeErrorData: null,
       ),
-    );
-  }
+      constMeta: kCrateApiSimpleGreetConstMeta,
+      argValues: [name],
+      apiImpl: this,
+    ),
+  );
 
   TaskConstMeta get kCrateApiSimpleGreetConstMeta =>
-      const TaskConstMeta(debugName: "greet", argNames: ["name"]);
+      const TaskConstMeta(debugName: 'greet', argNames: ['name']);
 
   @override
-  Future<void> crateApiSimpleInitApp() {
-    return handler.executeNormal(
-      NormalTask(
-        callFfi: (port_) {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          pdeCallFfi(
-            generalizedFrbRustBinding,
-            serializer,
-            funcId: 7,
-            port: port_,
-          );
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: null,
-        ),
-        constMeta: kCrateApiSimpleInitAppConstMeta,
-        argValues: [],
-        apiImpl: this,
+  Future<void> crateApiSimpleInitApp() => handler.executeNormal(
+    NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        pdeCallFfi(
+          generalizedFrbRustBinding,
+          serializer,
+          funcId: 7,
+          port: port_,
+        );
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
       ),
-    );
-  }
+      constMeta: kCrateApiSimpleInitAppConstMeta,
+      argValues: [],
+      apiImpl: this,
+    ),
+  );
 
   TaskConstMeta get kCrateApiSimpleInitAppConstMeta =>
-      const TaskConstMeta(debugName: "init_app", argNames: []);
+      const TaskConstMeta(debugName: 'init_app', argNames: []);
 
   @override
-  bool crateApiSimpleIsEven({required int number}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_i_32(number, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 8)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_bool,
-          decodeErrorData: null,
-        ),
-        constMeta: kCrateApiSimpleIsEvenConstMeta,
-        argValues: [number],
-        apiImpl: this,
+  bool crateApiSimpleIsEven({required int number}) => handler.executeSync(
+    SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_i_32(number, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 8)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_bool,
+        decodeErrorData: null,
       ),
-    );
-  }
+      constMeta: kCrateApiSimpleIsEvenConstMeta,
+      argValues: [number],
+      apiImpl: this,
+    ),
+  );
 
   TaskConstMeta get kCrateApiSimpleIsEvenConstMeta =>
-      const TaskConstMeta(debugName: "is_even", argNames: ["number"]);
+      const TaskConstMeta(debugName: 'is_even', argNames: ['number']);
 
   @override
-  bool crateApiSimpleIsPalindrome({required String text}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_String(text, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_bool,
-          decodeErrorData: null,
+  bool crateApiSimpleIsPalindrome({required String text}) =>
+      handler.executeSync(
+        SyncTask(
+          callFfi: () {
+            final serializer = SseSerializer(generalizedFrbRustBinding);
+            sse_encode_String(text, serializer);
+            return pdeCallFfi(
+              generalizedFrbRustBinding,
+              serializer,
+              funcId: 9,
+            )!;
+          },
+          codec: SseCodec(
+            decodeSuccessData: sse_decode_bool,
+            decodeErrorData: null,
+          ),
+          constMeta: kCrateApiSimpleIsPalindromeConstMeta,
+          argValues: [text],
+          apiImpl: this,
         ),
-        constMeta: kCrateApiSimpleIsPalindromeConstMeta,
-        argValues: [text],
-        apiImpl: this,
-      ),
-    );
-  }
+      );
 
   TaskConstMeta get kCrateApiSimpleIsPalindromeConstMeta =>
-      const TaskConstMeta(debugName: "is_palindrome", argNames: ["text"]);
+      const TaskConstMeta(debugName: 'is_palindrome', argNames: ['text']);
 
   @override
-  double crateApiSimpleMultiplyFloats({required double a, required double b}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_f_64(a, serializer);
-          sse_encode_f_64(b, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 10)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_f_64,
-          decodeErrorData: null,
+  double crateApiSimpleMultiplyFloats({required double a, required double b}) =>
+      handler.executeSync(
+        SyncTask(
+          callFfi: () {
+            final serializer = SseSerializer(generalizedFrbRustBinding);
+            sse_encode_f_64(a, serializer);
+            sse_encode_f_64(b, serializer);
+            return pdeCallFfi(
+              generalizedFrbRustBinding,
+              serializer,
+              funcId: 10,
+            )!;
+          },
+          codec: SseCodec(
+            decodeSuccessData: sse_decode_f_64,
+            decodeErrorData: null,
+          ),
+          constMeta: kCrateApiSimpleMultiplyFloatsConstMeta,
+          argValues: [a, b],
+          apiImpl: this,
         ),
-        constMeta: kCrateApiSimpleMultiplyFloatsConstMeta,
-        argValues: [a, b],
-        apiImpl: this,
-      ),
-    );
-  }
+      );
 
   TaskConstMeta get kCrateApiSimpleMultiplyFloatsConstMeta =>
-      const TaskConstMeta(debugName: "multiply_floats", argNames: ["a", "b"]);
+      const TaskConstMeta(debugName: 'multiply_floats', argNames: ['a', 'b']);
 
   @override
-  int crateApiSimpleSimpleHash({required String input}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_String(input, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_u_32,
-          decodeErrorData: null,
-        ),
-        constMeta: kCrateApiSimpleSimpleHashConstMeta,
-        argValues: [input],
-        apiImpl: this,
+  int crateApiSimpleSimpleHash({required String input}) => handler.executeSync(
+    SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_String(input, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_u_32,
+        decodeErrorData: null,
       ),
-    );
-  }
+      constMeta: kCrateApiSimpleSimpleHashConstMeta,
+      argValues: [input],
+      apiImpl: this,
+    ),
+  );
 
   TaskConstMeta get kCrateApiSimpleSimpleHashConstMeta =>
-      const TaskConstMeta(debugName: "simple_hash", argNames: ["input"]);
+      const TaskConstMeta(debugName: 'simple_hash', argNames: ['input']);
 
   @protected
-  Map<String, String> dco_decode_Map_String_String_None(dynamic raw) {
+  Map<String, String> dco_decode_Map_String_String_None(raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return Map.fromEntries(
       dco_decode_list_record_string_string(
@@ -384,67 +383,67 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  String dco_decode_String(dynamic raw) {
+  String dco_decode_String(raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as String;
   }
 
   @protected
-  bool dco_decode_bool(dynamic raw) {
+  bool dco_decode_bool(raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as bool;
   }
 
   @protected
-  int dco_decode_box_autoadd_i_32(dynamic raw) {
+  int dco_decode_box_autoadd_i_32(raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as int;
   }
 
   @protected
-  double dco_decode_f_64(dynamic raw) {
+  double dco_decode_f_64(raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as double;
   }
 
   @protected
-  int dco_decode_i_32(dynamic raw) {
+  int dco_decode_i_32(raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as int;
   }
 
   @protected
-  List<String> dco_decode_list_String(dynamic raw) {
+  List<String> dco_decode_list_String(raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_String).toList();
   }
 
   @protected
-  Uint32List dco_decode_list_prim_u_32_strict(dynamic raw) {
+  Uint32List dco_decode_list_prim_u_32_strict(raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as Uint32List;
   }
 
   @protected
-  Uint8List dco_decode_list_prim_u_8_strict(dynamic raw) {
+  Uint8List dco_decode_list_prim_u_8_strict(raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as Uint8List;
   }
 
   @protected
-  List<(String, String)> dco_decode_list_record_string_string(dynamic raw) {
+  List<(String, String)> dco_decode_list_record_string_string(raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_record_string_string).toList();
   }
 
   @protected
-  int? dco_decode_opt_box_autoadd_i_32(dynamic raw) {
+  int? dco_decode_opt_box_autoadd_i_32(raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_box_autoadd_i_32(raw);
   }
 
   @protected
-  (String, String) dco_decode_record_string_string(dynamic raw) {
+  (String, String) dco_decode_record_string_string(raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
     if (arr.length != 2) {
@@ -454,25 +453,25 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  int dco_decode_u_32(dynamic raw) {
+  int dco_decode_u_32(raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as int;
   }
 
   @protected
-  BigInt dco_decode_u_64(dynamic raw) {
+  BigInt dco_decode_u_64(raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dcoDecodeU64(raw);
   }
 
   @protected
-  int dco_decode_u_8(dynamic raw) {
+  int dco_decode_u_8(raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as int;
   }
 
   @protected
-  void dco_decode_unit(dynamic raw) {
+  void dco_decode_unit(raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return;
   }
@@ -482,14 +481,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    var inner = sse_decode_list_record_string_string(deserializer);
+    final inner = sse_decode_list_record_string_string(deserializer);
     return Map.fromEntries(inner.map((e) => MapEntry(e.$1, e.$2)));
   }
 
   @protected
   String sse_decode_String(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    var inner = sse_decode_list_prim_u_8_strict(deserializer);
+    final inner = sse_decode_list_prim_u_8_strict(deserializer);
     return utf8.decoder.convert(inner);
   }
 
@@ -502,7 +501,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   int sse_decode_box_autoadd_i_32(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_i_32(deserializer));
+    return sse_decode_i_32(deserializer);
   }
 
   @protected
@@ -521,8 +520,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   List<String> sse_decode_list_String(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
-    var len_ = sse_decode_i_32(deserializer);
-    var ans_ = <String>[];
+    final len_ = sse_decode_i_32(deserializer);
+    final ans_ = <String>[];
     for (var idx_ = 0; idx_ < len_; ++idx_) {
       ans_.add(sse_decode_String(deserializer));
     }
@@ -532,14 +531,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   Uint32List sse_decode_list_prim_u_32_strict(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    var len_ = sse_decode_i_32(deserializer);
+    final len_ = sse_decode_i_32(deserializer);
     return deserializer.buffer.getUint32List(len_);
   }
 
   @protected
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    var len_ = sse_decode_i_32(deserializer);
+    final len_ = sse_decode_i_32(deserializer);
     return deserializer.buffer.getUint8List(len_);
   }
 
@@ -549,8 +548,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
-    var len_ = sse_decode_i_32(deserializer);
-    var ans_ = <(String, String)>[];
+    final len_ = sse_decode_i_32(deserializer);
+    final ans_ = <(String, String)>[];
     for (var idx_ = 0; idx_ < len_; ++idx_) {
       ans_.add(sse_decode_record_string_string(deserializer));
     }
@@ -562,7 +561,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
     if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_i_32(deserializer));
+      return sse_decode_box_autoadd_i_32(deserializer);
     } else {
       return null;
     }
@@ -573,8 +572,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_field0 = sse_decode_String(deserializer);
-    var var_field1 = sse_decode_String(deserializer);
+    final var_field0 = sse_decode_String(deserializer);
+    final var_field1 = sse_decode_String(deserializer);
     return (var_field0, var_field1);
   }
 
