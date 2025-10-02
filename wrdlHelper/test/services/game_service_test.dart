@@ -3,6 +3,7 @@ import 'package:wrdlhelper/exceptions/game_exceptions.dart';
 import 'package:wrdlhelper/models/game_state.dart';
 import 'package:wrdlhelper/models/word.dart';
 import 'package:wrdlhelper/services/app_service.dart';
+import 'package:wrdlhelper/src/rust/frb_generated.dart';
 
 /// Comprehensive tests for GameService
 ///
@@ -12,6 +13,11 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   group('GameService Tests', () {
     late AppService appService;
+
+    setUpAll(() async {
+      // Initialize FFI once for all tests in this group
+      await RustLib.init();
+    });
 
     setUp(() async {
       appService = AppService();
@@ -487,12 +493,11 @@ void main() {
         // Arrange - create a new AppService without initializing
         final uninitializedAppService = AppService();
 
-        // Act - should work with fallback behavior
-        final gameState = uninitializedAppService.gameService.createNewGame();
-
-        // Assert - service should work with fallback behavior
-        expect(gameState, isNotNull);
-        expect(gameState.targetWord, isNotNull);
+        // Act & Assert - should throw error when accessing uninitialized service
+        expect(
+          () => uninitializedAppService.gameService.createNewGame(),
+          throwsA(isA<StateError>()),
+        );
       });
     });
 

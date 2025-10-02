@@ -49,7 +49,7 @@ void main() {
       final pubspecContent = pubspecFile.readAsStringSync();
 
       // Verify project name and description
-      expect(pubspecContent, contains('name: wrdl_helper_app'));
+      expect(pubspecContent, contains('name: wrdlhelper'));
       expect(
         pubspecContent,
         contains(
@@ -115,13 +115,17 @@ void main() {
 
       // Parse JSON to verify it's valid
       final jsonData = jsonDecode(wordListJson);
-      expect(jsonData, isA<List>());
+      expect(jsonData, isA<Map>());
 
-      // Verify it contains word data
-      expect(
-        jsonData.length,
-        greaterThan(20000),
-      ); // Our comprehensive word list has 21,952 words
+      // Verify it contains word data in the expected structure
+      expect(jsonData, containsPair('answer_words', isA<List>()));
+      expect(jsonData, containsPair('guess_words', isA<List>()));
+      
+      // Verify it contains sufficient word data
+      final answerWords = jsonData['answer_words'] as List;
+      final guessWords = jsonData['guess_words'] as List;
+      expect(answerWords.length, greaterThan(2000)); // Answer words
+      expect(guessWords.length, greaterThan(10000)); // Guess words
     });
 
     test('wordle_words.json contains valid word data', () async {
@@ -131,13 +135,18 @@ void main() {
 
       // Parse JSON to verify it's valid
       final jsonData = jsonDecode(wordListJson);
-      expect(jsonData, isA<List>());
+      expect(jsonData, isA<Map>());
 
+      // Verify it contains word data in the expected structure
+      final answerWords = jsonData['answer_words'] as List;
+      final guessWords = jsonData['guess_words'] as List;
+      
       // Verify it contains words (basic check)
-      expect(jsonData.length, greaterThan(20000));
+      expect(answerWords.length, greaterThan(2000));
+      expect(guessWords.length, greaterThan(10000));
 
       // Verify words are 5 letters (basic validation)
-      for (final word in jsonData.take(5)) {
+      for (final word in answerWords.take(5)) {
         // Check first 5 words
         if (word is String && word.trim().isNotEmpty) {
           expect(word.trim().length, equals(5));

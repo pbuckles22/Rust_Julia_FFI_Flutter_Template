@@ -20,8 +20,17 @@ class FfiService {
     }
 
     try {
-      // Initialize the FFI bridge
-      await RustLib.init();
+      // Initialize the FFI bridge (handle case where it's already initialized)
+      try {
+        await RustLib.init();
+      } catch (e) {
+        // If FFI is already initialized, that's fine - continue
+        if (e.toString().contains('Should not initialize flutter_rust_bridge twice')) {
+          // FFI bridge already initialized, continue
+        } else {
+          rethrow;
+        }
+      }
 
       // Initialize word lists in Rust for optimal performance
       ffi.initializeWordLists();
