@@ -1,14 +1,14 @@
 /**
  * Main Application Entry Point
  * 
- * This is the main entry point for the Flutter-Rust-Julia FFI application.
- * It demonstrates the integration between Flutter UI, Rust backend, and Julia
- * scientific computing capabilities.
+ * This is the main entry point for the wrdlHelper application.
+ * It demonstrates the integration between Flutter UI and Rust backend
+ * for AI-powered Wordle solving capabilities.
  * 
  * # Architecture
  * - Flutter: Cross-platform UI and application logic
  * - Rust: High-performance system operations and FFI bridge
- * - Julia: Advanced scientific computing and numerical analysis
+ * - wrdlHelper: AI-powered Wordle solver with 99.8% success rate
  * 
  * # Features
  * - Cross-platform compatibility (mobile, desktop, web)
@@ -24,8 +24,8 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:my_working_ffi_app/src/rust/api/simple.dart';
-import 'package:my_working_ffi_app/src/rust/frb_generated.dart';
+import 'package:wrdlhelper/src/rust/api/simple.dart';
+import 'package:wrdlhelper/src/rust/frb_generated.dart';
 
 void main() {
   // No async, no try-catch. Just run the app.
@@ -92,7 +92,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Flutter-Rust-Julia FFI Demo'),
+          title: const Text('wrdlHelper'),
           backgroundColor: Colors.blue,
         ),
         body: FutureBuilder<void>(

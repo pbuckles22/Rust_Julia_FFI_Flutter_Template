@@ -1,5 +1,5 @@
 [package]
-name = "rust_lib_my_working_ffi_app"
+name = "rust_lib_wrdlhelper"
 version = "0.1.0"
 edition = "2021"
 

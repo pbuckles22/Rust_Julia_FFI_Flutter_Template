@@ -17,8 +17,8 @@
  */
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:my_working_ffi_app/src/rust/api/simple.dart';
-import 'package:my_working_ffi_app/src/rust/frb_generated.dart';
+import 'package:wrdlhelper/src/rust/api/simple.dart';
+import 'package:wrdlhelper/src/rust/frb_generated.dart';
 
 void main() {
   group('Julia-Rust Cross-Integration Tests', () {
