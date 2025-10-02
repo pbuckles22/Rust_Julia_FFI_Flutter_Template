@@ -29,6 +29,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   bool dco_decode_bool(raw);
 
   @protected
+  GuessResult dco_decode_box_autoadd_guess_result(raw);
+
+  @protected
   int dco_decode_box_autoadd_i_32(raw);
 
   @protected
@@ -107,6 +110,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   bool sse_decode_bool(SseDeserializer deserializer);
+
+  @protected
+  GuessResult sse_decode_box_autoadd_guess_result(SseDeserializer deserializer);
 
   @protected
   int sse_decode_box_autoadd_i_32(SseDeserializer deserializer);
@@ -202,6 +208,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_bool(bool self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_guess_result(
+    GuessResult self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_box_autoadd_i_32(int self, SseSerializer serializer);

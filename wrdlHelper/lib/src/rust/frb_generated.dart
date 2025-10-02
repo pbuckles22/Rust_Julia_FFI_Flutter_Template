@@ -66,7 +66,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => 1387523459;
+  int get rustContentHash => -1077997173;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -146,6 +146,12 @@ abstract class RustLibApi extends BaseApi {
     required IntelligentSolver that,
     required String guess,
     required String target,
+  });
+
+  Future<bool> crateApiWrdlHelperIntelligentSolverWordMatchesPattern({
+    required IntelligentSolver that,
+    required String word,
+    required GuessResult guessResult,
   });
 
   bool crateApiSimpleIsEven({required int number});
@@ -666,12 +672,49 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<bool> crateApiWrdlHelperIntelligentSolverWordMatchesPattern({
+    required IntelligentSolver that,
+    required String word,
+    required GuessResult guessResult,
+  }) => handler.executeNormal(
+    NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_box_autoadd_intelligent_solver(that, serializer);
+        sse_encode_String(word, serializer);
+        sse_encode_box_autoadd_guess_result(guessResult, serializer);
+        pdeCallFfi(
+          generalizedFrbRustBinding,
+          serializer,
+          funcId: 18,
+          port: port_,
+        );
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_bool,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kCrateApiWrdlHelperIntelligentSolverWordMatchesPatternConstMeta,
+      argValues: [that, word, guessResult],
+      apiImpl: this,
+    ),
+  );
+
+  TaskConstMeta
+  get kCrateApiWrdlHelperIntelligentSolverWordMatchesPatternConstMeta =>
+      const TaskConstMeta(
+        debugName: 'intelligent_solver_word_matches_pattern',
+        argNames: ['that', 'word', 'guessResult'],
+      );
+
+  @override
   bool crateApiSimpleIsEven({required int number}) => handler.executeSync(
     SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_i_32(number, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 18)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 19)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_bool,
@@ -696,7 +739,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             return pdeCallFfi(
               generalizedFrbRustBinding,
               serializer,
-              funcId: 19,
+              funcId: 20,
             )!;
           },
           codec: SseCodec(
@@ -723,7 +766,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             return pdeCallFfi(
               generalizedFrbRustBinding,
               serializer,
-              funcId: 20,
+              funcId: 21,
             )!;
           },
           codec: SseCodec(
@@ -745,7 +788,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_String(input, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 21)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 22)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_u_32,
@@ -770,7 +813,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_String(guess, serializer);
         sse_encode_String(target, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 22)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 23)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -808,6 +851,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   bool dco_decode_bool(raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as bool;
+  }
+
+  @protected
+  GuessResult dco_decode_box_autoadd_guess_result(raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_guess_result(raw);
   }
 
   @protected
@@ -989,6 +1038,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   bool sse_decode_bool(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getUint8() != 0;
+  }
+
+  @protected
+  GuessResult sse_decode_box_autoadd_guess_result(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return sse_decode_guess_result(deserializer);
   }
 
   @protected
@@ -1217,6 +1274,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_bool(bool self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putUint8(self ? 1 : 0);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_guess_result(
+    GuessResult self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_guess_result(self, serializer);
   }
 
   @protected

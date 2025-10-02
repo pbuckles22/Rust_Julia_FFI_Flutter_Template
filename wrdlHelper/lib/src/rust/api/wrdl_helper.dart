@@ -7,7 +7,7 @@ import '../frb_generated.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-// These functions are ignored because they are not marked as `pub`: `get_candidate_words`, `word_matches_pattern`
+// These functions are ignored because they are not marked as `pub`: `get_candidate_words`
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_receiver_is_total_eq`, `clone`, `clone`, `eq`, `fmt`, `fmt`
 
 /// FFI-compatible struct for guess results
@@ -104,6 +104,17 @@ class IntelligentSolver {
         that: this,
         guess: guess,
         target: target,
+      );
+
+  /// Check if a word matches the given guess pattern
+  Future<bool> wordMatchesPattern({
+    required String word,
+    required GuessResult guessResult,
+  }) => RustLib.instance.api
+      .crateApiWrdlHelperIntelligentSolverWordMatchesPattern(
+        that: this,
+        word: word,
+        guessResult: guessResult,
       );
 
   @override

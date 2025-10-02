@@ -731,4 +731,85 @@ mod tests {
         let filtered = filter_words(all_words, guess_results);
         assert!(filtered.len() < 3);
     }
+
+    #[test]
+    fn test_word_filtering_debug() {
+        use crate::api::wrdl_helper::{IntelligentSolver, GuessResult, LetterResult};
+        
+        // Use words that don't contain C,R,A,N,E for all-gray test
+        let words = vec!["CRANE".to_string(), "SLOTH".to_string(), "BLIMP".to_string()];
+        let solver = IntelligentSolver::new(words.clone());
+        
+        // Test all gray pattern - target should not contain C,R,A,N,E
+        let guess_result = GuessResult::new("CRANE".to_string(), [
+            LetterResult::Gray,
+            LetterResult::Gray,
+            LetterResult::Gray,
+            LetterResult::Gray,
+            LetterResult::Gray,
+        ]);
+        
+        println!("Testing all gray pattern for CRANE");
+        println!("Words: {:?}", words);
+        
+        for word in &words {
+            let matches = solver.word_matches_pattern(word, &guess_result);
+            println!("Word '{}' matches pattern: {}", word, matches);
+        }
+        
+        let filtered = solver.filter_words(&words, &[guess_result]);
+        println!("Filtered words: {:?}", filtered);
+        
+        // Should return SLOTH and BLIMP (don't contain C,R,A,N,E)
+        assert_eq!(filtered, vec!["SLOTH".to_string(), "BLIMP".to_string()]);
+    }
+
+    #[test]
+    fn test_word_filtering_partial_gray_debug() {
+        use crate::api::wrdl_helper::{IntelligentSolver, GuessResult, LetterResult};
+        
+        // Test GXXXX pattern (C=Green, R,A,N,E=Gray)
+        // Need words that start with C but don't contain R,A,N,E
+        let words = vec!["CRANE".to_string(), "SLATE".to_string(), "CRATE".to_string(), "CHASE".to_string(), "CLOTH".to_string(), "CLOUD".to_string()];
+        let solver = IntelligentSolver::new(words.clone());
+        
+        let guess_result = GuessResult::new("CRANE".to_string(), [
+            LetterResult::Green,  // C
+            LetterResult::Gray,   // R
+            LetterResult::Gray,   // A
+            LetterResult::Gray,   // N
+            LetterResult::Gray,   // E
+        ]);
+        
+        println!("Testing GXXXX pattern for CRANE");
+        println!("Words: {:?}", words);
+        println!("Pattern: C=Green, R,A,N,E=Gray");
+        println!("Guess word: CRANE");
+        println!();
+        
+        for word in &words {
+            let matches = solver.word_matches_pattern(word, &guess_result);
+            println!("Word '{}' matches pattern GXXXX: {}", word, matches);
+            
+            // Debug each step for valid words
+            if word.starts_with('C') {
+                println!("  Debugging {}:", word);
+                println!("  - {}[0] = '{}', should be 'C' (Green): {}", word, word.chars().nth(0).unwrap(), word.chars().nth(0).unwrap() == 'C');
+                println!("  - {} contains 'R': {}", word, word.contains('R'));
+                println!("  - {} contains 'A': {}", word, word.contains('A'));
+                println!("  - {} contains 'N': {}", word, word.contains('N'));
+                println!("  - {} contains 'E': {}", word, word.contains('E'));
+            }
+        }
+        
+        let filtered = solver.filter_words(&words, &[guess_result]);
+        println!("Filtered words: {:?}", filtered);
+        
+        // Should return words that start with C and don't contain R,A,N,E
+        // CLOTH and CLOUD should be valid
+        assert!(filtered.contains(&"CLOTH".to_string()));
+        assert!(filtered.contains(&"CLOUD".to_string()));
+        assert!(!filtered.contains(&"CRANE".to_string())); // Contains R,A,N,E
+        assert!(!filtered.contains(&"CHASE".to_string())); // Contains A,E
+    }
 }

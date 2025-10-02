@@ -187,7 +187,7 @@ impl IntelligentSolver {
     }
 
     /// Check if a word matches the given guess pattern
-    fn word_matches_pattern(&self, word: &str, guess_result: &GuessResult) -> bool {
+    pub fn word_matches_pattern(&self, word: &str, guess_result: &GuessResult) -> bool {
         let word_chars: Vec<char> = word.chars().collect();
         let guess_chars: Vec<char> = guess_result.word.chars().collect();
         
