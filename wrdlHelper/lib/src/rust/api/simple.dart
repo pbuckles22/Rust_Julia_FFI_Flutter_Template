@@ -3,9 +3,8 @@
 
 // ignore_for_file: invalid_use_of_internal_member, unused_import, unnecessary_import
 
-import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
-
 import '../frb_generated.dart';
+import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 /// * Greet a user with a personalized message
 /// *
@@ -277,6 +276,28 @@ int simpleHash({required String input}) =>
 void initializeWordLists() =>
     RustLib.instance.api.crateApiSimpleInitializeWordLists();
 
+/// * Load word lists from Dart to Rust (call after Dart loads word lists)
+/// *
+/// * This function receives the actual word lists from Dart and stores them in Rust
+/// * for optimal performance. This replaces the hardcoded 18 words with the full
+/// * 15k+ word lists.
+/// *
+/// * # Arguments
+/// * - `answer_words`: The 2,315 answer words from official_wordle_words.json
+/// * - `guess_words`: The 14,854+ guess words from official_guess_words.txt
+/// *
+/// * # Performance
+/// * - This is called once at startup after Dart loads the word lists
+/// * - Subsequent calls to get_intelligent_guess_fast() will use these full lists
+///
+void loadWordListsFromDart({
+  required List<String> answerWords,
+  required List<String> guessWords,
+}) => RustLib.instance.api.crateApiSimpleLoadWordListsFromDart(
+  answerWords: answerWords,
+  guessWords: guessWords,
+);
+
 /// * Get intelligent guess using advanced algorithms (optimized version)
 /// *
 /// * This function uses the wrdlHelper intelligent solver with Rust-managed word lists
@@ -301,6 +322,22 @@ String? getIntelligentGuessFast({
   remainingWords: remainingWords,
   guessResults: guessResults,
 );
+
+/// * Get the optimal first guess (pre-computed at startup)
+/// *
+/// * This function returns the optimal first guess that was computed once at startup.
+/// * This avoids the expensive computation of analyzing all 14,854 words for the first guess.
+/// *
+/// * # Returns
+/// * The optimal first guess word, or None if not computed yet
+/// *
+/// * # Performance
+/// * - Time complexity: O(1) - just a lookup
+/// * - Space complexity: O(1) - cached value
+/// * - Target response time: < 1ms
+///
+String? getOptimalFirstGuess() =>
+    RustLib.instance.api.crateApiSimpleGetOptimalFirstGuess();
 
 /// * Get intelligent word suggestion using advanced algorithms
 /// *

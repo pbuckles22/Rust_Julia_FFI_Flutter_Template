@@ -24,7 +24,7 @@ void main() {
         // TDD: Test that WordleGameScreen uses service locator
 
         // Setup mock services
-        setupMockServices();
+        await setupServices();
 
         // Verify services are available
         expect(sl.isRegistered<AppService>(), isTrue);
@@ -70,7 +70,7 @@ void main() {
     ) async {
       // TDD: Test that services remain consistent during screen lifecycle
 
-      setupMockServices();
+      await setupServices();
 
       // Build the screen
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
@@ -102,7 +102,7 @@ void main() {
       // TDD: Test that screen works with both real and mock services
 
       // Test with mock services
-      setupMockServices();
+      await setupServices();
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
       expect(find.byType(WordleGameScreen), findsOneWidget);

@@ -20,7 +20,7 @@ void main() {
   group('Visual Feedback Persistence TDD Tests', () {
     setUp(() async {
       // Setup mock services for testing
-      setupMockServices();
+      await setupServices();
     });
 
     tearDown(() async {

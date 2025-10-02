@@ -3,16 +3,14 @@
 
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
-import 'dart:async';
-import 'dart:convert';
-
-import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
-
 import 'api/simple.dart';
 import 'api/wrdl_helper.dart';
+import 'dart:async';
+import 'dart:convert';
 import 'frb_generated.dart';
 import 'frb_generated.io.dart'
     if (dart.library.js_interop) 'frb_generated.web.dart';
+import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 /// Main entrypoint of the Rust API
 class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
@@ -68,7 +66,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => 1631631412;
+  int get rustContentHash => -1561720123;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -87,6 +85,10 @@ abstract class RustLibApi extends BaseApi {
     required WordManager that,
   });
 
+  String? crateApiWrdlHelperWordManagerAutoAccessorGetOptimalFirstGuess({
+    required WordManager that,
+  });
+
   void crateApiWrdlHelperWordManagerAutoAccessorSetAnswerWords({
     required WordManager that,
     required List<String> answerWords,
@@ -97,11 +99,24 @@ abstract class RustLibApi extends BaseApi {
     required List<String> guessWords,
   });
 
+  void crateApiWrdlHelperWordManagerAutoAccessorSetOptimalFirstGuess({
+    required WordManager that,
+    String? optimalFirstGuess,
+  });
+
+  Future<void> crateApiWrdlHelperWordManagerComputeOptimalFirstGuess({
+    required WordManager that,
+  });
+
   Future<void> crateApiWrdlHelperWordManagerGetAnswerWords({
     required WordManager that,
   });
 
   Future<void> crateApiWrdlHelperWordManagerGetGuessWords({
+    required WordManager that,
+  });
+
+  Future<String?> crateApiWrdlHelperWordManagerGetOptimalFirstGuess({
     required WordManager that,
   });
 
@@ -141,6 +156,8 @@ abstract class RustLibApi extends BaseApi {
     required List<String> remainingWords,
     required List<(String, List<String>)> guessResults,
   });
+
+  String? crateApiSimpleGetOptimalFirstGuess();
 
   Uint32List crateApiSimpleGetStringLengths({required List<String> strings});
 
@@ -198,6 +215,11 @@ abstract class RustLibApi extends BaseApi {
   bool crateApiSimpleIsEven({required int number});
 
   bool crateApiSimpleIsPalindrome({required String text});
+
+  void crateApiSimpleLoadWordListsFromDart({
+    required List<String> answerWords,
+    required List<String> guessWords,
+  });
 
   double crateApiSimpleMultiplyFloats({required double a, required double b});
 
@@ -288,6 +310,37 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  String? crateApiWrdlHelperWordManagerAutoAccessorGetOptimalFirstGuess({
+    required WordManager that,
+  }) => handler.executeSync(
+    SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerWordManager(
+          that,
+          serializer,
+        );
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 3)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_opt_String,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kCrateApiWrdlHelperWordManagerAutoAccessorGetOptimalFirstGuessConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ),
+  );
+
+  TaskConstMeta
+  get kCrateApiWrdlHelperWordManagerAutoAccessorGetOptimalFirstGuessConstMeta =>
+      const TaskConstMeta(
+        debugName: 'WordManager_auto_accessor_get_optimal_first_guess',
+        argNames: ['that'],
+      );
+
+  @override
   void crateApiWrdlHelperWordManagerAutoAccessorSetAnswerWords({
     required WordManager that,
     required List<String> answerWords,
@@ -300,7 +353,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           serializer,
         );
         sse_encode_list_String(answerWords, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 3)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 4)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -333,7 +386,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           serializer,
         );
         sse_encode_list_String(guessWords, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 4)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 5)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -354,6 +407,75 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  void crateApiWrdlHelperWordManagerAutoAccessorSetOptimalFirstGuess({
+    required WordManager that,
+    String? optimalFirstGuess,
+  }) => handler.executeSync(
+    SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerWordManager(
+          that,
+          serializer,
+        );
+        sse_encode_opt_String(optimalFirstGuess, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kCrateApiWrdlHelperWordManagerAutoAccessorSetOptimalFirstGuessConstMeta,
+      argValues: [that, optimalFirstGuess],
+      apiImpl: this,
+    ),
+  );
+
+  TaskConstMeta
+  get kCrateApiWrdlHelperWordManagerAutoAccessorSetOptimalFirstGuessConstMeta =>
+      const TaskConstMeta(
+        debugName: 'WordManager_auto_accessor_set_optimal_first_guess',
+        argNames: ['that', 'optimalFirstGuess'],
+      );
+
+  @override
+  Future<void> crateApiWrdlHelperWordManagerComputeOptimalFirstGuess({
+    required WordManager that,
+  }) => handler.executeNormal(
+    NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerWordManager(
+          that,
+          serializer,
+        );
+        pdeCallFfi(
+          generalizedFrbRustBinding,
+          serializer,
+          funcId: 7,
+          port: port_,
+        );
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kCrateApiWrdlHelperWordManagerComputeOptimalFirstGuessConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ),
+  );
+
+  TaskConstMeta
+  get kCrateApiWrdlHelperWordManagerComputeOptimalFirstGuessConstMeta =>
+      const TaskConstMeta(
+        debugName: 'WordManager_compute_optimal_first_guess',
+        argNames: ['that'],
+      );
+
+  @override
   Future<void> crateApiWrdlHelperWordManagerGetAnswerWords({
     required WordManager that,
   }) => handler.executeNormal(
@@ -367,7 +489,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         pdeCallFfi(
           generalizedFrbRustBinding,
           serializer,
-          funcId: 5,
+          funcId: 8,
           port: port_,
         );
       },
@@ -401,7 +523,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         pdeCallFfi(
           generalizedFrbRustBinding,
           serializer,
-          funcId: 6,
+          funcId: 9,
           port: port_,
         );
       },
@@ -422,6 +544,41 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<String?> crateApiWrdlHelperWordManagerGetOptimalFirstGuess({
+    required WordManager that,
+  }) => handler.executeNormal(
+    NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerWordManager(
+          that,
+          serializer,
+        );
+        pdeCallFfi(
+          generalizedFrbRustBinding,
+          serializer,
+          funcId: 10,
+          port: port_,
+        );
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_opt_String,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiWrdlHelperWordManagerGetOptimalFirstGuessConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ),
+  );
+
+  TaskConstMeta
+  get kCrateApiWrdlHelperWordManagerGetOptimalFirstGuessConstMeta =>
+      const TaskConstMeta(
+        debugName: 'WordManager_get_optimal_first_guess',
+        argNames: ['that'],
+      );
+
+  @override
   Future<void> crateApiWrdlHelperWordManagerLoadWords({
     required WordManager that,
   }) => handler.executeNormal(
@@ -435,7 +592,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         pdeCallFfi(
           generalizedFrbRustBinding,
           serializer,
-          funcId: 7,
+          funcId: 11,
           port: port_,
         );
       },
@@ -464,7 +621,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         pdeCallFfi(
           generalizedFrbRustBinding,
           serializer,
-          funcId: 8,
+          funcId: 12,
           port: port_,
         );
       },
@@ -493,7 +650,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             return pdeCallFfi(
               generalizedFrbRustBinding,
               serializer,
-              funcId: 9,
+              funcId: 13,
             )!;
           },
           codec: SseCodec(
@@ -519,7 +676,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_String(candidateWord, serializer);
         sse_encode_list_String(remainingWords, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 10)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 14)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_f_64,
@@ -545,7 +702,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_list_record_string_string(pairs, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 15)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_Map_String_String_None,
@@ -566,7 +723,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_u_32(n, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 12)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 16)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_u_32,
@@ -591,7 +748,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_list_String(words, serializer);
         sse_encode_list_record_string_list_string(guessResults, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 13)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 17)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_list_String,
@@ -613,7 +770,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 14)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 18)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_u_64,
@@ -640,7 +797,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_list_String(allWords, serializer);
         sse_encode_list_String(remainingWords, serializer);
         sse_encode_list_record_string_list_string(guessResults, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 15)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 19)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_opt_String,
@@ -668,7 +825,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_list_String(remainingWords, serializer);
         sse_encode_list_record_string_list_string(guessResults, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 16)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 20)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_opt_String,
@@ -687,6 +844,26 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  String? crateApiSimpleGetOptimalFirstGuess() => handler.executeSync(
+    SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 21)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_opt_String,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiSimpleGetOptimalFirstGuessConstMeta,
+      argValues: [],
+      apiImpl: this,
+    ),
+  );
+
+  TaskConstMeta get kCrateApiSimpleGetOptimalFirstGuessConstMeta =>
+      const TaskConstMeta(debugName: 'get_optimal_first_guess', argNames: []);
+
+  @override
   Uint32List crateApiSimpleGetStringLengths({required List<String> strings}) =>
       handler.executeSync(
         SyncTask(
@@ -696,7 +873,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             return pdeCallFfi(
               generalizedFrbRustBinding,
               serializer,
-              funcId: 17,
+              funcId: 22,
             )!;
           },
           codec: SseCodec(
@@ -721,7 +898,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_String(name, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 18)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 23)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -749,7 +926,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         pdeCallFfi(
           generalizedFrbRustBinding,
           serializer,
-          funcId: 19,
+          funcId: 24,
           port: port_,
         );
       },
@@ -777,7 +954,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         pdeCallFfi(
           generalizedFrbRustBinding,
           serializer,
-          funcId: 20,
+          funcId: 25,
           port: port_,
         );
       },
@@ -799,7 +976,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 21)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 26)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -829,7 +1006,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         pdeCallFfi(
           generalizedFrbRustBinding,
           serializer,
-          funcId: 22,
+          funcId: 27,
           port: port_,
         );
       },
@@ -865,7 +1042,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         pdeCallFfi(
           generalizedFrbRustBinding,
           serializer,
-          funcId: 23,
+          funcId: 28,
           port: port_,
         );
       },
@@ -902,7 +1079,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         pdeCallFfi(
           generalizedFrbRustBinding,
           serializer,
-          funcId: 24,
+          funcId: 29,
           port: port_,
         );
       },
@@ -937,7 +1114,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         pdeCallFfi(
           generalizedFrbRustBinding,
           serializer,
-          funcId: 25,
+          funcId: 30,
           port: port_,
         );
       },
@@ -968,7 +1145,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         pdeCallFfi(
           generalizedFrbRustBinding,
           serializer,
-          funcId: 26,
+          funcId: 31,
           port: port_,
         );
       },
@@ -1003,7 +1180,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         pdeCallFfi(
           generalizedFrbRustBinding,
           serializer,
-          funcId: 27,
+          funcId: 32,
           port: port_,
         );
       },
@@ -1040,7 +1217,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         pdeCallFfi(
           generalizedFrbRustBinding,
           serializer,
-          funcId: 28,
+          funcId: 33,
           port: port_,
         );
       },
@@ -1068,7 +1245,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_i_32(number, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 29)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 34)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_bool,
@@ -1093,7 +1270,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             return pdeCallFfi(
               generalizedFrbRustBinding,
               serializer,
-              funcId: 30,
+              funcId: 35,
             )!;
           },
           codec: SseCodec(
@@ -1110,6 +1287,34 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: 'is_palindrome', argNames: ['text']);
 
   @override
+  void crateApiSimpleLoadWordListsFromDart({
+    required List<String> answerWords,
+    required List<String> guessWords,
+  }) => handler.executeSync(
+    SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_list_String(answerWords, serializer);
+        sse_encode_list_String(guessWords, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 36)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_String,
+      ),
+      constMeta: kCrateApiSimpleLoadWordListsFromDartConstMeta,
+      argValues: [answerWords, guessWords],
+      apiImpl: this,
+    ),
+  );
+
+  TaskConstMeta get kCrateApiSimpleLoadWordListsFromDartConstMeta =>
+      const TaskConstMeta(
+        debugName: 'load_word_lists_from_dart',
+        argNames: ['answerWords', 'guessWords'],
+      );
+
+  @override
   double crateApiSimpleMultiplyFloats({required double a, required double b}) =>
       handler.executeSync(
         SyncTask(
@@ -1120,7 +1325,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             return pdeCallFfi(
               generalizedFrbRustBinding,
               serializer,
-              funcId: 31,
+              funcId: 37,
             )!;
           },
           codec: SseCodec(
@@ -1142,7 +1347,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_String(input, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 32)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 38)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_u_32,
@@ -1167,7 +1372,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_String(guess, serializer);
         sse_encode_String(target, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 33)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 39)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -2025,6 +2230,11 @@ class WordManagerImpl extends RustOpaque implements WordManager {
   List<String> get guessWords => RustLib.instance.api
       .crateApiWrdlHelperWordManagerAutoAccessorGetGuessWords(that: this);
 
+  String? get optimalFirstGuess => RustLib.instance.api
+      .crateApiWrdlHelperWordManagerAutoAccessorGetOptimalFirstGuess(
+        that: this,
+      );
+
   set answerWords(List<String> answerWords) => RustLib.instance.api
       .crateApiWrdlHelperWordManagerAutoAccessorSetAnswerWords(
         that: this,
@@ -2037,11 +2247,27 @@ class WordManagerImpl extends RustOpaque implements WordManager {
         guessWords: guessWords,
       );
 
+  set optimalFirstGuess(String? optimalFirstGuess) => RustLib.instance.api
+      .crateApiWrdlHelperWordManagerAutoAccessorSetOptimalFirstGuess(
+        that: this,
+        optimalFirstGuess: optimalFirstGuess,
+      );
+
+  /// Compute the optimal first guess once at startup
+  ///
+  /// Uses proven optimal first guesses from statistical analysis.
+  /// No computation needed - these are already known to be optimal!
+  Future<void> computeOptimalFirstGuess() => RustLib.instance.api
+      .crateApiWrdlHelperWordManagerComputeOptimalFirstGuess(that: this);
+
   Future<void> getAnswerWords() => RustLib.instance.api
       .crateApiWrdlHelperWordManagerGetAnswerWords(that: this);
 
   Future<void> getGuessWords() => RustLib.instance.api
       .crateApiWrdlHelperWordManagerGetGuessWords(that: this);
+
+  Future<String?> getOptimalFirstGuess() => RustLib.instance.api
+      .crateApiWrdlHelperWordManagerGetOptimalFirstGuess(that: this);
 
   Future<void> loadWords() =>
       RustLib.instance.api.crateApiWrdlHelperWordManagerLoadWords(that: this);

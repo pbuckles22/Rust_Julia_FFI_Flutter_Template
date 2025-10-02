@@ -53,7 +53,7 @@ void main() {
       expect(
         pubspecContent,
         contains(
-          'description: "Wordle Helper - Flutter app with embedded Rust solver via FFI"',
+          'description: "wrdlHelper: AI-powered Wordle solver with 99.8% success rate"',
         ),
       );
 

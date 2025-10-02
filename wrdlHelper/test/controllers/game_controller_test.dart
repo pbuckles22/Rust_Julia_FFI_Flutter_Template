@@ -6,6 +6,7 @@ import 'package:wrdlhelper/models/guess_result.dart';
 import 'package:wrdlhelper/models/word.dart';
 import 'package:wrdlhelper/services/game_service.dart';
 import 'package:wrdlhelper/services/word_service.dart';
+import 'package:wrdlhelper/service_locator.dart';
 
 void main() {
   // Initialize Flutter binding for asset loading tests
@@ -14,7 +15,14 @@ void main() {
   group('GameController TDD Tests', () {
     late GameController gameController;
 
+    setUpAll(() async {
+      // Initialize FFI once for all tests in this group
+      await setupServices();
+    });
+
     setUp(() {
+      // Don't reset services - they're already initialized in setUpAll()
+      // This preserves FFI initialization for better performance
       // GameController now uses AppService internally
       gameController = GameController();
     });

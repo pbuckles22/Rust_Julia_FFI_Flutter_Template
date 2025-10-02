@@ -24,8 +24,8 @@ void main() {
       // This test will fail initially because main.dart doesn't use service locator yet
       // We'll implement the service locator integration to make this pass
 
-      // Setup mock services for testing
-      setupMockServices();
+      // Setup real services for testing
+      await setupServices();
 
       // Verify services are available before app starts
       expect(sl.isRegistered<AppService>(), isTrue);
@@ -58,7 +58,7 @@ void main() {
       () async {
         // TDD: Test that services remain consistent throughout app lifecycle
 
-        setupMockServices();
+        await setupServices();
 
         // Get services at different points
         final appService1 = sl<AppService>();

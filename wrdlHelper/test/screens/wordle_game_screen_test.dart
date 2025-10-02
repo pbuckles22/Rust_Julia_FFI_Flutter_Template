@@ -11,8 +11,9 @@ import '../helpers/keyboard_test_helpers.dart';
 void main() {
   group('WordleGameScreen TDD Tests', () {
     setUp(() async {
-      // Setup mock services for testing
-      setupMockServices();
+      // Reset services and setup real services for testing
+      resetAllServices();
+      await setupServices();
     });
     testWidgets('should display game screen when initialized', (
       WidgetTester tester,

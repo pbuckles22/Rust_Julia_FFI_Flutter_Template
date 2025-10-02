@@ -46,6 +46,7 @@ pub struct IntelligentSolver {
 pub struct WordManager {
     pub answer_words: Vec<String>,
     pub guess_words: Vec<String>,
+    pub optimal_first_guess: Option<String>,
 }
 
 impl WordManager {
@@ -53,6 +54,7 @@ impl WordManager {
         Self {
             answer_words: Vec::new(),
             guess_words: Vec::new(),
+            optimal_first_guess: None,
         }
     }
 
@@ -68,7 +70,36 @@ impl WordManager {
         ];
         
         self.guess_words = self.answer_words.clone();
+        
+        // Compute optimal first guess once at startup
+        self.compute_optimal_first_guess();
+        
         Ok(())
+    }
+    
+    /// Compute the optimal first guess once at startup
+    /// 
+    /// Uses proven optimal first guesses from statistical analysis.
+    /// No computation needed - these are already known to be optimal!
+    pub fn compute_optimal_first_guess(&mut self) {
+        if self.guess_words.is_empty() {
+            return;
+        }
+        
+        // Use proven optimal first guesses (no computation needed!)
+        // These are the top 5 statistically optimal first guesses for Wordle
+        let optimal_first_guesses = ["TARES", "SLATE", "CRANE", "CRATE", "SLANT"];
+        
+        // Pick the first one that's in our word list
+        for &word in &optimal_first_guesses {
+            if self.guess_words.contains(&word.to_string()) {
+                self.optimal_first_guess = Some(word.to_string());
+                return;
+            }
+        }
+        
+        // Fallback to first word if none of the optimal guesses are available
+        self.optimal_first_guess = self.guess_words.first().cloned();
     }
 
     pub fn get_answer_words(&self) -> &[String] {
@@ -77,6 +108,10 @@ impl WordManager {
 
     pub fn get_guess_words(&self) -> &[String] {
         &self.guess_words
+    }
+    
+    pub fn get_optimal_first_guess(&self) -> Option<String> {
+        self.optimal_first_guess.clone()
     }
 }
 
@@ -98,6 +133,22 @@ impl IntelligentSolver {
     pub fn get_best_guess(&self, remaining_words: &[String], guess_results: &[GuessResult]) -> Option<String> {
         if remaining_words.is_empty() {
             return None;
+        }
+
+        // For first guess (no previous guesses), use proven optimal first guesses
+        if guess_results.is_empty() {
+            // Use proven optimal first guesses (no computation needed!)
+            let optimal_first_guesses = ["TARES", "SLATE", "CRANE", "CRATE", "SLANT"];
+            
+            // Pick the first one that's in our remaining words
+            for &word in &optimal_first_guesses {
+                if remaining_words.contains(&word.to_string()) {
+                    return Some(word.to_string());
+                }
+            }
+            
+            // Fallback to first word if optimal guesses not available
+            return remaining_words.first().cloned();
         }
 
         // For endgame scenarios (few remaining words), use direct strategy
@@ -145,20 +196,24 @@ impl IntelligentSolver {
             return 0.0;
         }
 
+        // Use all remaining words for accurate entropy calculation
+        // This is correct: we want to know how much information we gain against ALL remaining answers
+        let words_to_analyze = remaining_words;
+
         // Group words by the pattern they would produce
-        let mut pattern_groups: HashMap<String, Vec<&String>> = HashMap::new();
+        let mut pattern_groups: HashMap<String, usize> = HashMap::new();
         
-        for target_word in remaining_words {
+        for target_word in words_to_analyze {
             let pattern = self.simulate_guess_pattern(candidate_word, target_word);
-            pattern_groups.entry(pattern).or_insert_with(Vec::new).push(target_word);
+            *pattern_groups.entry(pattern).or_insert(0) += 1;
         }
 
         // Calculate Shannon entropy
-        let total_words = remaining_words.len() as f64;
+        let total_words = words_to_analyze.len() as f64;
         let mut entropy = 0.0;
 
-        for group in pattern_groups.values() {
-            let probability = group.len() as f64 / total_words;
+        for &count in pattern_groups.values() {
+            let probability = count as f64 / total_words;
             if probability > 0.0 {
                 entropy -= probability * (probability.ln() / LN_2);
             }
@@ -215,9 +270,38 @@ impl IntelligentSolver {
 
     /// Get candidate words for analysis
     fn get_candidate_words(&self, remaining_words: &[String], _guess_results: &[GuessResult]) -> Vec<String> {
-        // For now, use remaining words as candidates
-        // In the future, this could use the full word list for better analysis
-        remaining_words.to_vec()
+        // Smart candidate selection for performance
+        // 1. Always include remaining words (prime suspects)
+        // 2. Add strategic information-gathering words
+        // 3. Limit total candidates for performance
+        
+        let mut candidates = Vec::new();
+        
+        // Add all remaining words (these could win the game)
+        candidates.extend(remaining_words.iter().cloned());
+        
+        // Add strategic words from the full list (for information gathering)
+        // Use a subset of the full word list for performance
+        let strategic_words = if self.words.len() <= 500 {
+            self.words.clone()
+        } else {
+            // Take every nth word to get a representative sample
+            self.words.iter().step_by(self.words.len() / 200).take(200).cloned().collect()
+        };
+        
+        // Add strategic words that aren't already in remaining words
+        for word in strategic_words {
+            if !candidates.contains(&word) {
+                candidates.push(word);
+            }
+        }
+        
+        // Limit total candidates for performance (max 300)
+        if candidates.len() > 300 {
+            candidates.truncate(300);
+        }
+        
+        candidates
     }
 
     /// Filter words based on guess results

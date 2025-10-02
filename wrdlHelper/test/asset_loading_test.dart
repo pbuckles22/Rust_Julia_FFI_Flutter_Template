@@ -29,17 +29,22 @@ void main() {
 
       // Parse JSON to verify it's valid
       final jsonData = jsonDecode(wordListJson);
-      expect(jsonData, isA<List>());
+      expect(jsonData, isA<Map<String, dynamic>>());
 
       // Verify it contains word data
-      expect(jsonData.length, greaterThan(0));
+      final answerWords = jsonData['answer_words'] as List<dynamic>;
+      final guessWords = jsonData['guess_words'] as List<dynamic>;
+      expect(answerWords.length, greaterThan(0));
+      expect(guessWords.length, greaterThan(0));
     });
 
     test('wordle_words.json contains word data', () async {
       final wordListJson = await rootBundle.loadString(
         'assets/word_lists/official_wordle_words.json',
       );
-      final jsonData = jsonDecode(wordListJson) as List<dynamic>;
+      final jsonData = jsonDecode(wordListJson) as Map<String, dynamic>;
+      final answerWords = jsonData['answer_words'] as List<dynamic>;
+      final guessWords = jsonData['guess_words'] as List<dynamic>;
 
       // Verify it contains word data
       expect(jsonData.length, greaterThan(0));
@@ -49,7 +54,9 @@ void main() {
       final wordListJson = await rootBundle.loadString(
         'assets/word_lists/official_wordle_words.json',
       );
-      final jsonData = jsonDecode(wordListJson) as List<dynamic>;
+      final jsonData = jsonDecode(wordListJson) as Map<String, dynamic>;
+      final answerWords = jsonData['answer_words'] as List<dynamic>;
+      final guessWords = jsonData['guess_words'] as List<dynamic>;
 
       expect(jsonData, isNotNull);
       expect(jsonData, isNotEmpty);
@@ -59,20 +66,25 @@ void main() {
       final wordListJson = await rootBundle.loadString(
         'assets/word_lists/official_wordle_words.json',
       );
-      final jsonData = jsonDecode(wordListJson) as List<dynamic>;
+      final jsonData = jsonDecode(wordListJson) as Map<String, dynamic>;
+      final answerWords = jsonData['answer_words'] as List<dynamic>;
+      final guessWords = jsonData['guess_words'] as List<dynamic>;
 
-      expect(jsonData.length, greaterThan(0));
+      expect(answerWords.length, greaterThan(0));
+      expect(guessWords.length, greaterThan(0));
     });
 
     test('wordle_words.json contains 5-letter words', () async {
       final wordListJson = await rootBundle.loadString(
         'assets/word_lists/official_wordle_words.json',
       );
-      final jsonData = jsonDecode(wordListJson) as List<dynamic>;
+      final jsonData = jsonDecode(wordListJson) as Map<String, dynamic>;
+      final answerWords = jsonData['answer_words'] as List<dynamic>;
+      final guessWords = jsonData['guess_words'] as List<dynamic>;
 
       // Check first 10 words to verify they are 5 letters
-      for (int i = 0; i < jsonData.length && i < 10; i++) {
-        final word = jsonData[i].toString();
+      for (int i = 0; i < answerWords.length && i < 10; i++) {
+        final word = answerWords[i].toString();
         expect(
           word.length,
           equals(5),
@@ -85,11 +97,13 @@ void main() {
       final wordListJson = await rootBundle.loadString(
         'assets/word_lists/official_wordle_words.json',
       );
-      final jsonData = jsonDecode(wordListJson) as List<dynamic>;
+      final jsonData = jsonDecode(wordListJson) as Map<String, dynamic>;
+      final answerWords = jsonData['answer_words'] as List<dynamic>;
+      final guessWords = jsonData['guess_words'] as List<dynamic>;
 
       // Check first 10 words to verify they are uppercase
-      for (int i = 0; i < jsonData.length && i < 10; i++) {
-        final word = jsonData[i].toString();
+      for (int i = 0; i < answerWords.length && i < 10; i++) {
+        final word = answerWords[i].toString();
         expect(
           word,
           equals(word.toUpperCase()),
@@ -138,24 +152,32 @@ void main() {
       final wordListJson = await rootBundle.loadString(
         'assets/word_lists/official_wordle_words.json',
       );
-      final jsonData = jsonDecode(wordListJson) as List<dynamic>;
+      final jsonData = jsonDecode(wordListJson) as Map<String, dynamic>;
+      final answerWords = jsonData['answer_words'] as List<dynamic>;
+      final guessWords = jsonData['guess_words'] as List<dynamic>;
 
       // Verify it's not too small (should contain substantial word data)
-      expect(jsonData.length, greaterThan(100));
+      expect(answerWords.length, greaterThan(100));
+      expect(guessWords.length, greaterThan(100));
 
       // Verify it's not unreasonably large (should be under 50k words)
-      expect(jsonData.length, lessThan(50000));
+      expect(answerWords.length, lessThan(50000));
+      expect(guessWords.length, lessThan(50000));
     });
 
     test('word lists contain expected number of words', () async {
       final wordListJson = await rootBundle.loadString(
         'assets/word_lists/official_wordle_words.json',
       );
-      final jsonData = jsonDecode(wordListJson) as List<dynamic>;
+      final jsonData = jsonDecode(wordListJson) as Map<String, dynamic>;
+      final answerWords = jsonData['answer_words'] as List<dynamic>;
+      final guessWords = jsonData['guess_words'] as List<dynamic>;
 
       // Should have a reasonable number of words (typical Wordle lists have 100+ words)
-      expect(jsonData.length, greaterThan(10));
-      expect(jsonData.length, lessThan(50000)); // Reasonable upper bound
+      expect(answerWords.length, greaterThan(10));
+      expect(guessWords.length, greaterThan(10));
+      expect(answerWords.length, lessThan(50000)); // Reasonable upper bound
+      expect(guessWords.length, lessThan(50000)); // Reasonable upper bound
     });
   });
 }

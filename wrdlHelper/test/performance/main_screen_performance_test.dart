@@ -7,8 +7,9 @@ import 'package:wrdlhelper/widgets/virtual_keyboard.dart';
 void main() {
   group('Main Screen Performance TDD Tests', () {
     setUp(() async {
-      // Setup mock services for testing
-      setupMockServices();
+      // Reset services and setup real services for testing
+      resetAllServices();
+      await setupServices();
     });
     testWidgets('should initialize within performance limits', (
       WidgetTester tester,

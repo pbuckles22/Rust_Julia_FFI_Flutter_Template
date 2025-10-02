@@ -5,17 +5,22 @@ import 'package:wrdlhelper/services/game_service.dart';
 import 'package:wrdlhelper/services/word_service.dart';
 
 void main() {
-  group('Mock Services Tests', () {
-    test('MockWordService should provide mock words', () {
-      // Set up mock services
-      setupMockServices();
+  // Initialize Flutter binding for asset loading tests
+  TestWidgetsFlutterBinding.ensureInitialized();
+  group('Real Services Tests', () {
+    setUp(() async {
+      // Reset services and setup real services for testing
+      resetAllServices();
+      await setupServices();
+    });
 
-      // Get the mock word service
+    test('WordService should provide real words', () async {
+      // Get the real word service
       final wordService = sl<WordService>();
 
-      // Test that it has mock data
-      expect(wordService.guessWords.length, greaterThan(0));
-      expect(wordService.answerWords.length, greaterThan(0));
+      // Test that it has real data
+      expect(wordService.guessWords.length, greaterThan(10000));
+      expect(wordService.answerWords.length, greaterThan(2000));
       expect(wordService.isGuessWordsLoaded, true);
       expect(wordService.isLoaded, true);
 
@@ -25,11 +30,10 @@ void main() {
       expect(crane!.value, 'CRANE');
     });
 
-    test('MockGameService should create games', () {
-      // Set up mock services
-      setupMockServices();
+    test('GameService should create games', () async {
+      // Set up real services
 
-      // Get the mock game service
+      // Get the real game service
       final gameService = sl<GameService>();
 
       // Test that it can create a new game
@@ -37,26 +41,21 @@ void main() {
       expect(gameState, isNotNull);
       expect(gameState.maxGuesses, 5);
 
-      // Test that it can suggest guesses
+      // Test that it can suggest guesses (now using real intelligent solver)
       final suggestion = gameService.suggestNextGuess(gameState);
       expect(suggestion, isNotNull);
-      expect(suggestion!.value, 'CRANE');
+      // Real solver should return an optimal word, not hardcoded CRANE
+      expect(suggestion!.value.length, 5);
     });
 
-    test('MockAppService should initialize instantly', () async {
-      // Set up mock services
-      setupMockServices();
-
-      // Get the mock app service
+    test('AppService should initialize with real services', () async {
+      // Get the real app service
       final appService = sl<AppService>();
 
-      // Test that it initializes instantly (no hanging)
-      final stopwatch = Stopwatch()..start();
-      await appService.initialize();
-      stopwatch.stop();
-
+      // Test that it initializes with real services
       expect(appService.isInitialized, true);
-      expect(stopwatch.elapsedMilliseconds, lessThan(100)); // Should be instant
+      expect(appService.wordService.isLoaded, true);
+      expect(appService.gameService, isNotNull);
     });
   });
 }

@@ -46,13 +46,9 @@ class _MyAppState extends State<MyApp> {
       );
       DebugLogger.error('Stack trace: $stackTrace', tag: 'Main');
 
-      // Fall back to mock services
-      DebugLogger.warning('🔄 Falling back to mock services...', tag: 'Main');
-      setupMockServices();
-      DebugLogger.info('✅ Mock services initialized as fallback', tag: 'Main');
-      
+      // No fallback - app should fail hard if services can't initialize
       setState(() {
-        _status = '⚠️ Using mock services (fallback mode)';
+        _status = '❌ Failed to initialize services - app cannot start';
       });
     }
   }

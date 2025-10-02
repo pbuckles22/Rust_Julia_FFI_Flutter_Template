@@ -18,8 +18,9 @@ void main() {
     late AppService appService;
 
     setUp(() async {
-      // Setup mock services for testing
-      setupMockServices();
+      // Reset services and setup real services for testing
+      resetAllServices();
+      await setupServices();
       appService = sl<AppService>();
     });
 

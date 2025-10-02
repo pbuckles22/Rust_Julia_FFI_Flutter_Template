@@ -10,7 +10,7 @@ void main() {
   group('Complete Game Flow Integration Tests', () {
     setUp(() async {
       // Setup mock services for testing
-      setupMockServices();
+      await setupServices();
     });
     testWidgets('should complete full game workflow from start to finish', (
       WidgetTester tester,

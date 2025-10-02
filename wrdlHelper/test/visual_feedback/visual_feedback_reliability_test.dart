@@ -15,7 +15,7 @@ void main() {
   group('Visual Feedback System Reliability TDD Tests', () {
     setUp(() async {
       // Setup mock services for testing
-      setupMockServices();
+      await setupServices();
     });
 
     group('UI Element Accessibility', () {

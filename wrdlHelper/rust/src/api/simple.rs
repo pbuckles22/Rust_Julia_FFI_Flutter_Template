@@ -380,6 +380,44 @@ pub fn initialize_word_lists() -> Result<(), String> {
 }
 
 /**
+ * Load word lists from Dart to Rust (call after Dart loads word lists)
+ * 
+ * This function receives the actual word lists from Dart and stores them in Rust
+ * for optimal performance. This replaces the hardcoded 18 words with the full
+ * 15k+ word lists.
+ * 
+ * # Arguments
+ * - `answer_words`: The 2,315 answer words from official_wordle_words.json
+ * - `guess_words`: The 14,854+ guess words from official_guess_words.txt
+ * 
+ * # Performance
+ * - This is called once at startup after Dart loads the word lists
+ * - Subsequent calls to get_intelligent_guess_fast() will use these full lists
+ */
+#[flutter_rust_bridge::frb(sync)]
+pub fn load_word_lists_from_dart(
+    answer_words: Vec<String>,
+    guess_words: Vec<String>,
+) -> Result<(), String> {
+    use crate::api::wrdl_helper::WORD_MANAGER;
+    
+    let mut manager = WORD_MANAGER.lock().map_err(|e| format!("Failed to lock word manager: {}", e))?;
+    
+    // Store the actual word lists from Dart
+    manager.answer_words = answer_words;
+    manager.guess_words = guess_words;
+    
+    // Recompute optimal first guess with the full word list
+    manager.compute_optimal_first_guess();
+    
+    println!("✅ Rust loaded {} answer words and {} guess words", 
+             manager.answer_words.len(), 
+             manager.guess_words.len());
+    
+    Ok(())
+}
+
+/**
  * Get intelligent guess using advanced algorithms (optimized version)
  * 
  * This function uses the wrdlHelper intelligent solver with Rust-managed word lists
@@ -434,6 +472,28 @@ pub fn get_intelligent_guess_fast(
     }
     
     solver.get_best_guess(&remaining_words, &internal_guess_results)
+}
+
+/**
+ * Get the optimal first guess (pre-computed at startup)
+ * 
+ * This function returns the optimal first guess that was computed once at startup.
+ * This avoids the expensive computation of analyzing all 14,854 words for the first guess.
+ * 
+ * # Returns
+ * The optimal first guess word, or None if not computed yet
+ * 
+ * # Performance
+ * - Time complexity: O(1) - just a lookup
+ * - Space complexity: O(1) - cached value
+ * - Target response time: < 1ms
+ */
+#[flutter_rust_bridge::frb(sync)]
+pub fn get_optimal_first_guess() -> Option<String> {
+    use crate::api::wrdl_helper::WORD_MANAGER;
+    
+    let manager = WORD_MANAGER.lock().ok()?;
+    manager.get_optimal_first_guess()
 }
 
 /**

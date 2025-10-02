@@ -9,8 +9,9 @@ import '../helpers/keyboard_test_helpers.dart';
 void main() {
   group('Main Screen Error Handling TDD Tests', () {
     setUp(() async {
-      // Setup mock services for testing
-      setupMockServices();
+      // Reset services and setup real services for testing
+      resetAllServices();
+      await setupServices();
     });
     testWidgets('should handle service initialization failure', (
       WidgetTester tester,

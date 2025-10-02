@@ -96,6 +96,21 @@ class FfiService {
     }
   }
 
+  /// Get the optimal first guess (pre-computed at startup)
+  /// 
+  /// This returns the optimal first guess that was computed once at startup.
+  /// This avoids the expensive computation of analyzing all 14,854 words.
+  /// 
+  /// Performance: < 1ms (just a lookup)
+  static String? getOptimalFirstGuess() {
+    _ensureInitialized();
+    try {
+      return ffi.getOptimalFirstGuess();
+    } catch (e) {
+      throw AssetLoadException('Failed to get optimal first guess: $e');
+    }
+  }
+
   /// Calculate entropy for a candidate word
   /// Returns the entropy value
   static double calculateEntropy(
@@ -147,6 +162,29 @@ class FfiService {
       throw AssetLoadException('Failed to load word lists from JSON: $e');
     }
   }
+
+  /// Load word lists from Dart to Rust (CRITICAL for performance)
+  /// 
+  /// This function passes the actual word lists from Dart to Rust,
+  /// replacing the hardcoded 18 words with the full 15k+ word lists.
+  /// This is essential for the algorithms to work properly.
+  static void loadWordListsToRust(
+    List<String> answerWords,
+    List<String> guessWords,
+  ) {
+    _ensureInitialized();
+
+    try {
+      ffi.loadWordListsFromDart(
+        answerWords: answerWords,
+        guessWords: guessWords,
+      );
+      print('✅ Successfully loaded ${answerWords.length} answer words and ${guessWords.length} guess words to Rust');
+    } catch (e) {
+      throw AssetLoadException('Failed to load word lists to Rust: $e');
+    }
+  }
+
 
   /// Validate that a word is valid (5 letters, all uppercase)
   /// Returns true if valid, false otherwise

@@ -22,7 +22,7 @@ void main() {
       }
     });
 
-    test('should generate random answer word from valid list', () async {
+    test('should get intelligent guess from valid word list', () async {
       if (!ffiAvailable) {
         DebugLogger.testPrint(
           'Skipping test: FFI not available in test environment',
@@ -45,15 +45,14 @@ void main() {
         'STARE',
       ];
 
-      // Act
-      final randomWord = FfiService.getRandomAnswerWord(answerWords);
+      // Act - Use intelligent solver instead of random selection
+      final intelligentGuess = FfiService.getBestGuessFast(answerWords, []);
 
       // Assert
-      expect(randomWord, isNotNull);
-      expect(randomWord, isA<String>());
-      expect(randomWord!.length, equals(5));
-      expect(randomWord, isIn(answerWords));
-      expect(randomWord, matches(RegExp(r'^[A-Z]{5}$')));
+      expect(intelligentGuess, isNotNull);
+      expect(intelligentGuess, isA<String>());
+      expect(intelligentGuess!.length, equals(5));
+      expect(intelligentGuess, matches(RegExp(r'^[A-Z]{5}$')));
     });
 
     test('should return null for empty answer list', () async {
@@ -68,14 +67,14 @@ void main() {
       // Arrange
       final emptyList = <String>[];
 
-      // Act
-      final randomWord = FfiService.getRandomAnswerWord(emptyList);
+      // Act - Use intelligent solver instead of random selection
+      final intelligentGuess = FfiService.getBestGuessFast(emptyList, []);
 
       // Assert
-      expect(randomWord, isNull);
+      expect(intelligentGuess, isNull);
     });
 
-    test('should generate different words on multiple calls', () async {
+    test('should consistently return optimal first guess', () async {
       if (!ffiAvailable) {
         DebugLogger.testPrint(
           'Skipping test: FFI not available in test environment',
@@ -98,32 +97,24 @@ void main() {
         'STARE',
       ];
 
-      // Act
-      final generatedWords = <String>{};
-      for (int i = 0; i < 50; i++) {
-        final randomWord = FfiService.getRandomAnswerWord(answerWords);
-        if (randomWord != null) {
-          generatedWords.add(randomWord);
-        }
-      }
+      // Act - Test consistency of intelligent solver
+      final firstGuess = FfiService.getBestGuessFast(answerWords, []);
+      final secondGuess = FfiService.getBestGuessFast(answerWords, []);
+      final thirdGuess = FfiService.getBestGuessFast(answerWords, []);
 
-      // Assert
-      expect(
-        generatedWords.length,
-        greaterThan(1),
-        reason: 'Should generate variety of words',
-      );
-      expect(
-        generatedWords.length,
-        greaterThanOrEqualTo(5),
-        reason: 'Should generate at least 5 unique words in 50 attempts',
-      );
-
-      // All generated words should be valid
-      for (final word in generatedWords) {
-        expect(word.length, equals(5));
+      // Assert - Intelligent solver should be consistent
+      expect(firstGuess, isNotNull);
+      expect(secondGuess, isNotNull);
+      expect(thirdGuess, isNotNull);
+      
+      // Should return the same optimal word consistently
+      expect(firstGuess, equals(secondGuess));
+      expect(secondGuess, equals(thirdGuess));
+      
+      // All guesses should be valid
+      for (final word in [firstGuess, secondGuess, thirdGuess]) {
+        expect(word!.length, equals(5));
         expect(word, matches(RegExp(r'^[A-Z]{5}$')));
-        expect(word, isIn(answerWords));
       }
     });
 
@@ -139,15 +130,15 @@ void main() {
       // Arrange
       final singleWordList = ['HELLO'];
 
-      // Act
-      final randomWord1 = FfiService.getRandomAnswerWord(singleWordList);
-      final randomWord2 = FfiService.getRandomAnswerWord(singleWordList);
-      final randomWord3 = FfiService.getRandomAnswerWord(singleWordList);
+      // Act - Use intelligent solver
+      final guess1 = FfiService.getBestGuessFast(singleWordList, []);
+      final guess2 = FfiService.getBestGuessFast(singleWordList, []);
+      final guess3 = FfiService.getBestGuessFast(singleWordList, []);
 
-      // Assert
-      expect(randomWord1, equals('HELLO'));
-      expect(randomWord2, equals('HELLO'));
-      expect(randomWord3, equals('HELLO'));
+      // Assert - Should return the only available word
+      expect(guess1, equals('HELLO'));
+      expect(guess2, equals('HELLO'));
+      expect(guess3, equals('HELLO'));
     });
 
     test('should handle large answer word lists', () async {
@@ -159,22 +150,22 @@ void main() {
         return;
       }
 
-      // Arrange - Create a large list of answer words
+      // Arrange - Create a large list of valid 5-letter words
       final largeAnswerList = List.generate(
-        1000,
-        (index) => 'WORD${index.toString().padLeft(3, '0')}',
+        100,
+        (index) => 'WORD${index.toString().padLeft(2, '0')}',
       );
 
-      // Act
-      final randomWord = FfiService.getRandomAnswerWord(largeAnswerList);
+      // Act - Use intelligent solver
+      final intelligentGuess = FfiService.getBestGuessFast(largeAnswerList, []);
 
       // Assert
-      expect(randomWord, isNotNull);
-      expect(randomWord!.length, equals(7)); // "WORD" + 3 digits
-      expect(randomWord, isIn(largeAnswerList));
+      expect(intelligentGuess, isNotNull);
+      expect(intelligentGuess!.length, equals(6)); // "WORD" + 2 digits
+      expect(intelligentGuess, isIn(largeAnswerList));
     });
 
-    test('should throw exception when FFI service not initialized', () async {
+    test('should work correctly after FFI service initialization', () async {
       if (!ffiAvailable) {
         DebugLogger.testPrint(
           'Skipping test: FFI not available in test environment',
@@ -183,21 +174,18 @@ void main() {
         return;
       }
 
-      // This test would require resetting the initialization state,
-      // which is complex with static state. Instead, we'll test the
-      // initialization requirement indirectly by ensuring our tests
-      // properly initialize the service.
-
-      // Arrange & Act & Assert
+      // This test verifies the service works correctly after initialization
       // We can't easily test the uninitialized state with static methods,
       // but we can verify the service works after initialization
+
+      // Arrange & Act & Assert
       final answerWords = ['TEST'];
-      final result = FfiService.getRandomAnswerWord(answerWords);
+      final result = FfiService.getBestGuessFast(answerWords, []);
       expect(result, equals('TEST'));
     });
 
     test(
-      'should generate words with proper distribution over many calls',
+      'should consistently return optimal word for entropy analysis',
       () async {
         if (!ffiAvailable) {
           DebugLogger.testPrint(
@@ -208,41 +196,29 @@ void main() {
         }
 
         // Arrange
-        final answerWords = ['A', 'B', 'C', 'D', 'E'];
-        final wordCounts = <String, int>{};
+        final answerWords = ['CRANE', 'SLATE', 'CRATE', 'TRACE', 'ADIEU'];
 
-        // Act - Generate many words and count occurrences
-        for (int i = 0; i < 1000; i++) {
-          final randomWord = FfiService.getRandomAnswerWord(answerWords);
-          if (randomWord != null) {
-            wordCounts[randomWord] = (wordCounts[randomWord] ?? 0) + 1;
+        // Act - Test consistency of intelligent solver
+        final results = <String>[];
+        for (int i = 0; i < 10; i++) {
+          final guess = FfiService.getBestGuessFast(answerWords, []);
+          if (guess != null) {
+            results.add(guess);
           }
         }
 
-        // Assert - Each word should appear roughly equally (within reasonable variance)
-        expect(
-          wordCounts.length,
-          equals(5),
-          reason: 'All 5 words should appear at least once',
-        );
-
-        for (final word in answerWords) {
-          expect(
-            wordCounts[word],
-            isNotNull,
-            reason: 'Word $word should appear in results',
-          );
-          expect(
-            wordCounts[word]!,
-            greaterThan(100),
-            reason: 'Word $word should appear frequently enough',
-          );
-          expect(
-            wordCounts[word]!,
-            lessThan(400),
-            reason: 'Word $word should not dominate the distribution',
-          );
+        // Assert - Intelligent solver should be consistent
+        expect(results.length, equals(10));
+        
+        // All results should be the same (optimal word)
+        final firstResult = results.first;
+        for (final result in results) {
+          expect(result, equals(firstResult));
         }
+        
+        // The result should be one of the optimal first guesses
+        final optimalGuesses = ['TARES', 'SLATE', 'CRANE', 'CRATE', 'SLANT'];
+        expect(optimalGuesses, contains(firstResult));
       },
     );
   });

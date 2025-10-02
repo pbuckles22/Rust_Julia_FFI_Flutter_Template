@@ -3,6 +3,7 @@ import 'package:wrdlhelper/models/game_state.dart';
 import 'package:wrdlhelper/models/guess_result.dart';
 import 'package:wrdlhelper/models/word.dart';
 import 'package:wrdlhelper/services/app_service.dart';
+import 'package:wrdlhelper/service_locator.dart';
 
 /// GameController manages the game state and user interactions
 class GameController {
@@ -28,10 +29,11 @@ class GameController {
   /// Initialize the game controller
   Future<void> initialize() async {
     try {
-      final appService = AppService();
-      if (!appService.isInitialized) {
-        await appService.initialize();
+      // Use service locator to get the AppService
+      if (!sl.isRegistered<AppService>()) {
+        await setupServices();
       }
+      final appService = sl<AppService>();
       _gameState = appService.gameService.createNewGame();
       _isInitialized = true;
       _notifyListeners();
@@ -84,7 +86,7 @@ class GameController {
         return;
       }
 
-      final appService = AppService();
+      final appService = sl<AppService>();
       final result = appService.gameService.processGuess(_gameState, guess);
       appService.gameService.addGuessToGame(_gameState!, guess, result);
 
@@ -105,7 +107,8 @@ class GameController {
 
   /// Start a new game
   Future<void> newGame() async {
-    _gameState = AppService().gameService.createNewGame();
+    final appService = sl<AppService>();
+    _gameState = appService.gameService.createNewGame();
     _currentInput = '';
     _errorMessage = null;
     _notifyListeners();
@@ -118,7 +121,8 @@ class GameController {
     }
 
     try {
-      return AppService().gameService.suggestNextGuess(_gameState!);
+      final appService = sl<AppService>();
+      return appService.gameService.suggestNextGuess(_gameState!);
     } catch (e) {
       _errorMessage = 'Failed to get suggestion: $e';
       _notifyListeners();

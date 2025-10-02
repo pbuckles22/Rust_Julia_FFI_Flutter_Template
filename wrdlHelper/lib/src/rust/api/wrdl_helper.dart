@@ -3,10 +3,9 @@
 
 // ignore_for_file: invalid_use_of_internal_member, unused_import, unnecessary_import
 
+import '../frb_generated.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
-
-import '../frb_generated.dart';
 
 // These functions are ignored because they are not marked as `pub`: `get_candidate_words`
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_receiver_is_total_eq`, `clone`, `clone`, `eq`, `fmt`, `fmt`
@@ -17,13 +16,25 @@ abstract class WordManager implements RustOpaqueInterface {
 
   List<String> get guessWords;
 
+  String? get optimalFirstGuess;
+
   set answerWords(List<String> answerWords);
 
   set guessWords(List<String> guessWords);
 
+  set optimalFirstGuess(String? optimalFirstGuess);
+
+  /// Compute the optimal first guess once at startup
+  ///
+  /// Uses proven optimal first guesses from statistical analysis.
+  /// No computation needed - these are already known to be optimal!
+  Future<void> computeOptimalFirstGuess();
+
   Future<void> getAnswerWords();
 
   Future<void> getGuessWords();
+
+  Future<String?> getOptimalFirstGuess();
 
   Future<void> loadWords();
 

@@ -43,9 +43,9 @@ void main() {
       expect(gameService.isInitialized, isTrue);
     });
 
-    test('should register mock services with setupMockServices()', () {
-      // TDD: Test that setupMockServices registers mock services
-      setupMockServices();
+    test('should register real services with setupServices()', () async {
+      // TDD: Test that setupServices registers real services
+      await setupServices();
 
       // Verify AppService is registered
       expect(sl.isRegistered<AppService>(), isTrue);
@@ -97,7 +97,7 @@ void main() {
       sl.reset();
       // Note: GetIt reset behavior may vary, so let's test the core functionality
       // The important thing is that we can register services after reset
-      setupMockServices();
+      await setupServices();
       expect(sl.isRegistered<AppService>(), isTrue);
       final appService = sl<AppService>();
       expect(appService, isA<AppService>());
@@ -120,7 +120,7 @@ void main() {
 
       // Reset and switch to mock services
       sl.reset();
-      setupMockServices();
+      await setupServices();
       final mockAppService = sl<AppService>();
       expect(mockAppService, isA<AppService>());
 
