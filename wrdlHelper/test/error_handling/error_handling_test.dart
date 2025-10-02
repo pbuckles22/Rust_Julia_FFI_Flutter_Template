@@ -305,10 +305,12 @@ void main() {
         final gameState = GameState.newGame(); // No target word
         final guess = Word.fromString('CRANE');
 
-        // Act & Assert - This should work fine with mock services
-        // The mock service allows game states without target words
-        final result = appService.gameService.processGuess(gameState, guess);
-        expect(result, isA<GuessResult>());
+        // Act & Assert - Real service should throw error for invalid game state
+        // This is correct behavior - game states must have target words
+        expect(
+          () => appService.gameService.processGuess(gameState, guess),
+          throwsA(isA<Exception>()),
+        );
       });
 
       test('handles service not initialized gracefully', () {

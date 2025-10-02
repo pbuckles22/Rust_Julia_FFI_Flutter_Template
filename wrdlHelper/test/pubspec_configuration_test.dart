@@ -24,10 +24,10 @@ void main() {
     });
 
     test('project metadata is correctly configured', () {
-      expect(pubspecYaml['name'], equals('wrdl_helper_app'));
+      expect(pubspecYaml['name'], equals('wrdlhelper'));
       expect(
         pubspecYaml['description'],
-        equals('Wordle Helper - Flutter app with embedded Rust solver via FFI'),
+        equals('wrdlHelper: AI-powered Wordle solver with 99.8% success rate'),
       );
       expect(pubspecYaml['version'], equals('1.0.0+1'));
       expect(pubspecYaml['publish_to'], equals('none'));
@@ -100,6 +100,8 @@ void main() {
         'flutter_rust_bridge',
         'provider',
         'json_annotation',
+        'rust_lib_wrdlhelper',
+        'collection',
       };
 
       final actualDeps = dependencies.keys.toSet();

@@ -26,6 +26,12 @@ void resetAllServices() {
 // This function will register your REAL services
 Future<void> setupServices() async {
   try {
+    // Check if services are already registered
+    if (sl.isRegistered<AppService>()) {
+      DebugLogger.info('🔧 Services already registered, skipping setup', tag: 'ServiceLocator');
+      return;
+    }
+
     DebugLogger.info('🔧 Creating AppService...', tag: 'ServiceLocator');
 
     // Create and initialize the service
