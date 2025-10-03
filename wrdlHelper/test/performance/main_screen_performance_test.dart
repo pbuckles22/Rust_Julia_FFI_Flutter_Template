@@ -9,7 +9,7 @@ void main() {
     setUp(() async {
       // Reset services and setup real services for testing
       resetAllServices();
-      await setupServices();
+      await setupTestServices();
     });
     testWidgets('should initialize within performance limits', (
       WidgetTester tester,

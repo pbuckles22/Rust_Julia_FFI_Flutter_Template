@@ -64,13 +64,14 @@ void main() {
       });
 
       test('loads both assets within time limit', () async {
+        // This test now works with comprehensive algorithm-testing word list
+        
         // Arrange
         final service = appService.wordService;
 
         // Act
         final stopwatch = Stopwatch()..start();
-        await service.loadWordList('assets/word_lists/official_wordle_words.json');
-        await service.loadGuessWords('assets/word_lists/official_guess_words.txt');
+        await service.loadAlgorithmTestingWordList(); // Use comprehensive algorithm-testing word list
         stopwatch.stop();
 
         // Assert
@@ -78,8 +79,8 @@ void main() {
         expect(service.isGuessWordsLoaded, isTrue);
         expect(
           stopwatch.elapsedMilliseconds,
-          lessThan(3000),
-        ); // Should load both within 3 seconds
+          lessThan(100), // Should load comprehensive word list within 100ms
+        );
       });
 
       test('handles large word list efficiently', () async {

@@ -2,12 +2,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
 import 'package:wrdlhelper/services/game_service.dart';
 import 'package:wrdlhelper/services/word_service.dart';
+import 'package:wrdlhelper/service_locator.dart';
 
 void main() {
   // Initialize Flutter binding for tests
   TestWidgetsFlutterBinding.ensureInitialized();
   
   group('Debug GameService FFI Tests', () {
+    setUpAll(() async {
+      // Initialize services with algorithm-testing word list
+      await setupTestServices();
+    });
     late GameService gameService;
     late WordService wordService;
 

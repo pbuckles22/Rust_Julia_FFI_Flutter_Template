@@ -83,23 +83,29 @@ impl WordManager {
     /// No computation needed - these are already known to be optimal!
     pub fn compute_optimal_first_guess(&mut self) {
         if self.guess_words.is_empty() {
+            println!("⚠️ No guess words available for optimal first guess computation");
             return;
         }
+        
+        println!("🔍 Computing optimal first guess from {} guess words", self.guess_words.len());
         
         // Use proven optimal first guesses (no computation needed!)
         // These are the top 5 statistically optimal first guesses for Wordle
         let optimal_first_guesses = ["TARES", "SLATE", "CRANE", "CRATE", "SLANT"];
         
-        // Pick the first one that's in our word list
+        // Pick the first one that's in our word list (case-insensitive)
         for &word in &optimal_first_guesses {
-            if self.guess_words.contains(&word.to_string()) {
+            if self.guess_words.iter().any(|w| w.to_uppercase() == word) {
+                println!("✅ Found optimal first guess: {}", word);
                 self.optimal_first_guess = Some(word.to_string());
                 return;
             }
         }
         
         // Fallback to first word if none of the optimal guesses are available
-        self.optimal_first_guess = self.guess_words.first().cloned();
+        let fallback = self.guess_words.first().cloned();
+        println!("⚠️ No optimal first guesses found, using fallback: {:?}", fallback);
+        self.optimal_first_guess = fallback;
     }
 
     pub fn get_answer_words(&self) -> &[String] {
@@ -140,9 +146,9 @@ impl IntelligentSolver {
             // Use proven optimal first guesses (no computation needed!)
             let optimal_first_guesses = ["TARES", "SLATE", "CRANE", "CRATE", "SLANT"];
             
-            // Pick the first one that's in our remaining words
+            // Pick the first one that's in our remaining words (case-insensitive)
             for &word in &optimal_first_guesses {
-                if remaining_words.contains(&word.to_string()) {
+                if remaining_words.iter().any(|w| w.to_uppercase() == word) {
                     return Some(word.to_string());
                 }
             }

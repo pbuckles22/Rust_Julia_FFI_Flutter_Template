@@ -42,6 +42,11 @@ class AppService {
     }
 
     try {
+      // Always use comprehensive word list for algorithm testing
+      // This maintains the spirit of Shannon Entropy and statistical analysis
+      // while being fast enough for 800+ test suite
+      DebugLogger.info('🚀 Initializing with comprehensive algorithm-testing word list', tag: 'AppService');
+
       DebugLogger.info(
         '🔧 Step 0: Initializing FFI Service...',
         tag: 'AppService',
@@ -136,5 +141,27 @@ class AppService {
     _wordService = null;
     _gameService = null;
     // Services will be recreated on next initialize() call
+  }
+
+  /// Initialize AppService for testing with pre-created services
+  /// This allows tests to use algorithm-testing word lists instead of full production lists
+  Future<void> initializeForTesting(WordService wordService, GameService gameService) async {
+    if (_isInitialized) {
+      return; // Already initialized
+    }
+
+    try {
+      DebugLogger.info('🧪 Initializing AppService for testing with algorithm-testing word list', tag: 'AppService');
+
+      _wordService = wordService;
+      _gameService = gameService;
+      _isInitialized = true;
+
+      DebugLogger.success('🎉 AppService initialized for testing successfully!', tag: 'AppService');
+    } catch (e, stackTrace) {
+      DebugLogger.error('❌ CRITICAL: App service test initialization failed: $e', tag: 'AppService');
+      DebugLogger.error('Stack trace: $stackTrace', tag: 'AppService');
+      rethrow;
+    }
   }
 }

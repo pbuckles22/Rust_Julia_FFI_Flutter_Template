@@ -9,6 +9,9 @@ import 'package:wrdlhelper/services/word_service.dart';
 void main() {
   group('WordleGameScreen Service Locator Integration Tests', () {
     setUp(() {
+      // Reset services to ensure clean state
+      resetAllServices();
+      
       // Reset service locator before each test
       sl.reset();
     });
@@ -23,8 +26,8 @@ void main() {
       (WidgetTester tester) async {
         // TDD: Test that WordleGameScreen uses service locator
 
-        // Setup mock services
-        await setupServices();
+        // Reset services for UI testing (no FFI needed for UI tests)
+        resetAllServices();
 
         // Verify services are available
         expect(sl.isRegistered<AppService>(), isTrue);
@@ -70,7 +73,7 @@ void main() {
     ) async {
       // TDD: Test that services remain consistent during screen lifecycle
 
-      await setupServices();
+      resetAllServices();
 
       // Build the screen
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
@@ -102,7 +105,7 @@ void main() {
       // TDD: Test that screen works with both real and mock services
 
       // Test with mock services
-      await setupServices();
+      resetAllServices();
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
       expect(find.byType(WordleGameScreen), findsOneWidget);

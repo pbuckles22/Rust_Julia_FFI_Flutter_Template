@@ -7,6 +7,7 @@ import 'package:wrdlhelper/models/word.dart';
 import 'package:wrdlhelper/services/game_service.dart';
 import 'package:wrdlhelper/services/word_service.dart';
 import 'package:wrdlhelper/service_locator.dart';
+import '../global_test_setup.dart';
 
 void main() {
   // Initialize Flutter binding for asset loading tests
@@ -17,14 +18,20 @@ void main() {
 
     setUpAll(() async {
       // Initialize FFI once for all tests in this group
-      await setupServices();
+      await GlobalTestSetup.initializeOnce();
     });
 
     setUp(() {
-      // Don't reset services - they're already initialized in setUpAll()
-      // This preserves FFI initialization for better performance
+      // Reset services for individual test isolation
+      GlobalTestSetup.resetForTest();
+      
       // GameController now uses AppService internally
       gameController = GameController();
+    });
+
+    tearDownAll(() {
+      // Clean up global resources
+      GlobalTestSetup.cleanup();
     });
 
     test('should initialize with default state', () {

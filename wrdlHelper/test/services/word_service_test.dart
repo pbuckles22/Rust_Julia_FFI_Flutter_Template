@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/exceptions/service_exceptions.dart';
 import 'package:wrdlhelper/exceptions/validation_exceptions.dart';
 import 'package:wrdlhelper/services/word_service.dart';
+import 'package:wrdlhelper/service_locator.dart';
 
 /// Comprehensive tests for WordService
 ///
@@ -12,9 +13,13 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('WordService Tests', () {
+    // Now works with comprehensive algorithm-testing word list
     late WordService wordService;
 
     setUp(() {
+      // Reset services to ensure clean state
+      resetAllServices();
+      
       wordService = WordService();
     });
 

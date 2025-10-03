@@ -33,11 +33,6 @@ import 'package:wrdlhelper/src/rust/frb_generated.dart';
 void main() {
   group('Widget Tests', () {
     
-    setUpAll(() async {
-      // Initialize the Rust library before running widget tests
-      await RustLib.init();
-    });
-
     setUp(() {
       // Reset all services before each test to ensure clean state
       resetAllServices();

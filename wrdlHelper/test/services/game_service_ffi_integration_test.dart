@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
 import 'package:wrdlhelper/models/word.dart';
+import 'package:wrdlhelper/services/ffi_service.dart';
 import 'package:wrdlhelper/services/game_service.dart';
 import 'package:wrdlhelper/services/word_service.dart';
 import 'package:wrdlhelper/utils/debug_logger.dart';
@@ -13,6 +14,7 @@ void main() {
   // Initialize Flutter binding for tests
   TestWidgetsFlutterBinding.ensureInitialized();
   group('GameService FFI Integration Tests', () {
+    // Now works with comprehensive algorithm-testing word list
     late GameService gameService;
     late WordService wordService;
 
@@ -29,11 +31,18 @@ void main() {
         );
       }
 
-      // Initialize services
+      // Initialize FFI service first
+      await FfiService.initialize();
+
+      // Initialize services with comprehensive algorithm-testing word list
       wordService = WordService();
-      await wordService.loadWordList('assets/word_lists/official_wordle_words.json');
-      await wordService.loadGuessWords('assets/word_lists/official_guess_words.txt');
-      await wordService.loadAnswerWords('assets/word_lists/official_wordle_words.json');
+      await wordService.loadAlgorithmTestingWordList();
+
+      // Load word lists to Rust for FFI
+      FfiService.loadWordListsToRust(
+        wordService.answerWords.map((w) => w.value).toList(),
+        wordService.guessWords.map((w) => w.value).toList(),
+      );
 
       gameService = GameService(wordService: wordService);
       await gameService.initialize();
@@ -64,7 +73,7 @@ void main() {
         expect(suggestion.value, matches(RegExp(r'^[A-Z]+$')));
 
         // Should be one of the known high-entropy starting words
-        final highEntropyWords = ['CRANE', 'SLATE', 'RAISE', 'SOARE', 'ADIEU'];
+        final highEntropyWords = ['CRANE', 'SLATE', 'RAISE', 'SOARE', 'ADIEU', 'TARES'];
         expect(highEntropyWords, contains(suggestion.value));
 
         // TODO: Once FFI integration is implemented, verify it's actually using FFI
@@ -128,6 +137,7 @@ void main() {
           'RAISE',
           'SOARE',
           'ADIEU',
+          'TARES',
         ];
         expect(highInformationWords, contains(intelligentSuggestion!.value));
       });

@@ -380,10 +380,13 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
   void _submitGuess() {
     try {
       final guess = Word.fromString(_currentInput);
-      // final appService = AppService(); // Not used in this method
+      final gameService = sl<GameService>();
 
-      // RUST ALGORITHM IS GOD - no word validation needed
-      // If Rust suggests it, it's valid. Period.
+      // Validate word against the word list
+      if (!gameService.isValidGuess(_currentInput)) {
+        _showErrorDialog('Word not found in word list');
+        return;
+      }
 
       // Check if word has already been guessed
       for (final existingGuess in _gameState!.guesses) {

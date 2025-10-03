@@ -3,10 +3,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/main.dart';
 import 'package:wrdlhelper/screens/wordle_game_screen.dart';
 import 'package:wrdlhelper/services/app_service.dart';
+import 'package:wrdlhelper/service_locator.dart';
 
 void main() {
   group('Main App TDD Tests', () {
     setUp(() async {
+      // Reset services to ensure clean state
+      resetAllServices();
+      
       // Initialize AppService before each test
       await AppService().initialize();
     });

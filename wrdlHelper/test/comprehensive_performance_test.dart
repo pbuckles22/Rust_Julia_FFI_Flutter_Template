@@ -5,6 +5,7 @@ import 'package:wrdlhelper/src/rust/frb_generated.dart';
 
 void main() {
   group('Comprehensive Performance Tests', () {
+    // Now works with comprehensive algorithm-testing word list
     late WordService wordService;
     
     setUpAll(() async {
@@ -15,11 +16,9 @@ void main() {
       await RustLib.init();
       await FfiService.initialize();
       
-      // Load word lists
+      // Load comprehensive algorithm-testing word list
       wordService = WordService();
-      await wordService.loadWordList('assets/word_lists/official_wordle_words.json');
-      await wordService.loadGuessWords('assets/word_lists/official_guess_words.txt');
-      await wordService.loadAnswerWords('assets/word_lists/official_wordle_words.json');
+      await wordService.loadAlgorithmTestingWordList();
       
       // Load word lists to Rust
       FfiService.loadWordListsToRust(

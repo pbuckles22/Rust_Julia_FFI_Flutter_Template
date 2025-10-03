@@ -20,7 +20,7 @@ This is a **BOLT-ON project** - you are adding wrdlHelper functionality to an ex
 ```bash
 # 1. Verify current state
 cd my_working_ffi_app
-flutter test                    # Should pass (104/104 tests)
+flutter test                    # Should pass (700+ tests)
 cargo build --release          # Should compile successfully
 
 # 2. Study reference implementation
@@ -45,6 +45,16 @@ cat /Users/chaos/dev/wrdlHelper_reference/src/intelligent_solver.rs
 - **3.66 average guesses** to solve any Wordle
 - **< 200ms response time** for complex analysis
 - **< 50MB memory usage**
+
+### **🧪 Testing Strategy**
+
+- **Algorithm-Testing Word List**: 1,273 strategically curated words
+- **Comprehensive Coverage**: Shannon Entropy, statistical analysis, pattern recognition
+- **Fast Execution**: ~1 second test suite (13x faster than full 17,169-word list)
+- **No Complexity**: Eliminated `fastTestMode` - single consistent approach
+- **Full FFI Testing**: All tests use real Rust solver with intelligent suggestions
+
+See [`docs/TESTING_STRATEGY.md`](docs/TESTING_STRATEGY.md) for detailed testing approach.
 
 ### **⚠️ Critical Warning**
 

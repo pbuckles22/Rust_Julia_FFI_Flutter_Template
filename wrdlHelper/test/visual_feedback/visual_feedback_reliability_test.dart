@@ -13,9 +13,14 @@ import 'package:wrdlhelper/widgets/virtual_keyboard.dart';
 /// and UI element accessibility.
 void main() {
   group('Visual Feedback System Reliability TDD Tests', () {
-    setUp(() async {
-      // Setup mock services for testing
-      await setupServices();
+    setUpAll(() async {
+      // Initialize services with algorithm-testing word list
+      await setupTestServices();
+    });
+    
+    setUp(() {
+      // Reset services for UI testing (no FFI needed for UI tests)
+      resetAllServices();
     });
 
     group('UI Element Accessibility', () {

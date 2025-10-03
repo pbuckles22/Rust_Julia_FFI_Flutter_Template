@@ -8,10 +8,14 @@ import '../helpers/keyboard_test_helpers.dart';
 
 void main() {
   group('Main Screen Error Handling TDD Tests', () {
-    setUp(() async {
-      // Reset services and setup real services for testing
+    setUpAll(() async {
+      // Initialize services with algorithm-testing word list
+      await setupTestServices();
+    });
+    
+    setUp(() {
+      // Reset services for UI testing (no FFI needed for UI tests)
       resetAllServices();
-      await setupServices();
     });
     testWidgets('should handle service initialization failure', (
       WidgetTester tester,

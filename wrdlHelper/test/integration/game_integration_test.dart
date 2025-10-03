@@ -5,6 +5,7 @@ import 'package:wrdlhelper/models/word.dart';
 import 'package:wrdlhelper/services/app_service.dart';
 import 'package:wrdlhelper/services/game_service.dart';
 import 'package:wrdlhelper/services/word_service.dart';
+import 'package:wrdlhelper/service_locator.dart';
 import 'package:wrdlhelper/utils/debug_logger.dart';
 
 import '../helpers/word_test_helper.dart';
@@ -18,9 +19,13 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('Game Integration Tests', () {
+    // Now works with comprehensive algorithm-testing word list
     late AppService appService;
 
     setUp(() async {
+      // Reset services to ensure clean state
+      resetAllServices();
+      
       // Initialize AppService for integration tests
       appService = AppService();
       await appService.initialize();

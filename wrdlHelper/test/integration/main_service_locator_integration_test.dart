@@ -7,6 +7,9 @@ import 'package:wrdlhelper/services/app_service.dart';
 void main() {
   group('Main Service Locator Integration Tests', () {
     setUp(() {
+      // Reset services to ensure clean state
+      resetAllServices();
+      
       // Reset service locator before each test
       sl.reset();
     });
@@ -25,7 +28,7 @@ void main() {
       // We'll implement the service locator integration to make this pass
 
       // Setup real services for testing
-      await setupServices();
+      await setupTestServices();
 
       // Verify services are available before app starts
       expect(sl.isRegistered<AppService>(), isTrue);
@@ -58,7 +61,7 @@ void main() {
       () async {
         // TDD: Test that services remain consistent throughout app lifecycle
 
-        await setupServices();
+        await setupTestServices();
 
         // Get services at different points
         final appService1 = sl<AppService>();

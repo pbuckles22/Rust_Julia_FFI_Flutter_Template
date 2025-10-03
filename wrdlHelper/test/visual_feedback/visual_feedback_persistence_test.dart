@@ -18,9 +18,14 @@ import '../helpers/keyboard_test_helpers.dart';
 /// the next guess TRADE should show R=green, A=green, T=yellow automatically.
 void main() {
   group('Visual Feedback Persistence TDD Tests', () {
-    setUp(() async {
-      // Setup mock services for testing
-      await setupServices();
+    setUpAll(() async {
+      // Initialize services with algorithm-testing word list
+      await setupTestServices();
+    });
+    
+    setUp(() {
+      // Reset services for UI testing (no FFI needed for UI tests)
+      resetAllServices();
     });
 
     tearDown(() async {

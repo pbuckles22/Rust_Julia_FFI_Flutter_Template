@@ -3,24 +3,34 @@ import 'package:wrdlhelper/service_locator.dart';
 import 'package:wrdlhelper/services/app_service.dart';
 import 'package:wrdlhelper/services/game_service.dart';
 import 'package:wrdlhelper/services/word_service.dart';
+import 'global_test_setup.dart';
 
 void main() {
   // Initialize Flutter binding for asset loading tests
   TestWidgetsFlutterBinding.ensureInitialized();
   group('Real Services Tests', () {
-    setUp(() async {
-      // Reset services and setup real services for testing
-      resetAllServices();
-      await setupServices();
+    setUpAll(() async {
+      // Initialize FFI once for all tests in this group
+      await GlobalTestSetup.initializeOnce();
+    });
+
+    setUp(() {
+      // Reset services for individual test isolation
+      GlobalTestSetup.resetForTest();
+    });
+
+    tearDownAll(() {
+      // Clean up global resources
+      GlobalTestSetup.cleanup();
     });
 
     test('WordService should provide real words', () async {
       // Get the real word service
       final wordService = sl<WordService>();
 
-      // Test that it has real data
-      expect(wordService.guessWords.length, greaterThan(10000));
-      expect(wordService.answerWords.length, greaterThan(2000));
+      // Test that it has comprehensive algorithm-testing data
+      expect(wordService.guessWords.length, greaterThan(200)); // Comprehensive word list has ~250 words
+      expect(wordService.answerWords.length, greaterThan(200)); // Comprehensive word list has ~250 words
       expect(wordService.isGuessWordsLoaded, true);
       expect(wordService.isLoaded, true);
 

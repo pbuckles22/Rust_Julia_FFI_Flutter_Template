@@ -20,7 +20,7 @@ void main() {
     setUp(() async {
       // Reset services and setup real services for testing
       resetAllServices();
-      await setupServices();
+      await setupTestServices();
       appService = sl<AppService>();
     });
 
@@ -630,7 +630,7 @@ void main() {
           await appService.wordService.loadWordList(fallbackAssetPath);
         } catch (e) {
           // Load fallback data
-          await appService.wordService.loadFallbackWordList();
+          await appService.wordService.loadAlgorithmTestingWordList();
         }
 
         // Assert

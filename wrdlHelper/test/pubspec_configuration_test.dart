@@ -61,7 +61,7 @@ void main() {
 
       // Code generation dependencies
       expect(devDependencies['json_serializable'], equals('^6.8.0'));
-      expect(devDependencies['build_runner'], equals('^2.4.13'));
+      expect(devDependencies['build_runner'], equals('^2.4.9'));
     });
 
     test('assets are properly configured', () {
@@ -117,9 +117,10 @@ void main() {
         'flutter_test',
         'flutter_lints',
         'json_serializable',
+        'mockito',
+        'build_runner',
         'flutter_driver',
         'integration_test', // Used for integration tests
-        'build_runner',
         'yaml',
       };
 

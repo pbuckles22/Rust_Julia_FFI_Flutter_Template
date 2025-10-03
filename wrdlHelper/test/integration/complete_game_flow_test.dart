@@ -5,12 +5,23 @@ import 'package:wrdlhelper/screens/wordle_game_screen.dart';
 import 'package:wrdlhelper/service_locator.dart';
 import 'package:wrdlhelper/widgets/game_grid.dart';
 import 'package:wrdlhelper/widgets/virtual_keyboard.dart';
+import '../global_test_setup.dart';
 
 void main() {
   group('Complete Game Flow Integration Tests', () {
-    setUp(() async {
-      // Setup mock services for testing
-      await setupServices();
+    setUpAll(() async {
+      // Initialize FFI once for all tests in this group
+      await GlobalTestSetup.initializeOnce();
+    });
+
+    setUp(() {
+      // Reset services for individual test isolation
+      GlobalTestSetup.resetForTest();
+    });
+
+    tearDownAll(() {
+      // Clean up global resources
+      GlobalTestSetup.cleanup();
     });
     testWidgets('should complete full game workflow from start to finish', (
       WidgetTester tester,
