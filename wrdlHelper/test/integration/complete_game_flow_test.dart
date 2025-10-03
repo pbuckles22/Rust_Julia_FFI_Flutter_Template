@@ -10,18 +10,13 @@ import '../global_test_setup.dart';
 void main() {
   group('Complete Game Flow Integration Tests', () {
     setUpAll(() async {
-      // Initialize FFI once for all tests in this group
-      await GlobalTestSetup.initializeOnce();
-    });
-
-    setUp(() {
-      // Reset services for individual test isolation
-      GlobalTestSetup.resetForTest();
+      // Initialize services with algorithm-testing word list
+      await setupTestServices();
     });
 
     tearDownAll(() {
-      // Clean up global resources
-      GlobalTestSetup.cleanup();
+      // Clean up after all tests
+      resetAllServices();
     });
     testWidgets('should complete full game workflow from start to finish', (
       WidgetTester tester,

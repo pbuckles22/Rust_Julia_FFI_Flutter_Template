@@ -15,8 +15,8 @@ void main() {
       await setupTestServices();
     });
     
-    setUp(() {
-      // Reset services for UI testing (no FFI needed for UI tests)
+    tearDownAll(() {
+      // Clean up after all tests
       resetAllServices();
     });
     testWidgets('should display game screen when initialized', (

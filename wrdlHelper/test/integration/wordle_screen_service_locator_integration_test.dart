@@ -8,17 +8,14 @@ import 'package:wrdlhelper/services/word_service.dart';
 
 void main() {
   group('WordleGameScreen Service Locator Integration Tests', () {
-    setUp(() {
-      // Reset services to ensure clean state
-      resetAllServices();
-      
-      // Reset service locator before each test
-      sl.reset();
+    setUpAll(() async {
+      // Initialize services with algorithm-testing word list
+      await setupTestServices();
     });
 
-    tearDown(() {
-      // Clean up after each test
-      sl.reset();
+    tearDownAll(() {
+      // Clean up after all tests
+      resetAllServices();
     });
 
     testWidgets(

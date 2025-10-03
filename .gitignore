@@ -100,3 +100,12 @@ site/
 
 # Agent handoff documentation (temporary)
 docs/gemini/
+
+# Temporary debug files
+debug_words.dart
+*.debug
+debug_*
+
+# Agent handoff temporary files
+docs/agent-handoff/temp/
+docs/agent-handoff/*.tmp

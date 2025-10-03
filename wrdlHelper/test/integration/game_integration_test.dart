@@ -22,13 +22,19 @@ void main() {
     // Now works with comprehensive algorithm-testing word list
     late AppService appService;
 
-    setUp(() async {
-      // Reset services to ensure clean state
+    setUpAll(() async {
+      // Initialize services with algorithm-testing word list
+      await setupTestServices();
+    });
+    
+    setUp(() {
+      // Get the service from the locator
+      appService = sl<AppService>();
+    });
+    
+    tearDownAll(() {
+      // Clean up after all tests
       resetAllServices();
-      
-      // Initialize AppService for integration tests
-      appService = AppService();
-      await appService.initialize();
     });
 
     group('Complete Game Workflow', () {
