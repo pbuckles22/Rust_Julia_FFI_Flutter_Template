@@ -89,8 +89,8 @@ impl WordManager {
         
         println!("🔍 Computing optimal first guess from {} guess words", self.guess_words.len());
         
-        // Use proven optimal first guesses (no computation needed!)
-        // These are the top 5 statistically optimal first guesses for Wordle
+        // REVERTED: Use proven optimal first guesses (no computation needed!)
+        // The dynamic approach made things worse - simpler is better
         let optimal_first_guesses = ["TARES", "SLATE", "CRANE", "CRATE", "SLANT"];
         
         // Pick the first one that's in our word list (case-insensitive)
@@ -101,11 +101,6 @@ impl WordManager {
                 return;
             }
         }
-        
-        // Fallback to first word if none of the optimal guesses are available
-        let fallback = self.guess_words.first().cloned();
-        println!("⚠️ No optimal first guesses found, using fallback: {:?}", fallback);
-        self.optimal_first_guess = fallback;
     }
 
     pub fn get_answer_words(&self) -> &[String] {
@@ -119,6 +114,7 @@ impl WordManager {
     pub fn get_optimal_first_guess(&self) -> Option<String> {
         self.optimal_first_guess.clone()
     }
+    
 }
 
 /// Global word manager instance
@@ -188,8 +184,8 @@ impl IntelligentSolver {
             
             candidates_processed += 1;
             
-            // QUALITY-FOCUSED OPTIMIZATION: Limit processing for performance
-            // Don't process more than 100 candidates (reverted from 150)
+            // REVERTED: Back to original working limits
+            // Process up to 100 candidates (original working algorithm)
             if candidates_processed >= 100 {
                 break;
             }
@@ -298,8 +294,8 @@ impl IntelligentSolver {
             }
         }
         
-        // 3. QUALITY-FOCUSED LIMIT: Maximum 200 candidates total (reverted from 300)
-        // Focus on quality over quantity - 300 candidates made accuracy worse
+        // 3. REVERTED: Back to original working limits
+        // Maximum 200 candidates total (original working algorithm)
         if candidates.len() > 200 {
             candidates.truncate(200);
         }
@@ -312,6 +308,7 @@ impl IntelligentSolver {
     /// ELITE: Curated list of the most statistically powerful words for Wordle
     /// Based on research and analysis of optimal Wordle strategies
     fn get_top_strategic_words(&self) -> Vec<String> {
+        // REVERTED: Use proven strategic words (dynamic approach made things worse)
         // Elite strategic words ranked by information gain and letter frequency
         // These are the proven best words for maximizing information in Wordle
         vec![
@@ -361,6 +358,7 @@ impl IntelligentSolver {
             "THROW".to_string(), "THREE".to_string(), "THREW".to_string(),
         ]
     }
+    
 
     /// Filter words based on guess results
     pub fn filter_words(&self, words: &[String], guess_results: &[GuessResult]) -> Vec<String> {
