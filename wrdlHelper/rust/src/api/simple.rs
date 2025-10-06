@@ -458,10 +458,12 @@ pub fn get_intelligent_guess_fast(
     for (word, pattern) in guess_results {
         let mut results = Vec::new();
         for letter_result in pattern {
-            let result = match letter_result.as_str() {
-                "G" => LetterResult::Green,
-                "Y" => LetterResult::Yellow,
-                "X" => LetterResult::Gray,
+            // Accept both compact (G,Y,X) and verbose (Green, Yellow, Gray), case-insensitive
+            let lr = letter_result.to_uppercase();
+            let result = match lr.as_str() {
+                "G" | "GREEN" => LetterResult::Green,
+                "Y" | "YELLOW" => LetterResult::Yellow,
+                "X" | "GRAY" | "GREY" => LetterResult::Gray,
                 _ => LetterResult::Gray, // Default to gray for unknown patterns
             };
             results.push(result);

@@ -169,14 +169,17 @@ impl IntelligentSolver {
         // Get candidate words (for now, use remaining words; in future could use full word list)
         let candidate_words = self.get_candidate_words(remaining_words, guess_results);
         
-        // Analyze each candidate using entropy with early termination
+        // Analyze each candidate using entropy/statistical scoring with configurable early termination
         let mut best_word = None;
         let mut best_score = f64::NEG_INFINITY;
         
-        // BALANCED OPTIMIZATION: Early termination threshold
-        // If we find a word with very high entropy, we can stop early
-        // Adjusted to be less aggressive for better accuracy
-        let early_termination_threshold = 5.0; // Higher threshold for better accuracy
+        // Load config for scoring and early termination controls
+        let config = SOLVER_CONFIG.lock().unwrap();
+        let use_entropy_only = config.entropy_only_scoring;
+        let early_term_enabled = config.early_termination_enabled;
+        let early_term_threshold = config.early_termination_threshold;
+        drop(config);
+
         let mut candidates_processed = 0;
 
         for candidate in candidate_words.iter() {
@@ -187,9 +190,9 @@ impl IntelligentSolver {
             let is_prime_suspect = remaining_words.contains(candidate);
             let prime_suspect_bonus = if is_prime_suspect { 0.1 } else { 0.0 };
             
-            // Use production settings - full algorithm power (pure entropy)
+            // Scoring weights depend on configuration
             let entropy_weight = 1.0;
-            let statistical_weight = 0.0;
+            let statistical_weight = if use_entropy_only { 0.0 } else { 1.0 };
                     
             // Combine scores with prime suspect bonus
             let combined_score = (entropy_score * entropy_weight) + (statistical_score * statistical_weight) + prime_suspect_bonus;
@@ -198,9 +201,8 @@ impl IntelligentSolver {
                 best_score = combined_score;
                 best_word = Some(candidate.clone());
                 
-                // CRITICAL OPTIMIZATION: Early termination
-                // If we found a word with very high entropy, stop processing
-                if entropy_score >= early_termination_threshold {
+                // CRITICAL OPTIMIZATION: Early termination (configurable)
+                if early_term_enabled && entropy_score >= early_term_threshold {
                     break;
                 }
             }
@@ -435,6 +437,43 @@ impl IntelligentSolver {
         let word_chars: Vec<char> = word.chars().collect();
         let guess_chars: Vec<char> = guess_result.word.chars().collect();
         
+        // Build letter count constraints from guess
+        use std::collections::HashMap;
+        let mut min_required: HashMap<char, usize> = HashMap::new();
+        let mut banned_positions: HashMap<usize, char> = HashMap::new();
+        let mut fixed_positions: HashMap<usize, char> = HashMap::new();
+        let mut total_occurrence_cap: HashMap<char, usize> = HashMap::new();
+        
+        // First pass: fixed greens and count greens/yellows per letter
+        for i in 0..5 {
+            match guess_result.results[i] {
+                LetterResult::Green => {
+                    fixed_positions.insert(i, guess_chars[i]);
+                    *min_required.entry(guess_chars[i]).or_insert(0) += 1;
+                }
+                LetterResult::Yellow => {
+                    banned_positions.insert(i, guess_chars[i]);
+                    *min_required.entry(guess_chars[i]).or_insert(0) += 1;
+                }
+                LetterResult::Gray => {}
+            }
+        }
+        
+        // Second pass: for grays, if the letter also appears as green/yellow elsewhere,
+        // cap the total occurrences to that minimum (i.e., no extra occurrences)
+        for i in 0..5 {
+            if let LetterResult::Gray = guess_result.results[i] {
+                let ch = guess_chars[i];
+                if let Some(&required) = min_required.get(&ch) {
+                    // gray means no more than required occurrences across the word
+                    total_occurrence_cap.insert(ch, required);
+                } else {
+                    // letter is completely absent
+                    total_occurrence_cap.insert(ch, 0);
+                }
+            }
+        }
+        
         // First, check green letters (must be in exact position)
         for i in 0..5 {
             if guess_result.results[i] == LetterResult::Green {
@@ -456,25 +495,29 @@ impl IntelligentSolver {
             }
         }
         
-        // Finally, check gray letters (can't be in word at all)
-        // But only if the letter doesn't appear as green or yellow elsewhere
-        for i in 0..5 {
-            if guess_result.results[i] == LetterResult::Gray {
-                // Check if this letter appears as green or yellow elsewhere
-                let mut letter_appears_elsewhere = false;
-                for j in 0..5 {
-                    if i != j && (guess_result.results[j] == LetterResult::Green || guess_result.results[j] == LetterResult::Yellow) {
-                        if guess_chars[j] == guess_chars[i] {
-                            letter_appears_elsewhere = true;
-                            break;
-                        }
-                    }
-                }
-                
-                // If the letter doesn't appear elsewhere as green/yellow, then it can't be in the word at all
-                if !letter_appears_elsewhere && word_chars.contains(&guess_chars[i]) {
+        // Gray letters and occurrence caps
+        // Enforce position bans and total occurrence limits
+        let mut counts: HashMap<char, usize> = HashMap::new();
+        for (idx, ch) in word_chars.iter().enumerate() {
+            // Position bans (from yellows)
+            if let Some(&banned_ch) = banned_positions.get(&idx) {
+                if *ch == banned_ch {
                     return false;
                 }
+            }
+            // Count occurrences
+            *counts.entry(*ch).or_insert(0) += 1;
+        }
+        
+        // Enforce minimums (greens+yellows) and caps (grays)
+        for (ch, &min_cnt) in min_required.iter() {
+            if counts.get(ch).cloned().unwrap_or(0) < min_cnt {
+                return false;
+            }
+        }
+        for (ch, &cap_cnt) in total_occurrence_cap.iter() {
+            if counts.get(ch).cloned().unwrap_or(0) > cap_cnt {
+                return false;
             }
         }
         
@@ -547,5 +590,23 @@ mod tests {
         
         // Should filter out words that don't match the pattern
         assert!(filtered.len() < words.len());
+    }
+
+    #[test]
+    fn test_word_filtering_all_green_matches() {
+        let words = vec!["CRANE".to_string()];
+        let solver = IntelligentSolver::new(words.clone());
+        let guess = GuessResult::new(
+            "CRANE".to_string(),
+            [
+                LetterResult::Green,
+                LetterResult::Green,
+                LetterResult::Green,
+                LetterResult::Green,
+                LetterResult::Green,
+            ],
+        );
+        let filtered = solver.filter_words(&words, &[guess]);
+        assert_eq!(filtered, vec!["CRANE".to_string()]);
     }
 }
