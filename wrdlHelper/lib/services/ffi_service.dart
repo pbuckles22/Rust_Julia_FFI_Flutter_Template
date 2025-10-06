@@ -2,12 +2,39 @@ import 'package:wrdlhelper/src/rust/frb_generated.dart';
 import 'package:wrdlhelper/src/rust/api/simple.dart' as ffi;
 import 'package:wrdlhelper/exceptions/service_exceptions.dart';
 
+/// Configuration class for FFI settings
+class FfiConfiguration {
+  final bool referenceMode;
+  final bool includeKillerWords;
+  final int candidateCap;
+  final bool earlyTerminationEnabled;
+  final double earlyTerminationThreshold;
+  final bool entropyOnlyScoring;
+
+  const FfiConfiguration({
+    required this.referenceMode,
+    required this.includeKillerWords,
+    required this.candidateCap,
+    required this.earlyTerminationEnabled,
+    required this.earlyTerminationThreshold,
+    required this.entropyOnlyScoring,
+  });
+}
+
 /// FFI Service for calling Rust functions from Flutter
 ///
 /// This service provides a clean interface to the Rust FFI functions,
 /// handling initialization, error conversion, and type mapping.
 class FfiService {
   static bool _isInitialized = false;
+  static FfiConfiguration _currentConfig = const FfiConfiguration(
+    referenceMode: false,
+    includeKillerWords: false,
+    candidateCap: 200,
+    earlyTerminationEnabled: true,
+    earlyTerminationThreshold: 5.0,
+    entropyOnlyScoring: false,
+  );
 
   /// Whether the FFI service is initialized
   bool get isInitialized => _isInitialized;
@@ -212,5 +239,53 @@ class FfiService {
         'FFI service not initialized. Call FfiService.initialize() first.',
       );
     }
+  }
+
+  // ============================================================================
+  // Configuration Methods
+  // ============================================================================
+
+  /// Get the current configuration
+  static FfiConfiguration getConfiguration() {
+    return _currentConfig;
+  }
+
+  /// Set the configuration
+  static void setConfiguration(FfiConfiguration config) {
+    _currentConfig = config;
+    
+    // TODO: Also set the configuration in Rust once FFI bindings are regenerated
+    // ffi.setSolverConfig(
+    //   config.referenceMode,
+    //   config.includeKillerWords,
+    //   config.candidateCap,
+    //   config.earlyTerminationEnabled,
+    //   config.earlyTerminationThreshold,
+    //   config.entropyOnlyScoring,
+    // );
+  }
+
+  /// Apply reference mode preset configuration
+  static void applyReferenceModePreset() {
+    _currentConfig = const FfiConfiguration(
+      referenceMode: true,
+      includeKillerWords: true,
+      candidateCap: 1000,
+      earlyTerminationEnabled: false,
+      earlyTerminationThreshold: 10.0,
+      entropyOnlyScoring: true,
+    );
+  }
+
+  /// Reset to default configuration
+  static void resetToDefaultConfiguration() {
+    _currentConfig = const FfiConfiguration(
+      referenceMode: false,
+      includeKillerWords: false,
+      candidateCap: 200,
+      earlyTerminationEnabled: true,
+      earlyTerminationThreshold: 5.0,
+      entropyOnlyScoring: false,
+    );
   }
 }

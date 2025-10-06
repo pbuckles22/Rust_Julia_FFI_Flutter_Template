@@ -27,6 +27,17 @@ pub struct GuessResult {
     pub results: Vec<LetterResult>,
 }
 
+/// FFI-compatible configuration struct
+#[derive(Debug, Clone)]
+pub struct SolverConfig {
+    pub reference_mode: bool,
+    pub include_killer_words: bool,
+    pub candidate_cap: i32,
+    pub early_termination_enabled: bool,
+    pub early_termination_threshold: f64,
+    pub entropy_only_scoring: bool,
+}
+
 impl GuessResult {
     pub fn new(word: String, results: [LetterResult; 5]) -> Self {
         Self {
@@ -120,6 +131,18 @@ impl WordManager {
 /// Global word manager instance
 pub static WORD_MANAGER: Lazy<Mutex<WordManager>> = Lazy::new(|| {
     Mutex::new(WordManager::new())
+});
+
+/// Global configuration instance
+pub static SOLVER_CONFIG: Lazy<Mutex<SolverConfig>> = Lazy::new(|| {
+    Mutex::new(SolverConfig {
+        reference_mode: false,
+        include_killer_words: false,
+        candidate_cap: 200,
+        early_termination_enabled: true,
+        early_termination_threshold: 5.0,
+        entropy_only_scoring: false,
+    })
 });
 
 impl IntelligentSolver {
@@ -283,24 +306,58 @@ impl IntelligentSolver {
         // 1. Always include remaining words (prime suspects) - these could win the game
         candidates.extend(remaining_words.iter().cloned());
         
-        // 2. Add only the top strategic words for information gathering
-        // CRITICAL: Limit to top 50 strategic words instead of hundreds/thousands
-        let top_strategic_words = self.get_top_strategic_words();
-        
-        // Add strategic words that aren't already in remaining words
-        for word in top_strategic_words {
-            if !candidates.contains(&word) {
-                candidates.push(word);
+        // 2. Add strategic words based on configuration
+        let config = SOLVER_CONFIG.lock().unwrap();
+        if config.include_killer_words {
+            let killer_words = self.get_killer_words();
+            for word in killer_words {
+                if !candidates.contains(&word) {
+                    candidates.push(word);
+                }
+            }
+        } else {
+            // Use original strategic words when killer words are disabled
+            let top_strategic_words = self.get_top_strategic_words();
+            for word in top_strategic_words {
+                if !candidates.contains(&word) {
+                    candidates.push(word);
+                }
             }
         }
+        drop(config); // Release lock early
         
-        // 3. REVERTED: Back to original working limits
-        // Maximum 200 candidates total (original working algorithm)
-        if candidates.len() > 200 {
-            candidates.truncate(200);
+        // 3. Apply candidate cap based on configuration
+        let config = SOLVER_CONFIG.lock().unwrap();
+        let candidate_cap = config.candidate_cap as usize;
+        drop(config);
+        
+        if candidates.len() > candidate_cap {
+            candidates.truncate(candidate_cap);
         }
         
         candidates
+    }
+    
+    /// Get killer words for information gathering
+    /// 
+    /// These are high-information words that can't be answers but maximize information gain
+    /// Based on the reference implementation that achieves 99.8% success rate
+    fn get_killer_words(&self) -> Vec<String> {
+        vec![
+            // === Top Tier Starters (Highest Information Gain) ===
+            "SLATE".to_string(), "CRANE".to_string(), "TRACE".to_string(),
+            "SLANT".to_string(), "CRATE".to_string(), "CARTE".to_string(),
+            "LEAST".to_string(), "STARE".to_string(), "TARES".to_string(),
+            "RAISE".to_string(), "ARISE".to_string(), "SOARE".to_string(),
+            
+            // === Excellent Vowel-Heavy Information Gatherers ===
+            "ADIEU".to_string(), "AUDIO".to_string(), "ROATE".to_string(),
+            "OUIJA".to_string(), "AUREI".to_string(), "OURIE".to_string(),
+            
+            // === Words with Rare Letters (For strategic elimination) ===
+            "PSYCH".to_string(), "GLYPH".to_string(), "VOMIT".to_string(),
+            "JUMBO".to_string(), "ZEBRA".to_string()
+        ]
     }
     
     /// Get top strategic words for information gathering

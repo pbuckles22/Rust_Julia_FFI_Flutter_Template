@@ -639,6 +639,67 @@ pub fn simulate_guess_pattern(guess: String, target: String) -> String {
     solver.simulate_guess_pattern(&guess, &target)
 }
 
+/**
+ * Set solver configuration
+ * 
+ * This function sets the global solver configuration for all subsequent operations.
+ * 
+ * # Arguments
+ * - `config`: Configuration struct with all solver settings
+ * 
+ * # Performance
+ * - Time complexity: O(1)
+ * - Space complexity: O(1)
+ */
+#[flutter_rust_bridge::frb(sync)]
+pub fn set_solver_config(
+    reference_mode: bool,
+    include_killer_words: bool,
+    candidate_cap: i32,
+    early_termination_enabled: bool,
+    early_termination_threshold: f64,
+    entropy_only_scoring: bool,
+) {
+    use crate::api::wrdl_helper::{SOLVER_CONFIG, SolverConfig};
+    
+    let mut config = SOLVER_CONFIG.lock().unwrap();
+    *config = SolverConfig {
+        reference_mode,
+        include_killer_words,
+        candidate_cap,
+        early_termination_enabled,
+        early_termination_threshold,
+        entropy_only_scoring,
+    };
+}
+
+/**
+ * Get solver configuration
+ * 
+ * This function returns the current global solver configuration.
+ * 
+ * # Returns
+ * Tuple of configuration values
+ * 
+ * # Performance
+ * - Time complexity: O(1)
+ * - Space complexity: O(1)
+ */
+#[flutter_rust_bridge::frb(sync)]
+pub fn get_solver_config() -> (bool, bool, i32, bool, f64, bool) {
+    use crate::api::wrdl_helper::SOLVER_CONFIG;
+    
+    let config = SOLVER_CONFIG.lock().unwrap();
+    (
+        config.reference_mode,
+        config.include_killer_words,
+        config.candidate_cap,
+        config.early_termination_enabled,
+        config.early_termination_threshold,
+        config.entropy_only_scoring,
+    )
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
