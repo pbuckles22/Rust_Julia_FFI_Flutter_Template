@@ -84,7 +84,7 @@ void main() {
         final result2 = appService.gameService.processGuess(gameState, guess2);
         appService.gameService.addGuessToGame(gameState, guess2, result2);
 
-        final guess3 = Word.fromString('BLADE');
+        final guess3 = Word.fromString('BLAME');
         final result3 = appService.gameService.processGuess(gameState, guess3);
         appService.gameService.addGuessToGame(gameState, guess3, result3);
 
@@ -408,9 +408,9 @@ void main() {
         final guesses = [
           Word.fromString('SLATE'),
           Word.fromString('CRATE'),
-          Word.fromString('BLADE'),
+          Word.fromString('BLAME'),
           Word.fromString('GRADE'),
-          Word.fromString('SHADE'),
+          Word.fromString('SHARE'),
         ];
 
         // Act
@@ -442,7 +442,7 @@ void main() {
         );
 
         // Act - use different words for each guess to avoid duplicate validation and winning
-        final words = ['SLATE', 'TRACE', 'BLAME', 'GRADE', 'SHADE'];
+        final words = ['SLATE', 'TRACE', 'BLAME', 'GRADE', 'SHARE'];
         for (int i = 0; i < 5; i++) {
           final guess = Word.fromString(words[i]);
           final result = appService.gameService.processGuess(gameState, guess);

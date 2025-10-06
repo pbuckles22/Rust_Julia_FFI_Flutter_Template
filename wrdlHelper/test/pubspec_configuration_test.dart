@@ -61,7 +61,7 @@ void main() {
 
       // Code generation dependencies
       expect(devDependencies['json_serializable'], equals('^6.8.0'));
-      expect(devDependencies['build_runner'], equals('^2.4.9'));
+      expect(devDependencies['build_runner'], equals('^2.4.13'));
     });
 
     test('assets are properly configured', () {

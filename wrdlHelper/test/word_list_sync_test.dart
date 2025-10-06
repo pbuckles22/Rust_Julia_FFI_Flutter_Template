@@ -19,7 +19,10 @@ void main() {
 
     setUp(() async {
       wordService = WordService();
-      await wordService.loadAlgorithmTestingWordList();
+      // Load full production lists for this sync test
+      await wordService.loadWordList('assets/word_lists/official_wordle_words.json');
+      await wordService.loadGuessWords('assets/word_lists/official_guess_words.txt');
+      await wordService.loadAnswerWords('assets/word_lists/official_wordle_words.json');
     });
 
     test('word lists should be synchronized between Dart and Rust', () {
@@ -33,7 +36,7 @@ void main() {
       
       // Test that we have the expected word counts
       expect(dartGuessWords, greaterThan(10000)); // Should have 14,854+ words
-      expect(dartAnswerWords, greaterThan(2000));  // Should have 2,315+ words
+      expect(dartAnswerWords, greaterThan(2000)); // Should have 2,315+ words
       
       // Load word lists to Rust
       FfiService.loadWordListsToRust(

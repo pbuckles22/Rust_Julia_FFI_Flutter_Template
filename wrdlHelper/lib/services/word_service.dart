@@ -1108,6 +1108,34 @@ class WordService {
     }
   }
 
+  /// Finds a word in the guess words list
+  Word? findGuessWord(String searchWord) {
+    if (!_isGuessWordsLoaded) {
+      throw ServiceNotInitializedException('Guess words not loaded');
+    }
+
+    final word = Word.fromString(searchWord);
+    try {
+      return _guessWords.firstWhere((w) => w == word);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// Finds a word in the answer words list
+  Word? findAnswerWord(String searchWord) {
+    if (!_isAnswerWordsLoaded) {
+      throw ServiceNotInitializedException('Answer words not loaded');
+    }
+
+    final word = Word.fromString(searchWord);
+    try {
+      return _answerWords.firstWhere((w) => w == word);
+    } catch (e) {
+      return null;
+    }
+  }
+
   /// Finds words by partial match
   List<Word> findWordsByPartialMatch(String partialWord) {
     if (!_isLoaded) {

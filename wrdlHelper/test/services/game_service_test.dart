@@ -126,7 +126,7 @@ void main() {
       test('processes guess with yellow letters', () {
         // Arrange
         final guess = Word.fromString(
-          'GRADE',
+          'SLATE',
         ); // A and E are in target but wrong position
 
         // Act

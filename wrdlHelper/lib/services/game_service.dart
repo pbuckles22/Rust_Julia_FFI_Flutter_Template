@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:wrdlhelper/src/rust/api/simple.dart' as ffi;
 import 'package:wrdlhelper/exceptions/game_exceptions.dart';
 import 'package:wrdlhelper/exceptions/service_exceptions.dart';
 import 'package:wrdlhelper/models/game_state.dart';
@@ -180,8 +179,8 @@ class GameService {
 
     // Guess word is pre-validated during word list loading
 
-    // Check if guess is in the word list
-    if (_wordService.findWord(guess.value) == null) {
+    // Check if guess is in the guess words list (not the smaller answer list)
+    if (_wordService.findGuessWord(guess.value) == null) {
       throw InvalidGuessException('Guess word not in word list');
     }
 
@@ -206,24 +205,24 @@ class GameService {
     gameState.addGuess(guess, result);
   }
 
-  /// Validates if a word is valid using FFI
+  /// Validates if a word is valid using WordService
   bool isValidWord(Word word) {
     if (!isInitialized) {
       throw ServiceNotInitializedException('Word service not initialized');
     }
 
     try {
-      // Use FFI service for validation
-      return FfiService.validateWord(word.value);
+      // Use WordService for validation - check if word exists in word list
+      return _wordService.findWord(word.value) != null;
     } catch (e) {
       DebugLogger.error(
-        '❌ CRITICAL: FFI word validation failed: $e',
+        '❌ CRITICAL: WordService word validation failed: $e',
         tag: 'GameService',
       );
 
-      // HARD FAILURE: No fallback allowed - FFI validation must work
+      // HARD FAILURE: No fallback allowed - WordService validation must work
       throw Exception(
-        'CRITICAL FAILURE: FFI word validation is not working. '
+        'CRITICAL FAILURE: WordService word validation is not working. '
         'This is a fatal error - the app cannot function without proper word validation. '
         'Error: $e',
       );
@@ -377,8 +376,8 @@ class GameService {
     final guess = Word.fromString(guessWord);
     // Guess word is pre-validated during word list loading
 
-    // Check if guess is in the word list
-    if (_wordService.findWord(guessWord) == null) {
+    // Check if guess is in the guess words list (not the smaller answer list)
+    if (_wordService.findGuessWord(guessWord) == null) {
       throw InvalidGuessException('Guess word not in word list');
     }
 
@@ -732,8 +731,8 @@ class GameService {
     }
 
     try {
-      // Guess word is pre-validated during word list loading
-      return _wordService.findWord(guessWord) != null;
+      // Validate against the guess words list
+      return _wordService.findGuessWord(guessWord) != null;
     } catch (e) {
       return false;
     }

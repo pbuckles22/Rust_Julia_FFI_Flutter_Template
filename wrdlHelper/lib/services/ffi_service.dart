@@ -192,8 +192,14 @@ class FfiService {
     _ensureInitialized();
 
     try {
-      // Simple validation - 5 letters, all uppercase
-      return word.length == 5 && word == word.toUpperCase() && word.contains(RegExp(r'^[A-Z]+$'));
+      // First check basic format - 5 letters, all uppercase
+      if (word.length != 5 || word != word.toUpperCase() || !word.contains(RegExp(r'^[A-Z]+$'))) {
+        return false;
+      }
+      
+      // For now, just check basic format - the word list validation will be handled
+      // by the game service when it processes guesses
+      return true;
     } catch (e) {
       return false;
     }

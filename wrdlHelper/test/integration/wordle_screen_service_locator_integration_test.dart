@@ -25,6 +25,9 @@ void main() {
 
         // Reset services for UI testing (no FFI needed for UI tests)
         resetAllServices();
+        
+        // Re-setup services after reset
+        await setupTestServices();
 
         // Verify services are available
         expect(sl.isRegistered<AppService>(), isTrue);
@@ -54,6 +57,9 @@ void main() {
     ) async {
       // TDD: Test that WordleGameScreen handles missing services gracefully
 
+      // Reset services to ensure they're not registered
+      resetAllServices();
+      
       // Don't setup services - this should trigger fallback behavior
       expect(sl.isRegistered<AppService>(), isFalse);
 
@@ -71,6 +77,9 @@ void main() {
       // TDD: Test that services remain consistent during screen lifecycle
 
       resetAllServices();
+      
+      // Re-setup services after reset
+      await setupTestServices();
 
       // Build the screen
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
