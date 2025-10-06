@@ -7,12 +7,14 @@ import 'package:wrdlhelper/service_locator.dart';
 
 void main() {
   group('Main App TDD Tests', () {
-    setUp(() async {
-      // Reset services to ensure clean state
+    setUpAll(() async {
+      // Initialize services once for all tests in this group
+      await setupTestServices();
+    });
+
+    tearDownAll(() {
+      // Clean up after all tests
       resetAllServices();
-      
-      // Initialize AppService before each test
-      await AppService().initialize();
     });
     testWidgets('should create app with correct title', (
       WidgetTester tester,

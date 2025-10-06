@@ -22,12 +22,7 @@ void main() {
       'should use service locator instead of direct AppService creation',
       (WidgetTester tester) async {
         // TDD: Test that WordleGameScreen uses service locator
-
-        // Reset services for UI testing (no FFI needed for UI tests)
-        resetAllServices();
-        
-        // Re-setup services after reset
-        await setupTestServices();
+        // Services are already initialized in setUpAll()
 
         // Verify services are available
         expect(sl.isRegistered<AppService>(), isTrue);
@@ -56,8 +51,9 @@ void main() {
       WidgetTester tester,
     ) async {
       // TDD: Test that WordleGameScreen handles missing services gracefully
-
-      // Reset services to ensure they're not registered
+      // This test needs to run in isolation with no services registered
+      
+      // Temporarily reset services for this specific test
       resetAllServices();
       
       // Don't setup services - this should trigger fallback behavior
@@ -69,17 +65,16 @@ void main() {
 
       // Verify screen still builds
       expect(find.byType(WordleGameScreen), findsOneWidget);
+
+      // Restore services for subsequent tests
+      await setupTestServices();
     });
 
     testWidgets('should maintain service consistency during screen lifecycle', (
       WidgetTester tester,
     ) async {
       // TDD: Test that services remain consistent during screen lifecycle
-
-      resetAllServices();
-      
-      // Re-setup services after reset
-      await setupTestServices();
+      // Services are already initialized in setUpAll()
 
       // Build the screen
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
@@ -120,6 +115,9 @@ void main() {
       sl.reset();
       // Note: We can't easily test real services in unit tests due to asset loading
       // This would be tested in integration tests with actual device
+      
+      // Restore services for other tests
+      await setupTestServices();
     });
   });
 }
