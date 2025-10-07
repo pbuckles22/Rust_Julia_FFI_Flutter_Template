@@ -4,7 +4,7 @@ import 'package:wrdlhelper/screens/wordle_game_screen.dart';
 import 'package:wrdlhelper/service_locator.dart';
 import 'package:wrdlhelper/services/app_service.dart';
 import 'package:wrdlhelper/services/game_service.dart';
-import 'package:wrdlhelper/services/word_service.dart';
+import 'package:wrdlhelper/services/ffi_service.dart';
 
 void main() {
   group('WordleGameScreen Service Locator Integration Tests', () {
@@ -24,9 +24,8 @@ void main() {
         // TDD: Test that WordleGameScreen uses service locator
         // Services are already initialized in setUpAll()
 
-        // Verify services are available
+        // Verify services are available (WordService removed, using centralized FFI)
         expect(sl.isRegistered<AppService>(), isTrue);
-        expect(sl.isRegistered<WordService>(), isTrue);
         expect(sl.isRegistered<GameService>(), isTrue);
 
         // Build the screen
@@ -38,12 +37,11 @@ void main() {
 
         // Verify services are accessible through service locator
         final appService = sl<AppService>();
-        final wordService = sl<WordService>();
         final gameService = sl<GameService>();
 
         expect(appService.isInitialized, isTrue);
-        expect(wordService.isLoaded, isTrue);
         expect(gameService.isInitialized, isTrue);
+        expect(FfiService.isInitialized, isTrue); // FFI service provides word lists
       },
     );
 
@@ -80,9 +78,8 @@ void main() {
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
-      // Get services at different points
+      // Get services at different points (WordService removed, using centralized FFI)
       final appService1 = sl<AppService>();
-      final wordService1 = sl<WordService>();
       final gameService1 = sl<GameService>();
 
       // Rebuild the screen
@@ -91,12 +88,10 @@ void main() {
 
       // Get services again
       final appService2 = sl<AppService>();
-      final wordService2 = sl<WordService>();
       final gameService2 = sl<GameService>();
 
       // Should be the same instances (singletons)
       expect(identical(appService1, appService2), isTrue);
-      expect(identical(wordService1, wordService2), isTrue);
       expect(identical(gameService1, gameService2), isTrue);
     });
 
