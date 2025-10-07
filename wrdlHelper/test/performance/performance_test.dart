@@ -30,7 +30,6 @@ void main() {
     group('Asset Loading Performance', () {
       test('loads word list within time limit', () async {
         // Arrange
-        const assetPath = 'assets/word_lists/official_wordle_words.json';
 
         // Act
         final stopwatch = Stopwatch()..start();
@@ -47,7 +46,6 @@ void main() {
 
       test('loads guess words within time limit', () async {
         // Arrange
-        const assetPath = 'assets/word_lists/official_guess_words.txt';
 
         // Act
         final stopwatch = Stopwatch()..start();
@@ -83,7 +81,6 @@ void main() {
 
       test('handles large word list efficiently', () async {
         // Arrange
-        const assetPath = 'assets/word_lists/official_wordle_words.json';
 
         // Act
         final stopwatch = Stopwatch()..start();
@@ -178,7 +175,6 @@ void main() {
     group('Word Filtering Performance', () {
       test('filters words by pattern quickly', () {
         // Arrange
-        const pattern = 'C????';
 
         // Act
         final stopwatch = Stopwatch()..start();
@@ -196,7 +192,6 @@ void main() {
 
       test('filters words by letter quickly', () {
         // Arrange
-        const letter = 'A';
 
         // Act
         final stopwatch = Stopwatch()..start();
@@ -213,8 +208,6 @@ void main() {
 
       test('filters words by multiple criteria quickly', () {
         // Arrange
-        const pattern = 'C????';
-        const letter = 'A';
 
         // Act
         final stopwatch = Stopwatch()..start();
@@ -320,8 +313,6 @@ void main() {
     group('Memory Usage Performance', () {
       test('handles large word list without memory issues', () async {
         // Arrange
-        final service = FfiService;
-        const assetPath = 'assets/word_lists/official_wordle_words.json';
 
         // Act
         await FfiService.initialize();
@@ -585,14 +576,11 @@ void main() {
 
       test('handles stress test with word filtering', () {
         // Arrange
-        const patterns = ['C????', 'S????', 'T????', 'B????', 'G????'];
         const operations = 1000;
 
         // Act
-        final stopwatch = Stopwatch()..start();
 
         for (int i = 0; i < operations; i++) {
-          for (final pattern in patterns) {
             FfiService.isValidWord('SLATE'); // Test FFI validation performance
           }
         }

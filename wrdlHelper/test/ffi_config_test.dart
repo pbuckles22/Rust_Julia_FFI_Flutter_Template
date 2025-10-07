@@ -82,7 +82,6 @@ void main() {
       ));
       
       // Make a dummy FFI call to ensure config persists
-      final result = FfiService.getBestGuessFast(['CRANE', 'SLATE'], []);
       
       final config = FfiService.getConfiguration();
       expect(config.referenceMode, true);

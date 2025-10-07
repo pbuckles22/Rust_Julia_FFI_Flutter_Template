@@ -32,7 +32,6 @@ void main() {
       expect(bestGuess, isNot(anyOf(equals('MATCH'), equals('PATCH'), equals('LATCH'), equals('HATCH'))));
       
       // Should be one of the known killer words or any valid strategic word
-      final killerWords = ['VOMIT', 'PSYCH', 'GLYPH', 'JUMBO', 'ZEBRA', 'SLATE', 'CRANE', 'TRACE', 'STOMP'];
       // The algorithm may suggest different strategic words, so we check it's a valid 5-letter word
       expect(bestGuess, isNotNull);
       expect(bestGuess!.length, equals(5));
@@ -75,8 +74,6 @@ void main() {
       ));
 
       final remainingWords = ['MATCH', 'PATCH', 'LATCH', 'HATCH'];
-      final guessResults = <(String, List<String>)>[];
-      
       // Calculate entropy for different candidate words
       final vomitEntropy = FfiService.calculateEntropy('VOMIT', remainingWords);
       final matchEntropy = FfiService.calculateEntropy('MATCH', remainingWords);

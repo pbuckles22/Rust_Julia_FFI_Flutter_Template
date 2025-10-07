@@ -182,9 +182,7 @@ void main() {
 
     testWidgets('App should handle different text scales', (WidgetTester tester) async {
       // Test with different text scale factors
-      final textScales = [0.8, 1.0, 1.2, 1.5, 2.0];
 
-      for (final scale in textScales) {
         // Note: textScaleFactor setter is deprecated, using view.physicalSize instead
         // tester.view.textScaleFactor = scale;
         await tester.pumpWidget(const MyApp());

@@ -29,7 +29,6 @@ void main() {
 
     test('FFI loads full lists to Rust WORD_MANAGER once without panic', () async {
       final answers = FfiService.getAnswerWords();
-      final guesses = FfiService.getGuessWords();
 
       // Word lists are now loaded directly by Rust during FFI initialization
       // No need to manually load them - they're already available

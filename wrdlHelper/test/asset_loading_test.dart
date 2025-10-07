@@ -39,7 +39,6 @@ void main() {
 
     test('word lists contain 5-letter words via centralized FFI', () async {
       final answerWords = FfiService.getAnswerWords();
-      final guessWords = FfiService.getGuessWords();
 
       // Check first 10 words to verify they are 5 letters
       for (int i = 0; i < answerWords.length && i < 10; i++) {
@@ -54,7 +53,6 @@ void main() {
 
     test('word lists contain uppercase words via centralized FFI', () async {
       final answerWords = FfiService.getAnswerWords();
-      final guessWords = FfiService.getGuessWords();
 
       // Check first 10 words to verify they are uppercase
       for (int i = 0; i < answerWords.length && i < 10; i++) {

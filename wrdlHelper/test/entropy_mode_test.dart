@@ -17,7 +17,6 @@ void main() {
 
       // Baseline: default config
       FfiService.resetToDefaultConfiguration();
-      final baseline = FfiService.getBestGuessFast(remainingWords, guessResults);
 
       // Enable entropy-only mode
       FfiService.setConfiguration(const FfiConfiguration(
