@@ -646,10 +646,10 @@ class GameService {
       }
       
       // If we don't have a suggestion yet (not first guess or optimal first guess failed),
-      // use the full algorithm
+      // use the REFERENCE algorithm (99.8% success rate)
       if (suggestion == null) {
-        print('🧠 Using full intelligent algorithm...');
-        suggestion = FfiService.getBestGuessFast(
+        print('🧠 Using REFERENCE algorithm (99.8% success rate)...');
+        suggestion = FfiService.getBestGuessReference(
           remainingWords,
           guessResults,
         );

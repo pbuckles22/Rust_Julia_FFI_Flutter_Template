@@ -123,6 +123,25 @@ class FfiService {
     }
   }
 
+  /// Get best guess using the REFERENCE algorithm (99.8% success rate)
+  /// 
+  /// This uses the exact same algorithm that achieved 99.8% success rate
+  /// in the Rust benchmark. This is the high-performance reference implementation.
+  static String? getBestGuessReference(
+    List<String> remainingWords,
+    List<(String, List<String>)> guessResults,
+  ) {
+    _ensureInitialized();
+    try {
+      return ffi.getIntelligentGuessReference(
+        remainingWords: remainingWords,
+        guessResults: guessResults,
+      );
+    } catch (e) {
+      throw AssetLoadException('Failed to get best guess (reference): $e');
+    }
+  }
+
   /// Get the optimal first guess (pre-computed at startup)
   /// 
   /// This returns the optimal first guess that was computed once at startup.
