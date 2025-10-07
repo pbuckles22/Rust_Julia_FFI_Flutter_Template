@@ -513,9 +513,15 @@ pub fn get_guess_words() -> Result<Vec<String>, String> {
 pub fn is_valid_word(word: String) -> bool {
     use crate::api::wrdl_helper::WORD_MANAGER;
     
+    // Normalize to uppercase and validate format
+    let normalized_word = word.to_uppercase();
+    if normalized_word.len() != 5 || !normalized_word.chars().all(|c| c.is_ascii_alphabetic()) {
+        return false;
+    }
+    
     if let Ok(manager) = WORD_MANAGER.lock() {
         // Check if word is in guess words (all valid words for guessing)
-        manager.get_guess_words().contains(&word.to_uppercase())
+        manager.get_guess_words().contains(&normalized_word)
     } else {
         false
     }
