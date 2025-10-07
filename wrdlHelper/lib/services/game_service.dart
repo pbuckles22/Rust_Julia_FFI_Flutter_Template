@@ -62,7 +62,7 @@ class GameService {
   GameState? _currentGame;
 
   /// Whether the service is initialized
-  bool get isInitialized => _wordService.isLoaded;
+  bool get isInitialized => FfiService.isInitialized;
 
   /// Current game state
   GameState? get currentGame => _currentGame;
@@ -81,35 +81,16 @@ class GameService {
       tag: 'GameService',
     );
 
-    // GameService no longer loads word lists directly
-    // WordService is responsible for loading word lists
-    // GameService just needs to ensure WordService is initialized
+    // GameService now uses centralized FFI for word validation
+    // FFI service is responsible for loading word lists
+    // GameService just needs to ensure FFI service is initialized
     DebugLogger.info(
-      '🔧 GameService: Checking WordService status...',
-      tag: 'GameService',
-    );
-    DebugLogger.info(
-      '🔧 GameService: WordService isLoaded = ${_wordService.isLoaded}',
-      tag: 'GameService',
-    );
-    DebugLogger.info(
-      '🔧 GameService: WordService isGuessWordsLoaded = ${_wordService.isGuessWordsLoaded}',
-      tag: 'GameService',
-    );
-    DebugLogger.info(
-      '🔧 GameService: WordService wordListSize = ${_wordService.wordListSize}',
+      '🔧 GameService: Checking FFI service status...',
       tag: 'GameService',
     );
 
-    if (!_wordService.isLoaded) {
-      DebugLogger.error(
-        '❌ GameService: WordService not loaded!',
-        tag: 'GameService',
-      );
-      throw ServiceNotInitializedException(
-        'WordService must be initialized before GameService',
-      );
-    }
+    // Initialize FFI service if not already initialized
+    await FfiService.initialize();
 
     DebugLogger.success(
       '✅ GameService: Initialization complete!',
@@ -205,24 +186,24 @@ class GameService {
     gameState.addGuess(guess, result);
   }
 
-  /// Validates if a word is valid using WordService
+  /// Validates if a word is valid using centralized Rust validation
   bool isValidWord(Word word) {
     if (!isInitialized) {
-      throw ServiceNotInitializedException('Word service not initialized');
+      throw ServiceNotInitializedException('FFI service not initialized');
     }
 
     try {
-      // Use WordService for validation - check if word exists in word list
-      return _wordService.findWord(word.value) != null;
+      // Use centralized Rust validation - check if word exists in word list
+      return FfiService.isValidWord(word.value);
     } catch (e) {
       DebugLogger.error(
-        '❌ CRITICAL: WordService word validation failed: $e',
+        '❌ CRITICAL: Centralized word validation failed: $e',
         tag: 'GameService',
       );
 
-      // HARD FAILURE: No fallback allowed - WordService validation must work
+      // HARD FAILURE: No fallback allowed - centralized validation must work
       throw Exception(
-        'CRITICAL FAILURE: WordService word validation is not working. '
+        'CRITICAL FAILURE: Centralized word validation is not working. '
         'This is a fatal error - the app cannot function without proper word validation. '
         'Error: $e',
       );

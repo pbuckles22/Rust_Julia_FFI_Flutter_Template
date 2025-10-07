@@ -36,8 +36,8 @@ class FfiService {
     entropyOnlyScoring: false,
   );
 
-  /// Whether the FFI service is initialized
-  bool get isInitialized => _isInitialized;
+  /// Whether the FFI service is initialized (static getter)
+  static bool get isInitialized => _isInitialized;
 
   /// Initialize the FFI service
   /// This must be called before using any FFI functions
