@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/service_locator.dart';
 import 'package:wrdlhelper/services/app_service.dart';
 import 'package:wrdlhelper/services/game_service.dart';
-import 'package:wrdlhelper/services/word_service.dart';
 
 void main() {
   // Initialize Flutter binding for asset loading tests
@@ -32,18 +31,14 @@ void main() {
       expect(appService, isA<AppService>());
       expect(appService.isInitialized, isTrue);
 
-      // Verify individual services are registered
-      expect(sl.isRegistered<WordService>(), isTrue);
+      // Verify individual services are registered (WordService removed, using centralized FFI)
       expect(sl.isRegistered<GameService>(), isTrue);
 
-      final wordService = sl<WordService>();
       final gameService = sl<GameService>();
 
-      expect(wordService, isA<WordService>());
       expect(gameService, isA<GameService>());
 
       // Verify services are properly initialized
-      expect(wordService.isLoaded, isTrue);
       expect(gameService.isInitialized, isTrue);
     });
 
@@ -58,18 +53,14 @@ void main() {
       // Mock services are initialized by default
       expect(appService.isInitialized, isTrue);
 
-      // Verify individual services are registered
-      expect(sl.isRegistered<WordService>(), isTrue);
+      // Verify individual services are registered (WordService removed, using centralized FFI)
       expect(sl.isRegistered<GameService>(), isTrue);
 
-      final wordService = sl<WordService>();
       final gameService = sl<GameService>();
 
-      expect(wordService, isA<WordService>());
       expect(gameService, isA<GameService>());
 
-      // Verify mock services are properly initialized
-      expect(wordService.isLoaded, isTrue);
+      // Verify services are properly initialized
       expect(gameService.isInitialized, isTrue);
     });
 
@@ -82,10 +73,6 @@ void main() {
         final appService1 = sl<AppService>();
         final appService2 = sl<AppService>();
         expect(identical(appService1, appService2), isTrue);
-
-        final wordService1 = sl<WordService>();
-        final wordService2 = sl<WordService>();
-        expect(identical(wordService1, wordService2), isTrue);
 
         final gameService1 = sl<GameService>();
         final gameService2 = sl<GameService>();
@@ -110,7 +97,6 @@ void main() {
     test('should handle service locator access before registration', () {
       // TDD: Test that accessing unregistered services throws appropriate error
       expect(() => sl<AppService>(), throwsA(isA<StateError>()));
-      expect(() => sl<WordService>(), throwsA(isA<StateError>()));
       expect(() => sl<GameService>(), throwsA(isA<StateError>()));
     });
 
