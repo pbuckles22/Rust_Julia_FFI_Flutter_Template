@@ -3,7 +3,6 @@ import 'package:wrdlhelper/src/rust/frb_generated.dart';
 import 'package:wrdlhelper/models/word.dart';
 import 'package:wrdlhelper/services/ffi_service.dart';
 import 'package:wrdlhelper/services/game_service.dart';
-import 'package:wrdlhelper/services/word_service.dart';
 import 'package:wrdlhelper/utils/debug_logger.dart';
 
 /// TDD Tests for GameService FFI Intelligent Solver Integration
@@ -14,9 +13,8 @@ void main() {
   // Initialize Flutter binding for tests
   TestWidgetsFlutterBinding.ensureInitialized();
   group('GameService FFI Integration Tests', () {
-    // Now works with comprehensive algorithm-testing word list
+    // Now works with centralized FFI word lists
     late GameService gameService;
-    late WordService wordService;
 
     setUp(() async {
       // Initialize FFI first
@@ -31,20 +29,11 @@ void main() {
         );
       }
 
-      // Initialize FFI service first
+      // Initialize FFI service first (word lists are loaded by centralized FFI during initialization)
       await FfiService.initialize();
 
-      // Initialize services with comprehensive algorithm-testing word list
-      wordService = WordService();
-      await wordService.loadAlgorithmTestingWordList();
-
-      // Load word lists to Rust for FFI
-      FfiService.loadWordListsToRust(
-        wordService.answerWords.map((w) => w.value).toList(),
-        wordService.guessWords.map((w) => w.value).toList(),
-      );
-
-      gameService = GameService(wordService: wordService);
+      // Create GameService (no longer needs WordService parameter)
+      gameService = GameService();
       await gameService.initialize();
     });
 
