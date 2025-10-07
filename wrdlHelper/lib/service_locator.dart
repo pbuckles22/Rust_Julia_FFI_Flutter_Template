@@ -4,7 +4,6 @@ import 'package:wrdlhelper/models/word.dart';
 import 'package:wrdlhelper/services/app_service.dart';
 import 'package:wrdlhelper/services/ffi_service.dart';
 import 'package:wrdlhelper/services/game_service.dart';
-import 'package:wrdlhelper/services/word_service.dart';
 import 'package:wrdlhelper/utils/debug_logger.dart';
 
 // This is our global service locator
@@ -14,9 +13,6 @@ final sl = GetIt.instance;
 void resetAllServices() {
   if (sl.isRegistered<AppService>()) {
     sl.unregister<AppService>();
-  }
-  if (sl.isRegistered<WordService>()) {
-    sl.unregister<WordService>();
   }
   if (sl.isRegistered<GameService>()) {
     sl.unregister<GameService>();
@@ -86,10 +82,6 @@ Future<void> setupServices({bool useMocks = false}) async {
       tag: 'ServiceLocator',
     );
     DebugLogger.info(
-      '  • WordService: ${sl.isRegistered<WordService>()}',
-      tag: 'ServiceLocator',
-    );
-    DebugLogger.info(
       '  • GameService: ${sl.isRegistered<GameService>()}',
       tag: 'ServiceLocator',
     );
@@ -129,15 +121,7 @@ Future<void> setupTestServices({bool useMocks = false}) async {
     // Initialize FFI service first
     await FfiService.initialize();
     
-    // Create WordService and load algorithm-testing word list
-    final wordService = WordService();
-    await wordService.loadAlgorithmTestingWordList();
-    
-    // Load word lists to Rust
-    FfiService.loadWordListsToRust(
-      wordService.answerWords.map((w) => w.value).toList(),
-      wordService.guessWords.map((w) => w.value).toList(),
-    );
+    // Word lists are now loaded by centralized FFI during initialization
     
     // Create GameService
     final gameService = GameService();
@@ -153,7 +137,6 @@ Future<void> setupTestServices({bool useMocks = false}) async {
     sl.registerSingleton<AppService>(appService);
 
     // Register individual services for easier access
-    sl.registerSingleton<WordService>(wordService);
     sl.registerSingleton<GameService>(gameService);
 
     // Cache for future tests
@@ -166,7 +149,6 @@ Future<void> setupTestServices({bool useMocks = false}) async {
     DebugLogger.success('✅ All test services registered successfully!', tag: 'ServiceLocator');
     DebugLogger.info('📊 Registered test services:', tag: 'ServiceLocator');
     DebugLogger.info('  • AppService: ${sl.isRegistered<AppService>()}', tag: 'ServiceLocator');
-    DebugLogger.info('  • WordService: ${sl.isRegistered<WordService>()}', tag: 'ServiceLocator');
     DebugLogger.info('  • GameService: ${sl.isRegistered<GameService>()}', tag: 'ServiceLocator');
   } catch (e, stackTrace) {
     DebugLogger.error('❌ CRITICAL: Test service initialization failed: $e', tag: 'ServiceLocator');
