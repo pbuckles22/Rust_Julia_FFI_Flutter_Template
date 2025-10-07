@@ -163,7 +163,7 @@ class Word {
   /// Creates from JSON
   factory Word.fromJson(Map<String, dynamic> json) {
     if (json['value'] == null) {
-      throw FormatException('Invalid JSON: missing value field');
+      throw const FormatException('Invalid JSON: missing value field');
     }
     return Word.fromString(json['value'] as String);
   }

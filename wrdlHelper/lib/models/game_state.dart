@@ -117,11 +117,11 @@ class GameState {
   void addGuess(Word? guess, GuessResult? result) {
     // Validate inputs are not null
     if (guess == null) {
-      throw InvalidGuessException('Guess cannot be null');
+      throw const InvalidGuessException('Guess cannot be null');
     }
 
     if (result == null) {
-      throw InvalidGuessResultException('Guess result cannot be null');
+      throw const InvalidGuessResultException('Guess result cannot be null');
     }
 
     // Validate guess
@@ -130,11 +130,11 @@ class GameState {
     }
 
     if (guess.length != 5) {
-      throw InvalidGuessException('Guess must be 5 letters long');
+      throw const InvalidGuessException('Guess must be 5 letters long');
     }
 
     if (guess.value.isEmpty) {
-      throw InvalidGuessException('Guess cannot be empty');
+      throw const InvalidGuessException('Guess cannot be empty');
     }
 
     // Check if this guess has already been used in this game
@@ -148,12 +148,12 @@ class GameState {
 
     // Check if max guesses reached
     if (currentGuess >= maxGuesses) {
-      throw MaxGuessesReachedException('Maximum guesses reached');
+      throw const MaxGuessesReachedException('Maximum guesses reached');
     }
 
     // Check if game is over
     if (isGameOver) {
-      throw GameOverException('Cannot add guess to finished game');
+      throw const GameOverException('Cannot add guess to finished game');
     }
 
     // Add the guess
@@ -245,7 +245,7 @@ class GameState {
   /// Creates from JSON
   factory GameState.fromJson(Map<String, dynamic> json) {
     if (json['guesses'] == null) {
-      throw FormatException('Invalid JSON: missing guesses field');
+      throw const FormatException('Invalid JSON: missing guesses field');
     }
 
     final guesses = (json['guesses'] as List<dynamic>)

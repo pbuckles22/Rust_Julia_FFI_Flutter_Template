@@ -46,10 +46,10 @@ class GuessResult {
   GuessResult({
     required Word? word,
     required List<LetterState>? letterStates,
-  }) : word = word ?? (throw InvalidGuessResultException('Word cannot be null')),
-       letterStates = letterStates ?? (throw InvalidGuessResultException('Letter states cannot be null')) {
+  }) : word = word ?? (throw const InvalidGuessResultException('Word cannot be null')),
+       letterStates = letterStates ?? (throw const InvalidGuessResultException('Letter states cannot be null')) {
     if (this.letterStates.length != this.word.length) {
-      throw InvalidGuessResultException(
+      throw const InvalidGuessResultException(
       'Letter states length must match word length');
     }
   }
@@ -73,13 +73,13 @@ class GuessResult {
     required List<LetterState>? letterStates,
   }) {
     if (word == null) {
-      throw InvalidGuessResultException('Word cannot be null');
+      throw const InvalidGuessResultException('Word cannot be null');
     }
     if (letterStates == null) {
-      throw InvalidGuessResultException('Letter states cannot be null');
+      throw const InvalidGuessResultException('Letter states cannot be null');
     }
     if (letterStates.length != word.length) {
-      throw InvalidGuessResultException(
+      throw const InvalidGuessResultException(
       'Letter states length must match word length');
     }
     
@@ -238,13 +238,13 @@ class GuessResult {
   /// Creates from JSON
   factory GuessResult.fromJson(Map<String, dynamic>? json) {
     if (json == null) {
-      throw FormatException('Invalid JSON: null provided');
+      throw const FormatException('Invalid JSON: null provided');
     }
     if (json['word'] == null) {
-      throw FormatException('Invalid JSON: missing word field');
+      throw const FormatException('Invalid JSON: missing word field');
     }
     if (json['letterStates'] == null) {
-      throw FormatException('Invalid JSON: missing letterStates field');
+      throw const FormatException('Invalid JSON: missing letterStates field');
     }
     
     final word = Word.fromJson(json['word'] as Map<String, dynamic>);
