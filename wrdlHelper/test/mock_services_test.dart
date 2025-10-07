@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/service_locator.dart';
 import 'package:wrdlhelper/services/app_service.dart';
 import 'package:wrdlhelper/services/game_service.dart';
-import 'package:wrdlhelper/services/word_service.dart';
+import 'package:wrdlhelper/services/ffi_service.dart';
 import 'global_test_setup.dart';
 
 void main() {
@@ -24,20 +24,16 @@ void main() {
       GlobalTestSetup.cleanup();
     });
 
-    test('WordService should provide real words', () async {
-      // Get the real word service
-      final wordService = sl<WordService>();
+    test('FFI Service should provide real words', () async {
+      // Test that FFI service has comprehensive algorithm-testing data
+      expect(FfiService.getGuessWords().length, greaterThan(200)); // Comprehensive word list has ~250 words
+      expect(FfiService.getAnswerWords().length, greaterThan(200)); // Comprehensive word list has ~250 words
+      expect(FfiService.isInitialized, true);
 
-      // Test that it has comprehensive algorithm-testing data
-      expect(wordService.guessWords.length, greaterThan(200)); // Comprehensive word list has ~250 words
-      expect(wordService.answerWords.length, greaterThan(200)); // Comprehensive word list has ~250 words
-      expect(wordService.isGuessWordsLoaded, true);
-      expect(wordService.isLoaded, true);
-
-      // Test that it can find words
-      final crane = wordService.findWord('CRANE');
-      expect(crane, isNotNull);
-      expect(crane!.value, 'CRANE');
+      // Test that it can validate words
+      expect(FfiService.isValidWord('CRANE'), isTrue);
+      expect(FfiService.isValidWord('SLATE'), isTrue);
+      expect(FfiService.isValidWord('XXXXX'), isFalse);
     });
 
     test('GameService should create games', () async {
@@ -62,9 +58,8 @@ void main() {
       // Get the real app service
       final appService = sl<AppService>();
 
-      // Test that it initializes with real services
+      // Test that it initializes with real services (WordService removed, using centralized FFI)
       expect(appService.isInitialized, true);
-      expect(appService.wordService.isLoaded, true);
       expect(appService.gameService, isNotNull);
     });
   });
