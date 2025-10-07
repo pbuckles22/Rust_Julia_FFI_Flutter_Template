@@ -2,13 +2,17 @@
 // Device Performance Test Script
 // Run this on your device to test real-world performance
 
-import 'dart:io';
 import 'dart:async';
 import 'dart:math';
+import 'package:wrdlhelper/src/rust/frb_generated.dart';
+import 'package:wrdlhelper/src/rust/api/simple.dart';
 
 void main() async {
   print('🚀 Device Performance Test - Julia-Rust Cross-Integration');
   print('=' * 60);
+  
+  // Initialize Rust library
+  await RustLib.init();
   
   // Test 1: Basic FFI Performance
   await testBasicFFIPerformance();
@@ -36,11 +40,11 @@ Future<void> testBasicFFIPerformance() async {
   int operations = 0;
   const maxOperations = 10000;
   
-  // Simulate FFI calls (replace with actual RustLib calls)
+  // Use actual FFI calls for performance testing
   for (int i = 0; i < maxOperations; i++) {
-    // Simulate: RustLib.addNumbers(i, 1)
-    final result = i + 1;
-    if (result != i + 1) {
+    // Use existing FFI function for performance testing
+    final result = getAnswerWords();
+    if (result.isEmpty) {
       print('❌ FFI operation failed at iteration $i');
       return;
     }
