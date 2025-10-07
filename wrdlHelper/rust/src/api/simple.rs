@@ -546,88 +546,12 @@ mod tests {
 
 
 
-    #[test]
-    fn test_is_even() {
-        assert!(is_even(4));
-        assert!(is_even(0));
-        assert!(is_even(-2));
-        assert!(!is_even(3));
-        assert!(!is_even(1));
-        assert!(!is_even(-1));
-    }
 
-    #[test]
-    fn test_get_current_timestamp() {
-        let timestamp = get_current_timestamp();
-        assert!(timestamp > 0);
-        
-        // Test that timestamp increases over time
-        std::thread::sleep(std::time::Duration::from_millis(1));
-        let later_timestamp = get_current_timestamp();
-        assert!(later_timestamp >= timestamp);
-    }
 
-    #[test]
-    fn test_get_string_lengths() {
-        let strings = vec!["hello".to_string(), "world".to_string(), "".to_string()];
-        let lengths = get_string_lengths(strings);
-        assert_eq!(lengths, vec![5u32, 5u32, 0u32]);
-        
-        let empty_vec = vec![];
-        let empty_lengths = get_string_lengths(empty_vec);
-        assert_eq!(empty_lengths, vec![]);
-    }
 
-    #[test]
-    fn test_create_string_map() {
-        let pairs = vec![
-            ("name".to_string(), "Alice".to_string()),
-            ("age".to_string(), "30".to_string()),
-        ];
-        let map = create_string_map(pairs);
-        
-        assert_eq!(map.get("name"), Some(&"Alice".to_string()));
-        assert_eq!(map.get("age"), Some(&"30".to_string()));
-        assert_eq!(map.get("nonexistent"), None);
-    }
 
-    #[test]
-    fn test_factorial() {
-        assert_eq!(factorial(0), 1);
-        assert_eq!(factorial(1), 1);
-        assert_eq!(factorial(2), 2);
-        assert_eq!(factorial(3), 6);
-        assert_eq!(factorial(4), 24);
-        assert_eq!(factorial(5), 120);
-        assert_eq!(factorial(10), 3628800);
-    }
 
-    #[test]
-    fn test_is_palindrome() {
-        assert!(is_palindrome("racecar".to_string()));
-        assert!(is_palindrome("level".to_string()));
-        assert!(is_palindrome("a".to_string()));
-        assert!(is_palindrome("".to_string()));
-        assert!(is_palindrome("abccba".to_string()));
-        
-        assert!(!is_palindrome("hello".to_string()));
-        assert!(!is_palindrome("world".to_string()));
-        assert!(!is_palindrome("abc".to_string()));
-    }
 
-    #[test]
-    fn test_simple_hash() {
-        let hash1 = simple_hash("hello".to_string());
-        let hash2 = simple_hash("hello".to_string());
-        assert_eq!(hash1, hash2);
-        
-        let hash3 = simple_hash("world".to_string());
-        assert_ne!(hash1, hash3);
-        
-        // Test empty string
-        let empty_hash = simple_hash("".to_string());
-        assert_eq!(empty_hash, 0);
-    }
 
     #[test]
     fn test_init_app() {
@@ -637,43 +561,6 @@ mod tests {
         assert!(true);
     }
 
-    #[test]
-    fn test_integration_workflow() {
-        // Test a complete workflow using multiple functions
-        init_app();
-        
-        let greeting = greet("TestUser".to_string());
-        assert!(greeting.contains("TestUser"));
-        
-        let sum = add_numbers(10, 20);
-        assert_eq!(sum, Some(30));
-        
-        let product = multiply_floats(2.5, 4.0);
-        assert_eq!(product, 10.0);
-        
-        let is_even_result = is_even(42);
-        assert!(is_even_result);
-        
-        let timestamp = get_current_timestamp();
-        assert!(timestamp > 0);
-        
-        let strings = vec!["test".to_string(), "strings".to_string()];
-        let lengths = get_string_lengths(strings);
-        assert_eq!(lengths, vec![4u32, 7u32]);
-        
-        let pairs = vec![("key".to_string(), "value".to_string())];
-        let map = create_string_map(pairs);
-        assert_eq!(map.get("key"), Some(&"value".to_string()));
-        
-        let fact = factorial(5);
-        assert_eq!(fact, 120);
-        
-        let palindrome = is_palindrome("racecar".to_string());
-        assert!(palindrome);
-        
-        let hash = simple_hash("test".to_string());
-        assert!(hash > 0);
-    }
 
     // ============================================================================
     // wrdlHelper Tests
