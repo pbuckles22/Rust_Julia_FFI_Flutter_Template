@@ -44,5 +44,19 @@ void main() {
         expect(answerWords.first.length, equals(5), reason: 'Answer words should be 5 letters');
       });
     });
+
+    group('getGuessWords', () {
+      test('should return the correct number of guess words', () async {
+        // MICRO-STEP 4: Test FfiService.getGuessWords()
+        // Verify it returns the correct number of guess words
+        
+        final guessWords = FfiService.getGuessWords();
+        
+        expect(guessWords, isNotEmpty, reason: 'Guess words should not be empty');
+        expect(guessWords.length, equals(1273), reason: 'Should have 1273 guess words (algorithm-testing list)');
+        expect(guessWords.first, isA<String>(), reason: 'Guess words should be strings');
+        expect(guessWords.first.length, equals(5), reason: 'Guess words should be 5 letters');
+      });
+    });
   });
 }
