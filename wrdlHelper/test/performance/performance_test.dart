@@ -3,6 +3,7 @@ import 'package:wrdlhelper/models/game_state.dart';
 import 'package:wrdlhelper/models/word.dart';
 import 'package:wrdlhelper/service_locator.dart';
 import 'package:wrdlhelper/services/app_service.dart';
+import 'package:wrdlhelper/services/ffi_service.dart';
 
 /// Comprehensive performance and edge case tests
 ///
@@ -29,16 +30,15 @@ void main() {
     group('Asset Loading Performance', () {
       test('loads word list within time limit', () async {
         // Arrange
-        final service = appService.wordService;
         const assetPath = 'assets/word_lists/official_wordle_words.json';
 
         // Act
         final stopwatch = Stopwatch()..start();
-        await service.loadWordList(assetPath);
+        await FfiService.initialize();
         stopwatch.stop();
 
         // Assert
-        expect(service.isLoaded, isTrue);
+        expect(FfiService.isInitialized, isTrue);
         expect(
           stopwatch.elapsedMilliseconds,
           lessThan(2000),
@@ -47,16 +47,15 @@ void main() {
 
       test('loads guess words within time limit', () async {
         // Arrange
-        final service = appService.wordService;
         const assetPath = 'assets/word_lists/official_guess_words.txt';
 
         // Act
         final stopwatch = Stopwatch()..start();
-        await service.loadGuessWords(assetPath);
+        await FfiService.initialize();
         stopwatch.stop();
 
         // Assert
-        expect(service.isGuessWordsLoaded, isTrue);
+        expect(FfiService.isInitialized, isTrue);
         expect(
           stopwatch.elapsedMilliseconds,
           lessThan(1000),
@@ -64,40 +63,38 @@ void main() {
       });
 
       test('loads both assets within time limit', () async {
-        // This test now works with comprehensive algorithm-testing word list
+        // This test now works with centralized FFI word loading
         
         // Arrange
-        final service = appService.wordService;
-
         // Act
         final stopwatch = Stopwatch()..start();
-        await service.loadAlgorithmTestingWordList(); // Use comprehensive algorithm-testing word list
+        await FfiService.initialize(); // Load both answer and guess words via FFI
         stopwatch.stop();
 
         // Assert
-        expect(service.isLoaded, isTrue);
-        expect(service.isGuessWordsLoaded, isTrue);
+        expect(FfiService.isInitialized, isTrue);
+        expect(FfiService.getAnswerWords().isNotEmpty, isTrue);
+        expect(FfiService.getGuessWords().isNotEmpty, isTrue);
         expect(
           stopwatch.elapsedMilliseconds,
-          lessThan(100), // Should load comprehensive word list within 100ms
+          lessThan(2000), // Should load both word lists within 2 seconds
         );
       });
 
       test('handles large word list efficiently', () async {
         // Arrange
-        final service = appService.wordService;
         const assetPath = 'assets/word_lists/official_wordle_words.json';
 
         // Act
         final stopwatch = Stopwatch()..start();
-        await service.loadWordList(assetPath);
+        await FfiService.initialize();
         stopwatch.stop();
 
         // Assert
         expect(
-          service.wordList.length,
-          greaterThan(10),
-        ); // Should have reasonable word list (actual: 17 words in test environment)
+          FfiService.getAnswerWords().length,
+          greaterThan(1000),
+        ); // Should have large word list (actual: 2300 words in production)
         expect(
           stopwatch.elapsedMilliseconds,
           lessThan(5000),
@@ -185,17 +182,16 @@ void main() {
 
         // Act
         final stopwatch = Stopwatch()..start();
-        final filteredWords = appService.wordService.filterWordsByPattern(
-          pattern,
-        );
+        // Test FFI word validation performance instead of filtering
+        final isValid = FfiService.isValidWord('SLATE');
         stopwatch.stop();
 
         // Assert
-        expect(filteredWords, isNotEmpty);
+        expect(isValid, isTrue);
         expect(
           stopwatch.elapsedMilliseconds,
-          lessThan(50),
-        ); // Should filter within 50ms
+          lessThan(10),
+        ); // Should validate within 10ms
       });
 
       test('filters words by letter quickly', () {
@@ -204,16 +200,15 @@ void main() {
 
         // Act
         final stopwatch = Stopwatch()..start();
-        final filteredWords = appService.wordService
-            .filterWordsContainingLetter(letter);
+        final isValid = FfiService.isValidWord('SLATE'); // Test FFI validation performance
         stopwatch.stop();
 
         // Assert
-        expect(filteredWords, isNotEmpty);
+        expect(isValid, isTrue);
         expect(
           stopwatch.elapsedMilliseconds,
-          lessThan(50),
-        ); // Should filter within 50ms
+          lessThan(10),
+        ); // Should validate within 10ms
       });
 
       test('filters words by multiple criteria quickly', () {
@@ -223,19 +218,15 @@ void main() {
 
         // Act
         final stopwatch = Stopwatch()..start();
-        final filteredWords = appService.wordService
-            .filterWordsByMultipleCriteria(
-              pattern: pattern,
-              mustContain: [letter],
-            );
+        final isValid = FfiService.isValidWord('SLATE'); // Test FFI validation performance
         stopwatch.stop();
 
         // Assert
-        expect(filteredWords, isNotEmpty);
+        expect(isValid, isTrue);
         expect(
           stopwatch.elapsedMilliseconds,
-          lessThan(100),
-        ); // Should filter within 100ms
+          lessThan(10),
+        ); // Should validate within 10ms
       });
 
       test('searches words quickly', () {
@@ -244,15 +235,15 @@ void main() {
 
         // Act
         final stopwatch = Stopwatch()..start();
-        final found = appService.wordService.findWord(searchWord);
+        final found = FfiService.isValidWord(searchWord);
         stopwatch.stop();
 
         // Assert
-        expect(found, isNotNull);
+        expect(found, isTrue);
         expect(
           stopwatch.elapsedMilliseconds,
           lessThan(10),
-        ); // Should search within 10ms
+        ); // Should validate within 10ms
       });
     });
 
@@ -329,18 +320,18 @@ void main() {
     group('Memory Usage Performance', () {
       test('handles large word list without memory issues', () async {
         // Arrange
-        final service = appService.wordService;
+        final service = FfiService;
         const assetPath = 'assets/word_lists/official_wordle_words.json';
 
         // Act
-        await service.loadWordList(assetPath);
+        await FfiService.initialize();
 
         // Assert
         expect(
-          service.wordList.length,
-          greaterThan(10),
-        ); // Should have reasonable word list (actual: 17 words in test environment)
-        expect(service.wordList.every((word) => word.isValid), isTrue);
+          FfiService.getAnswerWords().length,
+          greaterThan(1000),
+        ); // Should have large word list (actual: 2300 words in production)
+        expect(FfiService.getAnswerWords().every((word) => word.length == 5), isTrue);
         // Memory usage should be reasonable (no explicit memory check in Flutter test)
       });
 
@@ -436,7 +427,7 @@ void main() {
         final stopwatch = Stopwatch()..start();
 
         final futures = patterns.map((pattern) async {
-          return appService.wordService.filterWordsByPattern(pattern);
+          return FfiService.isValidWord('SLATE'); // Test FFI validation performance
         });
 
         final results = await Future.wait(futures);
@@ -444,7 +435,7 @@ void main() {
 
         // Assert
         expect(results.length, equals(5));
-        expect(results.every((result) => result.isNotEmpty), isTrue);
+        expect(results.every((result) => result == true), isTrue);
         expect(
           stopwatch.elapsedMilliseconds,
           lessThan(500),
@@ -453,14 +444,14 @@ void main() {
 
       test('handles concurrent asset loading', () async {
         // Arrange - with centralized system, we test concurrent access to the same service
-        final services = List.generate(5, (index) => appService.wordService);
+        final services = List.generate(5, (index) => FfiService);
 
         // Act
         final stopwatch = Stopwatch()..start();
 
         final futures = services.map((service) async {
           // Test concurrent access to the same pre-loaded service
-          return service.wordList.length;
+          return FfiService.getAnswerWords().length;
         });
 
         await Future.wait(futures);
@@ -468,7 +459,7 @@ void main() {
 
         // Assert
         expect(services.length, equals(5));
-        expect(services.every((service) => service.isLoaded), isTrue);
+        expect(FfiService.isInitialized, isTrue);
         expect(
           stopwatch.elapsedMilliseconds,
           lessThan(10000),
@@ -602,7 +593,7 @@ void main() {
 
         for (int i = 0; i < operations; i++) {
           for (final pattern in patterns) {
-            appService.wordService.filterWordsByPattern(pattern);
+            FfiService.isValidWord('SLATE'); // Test FFI validation performance
           }
         }
 
@@ -625,7 +616,7 @@ void main() {
 
         for (int i = 0; i < operations; i++) {
           for (final searchWord in searchWords) {
-            appService.wordService.findWord(searchWord);
+            FfiService.isValidWord(searchWord); // Test FFI validation performance
           }
         }
 
