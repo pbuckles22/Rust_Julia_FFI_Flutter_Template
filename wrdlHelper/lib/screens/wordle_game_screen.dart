@@ -316,7 +316,7 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
   void _showErrorDialog(String message) {
     showDialog(
       context: context,
-      builder: (BuildContext context) {
+      builder: (context) {
         return AlertDialog(
           title: const Text('Error'),
           content: Text(message),
@@ -336,7 +336,7 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
   void _showNoMoreSuggestionsDialog() {
     showDialog(
       context: context,
-      builder: (BuildContext context) {
+      builder: (context) {
         return AlertDialog(
           title: const Text('No More Suggestions'),
           content: const Text(
@@ -358,7 +358,7 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
   void _showCorrectAnswerDialog() {
     showDialog(
       context: context,
-      builder: (BuildContext context) {
+      builder: (context) {
         return AlertDialog(
           title: const Text('Correct Answer Found!'),
           content: const Text(
