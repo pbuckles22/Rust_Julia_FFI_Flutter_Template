@@ -143,7 +143,7 @@ Future<void> setupTestServices({bool useMocks = false}) async {
     );
     
     // Create GameService
-    final gameService = GameService(wordService: wordService);
+    final gameService = GameService();
     await gameService.initialize();
     
     // Create AppService and initialize it manually

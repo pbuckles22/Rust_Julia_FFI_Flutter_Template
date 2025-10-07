@@ -6,7 +6,6 @@ import 'package:wrdlhelper/models/game_state.dart';
 import 'package:wrdlhelper/models/guess_result.dart';
 import 'package:wrdlhelper/models/word.dart';
 import 'package:wrdlhelper/services/ffi_service.dart';
-import 'package:wrdlhelper/services/word_service.dart';
 import 'package:wrdlhelper/utils/debug_logger.dart';
 
 /// Game progress analysis result
@@ -58,7 +57,6 @@ class GuessEffectivenessAnalysis {
 /// Handles game creation, guess processing, and game state management
 /// following TDD principles.
 class GameService {
-  final WordService _wordService;
   GameState? _currentGame;
 
   /// Whether the service is initialized
@@ -71,8 +69,7 @@ class GameService {
   bool get hasActiveGame => _currentGame != null && !_currentGame!.isGameOver;
 
   /// Constructor
-  GameService({WordService? wordService})
-    : _wordService = wordService ?? WordService();
+  GameService();
 
   /// Initializes the service
   Future<void> initialize() async {
@@ -161,7 +158,7 @@ class GameService {
     // Guess word is pre-validated during word list loading
 
     // Check if guess is in the guess words list (not the smaller answer list)
-    if (_wordService.findGuessWord(guess.value) == null) {
+    if (!FfiService.isValidWord(guess.value)) {
       throw InvalidGuessException('Guess word not in word list');
     }
 
@@ -358,7 +355,7 @@ class GameService {
     // Guess word is pre-validated during word list loading
 
     // Check if guess is in the guess words list (not the smaller answer list)
-    if (_wordService.findGuessWord(guessWord) == null) {
+    if (!FfiService.isValidWord(guessWord)) {
       throw InvalidGuessException('Guess word not in word list');
     }
 
@@ -451,10 +448,12 @@ class GameService {
   /// Gets available words for guessing
   List<Word> getAvailableWords() {
     if (!isInitialized) {
-      throw ServiceNotInitializedException('Word service not initialized');
+      throw ServiceNotInitializedException('FFI service not initialized');
     }
 
-    return _wordService.guessWords;
+    // Use centralized Rust word list instead of WordService
+    final guessWords = FfiService.getGuessWords();
+    return guessWords.map((word) => Word.fromString(word)).toList();
   }
 
   /// Filters the word list based on the current game state's guess history.
@@ -485,7 +484,7 @@ class GameService {
 
     // Call the WORKING Rust filter function
     final filteredWordStrings = FfiService.filterWords(
-      _wordService.guessWords.map((w) => w.value).toList(),
+      FfiService.getGuessWords(),
       ffiGuessResults,
     );
 
@@ -717,8 +716,8 @@ class GameService {
     }
 
     try {
-      // Validate against the guess words list
-      return _wordService.findGuessWord(guessWord) != null;
+      // Validate against the guess words list using centralized FFI
+      return FfiService.isValidWord(guessWord);
     } catch (e) {
       return false;
     }

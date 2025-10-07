@@ -107,8 +107,8 @@ class AppService {
       DebugLogger.success('✅ Word lists loaded to Rust successfully', tag: 'AppService');
 
       DebugLogger.info('🔧 Step 6: Creating GameService...', tag: 'AppService');
-      // Step 6: Initialize GameService (depends on WordService)
-      _gameService = GameService(wordService: _wordService!);
+      // Step 6: Initialize GameService (now uses centralized FFI)
+      _gameService = GameService();
 
       DebugLogger.info(
         '🔧 Step 7: Initializing GameService...',
