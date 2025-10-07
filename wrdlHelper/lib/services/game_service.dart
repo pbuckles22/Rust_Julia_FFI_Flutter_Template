@@ -404,13 +404,15 @@ class GameService {
 
   /// Selects a random target word from the word list
   Word _selectRandomTargetWord() {
-    final words = _wordService.wordList;
-    if (words.isEmpty) {
+    // Use centralized Rust word list instead of WordService
+    final answerWords = FfiService.getAnswerWords();
+    if (answerWords.isEmpty) {
       throw InvalidGameStateException('No words available');
     }
 
     final random = Random();
-    return words[random.nextInt(words.length)];
+    final selectedWord = answerWords[random.nextInt(answerWords.length)];
+    return Word.fromString(selectedWord);
   }
 
   /// Selects a random target word from a provided word list
@@ -461,7 +463,9 @@ class GameService {
     final state = gameState ?? _currentGame;
     if (state == null || state.guesses.isEmpty) {
       // If no guesses have been made, all words are possible
-      return _wordService.guessWords;
+      // Use centralized Rust word list instead of WordService
+      final guessWords = FfiService.getGuessWords();
+      return guessWords.map((word) => Word.fromString(word)).toList();
     }
 
     // Convert the game state's guesses into the format required by the FFI function
