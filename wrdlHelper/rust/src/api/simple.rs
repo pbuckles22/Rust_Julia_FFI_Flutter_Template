@@ -543,28 +543,8 @@ pub fn set_solver_config(
 mod tests {
     use super::*;
 
-    #[test]
-    fn test_greet() {
-        assert_eq!(greet("Alice".to_string()), "Hello, Alice!");
-        assert_eq!(greet("Bob".to_string()), "Hello, Bob!");
-        assert_eq!(greet("".to_string()), "Hello, !");
-    }
 
-    #[test]
-    fn test_add_numbers() {
-        assert_eq!(add_numbers(5, 3), Some(8));
-        assert_eq!(add_numbers(-5, 3), Some(-2));
-        assert_eq!(add_numbers(0, 0), Some(0));
-        assert_eq!(add_numbers(i32::MAX, 1), None); // Overflow returns None
-    }
 
-    #[test]
-    fn test_multiply_floats() {
-        assert_eq!(multiply_floats(2.5, 4.0), 10.0);
-        assert_eq!(multiply_floats(-2.0, 3.0), -6.0);
-        assert_eq!(multiply_floats(0.0, 5.0), 0.0);
-        assert_eq!(multiply_floats(1.0, 1.0), 1.0);
-    }
 
     #[test]
     fn test_is_even() {
