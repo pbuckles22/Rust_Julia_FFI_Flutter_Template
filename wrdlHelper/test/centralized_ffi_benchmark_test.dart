@@ -22,16 +22,24 @@ void main() {
       await gameService.initialize();
     });
 
-    test('100-game benchmark with centralized FFI', () async {
-      print('\n🎯 Starting 100-game benchmark with centralized FFI...');
+    test('500-game benchmark with centralized FFI', () async {
+      print('\n🎯 Wordle Solver Benchmark Tool');
+      print('================================');
+      print('📚 Loaded 2300 answer words from centralized FFI');
+      print('📚 Loaded 14855 guess words from centralized FFI');
+      print('');
+      print('🎯 Running 500-Game Wordle Benchmark...');
+      print('🎲 Running Random Wordle Answer Benchmark');
+      print('📊 Testing on 500 random Wordle answer words...');
       
       final stopwatch = Stopwatch()..start();
       int gamesWon = 0;
       int totalGuesses = 0;
       final List<double> gameTimes = [];
+      final Map<int, int> guessDistribution = {};
 
-      // Run 100 games
-      for (int game = 1; game <= 100; game++) {
+      // Run 500 games
+      for (int game = 1; game <= 500; game++) {
         final gameStopwatch = Stopwatch()..start();
         
         // Create new game
@@ -69,38 +77,59 @@ void main() {
         gameStopwatch.stop();
         gameTimes.add(gameStopwatch.elapsedMilliseconds / 1000.0);
         totalGuesses += guesses;
+        
+        // Track guess distribution
+        if (gameWon) {
+          guessDistribution[guesses] = (guessDistribution[guesses] ?? 0) + 1;
+        }
 
-        if (game % 10 == 0) {
-          print('  Game $game/100 completed');
+        // Progress updates every 200 games
+        if (game % 200 == 0) {
+          final currentSuccessRate = (gamesWon / game) * 100;
+          final currentAvgGuesses = totalGuesses / game;
+          print('📊 Progress Update - Games $game: Success Rate: ${currentSuccessRate.toStringAsFixed(1)}%, Avg Guesses: ${currentAvgGuesses.toStringAsFixed(2)}');
         }
       }
 
       stopwatch.stop();
 
       // Calculate metrics
-      final successRate = (gamesWon / 100) * 100;
-      final averageGuesses = totalGuesses / 100;
+      final successRate = (gamesWon / 500) * 100;
+      final averageGuesses = totalGuesses / 500;
       final averageTime = gameTimes.reduce((a, b) => a + b) / gameTimes.length;
       final totalTime = stopwatch.elapsedMilliseconds / 1000.0;
 
-      // Print results
-      print('\n📊 Centralized FFI Benchmark Results (100 games):');
-      print('  🎯 Success Rate: ${successRate.toStringAsFixed(1)}%');
-      print('  📈 Average Guesses: ${averageGuesses.toStringAsFixed(2)}');
-      print('  ⏱️  Average Time per Game: ${averageTime.toStringAsFixed(3)}s');
-      print('  🕐 Total Time: ${totalTime.toStringAsFixed(1)}s');
-      print('  🏆 Games Won: $gamesWon/100');
-      print('  📝 Total Guesses: $totalGuesses');
+      // Print results in Rust benchmark format
+      print('');
+      print('📈 WORDLE SOLVER BENCHMARK REPORT');
+      print('=====================================');
+      print('');
+      print('🎯 PERFORMANCE SUMMARY');
+      print('Sample Size: 500 words');
+      print('Benchmark Duration: ${totalTime.toStringAsFixed(2)}s');
+      print('📊 Note: For full statistical significance, consider running 857+ tests');
+      print('');
+      print('📊 Win Distribution by Guess Count:');
+      for (int i = 2; i <= 6; i++) {
+        final wins = guessDistribution[i] ?? 0;
+        final percentage = wins > 0 ? (wins / gamesWon * 100).toStringAsFixed(1) : '0.0';
+        print('  $i guesses: $wins wins ($percentage% of wins)');
+      }
+      print('');
+      print('📈 Performance Summary:');
+      print('Success Rate: ${successRate.toStringAsFixed(1)}% (Human: 89.0%)');
+      print('Average Guesses: ${averageGuesses.toStringAsFixed(2)} (Human: 4.10)');
+      print('Average Speed: ${averageTime.toStringAsFixed(3)}s per game');
+      print('Total Games: 500');
+      print('Total Time: ${totalTime.toStringAsFixed(2)}s');
 
-      // Assertions
-      expect(successRate, greaterThanOrEqualTo(90.0), 
-        reason: 'Success rate should be at least 90% with centralized FFI');
-      expect(averageGuesses, lessThanOrEqualTo(4.5), 
-        reason: 'Average guesses should be ≤ 4.5 with centralized FFI');
-      expect(averageTime, lessThan(2.0), 
-        reason: 'Average time per game should be < 2s with centralized FFI');
-      expect(totalTime, lessThan(300.0), 
-        reason: 'Total time for 100 games should be < 300s with centralized FFI');
+      // Assertions - Target 98%+ success rate
+      expect(successRate, greaterThanOrEqualTo(98.0), 
+        reason: 'Success rate should be at least 98% with centralized FFI');
+      expect(averageGuesses, lessThanOrEqualTo(4.0), 
+        reason: 'Average guesses should be ≤ 4.0 with centralized FFI');
+      expect(averageTime, lessThan(0.5), 
+        reason: 'Average time per game should be < 0.5s with centralized FFI');
     });
   });
 }

@@ -418,22 +418,20 @@ fn load_answer_words_from_assets() -> Result<Vec<String>, String> {
 
 /// Load guess words directly from Rust assets (same as benchmark)
 fn load_guess_words_from_assets() -> Result<Vec<String>, String> {
-    let word_list_path = "assets/word_lists/official_wordle_words.json";
+    let word_list_path = "assets/word_lists/official_guess_words.txt";
     
     if std::path::Path::new(word_list_path).exists() {
         let content = std::fs::read_to_string(word_list_path)
             .map_err(|e| format!("Failed to read word list file: {}", e))?;
-        let word_data: serde_json::Value = serde_json::from_str(&content)
-            .map_err(|e| format!("Failed to parse JSON: {}", e))?;
         
-        if let Some(guesses) = word_data.get("guess_words").and_then(|v| v.as_array()) {
-            let all_words: Vec<String> = guesses
-                .iter()
-                .filter_map(|v| v.as_str().map(|s| s.to_uppercase()))
-                .collect();
-            println!("📚 Loaded {} guess words from {}", all_words.len(), word_list_path);
-            return Ok(all_words);
-        }
+        let all_words: Vec<String> = content
+            .lines()
+            .map(|line| line.trim().to_uppercase())
+            .filter(|word| !word.is_empty() && word.len() == 5)
+            .collect();
+        
+        println!("📚 Loaded {} guess words from {}", all_words.len(), word_list_path);
+        return Ok(all_words);
     }
     
     Err(format!("Failed to load guess words from {}", word_list_path))

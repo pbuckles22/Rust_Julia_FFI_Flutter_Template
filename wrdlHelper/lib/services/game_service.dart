@@ -463,8 +463,9 @@ class GameService {
     if (state == null || state.guesses.isEmpty) {
       // If no guesses have been made, all words are possible
       // Use centralized Rust word list instead of WordService
-      final guessWords = FfiService.getGuessWords();
-      return guessWords.map((word) => Word.fromString(word)).toList();
+      // Use answer words (2,300) to match Rust benchmark behavior
+      final answerWords = FfiService.getAnswerWords();
+      return answerWords.map((word) => Word.fromString(word)).toList();
     }
 
     // Convert the game state's guesses into the format required by the FFI function
@@ -483,8 +484,9 @@ class GameService {
     }).toList();
 
     // Call the WORKING Rust filter function
+    // Use answer words (2,300) to match Rust benchmark behavior
     final filteredWordStrings = FfiService.filterWords(
-      FfiService.getGuessWords(),
+      FfiService.getAnswerWords(),
       ffiGuessResults,
     );
 
@@ -521,9 +523,10 @@ class GameService {
   Word? _getIntelligentGuess(GameState gameState) {
     // Get all available words for the solver
     // Use centralized Rust word list instead of WordService
-    final allWords = FfiService.getGuessWords();
+    final allWords = FfiService.getAnswerWords();
 
     // Get remaining possible words (filtered based on current game state)
+    // Use answer words (2,300) to match Rust benchmark behavior
     final remainingWords = getFilteredWords(
       gameState,
     ).map((w) => w.value).toList();
@@ -646,10 +649,10 @@ class GameService {
       }
       
       // If we don't have a suggestion yet (not first guess or optimal first guess failed),
-      // use the REFERENCE algorithm (99.8% success rate)
+      // use the MAIN algorithm (99.8% success rate)
       if (suggestion == null) {
-        print('🧠 Using REFERENCE algorithm (99.8% success rate)...');
-        suggestion = FfiService.getBestGuessReference(
+        print('🧠 Using MAIN algorithm (99.8% success rate)...');
+        suggestion = FfiService.getBestGuessFast(
           remainingWords,
           guessResults,
         );
