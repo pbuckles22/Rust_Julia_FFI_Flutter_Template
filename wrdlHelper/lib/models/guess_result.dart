@@ -24,7 +24,7 @@ class GuessResult {
   
   /// Whether this result is complete (has been properly evaluated)
   bool get isComplete => letterStates.length == word.length && 
-                        letterStates.any((state) => state != LetterState.gray);
+      letterStates.any((state) => state != LetterState.gray);
   
   /// Whether this guess is correct (all letters are green)
   bool get isCorrect => letterStates.every((state) => state == LetterState.green);
@@ -49,7 +49,8 @@ class GuessResult {
   }) : word = word ?? (throw InvalidGuessResultException('Word cannot be null')),
        letterStates = letterStates ?? (throw InvalidGuessResultException('Letter states cannot be null')) {
     if (this.letterStates.length != this.word.length) {
-      throw InvalidGuessResultException('Letter states length must match word length');
+      throw InvalidGuessResultException(
+      'Letter states length must match word length');
     }
   }
   
@@ -78,7 +79,8 @@ class GuessResult {
       throw InvalidGuessResultException('Letter states cannot be null');
     }
     if (letterStates.length != word.length) {
-      throw InvalidGuessResultException('Letter states length must match word length');
+      throw InvalidGuessResultException(
+      'Letter states length must match word length');
     }
     
     return GuessResult(
