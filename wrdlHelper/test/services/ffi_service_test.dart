@@ -41,7 +41,7 @@ void main() {
         final answerWords = FfiService.getAnswerWords();
         
         expect(answerWords, isNotEmpty, reason: 'Answer words should not be empty');
-        expect(answerWords.length, equals(1273), reason: 'Should have 1273 answer words (algorithm-testing list)');
+        expect(answerWords.length, equals(2300), reason: 'Should have 2300 answer words (full production list)');
         expect(answerWords.first, isA<String>(), reason: 'Answer words should be strings');
         expect(answerWords.first.length, equals(5), reason: 'Answer words should be 5 letters');
       });
@@ -55,7 +55,7 @@ void main() {
         final guessWords = FfiService.getGuessWords();
         
         expect(guessWords, isNotEmpty, reason: 'Guess words should not be empty');
-        expect(guessWords.length, equals(1273), reason: 'Should have 1273 guess words (algorithm-testing list)');
+        expect(guessWords.length, equals(14855), reason: 'Should have 14855 guess words (full production list)');
         expect(guessWords.first, isA<String>(), reason: 'Guess words should be strings');
         expect(guessWords.first.length, equals(5), reason: 'Guess words should be 5 letters');
       });
