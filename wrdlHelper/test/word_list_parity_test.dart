@@ -31,8 +31,8 @@ void main() {
       final answers = FfiService.getAnswerWords();
       final guesses = FfiService.getGuessWords();
 
-      // RED: ensure loading to Rust succeeds
-      FfiService.loadWordListsToRust(answers, guesses);
+      // Word lists are now loaded directly by Rust during FFI initialization
+      // No need to manually load them - they're already available
 
       // Call a few functions to ensure no crashes with large lists
       final filtered = FfiService.filterWords(answers.take(1000).toList(), []);
