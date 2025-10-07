@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
+import 'package:wrdlhelper/src/rust/api/simple.dart' as ffi;
 
 void main() {
   group('wrdlHelper Intelligent Solver Tests', () {
@@ -13,7 +14,7 @@ void main() {
         final candidate = 'CRANE';
         final remaining = ['CRANE', 'SLATE'];
         
-        final entropy = RustLib.instance.api.crateApiSimpleCalculateEntropy(
+        final entropy = ffi.calculateEntropy(
           candidateWord: candidate,
           remainingWords: remaining,
         );
@@ -23,13 +24,13 @@ void main() {
       });
 
       test('should simulate guess patterns correctly', () async {
-        final pattern1 = RustLib.instance.api.crateApiSimpleSimulateGuessPattern(
+        final pattern1 = ffi.simulateGuessPattern(
           guess: 'CRANE',
           target: 'CRATE',
         );
         expect(pattern1, equals('GGGXG')); // C, R, A match, N doesn't, E matches
         
-        final pattern2 = RustLib.instance.api.crateApiSimpleSimulateGuessPattern(
+        final pattern2 = ffi.simulateGuessPattern(
           guess: 'CRANE',
           target: 'SLATE',
         );
@@ -42,7 +43,7 @@ void main() {
           ('CRANE', ['G', 'Y', 'X', 'X', 'G']), // C=Green, R=Yellow, A=Gray, N=Gray, E=Green
         ];
         
-        final filtered = RustLib.instance.api.crateApiSimpleFilterWords(
+        final filtered = ffi.filterWords(
           words: words,
           guessResults: guessResults,
         );
@@ -56,7 +57,7 @@ void main() {
         final remaining = ['CRANE', 'SLATE'];
         final guessResults = <(String, List<String>)>[];
         
-        final bestGuess = RustLib.instance.api.crateApiSimpleGetIntelligentGuess(
+        final bestGuess = ffi.getIntelligentGuess(
           allWords: allWords,
           remainingWords: remaining,
           guessResults: guessResults,
@@ -74,7 +75,7 @@ void main() {
         final remaining = <String>[];
         final guessResults = <(String, List<String>)>[];
         
-        final bestGuess = RustLib.instance.api.crateApiSimpleGetIntelligentGuess(
+        final bestGuess = ffi.getIntelligentGuess(
           allWords: allWords,
           remainingWords: remaining,
           guessResults: guessResults,
@@ -88,7 +89,7 @@ void main() {
         final remaining = ['CRANE'];
         final guessResults = <(String, List<String>)>[];
         
-        final bestGuess = RustLib.instance.api.crateApiSimpleGetIntelligentGuess(
+        final bestGuess = ffi.getIntelligentGuess(
           allWords: allWords,
           remainingWords: remaining,
           guessResults: guessResults,
@@ -104,7 +105,7 @@ void main() {
           ('SLATE', ['X', 'X', 'G', 'X', 'G']), // S=Gray, L=Gray, A=Green, T=Gray, E=Green
         ];
         
-        final filtered = RustLib.instance.api.crateApiSimpleFilterWords(
+        final filtered = ffi.filterWords(
           words: words,
           guessResults: guessResults,
         );
@@ -121,7 +122,7 @@ void main() {
         final remaining = List.generate(100, (i) => 'WORD$i');
         
         final stopwatch = Stopwatch()..start();
-        final entropy = RustLib.instance.api.crateApiSimpleCalculateEntropy(
+        final entropy = ffi.calculateEntropy(
           candidateWord: candidate,
           remainingWords: remaining,
         );
@@ -137,7 +138,7 @@ void main() {
         final guessResults = <(String, List<String>)>[];
         
         final stopwatch = Stopwatch()..start();
-        final bestGuess = RustLib.instance.api.crateApiSimpleGetIntelligentGuess(
+        final bestGuess = ffi.getIntelligentGuess(
           allWords: allWords,
           remainingWords: remaining,
           guessResults: guessResults,
@@ -156,7 +157,7 @@ void main() {
           ('CRANE', ['INVALID', 'Y', 'X', 'X', 'G']), // Invalid pattern should default to Gray
         ];
         
-        final filtered = RustLib.instance.api.crateApiSimpleFilterWords(
+        final filtered = ffi.filterWords(
           words: words,
           guessResults: guessResults,
         );
@@ -169,7 +170,7 @@ void main() {
         final words = <String>[];
         final guessResults = <(String, List<String>)>[];
         
-        final filtered = RustLib.instance.api.crateApiSimpleFilterWords(
+        final filtered = ffi.filterWords(
           words: words,
           guessResults: guessResults,
         );
@@ -187,7 +188,7 @@ void main() {
         ];
         
         // Filter remaining words
-        final filtered = RustLib.instance.api.crateApiSimpleFilterWords(
+        final filtered = ffi.filterWords(
           words: allWords,
           guessResults: guessResults,
         );
