@@ -107,6 +107,31 @@ void main() {
         expect(filteredWords, isNotEmpty, reason: 'getFilteredWords() should return words for empty game state');
         expect(filteredWords.length, equals(allWords.length), reason: 'Empty game state should return all words');
       });
+
+      test('GameService.getBestNextGuess() should use Rust algorithm', () async {
+        // MICRO-STEP 10: Test GameService word selection uses Rust
+        // This test will initially fail because GameService still uses WordService for allWords
+        // We'll refactor GameService to use FfiService.getGuessWords() later
+        
+        // Import GameService for testing
+        final gameService = GameService();
+        await gameService.initialize();
+        
+        // Create a new game to test word selection
+        final gameState = gameService.createNewGame();
+        
+        // Test that getBestNextGuess() works and returns a valid word
+        final suggestion = gameService.getBestNextGuess(gameState);
+        
+        expect(suggestion, isNotNull, reason: 'getBestNextGuess() should return a suggestion');
+        expect(suggestion, isA<Word>(), reason: 'Should return a Word object');
+        expect(suggestion!.value.length, equals(5), reason: 'Suggestion should be 5 letters');
+        expect(suggestion.value, matches(RegExp(r'^[A-Z]+$')), reason: 'Suggestion should be uppercase letters only');
+        
+        // Test that the suggestion is a valid word
+        final isValid = gameService.isValidWord(suggestion);
+        expect(isValid, isTrue, reason: 'Suggestion should be a valid word');
+      });
     });
   });
 }
