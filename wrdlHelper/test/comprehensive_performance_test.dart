@@ -1,30 +1,18 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/services/ffi_service.dart';
-import 'package:wrdlhelper/services/word_service.dart';
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
 
 void main() {
   group('Comprehensive Performance Tests', () {
-    // Now works with comprehensive algorithm-testing word list
-    late WordService wordService;
+    // Now works with centralized FFI word lists
     
     setUpAll(() async {
       // Initialize Flutter binding for asset loading
       TestWidgetsFlutterBinding.ensureInitialized();
       
-      // Initialize FFI once
+      // Initialize FFI once (word lists are loaded by centralized FFI during initialization)
       await RustLib.init();
       await FfiService.initialize();
-      
-      // Load comprehensive algorithm-testing word list
-      wordService = WordService();
-      await wordService.loadAlgorithmTestingWordList();
-      
-      // Load word lists to Rust
-      FfiService.loadWordListsToRust(
-        wordService.answerWords.map((w) => w.value).toList(),
-        wordService.guessWords.map((w) => w.value).toList(),
-      );
     });
 
     test('E2E performance: first guess should be <1ms', () {
@@ -45,8 +33,8 @@ void main() {
     test('E2E performance: subsequent guesses should be <200ms', () {
       final stopwatch = Stopwatch()..start();
       
-      // Test with realistic game scenario
-      final remainingWords = wordService.guessWords.take(1000).map((w) => w.value).toList();
+      // Test with realistic game scenario using centralized FFI
+      final remainingWords = FfiService.getGuessWords().take(1000).toList();
       final guessResults = [
         ('CRANE', ['X', 'X', 'X', 'X', 'X']), // All gray
       ];
@@ -66,8 +54,8 @@ void main() {
     test('E2E performance: word filtering should be <50ms', () {
       final stopwatch = Stopwatch()..start();
       
-      // Test word filtering with large word list
-      final allWords = wordService.guessWords.take(5000).map((w) => w.value).toList();
+      // Test word filtering with large word list using centralized FFI
+      final allWords = FfiService.getGuessWords().take(5000).toList();
       final guessResults = [
         ('SLATE', ['G', 'G', 'X', 'X', 'X']), // SL green, ATE gray
       ];
@@ -87,9 +75,9 @@ void main() {
     test('E2E performance: entropy calculation should be <10ms', () {
       final stopwatch = Stopwatch()..start();
       
-      // Test entropy calculation
+      // Test entropy calculation using centralized FFI
       final candidateWord = 'TARES';
-      final remainingWords = wordService.guessWords.take(1000).map((w) => w.value).toList();
+      final remainingWords = FfiService.getGuessWords().take(1000).toList();
       
       final entropy = FfiService.calculateEntropy(candidateWord, remainingWords);
       
@@ -120,8 +108,8 @@ void main() {
     test('E2E performance: stress test with multiple operations', () {
       final stopwatch = Stopwatch()..start();
       
-      // Perform multiple operations to test overall performance
-      final allWords = wordService.guessWords.take(2000).map((w) => w.value).toList();
+      // Perform multiple operations to test overall performance using centralized FFI
+      final allWords = FfiService.getGuessWords().take(2000).toList();
       
       // Operation 1: Get optimal first guess
       final firstGuess = FfiService.getOptimalFirstGuess();
@@ -159,8 +147,8 @@ void main() {
     });
 
     test('E2E performance: memory usage validation', () {
-      // Test that we can handle large word lists without memory issues
-      final allWords = wordService.guessWords.map((w) => w.value).toList();
+      // Test that we can handle large word lists without memory issues using centralized FFI
+      final allWords = FfiService.getGuessWords();
       
       print('📊 Memory test with ${allWords.length} words');
       
