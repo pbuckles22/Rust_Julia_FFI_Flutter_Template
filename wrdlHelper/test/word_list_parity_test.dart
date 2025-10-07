@@ -1,26 +1,20 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:wrdlhelper/services/word_service.dart';
 import 'package:wrdlhelper/services/ffi_service.dart';
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
 
 void main() {
   group('Word List Parity via FFI', () {
-    late WordService wordService;
-
     setUpAll(() async {
       TestWidgetsFlutterBinding.ensureInitialized();
       await RustLib.init();
       await FfiService.initialize();
-      wordService = WordService();
-      await wordService.loadWordList('assets/word_lists/official_wordle_words.json');
-      await wordService.loadGuessWords('assets/word_lists/official_guess_words.txt');
-      await wordService.loadAnswerWords('assets/word_lists/official_wordle_words.json');
+      // Word lists are now loaded by centralized FFI during initialization
     });
 
     test('counts match expected ranges and are uppercase/deduped', () async {
-      // RED: Validate counts and normalization
-      final answers = wordService.answerWords.map((w) => w.value).toList();
-      final guesses = wordService.guessWords.map((w) => w.value).toList();
+      // RED: Validate counts and normalization using centralized FFI
+      final answers = FfiService.getAnswerWords();
+      final guesses = FfiService.getGuessWords();
 
       // Expected ranges (loose to avoid flakiness if lists update)
       expect(answers.length, inInclusiveRange(2200, 2400));
@@ -34,8 +28,8 @@ void main() {
     });
 
     test('FFI loads full lists to Rust WORD_MANAGER once without panic', () async {
-      final answers = wordService.answerWords.map((w) => w.value).toList();
-      final guesses = wordService.guessWords.map((w) => w.value).toList();
+      final answers = FfiService.getAnswerWords();
+      final guesses = FfiService.getGuessWords();
 
       // RED: ensure loading to Rust succeeds
       FfiService.loadWordListsToRust(answers, guesses);
@@ -49,8 +43,8 @@ void main() {
     });
 
     test('sanity: guesses contain SLATE and answers exclude it', () async {
-      final answers = wordService.answerWords.map((w) => w.value).toList();
-      final guesses = wordService.guessWords.map((w) => w.value).toList();
+      final answers = FfiService.getAnswerWords();
+      final guesses = FfiService.getGuessWords();
 
       // Sanity checks based on Wordle canon
       expect(guesses, contains('SLATE'));
