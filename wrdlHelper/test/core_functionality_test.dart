@@ -3,7 +3,7 @@ import 'package:wrdlhelper/models/game_state.dart';
 import 'package:wrdlhelper/models/guess_result.dart';
 import 'package:wrdlhelper/models/word.dart';
 import 'package:wrdlhelper/services/game_service.dart';
-import 'package:wrdlhelper/services/word_service.dart';
+import 'package:wrdlhelper/services/ffi_service.dart';
 import 'package:wrdlhelper/service_locator.dart';
 import 'global_test_setup.dart';
 
@@ -12,7 +12,6 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('TDD: Critical Bug Fixes', () {
-    late WordService wordService;
     late GameService gameService;
 
     setUpAll(() async {
@@ -24,7 +23,6 @@ void main() {
       // Reset services for individual test isolation
       GlobalTestSetup.resetForTest();
       
-      wordService = sl<WordService>();
       gameService = sl<GameService>();
     });
 
@@ -34,35 +32,34 @@ void main() {
     });
 
     group('Bug Fix 1: Mock Data Removal', () {
-      test('WordService should not contain hardcoded fake words', () {
-        // TDD: Verify no mock data exists in WordService
+      test('FFI Service should not contain hardcoded fake words', () {
+        // TDD: Verify no mock data exists in centralized FFI
         // This test ensures the _realGuessWords constant was removed
-        expect(wordService.isGuessWordsLoaded, true); // Should be loaded in fast test mode
+        expect(FfiService.isInitialized, true); // Should be initialized
 
         // Verify service contains real words, not hardcoded fake words
         // This would fail if AAHED, BBXRT, CCCCM, FIGGY, JOKUL were still hardcoded
-        final words = wordService.guessWords;
+        final words = FfiService.getGuessWords();
         expect(words.isNotEmpty, true);
-        expect(words.contains(Word.fromString('AAHED')), false); // Should not contain fake words
-        expect(words.contains(Word.fromString('BBXRT')), false);
-        expect(words.contains(Word.fromString('CCCCM')), false);
-        expect(words.contains(Word.fromString('FIGGY')), false);
-        expect(words.contains(Word.fromString('JOKUL')), false);
+        expect(words.contains('AAHED'), false); // Should not contain fake words
+        expect(words.contains('BBXRT'), false);
+        expect(words.contains('CCCCM'), false);
+        expect(words.contains('FIGGY'), false);
+        expect(words.contains('JOKUL'), false);
       });
 
-      test('WordService should load real words from assets', () async {
-        // TDD: Test that WordService can load real words
-        // In fast test mode, we use fallback words instead of loading from assets
-        expect(wordService.isGuessWordsLoaded, true);
+      test('FFI Service should load real words from assets', () async {
+        // TDD: Test that FFI Service can load real words
+        // Word lists are loaded by centralized FFI during initialization
+        expect(FfiService.isInitialized, true);
         expect(
-          wordService.guessWords.length,
+          FfiService.getGuessWords().length,
           greaterThan(200),
         ); // Comprehensive algorithm-testing word list has ~250 words
 
         // Verify all loaded words are 5 letters
-        for (final word in wordService.guessWords) {
+        for (final word in FfiService.getGuessWords()) {
           expect(word.length, 5);
-          expect(word.value.length, 5);
         }
       });
     });
@@ -75,14 +72,10 @@ void main() {
         // Actual: ROSSA (fallback word)
         return; // Skip for now
         // TDD: Test that first guess comes from answer words (best starting words)
-        await wordService.loadWordList('assets/word_lists/official_wordle_words.json');
-        await wordService.loadGuessWords('assets/word_lists/official_guess_words.txt');
-        await wordService.loadAnswerWords(
-          'assets/word_lists/official_wordle_words.json',
-        );
+        // Word lists are loaded by centralized FFI during initialization
 
-        // Create GameService with the loaded word service
-        gameService = GameService(wordService: wordService);
+        // Create GameService (no longer needs WordService parameter)
+        gameService = GameService();
         await gameService.initialize();
 
         final gameState = GameState.newGame();
