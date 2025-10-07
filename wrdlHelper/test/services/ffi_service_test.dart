@@ -30,5 +30,19 @@ void main() {
         expect(result, isFalse, reason: 'XXXXX should not be a valid word');
       });
     });
+
+    group('getAnswerWords', () {
+      test('should return the correct number of answer words', () async {
+        // MICRO-STEP 3: Test FfiService.getAnswerWords()
+        // Verify it returns the correct number of answer words
+        
+        final answerWords = FfiService.getAnswerWords();
+        
+        expect(answerWords, isNotEmpty, reason: 'Answer words should not be empty');
+        expect(answerWords.length, equals(1273), reason: 'Should have 1273 answer words (algorithm-testing list)');
+        expect(answerWords.first, isA<String>(), reason: 'Answer words should be strings');
+        expect(answerWords.first.length, equals(5), reason: 'Answer words should be 5 letters');
+      });
+    });
   });
 }
