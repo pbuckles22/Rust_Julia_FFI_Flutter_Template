@@ -4,7 +4,7 @@ import 'package:wrdlhelper/models/game_state.dart';
 import 'package:wrdlhelper/models/word.dart';
 import 'package:wrdlhelper/services/app_service.dart';
 import 'package:wrdlhelper/services/game_service.dart';
-import 'package:wrdlhelper/services/word_service.dart';
+import 'package:wrdlhelper/services/ffi_service.dart';
 import 'package:wrdlhelper/service_locator.dart';
 import 'package:wrdlhelper/utils/debug_logger.dart';
 
@@ -133,21 +133,17 @@ void main() {
     });
 
     group('Service Integration', () {
-      test('integrates word service with game service', () async {
+      test('integrates FFI service with game service', () async {
         // Arrange
-        final wordList = appService.wordService.wordList;
-        final gameState = appService.gameService.createNewGame(
-          wordList: wordList,
-        );
+        final gameState = appService.gameService.createNewGame();
 
         // Act
         final targetWord = gameState.targetWord!;
-        final isValidWord =
-            appService.wordService.findWord(targetWord.value) != null;
+        final isValidWord = FfiService.isValidWord(targetWord.value);
 
         // Assert
         expect(isValidWord, isTrue);
-        expect(wordList.contains(targetWord), isTrue);
+        expect(FfiService.getAnswerWords().contains(targetWord.value), isTrue);
       });
 
       test('validates guesses against word service', () async {
@@ -156,10 +152,8 @@ void main() {
         final invalidGuess = Word.fromString('ZZZZZ');
 
         // Act
-        final isValid1 =
-            appService.wordService.findWord(validGuess.value) != null;
-        final isValid2 =
-            appService.wordService.findWord(invalidGuess.value) != null;
+        final isValid1 = FfiService.isValidWord(validGuess.value);
+        final isValid2 = FfiService.isValidWord(invalidGuess.value);
 
         // Assert
         expect(isValid1, isTrue);
@@ -176,11 +170,10 @@ void main() {
         final result = appService.gameService.processGuess(gameState, guess);
         appService.gameService.addGuessToGame(gameState, guess, result);
 
-        // Act - Use the wordService from the integration test setup
-        final filteredWords = appService.wordService
-            .filterWordsByMultipleCriteria(
-              mustContain: ['A', 'E'], // Letters that are yellow
-            );
+        // Act - Use the gameService for word filtering
+        final filteredWords = appService.gameService.getFilteredWords(gameState)
+            .where((word) => word.containsLetter('A') && word.containsLetter('E'))
+            .toList();
 
         // Assert
         expect(filteredWords.isNotEmpty, isTrue);
@@ -192,8 +185,8 @@ void main() {
     group('Asset Integration', () {
       test('loads and validates word list assets', () async {
         // Arrange & Act
-        final wordList = appService.wordService.wordList;
-        final guessWords = appService.wordService.guessWords;
+        final wordList = FfiService.getAnswerWords().map((word) => Word.fromString(word)).toList();
+        final guessWords = FfiService.getGuessWords().map((word) => Word.fromString(word)).toList();
 
         // Debug output
         DebugLogger.testPrint(
@@ -205,18 +198,18 @@ void main() {
           tag: 'GameIntegrationTest',
         );
         DebugLogger.testPrint(
-          'WordService isLoaded: ${appService.wordService.isLoaded}',
+          'FFI Service isInitialized: ${FfiService.isInitialized}',
           tag: 'GameIntegrationTest',
         );
         DebugLogger.testPrint(
-          'WordService isGuessWordsLoaded: ${appService.wordService.isGuessWordsLoaded}',
+          'FFI Service word lists loaded: ${FfiService.getAnswerWords().length} answer words, ${FfiService.getGuessWords().length} guess words',
           tag: 'GameIntegrationTest',
         );
 
         // Assert - wordList should be loaded, guessWords might be empty due to test environment
         expect(wordList.isNotEmpty, isTrue);
         expect(wordList.every((word) => word.isValid), isTrue);
-        // Note: guessWords might be empty in test environment due to WordService condition
+        // Note: guessWords are now loaded by centralized FFI
         if (guessWords.isNotEmpty) {
           expect(guessWords.every((word) => word.isValid), isTrue);
         }
@@ -250,16 +243,17 @@ void main() {
         expect(testGuessWords.every((word) => word.value.length == 5), isTrue);
       });
 
-      test('handles asset loading errors gracefully', () async {
-        // Arrange
-        final errorService = WordService();
+      test('handles FFI service errors gracefully', () async {
+        // Arrange - FFI service should be initialized by test setup
+        expect(FfiService.isInitialized, isTrue);
 
         // Act - should handle gracefully without throwing
-        await errorService.loadWordList('assets/word_lists/missing.json');
+        final answerWords = FfiService.getAnswerWords();
+        final guessWords = FfiService.getGuessWords();
 
-        // Assert - service should remain functional with fallback data
-        expect(errorService.isLoaded, isTrue);
-        expect(errorService.wordList.isNotEmpty, isTrue);
+        // Assert - FFI service should provide word lists
+        expect(answerWords.isNotEmpty, isTrue);
+        expect(guessWords.isNotEmpty, isTrue);
       });
     });
 
@@ -323,29 +317,29 @@ void main() {
       });
 
       test('handles service errors gracefully', () async {
-        // Arrange
-        final wordService = WordService();
-        await wordService.loadWordList('assets/word_lists/official_wordle_words.json');
-        final uninitializedService = GameService(wordService: wordService);
+        // Arrange - GameService should work with centralized FFI
+        final gameService = GameService();
+        await gameService.initialize();
 
-        // Act - should work with fallback behavior
-        final gameState = uninitializedService.createNewGame();
+        // Act - should work with centralized FFI
+        final gameState = gameService.createNewGame();
 
-        // Assert - service should work with fallback behavior
+        // Assert - service should work with centralized FFI
         expect(gameState, isNotNull);
         expect(gameState.targetWord, isNotNull);
       });
 
-      test('handles asset loading errors gracefully', () async {
-        // Arrange
-        final errorService = WordService();
+      test('handles FFI service initialization gracefully', () async {
+        // Arrange - FFI service should be initialized by test setup
+        expect(FfiService.isInitialized, isTrue);
 
         // Act - should handle gracefully without throwing
-        await errorService.loadWordList('invalid/path.json');
+        final answerWords = FfiService.getAnswerWords();
+        final guessWords = FfiService.getGuessWords();
 
-        // Assert - service should remain functional with fallback data
-        expect(errorService.isLoaded, isTrue);
-        expect(errorService.wordList.isNotEmpty, isTrue);
+        // Assert - FFI service should provide word lists
+        expect(answerWords.isNotEmpty, isTrue);
+        expect(guessWords.isNotEmpty, isTrue);
       });
     });
 
@@ -383,23 +377,23 @@ void main() {
         ); // Should complete within 1 second
       });
 
-      test('loads assets within time limit', () async {
-        // Arrange
-        final service = WordService();
+      test('FFI service provides word lists within time limit', () async {
+        // Arrange - FFI service should be initialized by test setup
+        expect(FfiService.isInitialized, isTrue);
 
         // Act
         final stopwatch = Stopwatch()..start();
-        await service.loadWordList('assets/word_lists/official_wordle_words.json');
-        await service.loadGuessWords('assets/word_lists/official_wordle_words.json');
+        final answerWords = FfiService.getAnswerWords();
+        final guessWords = FfiService.getGuessWords();
         stopwatch.stop();
 
         // Assert
-        expect(service.isLoaded, isTrue);
-        expect(service.isGuessWordsLoaded, isTrue);
+        expect(answerWords.isNotEmpty, isTrue);
+        expect(guessWords.isNotEmpty, isTrue);
         expect(
           stopwatch.elapsedMilliseconds,
-          lessThan(2000),
-        ); // Should load within 2 seconds
+          lessThan(100),
+        ); // Should access word lists within 100ms
       });
 
       test('processes multiple guesses efficiently', () async {
