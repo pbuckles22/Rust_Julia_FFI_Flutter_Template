@@ -1,5 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/services/ffi_service.dart';
+import 'package:wrdlhelper/services/game_service.dart';
+import 'package:wrdlhelper/models/word.dart';
 import 'package:wrdlhelper/service_locator.dart';
 
 void main() {
@@ -56,6 +58,30 @@ void main() {
         expect(guessWords.length, equals(1273), reason: 'Should have 1273 guess words (algorithm-testing list)');
         expect(guessWords.first, isA<String>(), reason: 'Guess words should be strings');
         expect(guessWords.first.length, equals(5), reason: 'Guess words should be 5 letters');
+      });
+    });
+
+    group('GameService Integration', () {
+      test('GameService.isValidWord() should call FfiService.isValidWord()', () async {
+        // MICRO-STEP 6: Test GameService.isValidWord() calls FfiService.isValidWord()
+        // This test will initially fail because GameService still uses WordService
+        // We'll refactor GameService to use FfiService.isValidWord() later
+        
+        // Import GameService for testing
+        final gameService = GameService();
+        await gameService.initialize();
+        
+        // Test that GameService.isValidWord() works with a valid word
+        final word = Word.fromString('SLATE');
+        final result = gameService.isValidWord(word);
+        
+        expect(result, isTrue, reason: 'GameService.isValidWord() should return true for valid words');
+        
+        // Test that GameService.isValidWord() works with an invalid word
+        final invalidWord = Word.fromString('XXXXX');
+        final invalidResult = gameService.isValidWord(invalidWord);
+        
+        expect(invalidResult, isFalse, reason: 'GameService.isValidWord() should return false for invalid words');
       });
     });
   });
