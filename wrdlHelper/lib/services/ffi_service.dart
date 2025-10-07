@@ -288,4 +288,43 @@ class FfiService {
       entropyOnlyScoring: false,
     );
   }
+
+  /// Get answer words from Rust (centralized word list management)
+  /// 
+  /// This eliminates the need for Flutter to manage word lists.
+  /// All word list management is now centralized in Rust.
+  static List<String> getAnswerWords() {
+    _ensureInitialized();
+    try {
+      return ffi.getAnswerWords();
+    } catch (e) {
+      throw AssetLoadException('Failed to get answer words: $e');
+    }
+  }
+
+  /// Get guess words from Rust (centralized word list management)
+  /// 
+  /// This eliminates the need for Flutter to manage word lists.
+  /// All word list management is now centralized in Rust.
+  static List<String> getGuessWords() {
+    _ensureInitialized();
+    try {
+      return ffi.getGuessWords();
+    } catch (e) {
+      throw AssetLoadException('Failed to get guess words: $e');
+    }
+  }
+
+  /// Check if a word is valid (centralized validation)
+  /// 
+  /// This eliminates the need for Flutter to manage word validation.
+  /// All word validation is now centralized in Rust.
+  static bool isValidWord(String word) {
+    _ensureInitialized();
+    try {
+      return ffi.isValidWord(word: word);
+    } catch (e) {
+      return false; // Fail gracefully for validation
+    }
+  }
 }

@@ -23,7 +23,8 @@
 
 use std::collections::HashMap;
 use std::time::{SystemTime, UNIX_EPOCH};
-use crate::api::wrdl_helper::{IntelligentSolver, GuessResult, LetterResult};
+use crate::api::wrdl_helper::{IntelligentSolver, GuessResult, LetterResult, WORD_MANAGER};
+use crate::api::wrdl_helper_reference::IntelligentSolver as ReferenceSolver;
 
 /**
  * Greet a user with a personalized message
@@ -367,16 +368,75 @@ pub fn simple_hash(input: String) -> u32 {
 /**
  * Initialize word lists in Rust (call once at startup)
  * 
- * This function loads word lists into Rust memory to avoid passing large
- * data structures across the FFI boundary on every call.
+ * This function loads word lists directly from Rust assets, eliminating
+ * the need for Flutter to manage word lists. Centralizes all word list
+ * management in Rust for better performance and consistency.
  */
 #[flutter_rust_bridge::frb(sync)]
 pub fn initialize_word_lists() -> Result<(), String> {
     use crate::api::wrdl_helper::WORD_MANAGER;
     
     let mut manager = WORD_MANAGER.lock().map_err(|e| format!("Failed to lock word manager: {}", e))?;
-    manager.load_words()?;
+    
+    // Load word lists directly from Rust assets (same as benchmark)
+    let answer_words = load_answer_words_from_assets()?;
+    let guess_words = load_guess_words_from_assets()?;
+    
+    manager.answer_words = answer_words;
+    manager.guess_words = guess_words;
+    manager.compute_optimal_first_guess();
+    
+    println!("✅ Rust loaded {} answer words and {} guess words directly from assets", 
+             manager.answer_words.len(), 
+             manager.guess_words.len());
+    
     Ok(())
+}
+
+/// Load answer words directly from Rust assets (same as benchmark)
+fn load_answer_words_from_assets() -> Result<Vec<String>, String> {
+    let word_list_path = "assets/word_lists/official_wordle_words.json";
+    
+    if std::path::Path::new(word_list_path).exists() {
+        let content = std::fs::read_to_string(word_list_path)
+            .map_err(|e| format!("Failed to read word list file: {}", e))?;
+        let word_data: serde_json::Value = serde_json::from_str(&content)
+            .map_err(|e| format!("Failed to parse JSON: {}", e))?;
+        
+        if let Some(answers) = word_data.get("answer_words").and_then(|v| v.as_array()) {
+            let answer_words: Vec<String> = answers
+                .iter()
+                .filter_map(|v| v.as_str().map(|s| s.to_uppercase()))
+                .collect();
+            println!("📚 Loaded {} answer words from {}", answer_words.len(), word_list_path);
+            return Ok(answer_words);
+        }
+    }
+    
+    Err(format!("Failed to load answer words from {}", word_list_path))
+}
+
+/// Load guess words directly from Rust assets (same as benchmark)
+fn load_guess_words_from_assets() -> Result<Vec<String>, String> {
+    let word_list_path = "assets/word_lists/official_wordle_words.json";
+    
+    if std::path::Path::new(word_list_path).exists() {
+        let content = std::fs::read_to_string(word_list_path)
+            .map_err(|e| format!("Failed to read word list file: {}", e))?;
+        let word_data: serde_json::Value = serde_json::from_str(&content)
+            .map_err(|e| format!("Failed to parse JSON: {}", e))?;
+        
+        if let Some(guesses) = word_data.get("guess_words").and_then(|v| v.as_array()) {
+            let all_words: Vec<String> = guesses
+                .iter()
+                .filter_map(|v| v.as_str().map(|s| s.to_uppercase()))
+                .collect();
+            println!("📚 Loaded {} guess words from {}", all_words.len(), word_list_path);
+            return Ok(all_words);
+        }
+    }
+    
+    Err(format!("Failed to load guess words from {}", word_list_path))
 }
 
 /**
@@ -418,6 +478,52 @@ pub fn load_word_lists_from_dart(
 }
 
 /**
+ * Get answer words from Rust (centralized word list management)
+ * 
+ * This function returns the answer words that are managed by Rust,
+ * eliminating the need for Flutter to manage word lists.
+ */
+#[flutter_rust_bridge::frb(sync)]
+pub fn get_answer_words() -> Result<Vec<String>, String> {
+    use crate::api::wrdl_helper::WORD_MANAGER;
+    
+    let manager = WORD_MANAGER.lock().map_err(|e| format!("Failed to lock word manager: {}", e))?;
+    Ok(manager.get_answer_words().to_vec())
+}
+
+/**
+ * Get guess words from Rust (centralized word list management)
+ * 
+ * This function returns the guess words that are managed by Rust,
+ * eliminating the need for Flutter to manage word lists.
+ */
+#[flutter_rust_bridge::frb(sync)]
+pub fn get_guess_words() -> Result<Vec<String>, String> {
+    use crate::api::wrdl_helper::WORD_MANAGER;
+    
+    let manager = WORD_MANAGER.lock().map_err(|e| format!("Failed to lock word manager: {}", e))?;
+    Ok(manager.get_guess_words().to_vec())
+}
+
+/**
+ * Check if a word is valid (centralized validation)
+ * 
+ * This function checks if a word exists in the Rust-managed word lists,
+ * eliminating the need for Flutter to manage word validation.
+ */
+#[flutter_rust_bridge::frb(sync)]
+pub fn is_valid_word(word: String) -> bool {
+    use crate::api::wrdl_helper::WORD_MANAGER;
+    
+    if let Ok(manager) = WORD_MANAGER.lock() {
+        // Check if word is in guess words (all valid words for guessing)
+        manager.get_guess_words().contains(&word.to_uppercase())
+    } else {
+        false
+    }
+}
+
+/**
  * Get intelligent guess using advanced algorithms (optimized version)
  * 
  * This function uses the wrdlHelper intelligent solver with Rust-managed word lists
@@ -452,6 +558,64 @@ pub fn get_intelligent_guess_fast(
     drop(manager); // Release lock early
     
     let solver = IntelligentSolver::new(all_words);
+    
+    // Convert FFI guess results to internal format
+    let mut internal_guess_results = Vec::new();
+    for (word, pattern) in guess_results {
+        let mut results = Vec::new();
+        for letter_result in pattern {
+            // Accept both compact (G,Y,X) and verbose (Green, Yellow, Gray), case-insensitive
+            let lr = letter_result.to_uppercase();
+            let result = match lr.as_str() {
+                "G" | "GREEN" => LetterResult::Green,
+                "Y" | "YELLOW" => LetterResult::Yellow,
+                "X" | "GRAY" | "GREY" => LetterResult::Gray,
+                _ => LetterResult::Gray, // Default to gray for unknown patterns
+            };
+            results.push(result);
+        }
+        internal_guess_results.push(GuessResult::new(word, [
+            results[0], results[1], results[2], results[3], results[4]
+        ]));
+    }
+    
+    solver.get_best_guess(&remaining_words, &internal_guess_results)
+}
+
+/**
+ * Get intelligent guess using the REFERENCE algorithm (99.8% success rate)
+ * 
+ * This function uses the exact same algorithm that achieved 99.8% success rate
+ * in the Rust benchmark. This is the high-performance reference implementation.
+ * 
+ * # Arguments
+ * - `remaining_words`: Words that are still possible given current constraints
+ * - `guess_results`: Previous guess results with patterns
+ * 
+ * # Returns
+ * The best word to guess next, or None if no valid guesses remain
+ * 
+ * # Performance
+ * - Time complexity: O(n*m) where n is candidate words, m is remaining words
+ * - Space complexity: O(n) for pattern analysis
+ * - Target response time: < 200ms
+ * - Success rate: 99.8% (matches Rust benchmark)
+ */
+#[flutter_rust_bridge::frb(sync)]
+pub fn get_intelligent_guess_reference(
+    remaining_words: Vec<String>,
+    guess_results: Vec<(String, Vec<String>)>, // (word, pattern) where pattern is ["G", "Y", "X", ...]
+) -> Option<String> {
+    if remaining_words.is_empty() {
+        return None;
+    }
+
+    // Get words from global manager to match the benchmark approach
+    let manager = WORD_MANAGER.lock().ok()?;
+    let all_words = manager.get_guess_words().to_vec();
+    drop(manager); // Release lock early
+    
+    let solver = ReferenceSolver::new(all_words);
     
     // Convert FFI guess results to internal format
     let mut internal_guess_results = Vec::new();

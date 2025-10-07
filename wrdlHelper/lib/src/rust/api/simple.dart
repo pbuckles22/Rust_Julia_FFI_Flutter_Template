@@ -6,6 +6,8 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
+// These functions are ignored because they are not marked as `pub`: `load_answer_words_from_assets`, `load_guess_words_from_assets`
+
 /// * Greet a user with a personalized message
 /// *
 /// * This function demonstrates basic string handling across the FFI boundary.
@@ -270,8 +272,9 @@ int simpleHash({required String input}) =>
 
 /// * Initialize word lists in Rust (call once at startup)
 /// *
-/// * This function loads word lists into Rust memory to avoid passing large
-/// * data structures across the FFI boundary on every call.
+/// * This function loads word lists directly from Rust assets, eliminating
+/// * the need for Flutter to manage word lists. Centralizes all word list
+/// * management in Rust for better performance and consistency.
 ///
 void initializeWordLists() =>
     RustLib.instance.api.crateApiSimpleInitializeWordLists();
@@ -298,6 +301,30 @@ void loadWordListsFromDart({
   guessWords: guessWords,
 );
 
+/// * Get answer words from Rust (centralized word list management)
+/// *
+/// * This function returns the answer words that are managed by Rust,
+/// * eliminating the need for Flutter to manage word lists.
+///
+List<String> getAnswerWords() =>
+    RustLib.instance.api.crateApiSimpleGetAnswerWords();
+
+/// * Get guess words from Rust (centralized word list management)
+/// *
+/// * This function returns the guess words that are managed by Rust,
+/// * eliminating the need for Flutter to manage word lists.
+///
+List<String> getGuessWords() =>
+    RustLib.instance.api.crateApiSimpleGetGuessWords();
+
+/// * Check if a word is valid (centralized validation)
+/// *
+/// * This function checks if a word exists in the Rust-managed word lists,
+/// * eliminating the need for Flutter to manage word validation.
+///
+bool isValidWord({required String word}) =>
+    RustLib.instance.api.crateApiSimpleIsValidWord(word: word);
+
 /// * Get intelligent guess using advanced algorithms (optimized version)
 /// *
 /// * This function uses the wrdlHelper intelligent solver with Rust-managed word lists
@@ -319,6 +346,32 @@ String? getIntelligentGuessFast({
   required List<String> remainingWords,
   required List<(String, List<String>)> guessResults,
 }) => RustLib.instance.api.crateApiSimpleGetIntelligentGuessFast(
+  remainingWords: remainingWords,
+  guessResults: guessResults,
+);
+
+/// * Get intelligent guess using the REFERENCE algorithm (99.8% success rate)
+/// *
+/// * This function uses the exact same algorithm that achieved 99.8% success rate
+/// * in the Rust benchmark. This is the high-performance reference implementation.
+/// *
+/// * # Arguments
+/// * - `remaining_words`: Words that are still possible given current constraints
+/// * - `guess_results`: Previous guess results with patterns
+/// *
+/// * # Returns
+/// * The best word to guess next, or None if no valid guesses remain
+/// *
+/// * # Performance
+/// * - Time complexity: O(n*m) where n is candidate words, m is remaining words
+/// * - Space complexity: O(n) for pattern analysis
+/// * - Target response time: < 200ms
+/// * - Success rate: 99.8% (matches Rust benchmark)
+///
+String? getIntelligentGuessReference({
+  required List<String> remainingWords,
+  required List<(String, List<String>)> guessResults,
+}) => RustLib.instance.api.crateApiSimpleGetIntelligentGuessReference(
   remainingWords: remainingWords,
   guessResults: guessResults,
 );
@@ -436,3 +489,44 @@ String simulateGuessPattern({required String guess, required String target}) =>
       guess: guess,
       target: target,
     );
+
+/// * Set solver configuration
+/// *
+/// * This function sets the global solver configuration for all subsequent operations.
+/// *
+/// * # Arguments
+/// * - `config`: Configuration struct with all solver settings
+/// *
+/// * # Performance
+/// * - Time complexity: O(1)
+/// * - Space complexity: O(1)
+///
+void setSolverConfig({
+  required bool referenceMode,
+  required bool includeKillerWords,
+  required int candidateCap,
+  required bool earlyTerminationEnabled,
+  required double earlyTerminationThreshold,
+  required bool entropyOnlyScoring,
+}) => RustLib.instance.api.crateApiSimpleSetSolverConfig(
+  referenceMode: referenceMode,
+  includeKillerWords: includeKillerWords,
+  candidateCap: candidateCap,
+  earlyTerminationEnabled: earlyTerminationEnabled,
+  earlyTerminationThreshold: earlyTerminationThreshold,
+  entropyOnlyScoring: entropyOnlyScoring,
+);
+
+/// * Get solver configuration
+/// *
+/// * This function returns the current global solver configuration.
+/// *
+/// * # Returns
+/// * Tuple of configuration values
+/// *
+/// * # Performance
+/// * - Time complexity: O(1)
+/// * - Space complexity: O(1)
+///
+(bool, bool, int, bool, double, bool) getSolverConfig() =>
+    RustLib.instance.api.crateApiSimpleGetSolverConfig();
