@@ -5,8 +5,6 @@ import 'package:wrdlhelper/models/game_state.dart';
 import 'package:wrdlhelper/models/guess_result.dart';
 import 'package:wrdlhelper/models/word.dart';
 import 'package:wrdlhelper/services/game_service.dart';
-import 'package:wrdlhelper/services/word_service.dart';
-import 'package:wrdlhelper/service_locator.dart';
 import '../global_test_setup.dart';
 
 void main() {
@@ -317,14 +315,3 @@ class MockGameService extends GameService {
   }
 }
 
-class MockWordService extends WordService {
-  @override
-  Future<void> loadWordList(String path) async {
-    // Mock implementation
-  }
-
-  @override
-  Future<void> loadGuessWords(String path) async {
-    // Mock implementation
-  }
-}
