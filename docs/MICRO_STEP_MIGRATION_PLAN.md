@@ -70,6 +70,23 @@
 4. **Start Small** - Begin with the smallest, safest changes
 5. **TDD Approach** - Red-Green-Refactor cycle for each change
 
+## 🧪 **TDD STRATEGY FOR MIGRATION**
+
+### **Test-Driven Development Approach:**
+1. **✅ Accept failures** on tests that need to be removed/updated
+2. **🔄 Refactor obsolete tests** to match the new centralized approach
+3. **🗑️ Delete redundant tests** that are no longer needed (NO SKIPPING)
+
+### **When We See Test Failures:**
+- **If it's a test we want to keep:** Refactor it to use FFI instead of WordService
+- **If it's a test that's now redundant:** **DELETE it entirely**
+- **If it's a test we're not ready to fix:** Accept the failure temporarily
+
+### **Test Migration Phases:**
+- **Phase 1:** Add NEW tests for centralized FFI functions
+- **Phase 2:** Update existing tests to use FFI instead of WordService
+- **Phase 3:** Delete OLD tests that are no longer needed
+
 ---
 
 ## 📊 **CURRENT STATUS**
