@@ -521,7 +521,8 @@ class GameService {
   /// Gets intelligent guess using Rust FFI solver with world-class performance
   Word? _getIntelligentGuess(GameState gameState) {
     // Get all available words for the solver
-    final allWords = _wordService.guessWords.map((w) => w.value).toList();
+    // Use centralized Rust word list instead of WordService
+    final allWords = FfiService.getGuessWords();
 
     // Get remaining possible words (filtered based on current game state)
     final remainingWords = getFilteredWords(
