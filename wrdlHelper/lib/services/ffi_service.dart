@@ -1,6 +1,7 @@
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
 import 'package:wrdlhelper/src/rust/api/simple.dart' as ffi;
 import 'package:wrdlhelper/exceptions/service_exceptions.dart';
+import 'package:wrdlhelper/utils/debug_logger.dart';
 
 /// Configuration class for FFI settings
 class FfiConfiguration {
@@ -192,22 +193,6 @@ class FfiService {
     }
   }
 
-  /// Load word lists from JSON file
-  /// Returns all words from the JSON file
-  static Future<List<String>> loadWordListsFromJsonFile(String jsonPath) async {
-    _ensureInitialized();
-
-    try {
-      // For now, return a simple hardcoded list
-      // TODO: Implement actual JSON loading
-      return [
-        'CRANE', 'SLATE', 'CRATE', 'PLATE', 'GRATE', 'TRACE', 'CHASE', 'CLOTH', 'CLOUD',
-        'SLOTH', 'BLIMP', 'WORLD', 'HELLO', 'FLUTE', 'PRIDE', 'SHINE', 'BRAVE', 'QUICK'
-      ];
-    } catch (e) {
-      throw AssetLoadException('Failed to load word lists from JSON: $e');
-    }
-  }
 
   /// Load word lists from Dart to Rust (CRITICAL for performance)
   /// 
@@ -225,7 +210,7 @@ class FfiService {
         answerWords: answerWords,
         guessWords: guessWords,
       );
-      print('✅ Successfully loaded ${answerWords.length} answer words and ${guessWords.length} guess words to Rust');
+      DebugLogger.success('✅ Successfully loaded ${answerWords.length} answer words and ${guessWords.length} guess words to Rust', tag: 'FfiService');
     } catch (e) {
       throw AssetLoadException('Failed to load word lists to Rust: $e');
     }
@@ -273,15 +258,8 @@ class FfiService {
   static void setConfiguration(FfiConfiguration config) {
     _currentConfig = config;
     
-    // TODO: Also set the configuration in Rust once FFI bindings are regenerated
-    // ffi.setSolverConfig(
-    //   config.referenceMode,
-    //   config.includeKillerWords,
-    //   config.candidateCap,
-    //   config.earlyTerminationEnabled,
-    //   config.earlyTerminationThreshold,
-    //   config.entropyOnlyScoring,
-    // );
+    // Configuration is now handled entirely in Dart
+    // The Rust solver uses its own internal configuration
   }
 
   /// Apply reference mode preset configuration

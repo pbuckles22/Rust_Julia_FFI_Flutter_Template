@@ -181,11 +181,6 @@ class GameController {
     }
   }
 
-  /// Get disabled keys based on game state
-  Set<String> getDisabledKeys() {
-    // TODO: Implement disabled keys logic
-    return {};
-  }
 
   /// Add listener for state changes
   void addListener(VoidCallback listener) {

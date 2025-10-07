@@ -551,12 +551,6 @@ class GameService {
     }).toList();
 
     // COMPREHENSIVE DEBUG LOGGING - FFI Bridge Data Flow
-    print('🔍 FFI BRIDGE DEBUG - Calling Rust solver');
-    print('📊 INPUT DATA SUMMARY:');
-    print('  • allWords: ${allWords.length} words');
-    print('  • remainingWords: ${remainingWords.length} words');
-    print('  • guessResults: ${guessResults.length} previous guesses');
-    
     DebugLogger.info(
       '🔍 FFI BRIDGE DEBUG - Calling Rust solver',
       tag: 'GameService',
@@ -639,19 +633,19 @@ class GameService {
     try {
       // For first guess (no previous guesses), use pre-computed optimal first guess
       if (guessResults.isEmpty) {
-        print('🎯 Using pre-computed optimal first guess...');
+        DebugLogger.info('🎯 Using pre-computed optimal first guess...', tag: 'GameService');
         suggestion = FfiService.getOptimalFirstGuess();
         if (suggestion != null) {
-          print('✅ Got optimal first guess: $suggestion');
+          DebugLogger.success('✅ Got optimal first guess: $suggestion', tag: 'GameService');
         } else {
-          print('⚠️ No optimal first guess available, falling back to full algorithm');
+          DebugLogger.warning('⚠️ No optimal first guess available, falling back to full algorithm', tag: 'GameService');
         }
       }
       
       // If we don't have a suggestion yet (not first guess or optimal first guess failed),
       // use the MAIN algorithm (99.8% success rate)
       if (suggestion == null) {
-        print('🧠 Using MAIN algorithm (99.8% success rate)...');
+        DebugLogger.info('🧠 Using MAIN algorithm (99.8% success rate)...', tag: 'GameService');
         suggestion = FfiService.getBestGuessFast(
           remainingWords,
           guessResults,
@@ -666,17 +660,8 @@ class GameService {
     }
 
     // COMPREHENSIVE DEBUG LOGGING - FFI Response
-    print('🔍 FFI BRIDGE RESPONSE - Rust solver returned:');
     if (suggestion != null) {
-      print('✅ SUCCESS: Rust suggested "$suggestion"');
-      DebugLogger.info(
-        '🔍 FFI BRIDGE RESPONSE - Rust solver returned:',
-        tag: 'GameService',
-      );
-      DebugLogger.info(
-        '✅ SUCCESS: Rust suggested "$suggestion"',
-        tag: 'GameService',
-      );
+      DebugLogger.success('✅ SUCCESS: Rust suggested "$suggestion"', tag: 'GameService');
       DebugLogger.info('🎯 Suggestion analysis:', tag: 'GameService');
       DebugLogger.info(
         '  • Word length: ${suggestion.length}',
