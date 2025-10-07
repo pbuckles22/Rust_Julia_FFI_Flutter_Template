@@ -83,6 +83,30 @@ void main() {
         
         expect(invalidResult, isFalse, reason: 'GameService.isValidWord() should return false for invalid words');
       });
+
+      test('GameService.getFilteredWords() should use Rust filtering', () async {
+        // MICRO-STEP 8: Test GameService word filtering uses Rust
+        // This test will initially fail because GameService still uses WordService for initial word list
+        // We'll refactor GameService to use FfiService.getGuessWords() later
+        
+        // Import GameService for testing
+        final gameService = GameService();
+        await gameService.initialize();
+        
+        // Test that getFilteredWords() works with no game state (should return all words)
+        final allWords = gameService.getFilteredWords();
+        
+        expect(allWords, isNotEmpty, reason: 'getFilteredWords() should return words when no game state provided');
+        expect(allWords.length, greaterThan(1000), reason: 'Should have many words available');
+        expect(allWords.first, isA<Word>(), reason: 'Should return Word objects');
+        
+        // Test that getFilteredWords() works with empty game state
+        final gameState = gameService.createNewGame();
+        final filteredWords = gameService.getFilteredWords(gameState);
+        
+        expect(filteredWords, isNotEmpty, reason: 'getFilteredWords() should return words for empty game state');
+        expect(filteredWords.length, equals(allWords.length), reason: 'Empty game state should return all words');
+      });
     });
   });
 }
