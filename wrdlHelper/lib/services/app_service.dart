@@ -1,6 +1,5 @@
 import 'package:wrdlhelper/services/ffi_service.dart';
 import 'package:wrdlhelper/services/game_service.dart';
-import 'package:wrdlhelper/services/word_service.dart';
 import 'package:wrdlhelper/utils/debug_logger.dart';
 
 /// Centralized service for app initialization
@@ -11,18 +10,10 @@ class AppService {
   // REMOVED: Static singleton pattern to eliminate global state
   AppService();
 
-  WordService? _wordService;
   GameService? _gameService;
 
   bool _isInitialized = false;
 
-  /// Get the singleton WordService instance
-  WordService get wordService {
-    if (_wordService == null) {
-      throw StateError('AppService not initialized. Call initialize() first.');
-    }
-    return _wordService!;
-  }
 
   /// Get the singleton GameService instance
   GameService get gameService {
@@ -58,53 +49,10 @@ class AppService {
         tag: 'AppService',
       );
 
-      DebugLogger.info('🔧 Step 1: Creating WordService...', tag: 'AppService');
-      // Step 1: Initialize WordService first (loads word lists)
-      _wordService = WordService();
-
-      DebugLogger.info(
-        '🔧 Step 2: Loading word list from JSON...',
-        tag: 'AppService',
-      );
-      // Load the comprehensive word list for target words
-      await _wordService!.loadWordList(
-        'assets/word_lists/official_wordle_words.json',
-      );
-      DebugLogger.success('✅ Word list loaded successfully', tag: 'AppService');
-
-      DebugLogger.info(
-        '🔧 Step 3: Loading guess words from TXT...',
-        tag: 'AppService',
-      );
-      // Load the big list for filtering (12k+ words)
-      await _wordService!.loadGuessWords(
-        'assets/word_lists/official_guess_words.txt',
-      );
-      DebugLogger.success(
-        '✅ Guess words loaded successfully',
-        tag: 'AppService',
-      );
-
-      DebugLogger.info(
-        '🔧 Step 4: Loading answer words from JSON...',
-        tag: 'AppService',
-      );
-      // Load the answer list for suggestions (2.3k words)
-      await _wordService!.loadAnswerWords(
-        'assets/word_lists/official_wordle_words.json',
-      );
-      DebugLogger.success(
-        '✅ Answer words loaded successfully',
-        tag: 'AppService',
-      );
-
-      DebugLogger.info('🔧 Step 5: Loading word lists to Rust...', tag: 'AppService');
-      // Step 5: Load word lists to Rust for optimal performance
-      FfiService.loadWordListsToRust(
-        _wordService!.answerWords.map((w) => w.value).toList(),
-        _wordService!.guessWords.map((w) => w.value).toList(),
-      );
-      DebugLogger.success('✅ Word lists loaded to Rust successfully', tag: 'AppService');
+      DebugLogger.info('🔧 Step 1: Word lists already loaded by FFI Service...', tag: 'AppService');
+      // Step 1: Word lists are already loaded by FFI Service during initialization
+      // No need to create WordService or load word lists manually
+      DebugLogger.success('✅ Word lists available via centralized FFI', tag: 'AppService');
 
       DebugLogger.info('🔧 Step 6: Creating GameService...', tag: 'AppService');
       // Step 6: Initialize GameService (now uses centralized FFI)
@@ -138,22 +86,20 @@ class AppService {
   /// Reset all services (useful for testing)
   void reset() {
     _isInitialized = false;
-    _wordService = null;
     _gameService = null;
     // Services will be recreated on next initialize() call
   }
 
   /// Initialize AppService for testing with pre-created services
   /// This allows tests to use algorithm-testing word lists instead of full production lists
-  Future<void> initializeForTesting(WordService wordService, GameService gameService) async {
+  Future<void> initializeForTesting(GameService gameService) async {
     if (_isInitialized) {
       return; // Already initialized
     }
 
     try {
-      DebugLogger.info('🧪 Initializing AppService for testing with algorithm-testing word list', tag: 'AppService');
+      DebugLogger.info('🧪 Initializing AppService for testing with centralized FFI', tag: 'AppService');
 
-      _wordService = wordService;
       _gameService = gameService;
       _isInitialized = true;
 

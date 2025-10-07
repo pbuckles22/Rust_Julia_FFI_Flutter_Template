@@ -44,7 +44,6 @@ Future<void> setupServices({bool useMocks = false}) async {
       
       // Register the cached service
       sl.registerSingleton<AppService>(_cachedAppService!);
-      sl.registerSingleton<WordService>(_cachedAppService!.wordService);
       sl.registerSingleton<GameService>(_cachedAppService!.gameService);
       
       DebugLogger.success('✅ Cached services registered successfully!', tag: 'ServiceLocator');
@@ -68,7 +67,6 @@ Future<void> setupServices({bool useMocks = false}) async {
     sl.registerSingleton<AppService>(appService);
 
     // Register individual services for easier access
-    sl.registerSingleton<WordService>(appService.wordService);
     sl.registerSingleton<GameService>(appService.gameService);
 
     // Cache for future tests
@@ -120,7 +118,6 @@ Future<void> setupTestServices({bool useMocks = false}) async {
       
       // Register the cached service
       sl.registerSingleton<AppService>(_cachedAppService!);
-      sl.registerSingleton<WordService>(_cachedAppService!.wordService);
       sl.registerSingleton<GameService>(_cachedAppService!.gameService);
       
       DebugLogger.success('✅ Cached test services registered successfully!', tag: 'ServiceLocator');
@@ -148,7 +145,7 @@ Future<void> setupTestServices({bool useMocks = false}) async {
     
     // Create AppService and initialize it manually
     final appService = AppService();
-    await appService.initializeForTesting(wordService, gameService);
+    await appService.initializeForTesting(gameService);
 
     DebugLogger.info('🔧 Registering test services in GetIt...', tag: 'ServiceLocator');
 
