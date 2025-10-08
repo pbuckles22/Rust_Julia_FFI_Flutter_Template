@@ -1,17 +1,18 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+
 import 'package:wrdlhelper/models/game_state.dart';
 import 'package:wrdlhelper/models/guess_result.dart';
 import 'package:wrdlhelper/models/word.dart';
 import 'package:wrdlhelper/service_locator.dart';
 import 'package:wrdlhelper/services/app_service.dart';
 import 'package:wrdlhelper/services/game_service.dart';
+import 'package:wrdlhelper/src/rust/api/simple.dart' as ffi;
 import 'package:wrdlhelper/utils/debug_logger.dart';
 import 'package:wrdlhelper/widgets/game_grid.dart';
 import 'package:wrdlhelper/widgets/letter_tile.dart';
 import 'package:wrdlhelper/widgets/virtual_keyboard.dart';
-import 'package:wrdlhelper/src/rust/api/simple.dart' as ffi;
 
 /// Main Wordle helper screen
 ///

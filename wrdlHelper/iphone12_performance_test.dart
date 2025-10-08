@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wrdlhelper/src/rust/frb_generated.dart';
+
 import 'package:wrdlhelper/src/rust/api/simple.dart';
+import 'package:wrdlhelper/src/rust/frb_generated.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

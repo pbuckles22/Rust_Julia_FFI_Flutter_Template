@@ -1,9 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:wrdlhelper/models/guess_result.dart';
 import 'package:wrdlhelper/models/word.dart';
 import 'package:wrdlhelper/services/ffi_service.dart';
 import 'package:wrdlhelper/services/game_service.dart';
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
+import 'package:wrdlhelper/utils/debug_logger.dart';
 
 /// Centralized FFI Benchmark Tests
 ///
@@ -22,14 +24,14 @@ void main() {
     });
 
     test('500-game benchmark with centralized FFI', () async {
-      print('\n🎯 Wordle Solver Benchmark Tool');
-      print('================================');
-      print('📚 Loaded 2300 answer words from centralized FFI');
-      print('📚 Loaded 14855 guess words from centralized FFI');
-      print('');
-      print('🎯 Running 500-Game Wordle Benchmark...');
-      print('🎲 Running Random Wordle Answer Benchmark');
-      print('📊 Testing on 500 random Wordle answer words...');
+      DebugLogger.debug('\n🎯 Wordle Solver Benchmark Tool');
+      DebugLogger.debug('================================');
+      DebugLogger.debug('📚 Loaded 2300 answer words from centralized FFI');
+      DebugLogger.debug('📚 Loaded 14855 guess words from centralized FFI');
+      DebugLogger.debug('');
+      DebugLogger.debug('🎯 Running 500-Game Wordle Benchmark...');
+      DebugLogger.debug('🎲 Running Random Wordle Answer Benchmark');
+      DebugLogger.debug('📊 Testing on 500 random Wordle answer words...');
       
       final stopwatch = Stopwatch()..start();
       int gamesWon = 0;
@@ -86,7 +88,7 @@ void main() {
         if (game % 200 == 0) {
           final currentSuccessRate = (gamesWon / game) * 100;
           final currentAvgGuesses = totalGuesses / game;
-          print('📊 Progress Update - Games $game: Success Rate: ${currentSuccessRate.toStringAsFixed(1)}%, Avg Guesses: ${currentAvgGuesses.toStringAsFixed(2)}');
+          DebugLogger.debug('📊 Progress Update - Games $game: Success Rate: ${currentSuccessRate.toStringAsFixed(1)}%, Avg Guesses: ${currentAvgGuesses.toStringAsFixed(2)}');
         }
       }
 
@@ -99,28 +101,28 @@ void main() {
       final totalTime = stopwatch.elapsedMilliseconds / 1000.0;
 
       // Print results in Rust benchmark format
-      print('');
-      print('📈 WORDLE SOLVER BENCHMARK REPORT');
-      print('=====================================');
-      print('');
-      print('🎯 PERFORMANCE SUMMARY');
-      print('Sample Size: 500 words');
-      print('Benchmark Duration: ${totalTime.toStringAsFixed(2)}s');
-      print('📊 Note: For full statistical significance, consider running 857+ tests');
-      print('');
-      print('📊 Win Distribution by Guess Count:');
+      DebugLogger.debug('');
+      DebugLogger.debug('📈 WORDLE SOLVER BENCHMARK REPORT');
+      DebugLogger.debug('=====================================');
+      DebugLogger.debug('');
+      DebugLogger.debug('🎯 PERFORMANCE SUMMARY');
+      DebugLogger.debug('Sample Size: 500 words');
+      DebugLogger.debug('Benchmark Duration: ${totalTime.toStringAsFixed(2)}s');
+      DebugLogger.debug('📊 Note: For full statistical significance, consider running 857+ tests');
+      DebugLogger.debug('');
+      DebugLogger.debug('📊 Win Distribution by Guess Count:');
       for (int i = 2; i <= 6; i++) {
         final wins = guessDistribution[i] ?? 0;
         final percentage = wins > 0 ? (wins / gamesWon * 100).toStringAsFixed(1) : '0.0';
-        print('  $i guesses: $wins wins ($percentage% of wins)');
+        DebugLogger.debug('  $i guesses: $wins wins ($percentage% of wins)');
       }
-      print('');
-      print('📈 Performance Summary:');
-      print('Success Rate: ${successRate.toStringAsFixed(1)}% (Human: 89.0%)');
-      print('Average Guesses: ${averageGuesses.toStringAsFixed(2)} (Human: 4.10)');
-      print('Average Speed: ${averageTime.toStringAsFixed(3)}s per game');
-      print('Total Games: 500');
-      print('Total Time: ${totalTime.toStringAsFixed(2)}s');
+      DebugLogger.debug('');
+      DebugLogger.debug('📈 Performance Summary:');
+      DebugLogger.debug('Success Rate: ${successRate.toStringAsFixed(1)}% (Human: 89.0%)');
+      DebugLogger.debug('Average Guesses: ${averageGuesses.toStringAsFixed(2)} (Human: 4.10)');
+      DebugLogger.debug('Average Speed: ${averageTime.toStringAsFixed(3)}s per game');
+      DebugLogger.debug('Total Games: 500');
+      DebugLogger.debug('Total Time: ${totalTime.toStringAsFixed(2)}s');
 
       // Assertions - Target 98%+ success rate
       expect(successRate, greaterThanOrEqualTo(98.0), 

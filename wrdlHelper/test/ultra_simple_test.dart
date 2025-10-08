@@ -1,11 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:wrdlhelper/src/rust/frb_generated.dart';
-import 'package:wrdlhelper/src/rust/api/simple.dart' as ffi;
+import 'package:wrdlhelper/services/ffi_service.dart';
 
 void main() {
   group('Ultra Simple Tests', () {
-    setUpAll(() {
-      RustLib.init();
+    setUpAll(() async {
+      await FfiService.initialize();
     });
 
     test('test word filtering with all green', () async {
@@ -14,9 +13,9 @@ void main() {
         ('CRANE', ['G', 'G', 'G', 'G', 'G']), // All green
       ];
       
-      final filtered = ffi.filterWords(
-        words: words,
-        guessResults: guessResults,
+      final filtered = FfiService.filterWords(
+        words,
+        guessResults,
       );
       
       print('Words: $words');
@@ -32,9 +31,9 @@ void main() {
         ('CRANE', ['G', 'X', 'X', 'X', 'X']), // Only first letter green
       ];
       
-      final filtered = ffi.filterWords(
-        words: words,
-        guessResults: guessResults,
+      final filtered = FfiService.filterWords(
+        words,
+        guessResults,
       );
       
       print('Words: $words');

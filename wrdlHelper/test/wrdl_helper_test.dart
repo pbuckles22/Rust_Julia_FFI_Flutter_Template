@@ -1,12 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:wrdlhelper/src/rust/frb_generated.dart';
-import 'package:wrdlhelper/src/rust/api/simple.dart' as ffi;
+import 'package:wrdlhelper/services/ffi_service.dart';
 
 void main() {
   group('wrdlHelper Intelligent Solver Tests', () {
-    setUpAll(() {
-      // Initialize the FFI bridge
-      RustLib.init();
+    setUpAll(() async {
+      // Initialize the FFI service
+      await FfiService.initialize();
     });
 
     group('Basic FFI Functions', () {
@@ -14,9 +13,9 @@ void main() {
         final candidate = 'CRANE';
         final remaining = ['CRANE', 'SLATE'];
         
-        final entropy = ffi.calculateEntropy(
-          candidateWord: candidate,
-          remainingWords: remaining,
+        final entropy = FfiService.calculateEntropy(
+          candidate,
+          remaining,
         );
         
         expect(entropy, isA<double>());
@@ -24,15 +23,15 @@ void main() {
       });
 
       test('should simulate guess patterns correctly', () async {
-        final pattern1 = ffi.simulateGuessPattern(
-          guess: 'CRANE',
-          target: 'CRATE',
+        final pattern1 = FfiService.simulateGuessPattern(
+          'CRANE',
+          'CRATE',
         );
         expect(pattern1, equals('GGGXG')); // C, R, A match, N doesn't, E matches
         
-        final pattern2 = ffi.simulateGuessPattern(
-          guess: 'CRANE',
-          target: 'SLATE',
+        final pattern2 = FfiService.simulateGuessPattern(
+          'CRANE',
+          'SLATE',
         );
         expect(pattern2, equals('XXGXG')); // Only A and E match
       });
@@ -43,9 +42,9 @@ void main() {
           ('CRANE', ['G', 'Y', 'X', 'X', 'G']), // C=Green, R=Yellow, A=Gray, N=Gray, E=Green
         ];
         
-        final filtered = ffi.filterWords(
-          words: words,
-          guessResults: guessResults,
+        final filtered = FfiService.filterWords(
+          words,
+          guessResults,
         );
         
         expect(filtered, isA<List<String>>());
@@ -57,10 +56,10 @@ void main() {
         final remaining = ['CRANE', 'SLATE'];
         final guessResults = <(String, List<String>)>[];
         
-        final bestGuess = ffi.getIntelligentGuess(
-          allWords: allWords,
-          remainingWords: remaining,
-          guessResults: guessResults,
+        final bestGuess = FfiService.getBestGuess(
+          allWords,
+          remaining,
+          guessResults,
         );
         
         expect(bestGuess, isA<String?>());
@@ -75,10 +74,10 @@ void main() {
         final remaining = <String>[];
         final guessResults = <(String, List<String>)>[];
         
-        final bestGuess = ffi.getIntelligentGuess(
-          allWords: allWords,
-          remainingWords: remaining,
-          guessResults: guessResults,
+        final bestGuess = FfiService.getBestGuess(
+          allWords,
+          remaining,
+          guessResults,
         );
         
         expect(bestGuess, isNull);
@@ -89,10 +88,10 @@ void main() {
         final remaining = ['CRANE'];
         final guessResults = <(String, List<String>)>[];
         
-        final bestGuess = ffi.getIntelligentGuess(
-          allWords: allWords,
-          remainingWords: remaining,
-          guessResults: guessResults,
+        final bestGuess = FfiService.getBestGuess(
+          allWords,
+          remaining,
+          guessResults,
         );
         
         expect(bestGuess, equals('CRANE'));
@@ -105,9 +104,9 @@ void main() {
           ('SLATE', ['X', 'X', 'G', 'X', 'G']), // S=Gray, L=Gray, A=Green, T=Gray, E=Green
         ];
         
-        final filtered = ffi.filterWords(
-          words: words,
-          guessResults: guessResults,
+        final filtered = FfiService.filterWords(
+          words,
+          guessResults,
         );
         
         expect(filtered, isA<List<String>>());
@@ -122,9 +121,9 @@ void main() {
         final remaining = List.generate(100, (i) => 'WORD$i');
         
         final stopwatch = Stopwatch()..start();
-        final entropy = ffi.calculateEntropy(
-          candidateWord: candidate,
-          remainingWords: remaining,
+        final entropy = FfiService.calculateEntropy(
+          candidate,
+          remaining,
         );
         stopwatch.stop();
         
@@ -138,10 +137,10 @@ void main() {
         final guessResults = <(String, List<String>)>[];
         
         final stopwatch = Stopwatch()..start();
-        final bestGuess = ffi.getIntelligentGuess(
-          allWords: allWords,
-          remainingWords: remaining,
-          guessResults: guessResults,
+        final bestGuess = FfiService.getBestGuess(
+          allWords,
+          remaining,
+          guessResults,
         );
         stopwatch.stop();
         
@@ -157,9 +156,9 @@ void main() {
           ('CRANE', ['INVALID', 'Y', 'X', 'X', 'G']), // Invalid pattern should default to Gray
         ];
         
-        final filtered = ffi.filterWords(
-          words: words,
-          guessResults: guessResults,
+        final filtered = FfiService.filterWords(
+          words,
+          guessResults,
         );
         
         expect(filtered, isA<List<String>>());
@@ -170,9 +169,9 @@ void main() {
         final words = <String>[];
         final guessResults = <(String, List<String>)>[];
         
-        final filtered = ffi.filterWords(
-          words: words,
-          guessResults: guessResults,
+        final filtered = FfiService.filterWords(
+          words,
+          guessResults,
         );
         
         expect(filtered, isEmpty);
@@ -188,9 +187,9 @@ void main() {
         ];
         
         // Filter remaining words
-        final filtered = ffi.filterWords(
-          words: allWords,
-          guessResults: guessResults,
+        final filtered = FfiService.filterWords(
+          allWords,
+          guessResults,
         );
         
         // Should return only CRANE

@@ -1,11 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:wrdlhelper/src/rust/frb_generated.dart';
-import 'package:wrdlhelper/src/rust/api/simple.dart' as ffi;
+
+import 'package:wrdlhelper/services/ffi_service.dart';
+import 'package:wrdlhelper/utils/debug_logger.dart';
 
 void main() {
   group('Simple Debug Tests', () {
-    setUpAll(() {
-      RustLib.init();
+    setUpAll(() async {
+      await FfiService.initialize();
     });
 
     test('test basic word filtering', () async {
@@ -17,12 +18,12 @@ void main() {
         ('CRANE', ['G', 'G', 'G', 'G', 'G']),
       ];
       
-      final allGreenFiltered = ffi.filterWords(
-        words: words,
-        guessResults: allGreenResults,
+      final allGreenFiltered = FfiService.filterWords(
+        words,
+        allGreenResults,
       );
       
-      print('All green for CRANE: $allGreenFiltered');
+      DebugLogger.debug('All green for CRANE: $allGreenFiltered');
       expect(allGreenFiltered, equals(['CRANE']));
       
       // Test 2: All gray for CRANE should return empty (SLATE contains A and E which are gray)
@@ -30,12 +31,12 @@ void main() {
         ('CRANE', ['X', 'X', 'X', 'X', 'X']),
       ];
       
-      final allGrayFiltered = ffi.filterWords(
-        words: words,
-        guessResults: allGrayResults,
+      final allGrayFiltered = FfiService.filterWords(
+        words,
+        allGrayResults,
       );
       
-      print('All gray for CRANE: $allGrayFiltered');
+      DebugLogger.debug('All gray for CRANE: $allGrayFiltered');
       expect(allGrayFiltered, isEmpty); // SLATE contains A and E which are gray in CRANE
       
       // Test 3: Better example - guess "CRANE" with only C gray, others green
@@ -43,12 +44,12 @@ void main() {
         ('CRANE', ['X', 'G', 'G', 'G', 'G']), // Only C is gray, RANE are green
       ];
       
-      final partialGrayFiltered = ffi.filterWords(
-        words: words,
-        guessResults: partialGrayResults,
+      final partialGrayFiltered = FfiService.filterWords(
+        words,
+        partialGrayResults,
       );
       
-      print('Partial gray for CRANE: $partialGrayFiltered');
+      DebugLogger.debug('Partial gray for CRANE: $partialGrayFiltered');
       expect(partialGrayFiltered, isEmpty); // No word can have RANE in positions 2-5 and not have C
     });
   });

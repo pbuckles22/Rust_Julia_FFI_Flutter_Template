@@ -1,12 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:wrdlhelper/src/rust/frb_generated.dart';
-import 'package:wrdlhelper/src/rust/api/simple.dart' as ffi;
+import 'package:wrdlhelper/services/ffi_service.dart';
 
 void main() {
   group('Word Filtering Bug Tests (TDD Red Phase)', () {
-    setUpAll(() {
-      // Initialize the FFI bridge
-      RustLib.init();
+    setUpAll(() async {
+      // Initialize the FFI service
+      await FfiService.initialize();
     });
 
     group('Critical Bug: Gray Letter Logic', () {
@@ -19,9 +18,9 @@ void main() {
           ('CRANE', ['X', 'X', 'X', 'X', 'X']), // All gray
         ];
         
-        final filtered = ffi.filterWords(
-          words: words,
-          guessResults: guessResults,
+        final filtered = FfiService.filterWords(
+          words,
+          guessResults,
         );
         
         // Should return only words that don't contain C,R,A,N,E
@@ -43,9 +42,9 @@ void main() {
           ('CRANE', ['G', 'X', 'X', 'X', 'X']), // C=Green, R,A,N,E=Gray
         ];
         
-        final filtered = ffi.filterWords(
-          words: words,
-          guessResults: guessResults,
+        final filtered = FfiService.filterWords(
+          words,
+          guessResults,
         );
         
         // Should return words starting with C that don't contain R,A,N,E
@@ -71,9 +70,9 @@ void main() {
           ('CRANE', ['G', 'Y', 'X', 'X', 'Y']), // C=Green, R=Yellow, A=Gray, N=Gray, E=Yellow
         ];
         
-        final filtered = ffi.filterWords(
-          words: words,
-          guessResults: guessResults,
+        final filtered = FfiService.filterWords(
+          words,
+          guessResults,
         );
         
         print('Mixed pattern GYXXY filtered words: $filtered');
@@ -97,9 +96,9 @@ void main() {
           ('CRANE', ['G', 'G', 'G', 'G', 'G']), // All green
         ];
         
-        final filtered = ffi.filterWords(
-          words: words,
-          guessResults: guessResults,
+        final filtered = FfiService.filterWords(
+          words,
+          guessResults,
         );
         
         // Should return only CRANE

@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:wrdlhelper/services/ffi_service.dart';
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
+import 'package:wrdlhelper/utils/debug_logger.dart';
 
 void main() {
   group('Benchmark Integration Tests', () {
@@ -28,7 +30,7 @@ void main() {
       expect(stopwatch.elapsedMilliseconds, lessThan(100), 
           reason: 'Default mode should be fast (<100ms)');
       
-      print('Default mode: ${stopwatch.elapsedMilliseconds}ms');
+      DebugLogger.debug('Default mode: ${stopwatch.elapsedMilliseconds}ms');
     });
 
     test('reference mode performance meets targets', () {
@@ -48,7 +50,7 @@ void main() {
       expect(stopwatch.elapsedMilliseconds, lessThan(500), 
           reason: 'Reference mode should be reasonable (<500ms)');
       
-      print('Reference mode: ${stopwatch.elapsedMilliseconds}ms');
+      DebugLogger.debug('Reference mode: ${stopwatch.elapsedMilliseconds}ms');
     });
 
     test('entropy calculation performance', () {
@@ -64,7 +66,7 @@ void main() {
       expect(stopwatch.elapsedMilliseconds, lessThan(50), 
           reason: 'Entropy calculation should be fast (<50ms)');
       
-      print('Entropy calculation: ${stopwatch.elapsedMilliseconds}ms, value: $entropy');
+      DebugLogger.debug('Entropy calculation: ${stopwatch.elapsedMilliseconds}ms, value: $entropy');
     });
 
     test('filtering performance with multiple patterns', () {
@@ -86,7 +88,7 @@ void main() {
       expect(stopwatch.elapsedMilliseconds, lessThan(50), 
           reason: 'Filtering should be fast (<50ms)');
       
-      print('Filtering: ${stopwatch.elapsedMilliseconds}ms, filtered: ${filtered.length} words');
+      DebugLogger.debug('Filtering: ${stopwatch.elapsedMilliseconds}ms, filtered: ${filtered.length} words');
     });
 
     test('configuration switching performance', () {
@@ -117,7 +119,7 @@ void main() {
         expect(stopwatch.elapsedMilliseconds, lessThan(200), 
             reason: 'Config $i should be fast (<200ms)');
         
-        print('Config $i: ${stopwatch.elapsedMilliseconds}ms');
+        DebugLogger.debug('Config $i: ${stopwatch.elapsedMilliseconds}ms');
       }
     });
 
@@ -130,7 +132,7 @@ void main() {
         expect(bestGuess, isNotNull);
         
         if (i % 20 == 0) {
-          print('Iteration $i: $bestGuess');
+          DebugLogger.debug('Iteration $i: $bestGuess');
         }
       }
       
@@ -143,7 +145,7 @@ void main() {
       expect(stopwatch.elapsedMilliseconds, lessThan(100), 
           reason: 'Performance should not degrade after many calls');
       
-      print('Final call after 100 iterations: ${stopwatch.elapsedMilliseconds}ms');
+      DebugLogger.debug('Final call after 100 iterations: ${stopwatch.elapsedMilliseconds}ms');
     });
   });
 }

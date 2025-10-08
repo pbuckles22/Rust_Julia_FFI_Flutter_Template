@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:wrdlhelper/services/ffi_service.dart';
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
+import 'package:wrdlhelper/utils/debug_logger.dart';
 
 void main() {
   group('Candidate Pool Controls Tests', () {
@@ -101,7 +103,7 @@ void main() {
         expect(bestGuess, isNotNull);
         expect(stopwatch.elapsedMilliseconds, lessThan(testCase['expectedMaxTime'] as int));
         
-        print('Candidate cap ${testCase['cap']}: ${stopwatch.elapsedMilliseconds}ms');
+        DebugLogger.debug('Candidate cap ${testCase['cap']}: ${stopwatch.elapsedMilliseconds}ms');
       }
     });
 
