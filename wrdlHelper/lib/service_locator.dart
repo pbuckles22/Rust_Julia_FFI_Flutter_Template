@@ -1,8 +1,9 @@
 import 'package:get_it/get_it.dart';
-import 'package:wrdlhelper/services/app_service.dart';
-import 'package:wrdlhelper/services/ffi_service.dart';
-import 'package:wrdlhelper/services/game_service.dart';
-import 'package:wrdlhelper/utils/debug_logger.dart';
+
+import 'services/app_service.dart';
+import 'services/ffi_service.dart';
+import 'services/game_service.dart';
+import 'utils/debug_logger.dart';
 
 // This is our global service locator
 final sl = GetIt.instance;

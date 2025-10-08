@@ -1,12 +1,12 @@
 import 'dart:math';
 
-import 'package:wrdlhelper/exceptions/game_exceptions.dart';
-import 'package:wrdlhelper/exceptions/service_exceptions.dart';
-import 'package:wrdlhelper/models/game_state.dart';
-import 'package:wrdlhelper/models/guess_result.dart';
-import 'package:wrdlhelper/models/word.dart';
-import 'package:wrdlhelper/services/ffi_service.dart';
-import 'package:wrdlhelper/utils/debug_logger.dart';
+import '../exceptions/game_exceptions.dart';
+import '../exceptions/service_exceptions.dart';
+import '../models/game_state.dart';
+import '../models/guess_result.dart';
+import '../models/word.dart';
+import '../utils/debug_logger.dart';
+import 'ffi_service.dart';
 
 /// Game progress analysis result
 class GameProgressAnalysis {

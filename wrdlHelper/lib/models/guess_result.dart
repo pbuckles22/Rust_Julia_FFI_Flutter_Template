@@ -1,5 +1,5 @@
-import 'package:wrdlhelper/models/word.dart';
-import 'package:wrdlhelper/exceptions/game_exceptions.dart';
+import '../exceptions/game_exceptions.dart';
+import 'word.dart';
 
 /// Letter state for Wordle game
 enum LetterState {

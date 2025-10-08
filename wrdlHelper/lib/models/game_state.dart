@@ -1,6 +1,6 @@
-import 'package:wrdlhelper/exceptions/game_exceptions.dart';
-import 'package:wrdlhelper/models/guess_result.dart';
-import 'package:wrdlhelper/models/word.dart';
+import '../exceptions/game_exceptions.dart';
+import 'guess_result.dart';
+import 'word.dart';
 
 /// Game status enum for Wordle game
 enum GameStatus {

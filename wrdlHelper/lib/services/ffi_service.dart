@@ -1,7 +1,7 @@
-import 'package:wrdlhelper/src/rust/frb_generated.dart';
-import 'package:wrdlhelper/src/rust/api/simple.dart' as ffi;
-import 'package:wrdlhelper/exceptions/service_exceptions.dart';
-import 'package:wrdlhelper/utils/debug_logger.dart';
+import '../exceptions/service_exceptions.dart';
+import '../src/rust/api/simple.dart' as ffi;
+import '../src/rust/frb_generated.dart';
+import '../utils/debug_logger.dart';
 
 /// Configuration class for FFI settings
 class FfiConfiguration {

@@ -1,6 +1,6 @@
-import 'package:wrdlhelper/services/ffi_service.dart';
-import 'package:wrdlhelper/services/game_service.dart';
-import 'package:wrdlhelper/utils/debug_logger.dart';
+import '../utils/debug_logger.dart';
+import 'ffi_service.dart';
+import 'game_service.dart';
 
 /// Centralized service for app initialization
 ///
