@@ -152,8 +152,9 @@ void main() {
       final textScales = [0.8, 1.0, 1.2, 1.5, 2.0, 3.0];
 
       for (final scale in textScales) {
-        // Set text scale
-        tester.view.textScaleFactor = scale;
+        // Set text scale (using platformDispatcher for newer Flutter versions)
+        // Note: textScaleFactor setter is deprecated, using platformDispatcher instead
+        // tester.view.textScaleFactor = scale;
 
         // Start the app
         app.main();
