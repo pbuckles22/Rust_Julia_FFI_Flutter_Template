@@ -577,12 +577,11 @@ void main() {
       test('handles stress test with word filtering', () {
         // Arrange
         const operations = 1000;
+        final stopwatch = Stopwatch()..start();
 
         // Act
-
         for (int i = 0; i < operations; i++) {
-            FfiService.isValidWord('SLATE'); // Test FFI validation performance
-          }
+          FfiService.isValidWord('SLATE'); // Test FFI validation performance
         }
 
         stopwatch.stop();

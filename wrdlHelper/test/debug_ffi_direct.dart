@@ -18,9 +18,10 @@ void main() {
       }
     });
 
-    test('should call greet function', () {
-      final result = ffi.greet(name: "Test");
-      expect(result, equals("Hello, Test!"));
+    test('should call getAnswerWords function', () {
+      final result = ffi.getAnswerWords();
+      expect(result, isA<List<String>>());
+      expect(result.length, greaterThan(0));
     });
 
     test('should call getIntelligentGuess with minimal data', () {
