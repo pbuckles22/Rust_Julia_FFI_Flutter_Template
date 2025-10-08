@@ -18,7 +18,7 @@ void main() {
     testWidgets('should render letter tile correctly', (WidgetTester tester) async {
       // Test basic letter tile rendering
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',
@@ -84,7 +84,7 @@ void main() {
     testWidgets('should handle revealed state correctly', (WidgetTester tester) async {
       // Test revealed state
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',
@@ -128,7 +128,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           theme: ThemeData.light(),
-          home: Scaffold(
+          home: const Scaffold(
             body: LetterTile(
               letter: 'A',
               state: LetterTileState.empty,
@@ -144,7 +144,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           theme: ThemeData.dark(),
-          home: Scaffold(
+          home: const Scaffold(
             body: LetterTile(
               letter: 'A',
               state: LetterTileState.empty,
@@ -160,7 +160,7 @@ void main() {
     testWidgets('should handle responsive layout', (WidgetTester tester) async {
       // Test responsive layout
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',
@@ -186,7 +186,7 @@ void main() {
     testWidgets('should handle accessibility features', (WidgetTester tester) async {
       // Test accessibility features
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',

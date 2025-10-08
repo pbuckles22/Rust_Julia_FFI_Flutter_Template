@@ -1,28 +1,27 @@
-/**
- * Widget Test Suite for Flutter-Rust FFI Application
- * 
- * This test suite validates the Flutter UI components and their integration
- * with the Rust FFI backend. It covers:
- * 
- * - Widget rendering and layout
- * - User interaction handling
- * - State management
- * - FFI integration in UI context
- * - Error handling in UI
- * - Performance of UI operations
- * 
- * # Test Categories
- * - Widget unit tests
- * - Integration tests with FFI
- * - User interaction tests
- * - Error state tests
- * - Performance tests
- * 
- * # Usage
- * ```bash
- * flutter test test/widget_test.dart
- * ```
- */
+/// Widget Test Suite for Flutter-Rust FFI Application
+library widget_test;
+/// 
+/// This test suite validates the Flutter UI components and their integration
+/// with the Rust FFI backend. It covers:
+/// 
+/// - Widget rendering and layout
+/// - User interaction handling
+/// - State management
+/// - FFI integration in UI context
+/// - Error handling in UI
+/// - Performance of UI operations
+/// 
+/// # Test Categories
+/// - Widget unit tests
+/// - Integration tests with FFI
+/// - User interaction tests
+/// - Error state tests
+/// - Performance tests
+/// 
+/// # Usage
+/// ```bash
+/// flutter test test/widget_test.dart
+/// ```
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -31,216 +30,171 @@ import 'package:wrdlhelper/service_locator.dart';
 
 void main() {
   group('Widget Tests', () {
-    
-    setUp(() {
-      // Reset all services before each test to ensure clean state
-      resetAllServices();
-    });
+    setUp(resetAllServices);
 
-    // No tearDown needed - services are reset in setUp!
-
-    testWidgets('MyApp should render correctly', (WidgetTester tester) async {
-      // Build our app and trigger a frame
+    testWidgets('MyApp should render correctly', (tester) async {
       await tester.pumpWidget(const MyApp());
 
-      // Verify that the app renders without errors
       expect(find.byType(MaterialApp), findsOneWidget);
       expect(find.byType(Scaffold), findsOneWidget);
       expect(find.byType(AppBar), findsOneWidget);
     });
 
-    testWidgets('AppBar should display correct title', (WidgetTester tester) async {
+    testWidgets('AppBar should display correct title', (tester) async {
       await tester.pumpWidget(const MyApp());
 
-      // Verify the AppBar title
       expect(find.text('Wordle Helper'), findsOneWidget);
     });
 
-    testWidgets('Body should display Wordle game screen', (WidgetTester tester) async {
+    testWidgets('Body should display Wordle game screen', (tester) async {
       await tester.pumpWidget(const MyApp());
 
-      // Wait for the FutureBuilder to complete (services initialization)
       await tester.pump(const Duration(seconds: 2));
       
-      // Should show either loading screen or main game screen
-      final hasGameGrid = find.byKey(const Key('game_grid')).evaluate().isNotEmpty;
-      final hasLoadingIndicator = find.byType(CircularProgressIndicator).evaluate().isNotEmpty;
+      final hasGameGrid = find.byKey(const Key('game_grid'))
+          .evaluate()
+          .isNotEmpty;
+      final hasLoadingIndicator = find.byType(CircularProgressIndicator)
+          .evaluate()
+          .isNotEmpty;
       
       expect(hasGameGrid || hasLoadingIndicator, isTrue);
       
-      // If we have the game screen, check for key elements
       if (hasGameGrid) {
         expect(find.byKey(const Key('virtual_keyboard')), findsOneWidget);
         expect(find.text('New Game'), findsOneWidget);
       }
     });
 
-    testWidgets('App should have proper layout structure', (WidgetTester tester) async {
+    testWidgets('App should have proper layout structure', (tester) async {
       await tester.pumpWidget(const MyApp());
 
-      // Wait for FutureBuilder to complete
       await tester.pump(const Duration(seconds: 2));
 
-      // Verify the app has proper layout structure
       expect(find.byType(Scaffold), findsOneWidget);
       expect(find.byType(AppBar), findsOneWidget);
-      expect(find.byType(Column), findsWidgets); // Multiple columns: loading state + main UI
+      expect(find.byType(Column), findsWidgets);
       
-      // SingleChildScrollView might be in the main game screen or not present in loading screen
-      final hasScrollView = find.byType(SingleChildScrollView).evaluate().isNotEmpty;
-      expect(hasScrollView, anyOf(isTrue, isFalse)); // Either present or not
+      final hasScrollView = find.byType(SingleChildScrollView)
+          .evaluate()
+          .isNotEmpty;
+      expect(hasScrollView, anyOf(isTrue, isFalse));
       
-      // Find text widgets
       final textWidget = find.byType(Text);
       expect(textWidget, findsWidgets);
     });
 
-    testWidgets('App should handle theme correctly', (WidgetTester tester) async {
+    testWidgets('App should handle theme correctly', (tester) async {
       await tester.pumpWidget(const MyApp());
 
-      // Verify MaterialApp is using default theme
-      final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
-      // Theme might be null in test environment, but colorScheme should be available
+      final materialApp = tester.widget<MaterialApp>(
+          find.byType(MaterialApp));
       expect(materialApp.theme?.colorScheme, anyOf(isNull, isNotNull));
     });
 
-    testWidgets('App should be responsive to different screen sizes', (WidgetTester tester) async {
-      // Test with different screen sizes
+    testWidgets('App should be responsive to different screen sizes', (tester) async {
       final testSizes = [
-        const Size(400, 800),   // Phone portrait
-        const Size(800, 400),   // Phone landscape
-        const Size(1024, 768),  // Tablet
-        const Size(1920, 1080), // Desktop
+        const Size(400, 800),
+        const Size(800, 400),
+        const Size(1024, 768),
+        const Size(1920, 1080),
       ];
 
       for (final size in testSizes) {
-        // Set the screen size
         tester.view.physicalSize = size;
         tester.view.devicePixelRatio = 1.0;
 
-        // Build the app
         await tester.pumpWidget(const MyApp());
-
-        // Wait for FutureBuilder to complete
         await tester.pump(const Duration(seconds: 2));
 
-        // Verify the app renders without errors
         expect(find.byType(MaterialApp), findsOneWidget);
         expect(find.byType(Scaffold), findsOneWidget);
-
-        // Verify some text is visible (app is rendering)
         expect(find.byType(Text), findsWidgets);
       }
     });
 
-    testWidgets('App should handle orientation changes', (WidgetTester tester) async {
-      // Start in portrait
+    testWidgets('App should handle orientation changes', (tester) async {
       tester.view.physicalSize = const Size(400, 800);
       await tester.pumpWidget(const MyApp());
       await tester.pump(const Duration(seconds: 2));
       expect(find.byType(MaterialApp), findsOneWidget);
 
-      // Change to landscape
       tester.view.physicalSize = const Size(800, 400);
       await tester.pumpWidget(const MyApp());
       await tester.pump(const Duration(seconds: 2));
       expect(find.byType(MaterialApp), findsOneWidget);
-      // Check that some text is visible (app is rendering)
       expect(find.byType(Text), findsWidgets);
     });
 
-    testWidgets('App should maintain state during rebuilds', (WidgetTester tester) async {
+    testWidgets('App should maintain state during rebuilds', (tester) async {
       await tester.pumpWidget(const MyApp());
       await tester.pump(const Duration(seconds: 2));
 
-      // Verify initial state
-      // Check that some text is visible (app is rendering)
       expect(find.byType(Text), findsWidgets);
 
-      // Rebuild the app
       await tester.pumpWidget(const MyApp());
       await tester.pump(const Duration(seconds: 2));
 
-      // Verify state is maintained
-      // Check that some text is visible (app is rendering)
       expect(find.byType(Text), findsWidgets);
     });
 
-    testWidgets('App should handle accessibility', (WidgetTester tester) async {
+    testWidgets('App should handle accessibility', (tester) async {
       await tester.pumpWidget(const MyApp());
 
-      // Verify accessibility features
       final textWidgets = find.byType(Text);
       expect(textWidgets, findsWidgets);
 
-      // Check if the text widgets have proper semantics
       final firstTextWidget = textWidgets.first;
       final semantics = tester.getSemantics(firstTextWidget);
       expect(semantics, isNotNull);
     });
 
-    testWidgets('App should handle different text scales', (WidgetTester tester) async {
-      // Test with different text scale factors
+    testWidgets('App should handle different text scales', (tester) async {
+      await tester.pumpWidget(const MyApp());
+      await tester.pump(const Duration(seconds: 2));
 
-        // Note: textScaleFactor setter is deprecated, using view.physicalSize instead
-        // tester.view.textScaleFactor = scale;
-        await tester.pumpWidget(const MyApp());
-        await tester.pump(const Duration(seconds: 2));
-
-        // Verify the app renders without errors
-        expect(find.byType(MaterialApp), findsOneWidget);
-        // Check that some text is visible (app is rendering)
-        expect(find.byType(Text), findsWidgets);
-      });
+      expect(find.byType(MaterialApp), findsOneWidget);
+      expect(find.byType(Text), findsWidgets);
     });
 
-    testWidgets('App should handle system UI overlay changes', (WidgetTester tester) async {
+    testWidgets('App should handle system UI overlay changes', (tester) async {
       await tester.pumpWidget(const MyApp());
 
-      // Simulate system UI overlay changes
       await tester.pumpWidget(const MyApp());
       expect(find.byType(MaterialApp), findsOneWidget);
     });
 
-    testWidgets('App should handle memory pressure', (WidgetTester tester) async {
+    testWidgets('App should handle memory pressure', (tester) async {
       await tester.pumpWidget(const MyApp());
       await tester.pump(const Duration(seconds: 2));
 
-      // Simulate memory pressure by rebuilding multiple times
-      for (int i = 0; i < 100; i++) {
+      for (var i = 0; i < 100; i++) {
         await tester.pumpWidget(const MyApp());
         await tester.pump(const Duration(seconds: 2));
       }
 
-      // Verify the app still works
       expect(find.byType(MaterialApp), findsOneWidget);
-      // Check that some text is visible (app is rendering)
       expect(find.byType(Text), findsWidgets);
     });
 
-    testWidgets('App should handle rapid rebuilds', (WidgetTester tester) async {
+    testWidgets('App should handle rapid rebuilds', (tester) async {
       await tester.pumpWidget(const MyApp());
       await tester.pump(const Duration(seconds: 2));
 
-      // Perform rapid rebuilds
-      for (int i = 0; i < 50; i++) {
+      for (var i = 0; i < 50; i++) {
         await tester.pumpWidget(const MyApp());
-        await tester.pump(const Duration(seconds: 2)); // Ensure frame is processed
+        await tester.pump(const Duration(seconds: 2));
       }
 
-      // Verify the app still works
       expect(find.byType(MaterialApp), findsOneWidget);
-      // Check that some text is visible (app is rendering)
       expect(find.byType(Text), findsWidgets);
     });
 
-    testWidgets('App should handle widget tree changes', (WidgetTester tester) async {
-      // Start with the main app
+    testWidgets('App should handle widget tree changes', (tester) async {
       await tester.pumpWidget(const MyApp());
       await tester.pump(const Duration(seconds: 2));
       expect(find.byType(MaterialApp), findsOneWidget);
 
-      // Replace with a different widget temporarily
       await tester.pumpWidget(const MaterialApp(
         home: Scaffold(
           body: Center(
@@ -250,100 +204,86 @@ void main() {
       ));
       expect(find.text('Different Widget'), findsOneWidget);
 
-      // Restore the original app
       await tester.pumpWidget(const MyApp());
       await tester.pump(const Duration(seconds: 2));
-      // Check that some text is visible (app is rendering)
       expect(find.byType(Text), findsWidgets);
     });
 
-    testWidgets('App should handle focus changes', (WidgetTester tester) async {
+    testWidgets('App should handle focus changes', (tester) async {
       await tester.pumpWidget(const MyApp());
 
-      // Verify focus widgets are present (MaterialApp creates them)
       expect(find.byType(Focus), findsWidgets);
-      // FocusableActionDetector might not be present
       expect(find.byType(FocusableActionDetector), findsNothing);
     });
 
-    testWidgets('App should handle gesture recognition', (WidgetTester tester) async {
+    testWidgets('App should handle gesture recognition', (tester) async {
       await tester.pumpWidget(const MyApp());
       await tester.pump(const Duration(seconds: 2));
 
-      // Verify buttons are present (they handle gestures)
-      // ElevatedButton might be in main game screen or not present in loading screen
-      final hasElevatedButton = find.byType(ElevatedButton).evaluate().isNotEmpty;
-      expect(hasElevatedButton, anyOf(isTrue, isFalse)); // Either present or not
-      // InkWell might be present in buttons or not (depending on loading state)
-      final hasInkWell = find.byType(InkWell).evaluate().isNotEmpty;
-      expect(hasInkWell, anyOf(isTrue, isFalse)); // Either present or not
+      final hasElevatedButton = find.byType(ElevatedButton)
+          .evaluate()
+          .isNotEmpty;
+      expect(hasElevatedButton, anyOf(isTrue, isFalse));
+      
+      final hasInkWell = find.byType(InkWell)
+          .evaluate()
+          .isNotEmpty;
+      expect(hasInkWell, anyOf(isTrue, isFalse));
     });
 
-    testWidgets('App should handle animation', (WidgetTester tester) async {
+    testWidgets('App should handle animation', (tester) async {
       await tester.pumpWidget(const MyApp());
 
-      // Verify no animations are present
       expect(find.byType(AnimatedWidget), findsNothing);
       expect(find.byType(AnimationController), findsNothing);
     });
 
-    testWidgets('App should handle navigation', (WidgetTester tester) async {
+    testWidgets('App should handle navigation', (tester) async {
       await tester.pumpWidget(const MyApp());
 
-      // Verify no navigation widgets are present
-      expect(find.byType(Navigator), findsOneWidget); // MaterialApp creates a Navigator
-      // Routes widget doesn't exist in our app, so we just check Navigator
+      expect(find.byType(Navigator), findsOneWidget);
     });
 
-    testWidgets('App should handle state management', (WidgetTester tester) async {
+    testWidgets('App should handle state management', (tester) async {
       await tester.pumpWidget(const MyApp());
 
-      // Verify state management widgets are present (MyApp is StatefulWidget)
-      // Note: StatefulWidget is an abstract class, so we look for StatefulWidget instances
       expect(find.byType(MyApp), findsOneWidget);
-      // ValueNotifier might not be present
       expect(find.byType(ValueNotifier), findsNothing);
     });
 
-    testWidgets('App should handle theming', (WidgetTester tester) async {
+    testWidgets('App should handle theming', (tester) async {
       await tester.pumpWidget(const MyApp());
 
-      // Verify theme is applied correctly
-      final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
-      // Theme might be null in test environment
+      final materialApp = tester.widget<MaterialApp>(
+          find.byType(MaterialApp));
       expect(materialApp.theme?.colorScheme, anyOf(isNull, isNotNull));
       expect(materialApp.theme?.textTheme, anyOf(isNull, isNotNull));
     });
 
-    testWidgets('App should handle localization', (WidgetTester tester) async {
+    testWidgets('App should handle localization', (tester) async {
       await tester.pumpWidget(const MyApp());
 
-      // Verify localization is handled
-      final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
-      // Locale might be null in test environment
+      final materialApp = tester.widget<MaterialApp>(
+          find.byType(MaterialApp));
       expect(materialApp.locale, anyOf(isNull, isNotNull));
     });
 
-    testWidgets('App should handle platform differences', (WidgetTester tester) async {
+    testWidgets('App should handle platform differences', (tester) async {
       await tester.pumpWidget(const MyApp());
 
-      // Verify platform-specific behavior
-      final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
-      // debugShowCheckedModeBanner might be true in test environment
+      final materialApp = tester.widget<MaterialApp>(
+          find.byType(MaterialApp));
       expect(materialApp.debugShowCheckedModeBanner, anyOf(isTrue, isFalse));
     });
 
-    testWidgets('App should handle error boundaries', (WidgetTester tester) async {
+    testWidgets('App should handle error boundaries', (tester) async {
       await tester.pumpWidget(const MyApp());
 
-      // Verify error handling
       expect(find.byType(MaterialApp), findsOneWidget);
-      
-      // The app should not crash during normal operation
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('App should handle performance', (WidgetTester tester) async {
+    testWidgets('App should handle performance', (tester) async {
       final stopwatch = Stopwatch()..start();
 
       await tester.pumpWidget(const MyApp());
@@ -351,20 +291,16 @@ void main() {
 
       stopwatch.stop();
 
-      // Verify the app renders quickly
       expect(stopwatch.elapsedMilliseconds, lessThan(1000));
     });
 
-    testWidgets('App should handle memory usage', (WidgetTester tester) async {
-      // Build the app multiple times to check for memory leaks
-      for (int i = 0; i < 100; i++) {
+    testWidgets('App should handle memory usage', (tester) async {
+      for (var i = 0; i < 100; i++) {
         await tester.pumpWidget(const MyApp());
         await tester.pump(const Duration(seconds: 2));
       }
 
-      // Verify the app still works
       expect(find.byType(MaterialApp), findsOneWidget);
-      // Check that some text is visible (app is rendering)
       expect(find.byType(Text), findsWidgets);
     });
   });
