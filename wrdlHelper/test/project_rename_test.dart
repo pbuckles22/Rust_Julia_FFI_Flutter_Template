@@ -46,11 +46,11 @@ void main() {
         await RustLib.init();
         
         // Test basic functionality (using existing FFI functions)
-        final answerWords = RustLib.getAnswerWords();
+        final answerWords = RustLib.instance.api.crateApiSimpleGetAnswerWords();
         expect(answerWords.length, greaterThan(0));
         
         // Test wrdlHelper functionality
-        final entropy = RustLib.calculateEntropy(
+        final entropy = RustLib.instance.api.crateApiSimpleCalculateEntropy(
           candidateWord: 'CRANE',
           remainingWords: ['CRANE', 'SLATE'],
         );

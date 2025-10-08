@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/main.dart';
 import 'package:wrdlhelper/screens/wordle_game_screen.dart';
-import 'package:wrdlhelper/services/app_service.dart';
 import 'package:wrdlhelper/service_locator.dart';
 
 void main() {

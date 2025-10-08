@@ -5,7 +5,6 @@ import 'package:wrdlhelper/screens/wordle_game_screen.dart';
 import 'package:wrdlhelper/service_locator.dart';
 import 'package:wrdlhelper/widgets/game_grid.dart';
 import 'package:wrdlhelper/widgets/virtual_keyboard.dart';
-import '../global_test_setup.dart';
 
 void main() {
   group('Complete Game Flow Integration Tests', () {

@@ -28,7 +28,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/main.dart';
 import 'package:wrdlhelper/service_locator.dart';
-import 'package:wrdlhelper/src/rust/frb_generated.dart';
 
 void main() {
   group('Widget Tests', () {
@@ -191,8 +190,8 @@ void main() {
         // Verify the app renders without errors
         expect(find.byType(MaterialApp), findsOneWidget);
         // Check that some text is visible (app is rendering)
-      expect(find.byType(Text), findsWidgets);
-      }
+        expect(find.byType(Text), findsWidgets);
+      });
     });
 
     testWidgets('App should handle system UI overlay changes', (WidgetTester tester) async {
@@ -369,5 +368,4 @@ void main() {
       expect(find.byType(Text), findsWidgets);
     });
   });
-
 }
