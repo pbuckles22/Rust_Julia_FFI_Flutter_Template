@@ -102,7 +102,7 @@ class GameService {
     List<Word>? wordList,
   }) {
     if (!isInitialized) {
-      throw ServiceNotInitializedException('Word service not initialized');
+      throw const ServiceNotInitializedException('Word service not initialized');
     }
 
     // Select target word
@@ -127,7 +127,7 @@ class GameService {
   /// Creates a new game with a specific target word
   GameState createNewGameWithTarget(Word targetWord, {int maxGuesses = 5}) {
     if (!isInitialized) {
-      throw ServiceNotInitializedException('Word service not initialized');
+      throw const ServiceNotInitializedException('Word service not initialized');
     }
 
     // Target word is pre-validated during word list loading
@@ -144,27 +144,27 @@ class GameService {
   /// Processes a guess and returns the result
   GuessResult processGuess(GameState? gameState, Word? guess) {
     if (!isInitialized) {
-      throw ServiceNotInitializedException('Word service not initialized');
+      throw const ServiceNotInitializedException('Word service not initialized');
     }
 
     if (gameState == null) {
-      throw InvalidGameStateException('Game state cannot be null');
+      throw const InvalidGameStateException('Game state cannot be null');
     }
 
     if (guess == null) {
-      throw InvalidGuessException('Guess cannot be null');
+      throw const InvalidGuessException('Guess cannot be null');
     }
 
     // Guess word is pre-validated during word list loading
 
     // Check if guess is in the guess words list (not the smaller answer list)
     if (!FfiService.isValidWord(guess.value)) {
-      throw InvalidGuessException('Guess word not in word list');
+      throw const InvalidGuessException('Guess word not in word list');
     }
 
     // Check if target word exists
     if (gameState.targetWord == null) {
-      throw InvalidGameStateException('Game state has no target word');
+      throw const InvalidGameStateException('Game state has no target word');
     }
 
     // Create guess result
@@ -176,7 +176,7 @@ class GameService {
   /// Adds a guess to the game state
   void addGuessToGame(GameState gameState, Word guess, GuessResult result) {
     if (!isInitialized) {
-      throw ServiceNotInitializedException('Word service not initialized');
+      throw const ServiceNotInitializedException('Word service not initialized');
     }
 
     // Add guess to game state
@@ -186,7 +186,7 @@ class GameService {
   /// Validates if a word is valid using centralized Rust validation
   bool isValidWord(Word word) {
     if (!isInitialized) {
-      throw ServiceNotInitializedException('FFI service not initialized');
+      throw const ServiceNotInitializedException('FFI service not initialized');
     }
 
     try {
@@ -210,7 +210,7 @@ class GameService {
   /// Validates if a word has valid length
   bool isValidWordLength(Word word) {
     if (!isInitialized) {
-      throw ServiceNotInitializedException('Word service not initialized');
+      throw const ServiceNotInitializedException('Word service not initialized');
     }
 
     try {
@@ -223,7 +223,7 @@ class GameService {
   /// Validates if a word has valid characters
   bool isValidWordCharacters(Word word) {
     if (!isInitialized) {
-      throw ServiceNotInitializedException('Word service not initialized');
+      throw const ServiceNotInitializedException('Word service not initialized');
     }
 
     try {
@@ -236,7 +236,7 @@ class GameService {
   /// Validates if a word is not empty
   bool isValidWordNotEmpty(Word word) {
     if (!isInitialized) {
-      throw ServiceNotInitializedException('Word service not initialized');
+      throw const ServiceNotInitializedException('Word service not initialized');
     }
 
     try {
@@ -249,7 +249,7 @@ class GameService {
   /// Analyzes game progress
   GameProgressAnalysis analyzeGameProgress(GameState gameState) {
     if (!isInitialized) {
-      throw ServiceNotInitializedException('Word service not initialized');
+      throw const ServiceNotInitializedException('Word service not initialized');
     }
 
     return GameProgressAnalysis(
@@ -268,7 +268,7 @@ class GameService {
   /// Analyzes letter frequency in the game
   Map<String, int> analyzeLetterFrequency(GameState gameState) {
     if (!isInitialized) {
-      throw ServiceNotInitializedException('Word service not initialized');
+      throw const ServiceNotInitializedException('Word service not initialized');
     }
 
     final Map<String, int> frequency = {};
@@ -303,7 +303,7 @@ class GameService {
 
     if (!isInitialized) {
       DebugLogger.error('GameService not initialized', tag: 'GameService');
-      throw ServiceNotInitializedException('Word service not initialized');
+      throw const ServiceNotInitializedException('Word service not initialized');
     }
 
     DebugLogger.debug(
@@ -339,15 +339,15 @@ class GameService {
   /// Makes a guess in the current game
   Future<GuessResult> makeGuess(String guessWord) async {
     if (!isInitialized) {
-      throw ServiceNotInitializedException('Word service not initialized');
+      throw const ServiceNotInitializedException('Word service not initialized');
     }
 
     if (_currentGame == null) {
-      throw InvalidGameStateException('No active game');
+      throw const InvalidGameStateException('No active game');
     }
 
     if (_currentGame!.isGameOver) {
-      throw GameOverException('Game is over');
+      throw const GameOverException('Game is over');
     }
 
     // Validate guess word
@@ -356,7 +356,7 @@ class GameService {
 
     // Check if guess is in the guess words list (not the smaller answer list)
     if (!FfiService.isValidWord(guessWord)) {
-      throw InvalidGuessException('Guess word not in word list');
+      throw const InvalidGuessException('Guess word not in word list');
     }
 
     // Create guess result
@@ -404,7 +404,7 @@ class GameService {
     // Use centralized Rust word list instead of WordService
     final answerWords = FfiService.getAnswerWords();
     if (answerWords.isEmpty) {
-      throw InvalidGameStateException('No words available');
+      throw const InvalidGameStateException('No words available');
     }
 
     final random = Random();
@@ -431,7 +431,7 @@ class GameService {
   /// Gets game statistics
   Map<String, dynamic> getGameStatistics() {
     if (_currentGame == null) {
-      throw InvalidGameStateException('No active game');
+      throw const InvalidGameStateException('No active game');
     }
 
     return {
@@ -448,7 +448,7 @@ class GameService {
   /// Gets available words for guessing
   List<Word> getAvailableWords() {
     if (!isInitialized) {
-      throw ServiceNotInitializedException('FFI service not initialized');
+      throw const ServiceNotInitializedException('FFI service not initialized');
     }
 
     // Use centralized Rust word list instead of WordService
@@ -714,7 +714,7 @@ class GameService {
   /// Gets game hints
   Map<String, dynamic> getGameHints() {
     if (_currentGame == null) {
-      throw InvalidGameStateException('No active game');
+      throw const InvalidGameStateException('No active game');
     }
 
     final hints = <String, dynamic>{

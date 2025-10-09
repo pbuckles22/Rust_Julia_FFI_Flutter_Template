@@ -613,16 +613,16 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
         actions: [],
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              const Color(0xFFF8F9FA),
-              const Color(0xFFE9ECEF),
-              const Color(0xFFDEE2E6),
+              Color(0xFFF8F9FA),
+              Color(0xFFE9ECEF),
+              Color(0xFFDEE2E6),
             ],
-            stops: const [0.0, 0.5, 1.0],
+            stops: [0.0, 0.5, 1.0],
           ),
         ),
         child: SafeArea(
@@ -680,7 +680,7 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
                       availableWidth: constraints.maxWidth,
                       isSmallScreen: isSmallScreen,
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
 
                     // Action Buttons Row
                     Row(

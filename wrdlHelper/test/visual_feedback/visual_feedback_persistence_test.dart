@@ -37,7 +37,7 @@ void main() {
       'should show keyboard keys with correct colors after marking letters',
       (WidgetTester tester) async {
         // ARRANGE: Load the game screen
-        await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+        await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
 
         // ACT: Type CRANT and mark letters
@@ -119,7 +119,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // ARRANGE: Load the game screen and submit CRANT with marked letters
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       await KeyboardTestHelpers.submitWord(tester, 'CRANT');
@@ -194,7 +194,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // ARRANGE: Load the game screen
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // ACT: Submit CRANT and mark R as green
@@ -228,7 +228,7 @@ void main() {
       'should handle multiple guesses with persistent keyboard colors',
       (WidgetTester tester) async {
         // ARRANGE: Load the game screen
-        await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+        await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
 
         // ACT: Submit first guess CRANT
@@ -282,7 +282,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // ARRANGE: Load the game screen and mark some letters
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       await KeyboardTestHelpers.submitWord(tester, 'CRANT');
@@ -313,7 +313,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // ARRANGE: Load the game screen
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // ACT: Submit word with duplicate letters (e.g., "EERIE")

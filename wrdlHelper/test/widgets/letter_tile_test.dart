@@ -6,7 +6,7 @@ void main() {
   group('LetterTile', () {
     testWidgets('displays letter correctly', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',
@@ -22,7 +22,7 @@ void main() {
 
     testWidgets('displays empty tile correctly', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: '',
@@ -42,7 +42,7 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',
@@ -69,7 +69,7 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',
@@ -96,7 +96,7 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',
@@ -123,7 +123,7 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',
@@ -151,7 +151,7 @@ void main() {
     ) async {
       // Test gray state text color
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',
@@ -172,7 +172,7 @@ void main() {
 
       // Test yellow state text color
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',
@@ -193,7 +193,7 @@ void main() {
 
       // Test green state text color
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',
@@ -217,7 +217,7 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',
@@ -239,7 +239,7 @@ void main() {
 
     testWidgets('has proper sizing constraints', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',
@@ -263,7 +263,7 @@ void main() {
 
     testWidgets('has proper border radius', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',
@@ -288,7 +288,7 @@ void main() {
 
     testWidgets('shows letter in uppercase', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'a',
@@ -306,7 +306,7 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'É',
@@ -324,7 +324,7 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',
@@ -354,7 +354,7 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: '',
@@ -382,7 +382,7 @@ void main() {
 
     testWidgets('has proper animation duration', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',
@@ -405,7 +405,7 @@ void main() {
 
     testWidgets('maintains state across rebuilds', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',
@@ -418,7 +418,7 @@ void main() {
 
       // Rebuild with same properties
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',
@@ -472,7 +472,7 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: '',

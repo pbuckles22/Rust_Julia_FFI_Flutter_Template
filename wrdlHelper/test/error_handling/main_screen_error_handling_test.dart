@@ -21,7 +21,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement error handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
 
       // Wait for initialization to complete
       await tester.pumpAndSettle();
@@ -36,7 +36,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement word service error handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Should handle word service failure gracefully
@@ -47,7 +47,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement game service error handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Should handle game service failure gracefully
@@ -58,7 +58,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement invalid word handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Clear the current input first (it starts with the suggested word)
@@ -78,7 +78,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement network error handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Should handle network issues gracefully
@@ -89,7 +89,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement memory pressure handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Simulate memory pressure with realistic user behavior (indecisive user scenario)
@@ -117,7 +117,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement rapid error handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Rapidly trigger errors - use keyboard interaction
@@ -144,7 +144,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement timeout handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Should handle timeout errors gracefully
@@ -155,7 +155,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement data corruption handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Should handle data corruption gracefully
@@ -166,7 +166,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement file system error handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Should handle file system errors gracefully
@@ -175,7 +175,7 @@ void main() {
 
     testWidgets('should handle permission errors', (WidgetTester tester) async {
       // This test should fail initially - we need to implement permission error handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Should handle permission errors gracefully
@@ -186,7 +186,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement concurrent access handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Should handle concurrent access errors gracefully
@@ -197,7 +197,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement state corruption handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Should handle state corruption gracefully
@@ -208,12 +208,12 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement widget lifecycle error handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Simulate widget lifecycle issues
       await tester.pumpWidget(Container());
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Should handle widget lifecycle errors gracefully
@@ -224,7 +224,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement input validation error handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Clear the current input first (it starts with the suggested word)
@@ -244,7 +244,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement service unavailable handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Should handle service unavailable gracefully
@@ -255,7 +255,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement resource exhaustion handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Should handle resource exhaustion gracefully
@@ -266,7 +266,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement unexpected response handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Should handle unexpected responses gracefully
@@ -277,7 +277,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement system resource handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Should handle system resource constraints gracefully
@@ -288,7 +288,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement concurrent error handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Should handle concurrent errors gracefully
@@ -299,7 +299,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement error recovery
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Trigger error
@@ -319,7 +319,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement error state persistence
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Clear the current input first (it starts with the suggested word)
@@ -339,7 +339,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement error message display
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Clear the current input first (it starts with the suggested word)
@@ -359,7 +359,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement error state clearing
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Trigger error

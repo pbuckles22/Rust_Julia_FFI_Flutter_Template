@@ -12,7 +12,7 @@ void main() {
 
     test('should include killer words when flag is enabled', () {
       // RED: This test will fail until we implement killer words in Rust
-      FfiService.setConfiguration(FfiConfiguration(
+      FfiService.setConfiguration(const FfiConfiguration(
         referenceMode: false,
         includeKillerWords: true,
         candidateCap: 500,
@@ -41,7 +41,7 @@ void main() {
     test('should not include killer words when flag is disabled', () {
       // This test verifies that when killer words are disabled, we get original strategic words
       // Since FFI bindings aren't connected yet, this tests the default Rust behavior
-      FfiService.setConfiguration(FfiConfiguration(
+      FfiService.setConfiguration(const FfiConfiguration(
         referenceMode: false,
         includeKillerWords: false,
         candidateCap: 200,
@@ -64,7 +64,7 @@ void main() {
 
     test('should have higher entropy for killer words in classic trap scenario', () {
       // RED: This test will fail until we implement entropy calculation with killer words
-      FfiService.setConfiguration(FfiConfiguration(
+      FfiService.setConfiguration(const FfiConfiguration(
         referenceMode: false,
         includeKillerWords: true,
         candidateCap: 500,
@@ -91,7 +91,7 @@ void main() {
 
     test('should include all curated killer words in candidate pool', () {
       // RED: This test will fail until we implement the curated list
-      FfiService.setConfiguration(FfiConfiguration(
+      FfiService.setConfiguration(const FfiConfiguration(
         referenceMode: false,
         includeKillerWords: true,
         candidateCap: 1000,
@@ -122,7 +122,7 @@ void main() {
 
     test('should maintain performance with killer words enabled', () {
       // RED: This test will fail until we implement performance optimization
-      FfiService.setConfiguration(FfiConfiguration(
+      FfiService.setConfiguration(const FfiConfiguration(
         referenceMode: false,
         includeKillerWords: true,
         candidateCap: 500,

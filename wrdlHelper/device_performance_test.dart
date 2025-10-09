@@ -140,7 +140,7 @@ Future<void> testRealTimeProcessing() async {
     
     // Simulate real-time delay (1ms)
     if (i % 100 == 0) {
-      await Future.delayed(Duration(milliseconds: 1));
+      await Future.delayed(const Duration(milliseconds: 1));
     }
   }
   

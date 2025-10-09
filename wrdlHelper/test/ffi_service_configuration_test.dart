@@ -19,7 +19,7 @@ void main() {
       expect(initialConfig.referenceMode, isFalse); // Default should be false
       
       // Set new configuration
-      final newConfig = FfiConfiguration(
+      final newConfig = const FfiConfiguration(
         referenceMode: true,
         includeKillerWords: true,
         candidateCap: 1000,
@@ -60,7 +60,7 @@ void main() {
       // RED: This test will verify default configuration reset works
       
       // First set a custom configuration
-      final customConfig = FfiConfiguration(
+      final customConfig = const FfiConfiguration(
         referenceMode: true,
         includeKillerWords: true,
         candidateCap: 500,
@@ -122,7 +122,7 @@ void main() {
       // RED: This test will verify configuration persistence
       
       // Set a specific configuration
-      final testConfig = FfiConfiguration(
+      final testConfig = const FfiConfiguration(
         referenceMode: false,
         includeKillerWords: true,
         candidateCap: 300,
@@ -149,7 +149,7 @@ void main() {
       // RED: This test will verify edge case configuration values
       
       // Test with extreme values
-      final extremeConfig = FfiConfiguration(
+      final extremeConfig = const FfiConfiguration(
         referenceMode: true,
         includeKillerWords: false,
         candidateCap: 1, // Very small
@@ -166,7 +166,7 @@ void main() {
       expect(config.earlyTerminationThreshold, equals(0.1));
       
       // Test with large values
-      final largeConfig = FfiConfiguration(
+      final largeConfig = const FfiConfiguration(
         referenceMode: false,
         includeKillerWords: true,
         candidateCap: 10000, // Very large

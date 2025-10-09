@@ -19,7 +19,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement proper app structure
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Wait for async initialization to complete
@@ -33,7 +33,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement proper routing
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Wait for FutureBuilder to complete (services initialization) with timeout
@@ -53,7 +53,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement proper theming
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Wait for async initialization to complete
@@ -68,7 +68,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement lifecycle handling
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should initialize properly
@@ -83,7 +83,7 @@ void main() {
 
       // Should handle app pause/resume
       await tester.pumpWidget(Container());
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should still work after lifecycle changes
@@ -101,7 +101,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement navigation
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should have proper navigation structure
@@ -112,7 +112,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement responsive design
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Test different portrait screen sizes (iPhone sizes)
@@ -158,7 +158,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement system UI handling
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should handle system UI changes
@@ -176,7 +176,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement accessibility
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should have proper accessibility support
@@ -194,7 +194,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement state restoration
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should handle state restoration
@@ -210,7 +210,7 @@ void main() {
 
     testWidgets('should handle different locales', (WidgetTester tester) async {
       // This test should fail initially - we need to implement localization
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should handle different locales
@@ -228,7 +228,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement dark mode support
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should handle dark mode
@@ -246,7 +246,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement font scaling
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should handle font scaling
@@ -264,7 +264,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement memory management
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should handle memory pressure
@@ -282,7 +282,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement background handling
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should handle backgrounding/foregrounding
@@ -300,7 +300,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement interruption handling
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should handle system interruptions
@@ -318,7 +318,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement error boundaries
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should have proper error handling
@@ -336,7 +336,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement update handling
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should handle app updates
@@ -354,7 +354,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement performance optimization
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should have good performance
@@ -372,7 +372,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement input method handling
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should handle different input methods
@@ -390,7 +390,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement connectivity handling
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should handle connectivity changes
@@ -408,7 +408,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement orientation handling
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should handle orientation changes

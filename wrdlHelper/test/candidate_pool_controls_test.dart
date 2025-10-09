@@ -14,7 +14,7 @@ void main() {
 
     test('should respect candidate cap configuration', () {
       // RED: This test will fail until we implement configurable candidate caps
-      FfiService.setConfiguration(FfiConfiguration(
+      FfiService.setConfiguration(const FfiConfiguration(
         referenceMode: false,
         includeKillerWords: true,
         candidateCap: 50, // Small cap
@@ -38,7 +38,7 @@ void main() {
 
     test('should respect early termination configuration', () {
       // RED: This test will fail until we implement early termination controls
-      FfiService.setConfiguration(FfiConfiguration(
+      FfiService.setConfiguration(const FfiConfiguration(
         referenceMode: false,
         includeKillerWords: true,
         candidateCap: 500,
@@ -111,7 +111,7 @@ void main() {
       // RED: This test will fail until we implement proper edge case handling
       
       // Test with very small candidate cap
-      FfiService.setConfiguration(FfiConfiguration(
+      FfiService.setConfiguration(const FfiConfiguration(
         referenceMode: false,
         includeKillerWords: true,
         candidateCap: 5, // Very small
@@ -129,7 +129,7 @@ void main() {
       expect(bestGuess, isNotNull);
       
       // Test with very large candidate cap
-      FfiService.setConfiguration(FfiConfiguration(
+      FfiService.setConfiguration(const FfiConfiguration(
         referenceMode: false,
         includeKillerWords: true,
         candidateCap: 10000, // Very large

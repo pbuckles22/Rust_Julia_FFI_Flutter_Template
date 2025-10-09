@@ -98,7 +98,7 @@ void main() {
       final configs = [
         () => FfiService.resetToDefaultConfiguration(),
         () => FfiService.applyReferenceModePreset(),
-        () => FfiService.setConfiguration(FfiConfiguration(
+        () => FfiService.setConfiguration(const FfiConfiguration(
           referenceMode: false,
           includeKillerWords: true,
           candidateCap: 500,

@@ -239,7 +239,7 @@ class FfiService {
   /// Ensure the service is initialized
   static void _ensureInitialized() {
     if (!_isInitialized) {
-      throw ServiceNotInitializedException(
+      throw const ServiceNotInitializedException(
         'FFI service not initialized. Call FfiService.initialize() first.',
       );
     }

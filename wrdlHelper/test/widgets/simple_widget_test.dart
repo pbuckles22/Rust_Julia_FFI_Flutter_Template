@@ -204,7 +204,7 @@ void main() {
     testWidgets('should handle rapid state changes', (WidgetTester tester) async {
       // Test rapid state changes
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',
@@ -244,7 +244,7 @@ void main() {
     testWidgets('should handle concurrent state updates', (WidgetTester tester) async {
       // Test concurrent state updates
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',
@@ -257,7 +257,7 @@ void main() {
 
       // Simulate concurrent updates
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',
@@ -274,7 +274,7 @@ void main() {
     testWidgets('should handle error states gracefully', (WidgetTester tester) async {
       // Test error state handling
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',
@@ -294,7 +294,7 @@ void main() {
       int rebuildCount = 0;
 
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',
@@ -308,7 +308,7 @@ void main() {
       // Rebuild widget multiple times
       for (int i = 0; i < 5; i++) {
         await tester.pumpWidget(
-          MaterialApp(
+          const MaterialApp(
             home: Scaffold(
               body: LetterTile(
                 letter: 'A',
@@ -328,7 +328,7 @@ void main() {
     testWidgets('should handle performance under load', (WidgetTester tester) async {
       // Test performance under load
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: 'A',
@@ -382,7 +382,7 @@ void main() {
     testWidgets('should handle empty letter correctly', (WidgetTester tester) async {
       // Test empty letter handling
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: '',
@@ -399,7 +399,7 @@ void main() {
     testWidgets('should handle special characters correctly', (WidgetTester tester) async {
       // Test special character handling
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: LetterTile(
               letter: '!',

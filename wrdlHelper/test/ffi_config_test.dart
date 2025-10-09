@@ -24,7 +24,7 @@ void main() {
 
     test('should allow setting configuration values', () {
       // RED: This test will fail until we implement the config system
-      final newConfig = FfiConfiguration(
+      final newConfig = const FfiConfiguration(
         referenceMode: true,
         includeKillerWords: true,
         candidateCap: 1000,
@@ -72,7 +72,7 @@ void main() {
 
     test('should maintain configuration across FFI calls', () {
       // RED: This test will fail until we implement persistent config
-      FfiService.setConfiguration(FfiConfiguration(
+      FfiService.setConfiguration(const FfiConfiguration(
         referenceMode: true,
         includeKillerWords: true,
         candidateCap: 500,

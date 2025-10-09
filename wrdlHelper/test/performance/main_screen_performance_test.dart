@@ -17,7 +17,7 @@ void main() {
       // This test should fail initially - we need to implement performance optimization
       final stopwatch = Stopwatch()..start();
 
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       stopwatch.stop();
@@ -30,7 +30,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement rapid input optimization
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       final stopwatch = Stopwatch()..start();
@@ -56,7 +56,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement smooth animations
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Test animation performance
@@ -78,7 +78,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement memory management
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Play multiple games
@@ -95,7 +95,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement efficient word list handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       final stopwatch = Stopwatch()..start();
@@ -114,7 +114,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement efficient state management
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       final stopwatch = Stopwatch()..start();
@@ -164,7 +164,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement efficient rebuilds
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       final stopwatch = Stopwatch()..start();
@@ -184,7 +184,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement efficient color updates
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       final stopwatch = Stopwatch()..start();
@@ -243,7 +243,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement efficient error handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Clear the current input first (it starts with the suggested word)
@@ -286,7 +286,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement efficient state changes
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       final stopwatch = Stopwatch()..start();
@@ -345,7 +345,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement concurrent operation handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       final stopwatch = Stopwatch()..start();
@@ -383,7 +383,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement efficient grid rendering
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       final stopwatch = Stopwatch()..start();
@@ -409,7 +409,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement efficient state transitions
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       final stopwatch = Stopwatch()..start();
@@ -430,7 +430,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement memory pressure handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Simulate memory pressure with realistic user behavior
@@ -459,7 +459,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement efficient background processing
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       final stopwatch = Stopwatch()..start();
@@ -478,7 +478,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement efficient UI updates
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       final stopwatch = Stopwatch()..start();

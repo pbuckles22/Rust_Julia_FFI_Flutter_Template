@@ -40,7 +40,7 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('iPhone Performance Test'),
+        title: const Text('iPhone Performance Test'),
         backgroundColor: Colors.blue,
       ),
       body: Column(
@@ -50,12 +50,12 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
               itemCount: testResults.length,
               itemBuilder: (context, index) {
                 return Card(
-                  margin: EdgeInsets.all(8.0),
+                  margin: const EdgeInsets.all(8.0),
                   child: Padding(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: Text(
                       testResults[index],
-                      style: TextStyle(fontFamily: 'monospace'),
+                      style: const TextStyle(fontFamily: 'monospace'),
                     ),
                   ),
                 );
@@ -63,14 +63,14 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
             ),
           ),
           Container(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: isRunning ? null : runPerformanceTests,
-              child: Text(isRunning ? 'Running Tests...' : 'Run Performance Tests'),
+              child: const Text(isRunning ? 'Running Tests...' : 'Run Performance Tests'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(vertical: 16.0),
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
               ),
             ),
           ),
@@ -238,7 +238,7 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
         
         // Simulate real-time delay (1ms)
         if (i % 100 == 0) {
-          await Future.delayed(Duration(milliseconds: 1));
+          await Future.delayed(const Duration(milliseconds: 1));
         }
       }
     } catch (e) {

@@ -21,7 +21,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement complete integration
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
 
       // Wait for app to load
       await tester.pumpAndSettle();
@@ -129,7 +129,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This is a helper app - it analyzes guesses, doesn't have win/loss
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pumpAndSettle();
 
       // Type a guess word to analyze
@@ -160,7 +160,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This is a helper app - it analyzes multiple guesses to provide suggestions
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pumpAndSettle();
 
       // Submit multiple guesses to build analysis
@@ -200,7 +200,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement new game functionality
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pumpAndSettle();
 
       // Complete a game (win or lose)
@@ -254,7 +254,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement suggestion functionality
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pumpAndSettle();
 
       // Get suggestion
@@ -269,7 +269,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement error handling
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pumpAndSettle();
 
       // Clear the current input first (it starts with the suggested word)
@@ -334,7 +334,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement state persistence
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pumpAndSettle();
 
       // Type some letters
@@ -360,7 +360,7 @@ void main() {
 
       // Simulate app pause/resume
       await tester.pumpWidget(Container());
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pumpAndSettle();
 
       // State should be maintained
@@ -370,7 +370,7 @@ void main() {
     testWidgets(
       'should handle complete keyboard workflow with valid and invalid inputs',
       (WidgetTester tester) async {
-        await tester.pumpWidget(MyApp());
+        await tester.pumpWidget(const MyApp());
         await tester.pumpAndSettle();
 
         // Test 1: Valid word submission - should keep GameGrid visible
@@ -449,7 +449,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement UI updates
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pumpAndSettle();
 
       // Submit a guess
@@ -500,7 +500,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement service error handling
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pumpAndSettle();
 
       // Try to get suggestion when service fails
@@ -515,7 +515,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement accessibility
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pumpAndSettle();
 
       // Should have proper accessibility labels
@@ -528,7 +528,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement orientation handling
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pumpAndSettle();
 
       // Test portrait orientation
@@ -554,7 +554,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // This test should fail initially - we need to implement memory management
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       await tester.pumpAndSettle();
 
       // Perform multiple operations

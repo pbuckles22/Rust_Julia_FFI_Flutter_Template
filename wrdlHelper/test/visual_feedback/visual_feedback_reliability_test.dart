@@ -28,7 +28,7 @@ void main() {
         WidgetTester tester,
       ) async {
         // This test should fail initially - we need to fix UI element positioning
-        await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+        await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
 
         // All keyboard keys should be accessible and tappable
@@ -67,7 +67,7 @@ void main() {
         WidgetTester tester,
       ) async {
         // This test should fail initially - we need to fix action key positioning
-        await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+        await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
 
         // ENTER key should be accessible
@@ -97,7 +97,7 @@ void main() {
         WidgetTester tester,
       ) async {
         // This test should fail initially - we need to fix grid tile positioning
-        await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+        await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
 
         final gameGrid = find.byType(GameGrid);
@@ -124,7 +124,7 @@ void main() {
         WidgetTester tester,
       ) async {
         // This test should fail initially - we need to implement reliable color changes
-        await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+        await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
 
         // Get the first tile
@@ -156,7 +156,7 @@ void main() {
         WidgetTester tester,
       ) async {
         // This test should fail initially - we need to implement keyboard color updates
-        await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+        await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
 
         // Type a word and set letter states
@@ -204,7 +204,7 @@ void main() {
       ) async {
         // This test should fail initially - we need to fix responsive layout
         await tester.binding.setSurfaceSize(const Size(375, 667)); // iPhone SE
-        await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+        await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
 
         // All UI elements should be accessible on small screen
@@ -230,7 +230,7 @@ void main() {
         await tester.binding.setSurfaceSize(
           const Size(430, 932),
         ); // iPhone 14 Pro Max
-        await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+        await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
 
         // All UI elements should be accessible on large screen
@@ -255,7 +255,7 @@ void main() {
         WidgetTester tester,
       ) async {
         // This test should fail initially - we need to fix service locator cleanup
-        await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+        await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
 
         // Should not have service locator warnings
@@ -272,19 +272,19 @@ void main() {
         (WidgetTester tester) async {
           // This test should fail initially - we need to fix service locator state
           // Initialize app multiple times
-          await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+          await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
           await tester.pumpAndSettle();
 
           await tester.pumpWidget(Container()); // Clear
           await tester.pump();
 
-          await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+          await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
           await tester.pumpAndSettle();
 
           await tester.pumpWidget(Container()); // Clear
           await tester.pump();
 
-          await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+          await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
           await tester.pumpAndSettle();
 
           // Should work without service locator conflicts
@@ -298,7 +298,7 @@ void main() {
         WidgetTester tester,
       ) async {
         // This test should fail initially - we need to implement complete visual feedback
-        await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+        await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
 
         // Type a word

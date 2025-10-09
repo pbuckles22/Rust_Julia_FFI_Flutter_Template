@@ -423,7 +423,7 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        MaterialApp(home: Scaffold(body: VirtualKeyboard(onKeyPress: null))),
+        const MaterialApp(home: Scaffold(body: VirtualKeyboard(onKeyPress: null))),
       );
 
       // Should not crash when tapping keys

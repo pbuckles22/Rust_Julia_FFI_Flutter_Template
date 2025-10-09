@@ -104,7 +104,7 @@ void main() {
           
           // Force garbage collection hint
           if (i % 10 == 0) {
-            await Future.delayed(Duration(milliseconds: 1));
+            await Future.delayed(const Duration(milliseconds: 1));
           }
         }
       });

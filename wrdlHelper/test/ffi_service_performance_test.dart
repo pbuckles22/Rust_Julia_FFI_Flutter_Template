@@ -254,7 +254,7 @@ void main() {
         final initialDuration = DateTime.now().difference(initialTime);
         
         // Wait a bit
-        await Future.delayed(Duration(milliseconds: 100));
+        await Future.delayed(const Duration(milliseconds: 100));
         
         final laterTime = DateTime.now();
         
