@@ -17,10 +17,13 @@ void main() {
       // Clean up after all tests
       resetAllServices();
     });
-    testWidgets('should complete full game workflow from start to finish', (
+    testWidgets(
+      'should complete full game workflow from start to finish',
+      (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement complete integration
+      // This test should fail initially - we need to implement complete
+      // integration
       await tester.pumpWidget(const MyApp());
 
       // Wait for app to load
@@ -159,7 +162,8 @@ void main() {
     testWidgets('should handle multiple guess analysis', (
       WidgetTester tester,
     ) async {
-      // This is a helper app - it analyzes multiple guesses to provide suggestions
+      // This is a helper app - it analyzes multiple guesses to provide
+      // suggestions
       await tester.pumpWidget(const MyApp());
       await tester.pumpAndSettle();
 
@@ -199,7 +203,8 @@ void main() {
     testWidgets('should handle new game after completion', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement new game functionality
+      // This test should fail initially - we need to implement new game
+      // functionality
       await tester.pumpWidget(const MyApp());
       await tester.pumpAndSettle();
 
@@ -253,7 +258,8 @@ void main() {
     testWidgets('should handle suggestion functionality', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement suggestion functionality
+      // This test should fail initially - we need to implement suggestion
+      // functionality
       await tester.pumpWidget(const MyApp());
       await tester.pumpAndSettle();
 
@@ -333,7 +339,8 @@ void main() {
     testWidgets('should maintain state across app lifecycle', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement state persistence
+      // This test should fail initially - we need to implement state
+      // persistence
       await tester.pumpWidget(const MyApp());
       await tester.pumpAndSettle();
 
@@ -499,7 +506,8 @@ void main() {
     testWidgets('should handle service failures gracefully', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement service error handling
+      // This test should fail initially - we need to implement service error
+      // handling
       await tester.pumpWidget(const MyApp());
       await tester.pumpAndSettle();
 
@@ -527,14 +535,16 @@ void main() {
     testWidgets('should handle different screen orientations', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement orientation handling
+      // This test should fail initially - we need to implement orientation
+      // handling
       await tester.pumpWidget(const MyApp());
       await tester.pumpAndSettle();
 
       // Test portrait orientation
       expect(find.byType(WordleGameScreen), findsOneWidget);
 
-      // Test different portrait sizes (iPhone SE, iPhone 12, iPhone 14 Pro Max)
+      // Test different portrait sizes (iPhone SE, iPhone 12, iPhone 14 Pro
+      // Max)
       await tester.binding.setSurfaceSize(const Size(375, 667)); // iPhone SE
       await tester.pump();
       expect(find.byType(WordleGameScreen), findsOneWidget);
@@ -553,7 +563,8 @@ void main() {
     testWidgets('should handle memory management correctly', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement memory management
+      // This test should fail initially - we need to implement memory
+      // management
       await tester.pumpWidget(const MyApp());
       await tester.pumpAndSettle();
 

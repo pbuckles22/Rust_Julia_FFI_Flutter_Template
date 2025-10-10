@@ -18,7 +18,8 @@ void main() {
     testWidgets('should create app with correct title', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement proper app structure
+      // This test should fail initially - we need to implement proper app
+      // structure
       await tester.pumpWidget(const MyApp());
       await tester.pump();
 
@@ -36,10 +37,12 @@ void main() {
       await tester.pumpWidget(const MyApp());
       await tester.pump();
 
-      // Wait for FutureBuilder to complete (services initialization) with timeout
+      // Wait for FutureBuilder to complete (services initialization) with
+      // timeout
       await tester.pump(const Duration(seconds: 2));
       // Should show main game screen
-      // Wait for FutureBuilder to complete (services initialization) with timeout
+      // Wait for FutureBuilder to complete (services initialization) with
+      // timeout
       await tester.pump(const Duration(seconds: 2));
       // Should show main game screen (or loading screen if initialization is slow)
       expect(
@@ -67,12 +70,14 @@ void main() {
     testWidgets('should handle app lifecycle correctly', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement lifecycle handling
+      // This test should fail initially - we need to implement lifecycle
+      // handling
       await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should initialize properly
-      // Wait for FutureBuilder to complete (services initialization) with timeout
+      // Wait for FutureBuilder to complete (services initialization) with
+      // timeout
       await tester.pump(const Duration(seconds: 2));
       // Should show main game screen (or loading screen if initialization is slow)
       expect(
@@ -87,7 +92,8 @@ void main() {
       await tester.pump();
 
       // Should still work after lifecycle changes
-      // Wait for FutureBuilder to complete (services initialization) with timeout
+      // Wait for FutureBuilder to complete (services initialization) with
+      // timeout
       await tester.pump(const Duration(seconds: 2));
       // Should show main game screen (or loading screen if initialization is slow)
       expect(
@@ -111,29 +117,35 @@ void main() {
     testWidgets('should handle different screen sizes', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement responsive design
+      // This test should fail initially - we need to implement responsive
+      // design
       await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Test different portrait screen sizes (iPhone sizes)
       await tester.binding.setSurfaceSize(const Size(375, 667)); // iPhone SE
       await tester.pump();
-      // Wait for FutureBuilder to complete (services initialization) with timeout
+      // Wait for FutureBuilder to complete (services initialization) with
+      // timeout
       await tester.pump(const Duration(seconds: 2));
-      // Wait for FutureBuilder to complete (services initialization) with timeout
+      // Wait for FutureBuilder to complete (services initialization) with
+      // timeout
       await tester.pump(const Duration(seconds: 2));
-      // Should show main game screen (or loading screen if initialization is slow)
+      // Should show main game screen (or loading screen if initialization is
+      // slow)
       expect(
-        find.byType(WordleGameScreen).evaluate().isNotEmpty || 
-        find.byType(CircularProgressIndicator).evaluate().isNotEmpty, 
-        isTrue
+        find.byType(WordleGameScreen).evaluate().isNotEmpty ||
+        find.byType(CircularProgressIndicator).evaluate().isNotEmpty,
+        isTrue,
       );
 
       await tester.binding.setSurfaceSize(const Size(390, 844)); // iPhone 12
       await tester.pump();
-      // Wait for FutureBuilder to complete (services initialization) with timeout
+      // Wait for FutureBuilder to complete (services initialization) with
+      // timeout
       await tester.pump(const Duration(seconds: 2));
-      // Should show main game screen (or loading screen if initialization is slow)
+      // Should show main game screen (or loading screen if initialization is
+      // slow)
       expect(
         find.byType(WordleGameScreen).evaluate().isNotEmpty || 
         find.byType(CircularProgressIndicator).evaluate().isNotEmpty, 
@@ -144,9 +156,11 @@ void main() {
         const Size(430, 932),
       ); // iPhone 14 Pro Max
       await tester.pump();
-      // Wait for FutureBuilder to complete (services initialization) with timeout
+      // Wait for FutureBuilder to complete (services initialization) with
+      // timeout
       await tester.pump(const Duration(seconds: 2));
-      // Should show main game screen (or loading screen if initialization is slow)
+      // Should show main game screen (or loading screen if initialization is
+      // slow)
       expect(
         find.byType(WordleGameScreen).evaluate().isNotEmpty || 
         find.byType(CircularProgressIndicator).evaluate().isNotEmpty, 
@@ -157,18 +171,21 @@ void main() {
     testWidgets('should handle system UI overlay changes', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement system UI handling
+      // This test should fail initially - we need to implement system UI
+      // handling
       await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should handle system UI changes
-      // Wait for FutureBuilder to complete (services initialization) with timeout
+      // Wait for FutureBuilder to complete (services initialization) with
+      // timeout
       await tester.pump(const Duration(seconds: 2));
-      // Should show main game screen (or loading screen if initialization is slow)
+      // Should show main game screen (or loading screen if initialization is
+      // slow)
       expect(
-        find.byType(WordleGameScreen).evaluate().isNotEmpty || 
-        find.byType(CircularProgressIndicator).evaluate().isNotEmpty, 
-        isTrue
+        find.byType(WordleGameScreen).evaluate().isNotEmpty ||
+        find.byType(CircularProgressIndicator).evaluate().isNotEmpty,
+        isTrue,
       );
     });
 
@@ -180,31 +197,36 @@ void main() {
       await tester.pump();
 
       // Should have proper accessibility support
-      // Wait for FutureBuilder to complete (services initialization) with timeout
+      // Wait for FutureBuilder to complete (services initialization) with
+      // timeout
       await tester.pump(const Duration(seconds: 2));
-      // Should show main game screen (or loading screen if initialization is slow)
+      // Should show main game screen (or loading screen if initialization is
+      // slow)
       expect(
-        find.byType(WordleGameScreen).evaluate().isNotEmpty || 
-        find.byType(CircularProgressIndicator).evaluate().isNotEmpty, 
-        isTrue
+        find.byType(WordleGameScreen).evaluate().isNotEmpty ||
+        find.byType(CircularProgressIndicator).evaluate().isNotEmpty,
+        isTrue,
       );
     });
 
     testWidgets('should handle app state restoration', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement state restoration
+      // This test should fail initially - we need to implement state
+      // restoration
       await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should handle state restoration
-      // Wait for FutureBuilder to complete (services initialization) with timeout
+      // Wait for FutureBuilder to complete (services initialization) with
+      // timeout
       await tester.pump(const Duration(seconds: 2));
-      // Should show main game screen (or loading screen if initialization is slow)
+      // Should show main game screen (or loading screen if initialization is
+      // slow)
       expect(
-        find.byType(WordleGameScreen).evaluate().isNotEmpty || 
-        find.byType(CircularProgressIndicator).evaluate().isNotEmpty, 
-        isTrue
+        find.byType(WordleGameScreen).evaluate().isNotEmpty ||
+        find.byType(CircularProgressIndicator).evaluate().isNotEmpty,
+        isTrue,
       );
     });
 
@@ -214,31 +236,36 @@ void main() {
       await tester.pump();
 
       // Should handle different locales
-      // Wait for FutureBuilder to complete (services initialization) with timeout
+      // Wait for FutureBuilder to complete (services initialization) with
+      // timeout
       await tester.pump(const Duration(seconds: 2));
-      // Should show main game screen (or loading screen if initialization is slow)
+      // Should show main game screen (or loading screen if initialization is
+      // slow)
       expect(
-        find.byType(WordleGameScreen).evaluate().isNotEmpty || 
-        find.byType(CircularProgressIndicator).evaluate().isNotEmpty, 
-        isTrue
+        find.byType(WordleGameScreen).evaluate().isNotEmpty ||
+        find.byType(CircularProgressIndicator).evaluate().isNotEmpty,
+        isTrue,
       );
     });
 
     testWidgets('should handle dark mode correctly', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement dark mode support
+      // This test should fail initially - we need to implement dark mode
+      // support
       await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should handle dark mode
-      // Wait for FutureBuilder to complete (services initialization) with timeout
+      // Wait for FutureBuilder to complete (services initialization) with
+      // timeout
       await tester.pump(const Duration(seconds: 2));
-      // Should show main game screen (or loading screen if initialization is slow)
+      // Should show main game screen (or loading screen if initialization is
+      // slow)
       expect(
-        find.byType(WordleGameScreen).evaluate().isNotEmpty || 
-        find.byType(CircularProgressIndicator).evaluate().isNotEmpty, 
-        isTrue
+        find.byType(WordleGameScreen).evaluate().isNotEmpty ||
+        find.byType(CircularProgressIndicator).evaluate().isNotEmpty,
+        isTrue,
       );
     });
 
@@ -250,169 +277,197 @@ void main() {
       await tester.pump();
 
       // Should handle font scaling
-      // Wait for FutureBuilder to complete (services initialization) with timeout
+      // Wait for FutureBuilder to complete (services initialization) with
+      // timeout
       await tester.pump(const Duration(seconds: 2));
-      // Should show main game screen (or loading screen if initialization is slow)
+      // Should show main game screen (or loading screen if initialization is
+      // slow)
       expect(
-        find.byType(WordleGameScreen).evaluate().isNotEmpty || 
-        find.byType(CircularProgressIndicator).evaluate().isNotEmpty, 
-        isTrue
+        find.byType(WordleGameScreen).evaluate().isNotEmpty ||
+        find.byType(CircularProgressIndicator).evaluate().isNotEmpty,
+        isTrue,
       );
     });
 
     testWidgets('should handle memory pressure correctly', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement memory management
+      // This test should fail initially - we need to implement memory
+      // management
       await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should handle memory pressure
-      // Wait for FutureBuilder to complete (services initialization) with timeout
+      // Wait for FutureBuilder to complete (services initialization) with
+      // timeout
       await tester.pump(const Duration(seconds: 2));
-      // Should show main game screen (or loading screen if initialization is slow)
+      // Should show main game screen (or loading screen if initialization is
+      // slow)
       expect(
-        find.byType(WordleGameScreen).evaluate().isNotEmpty || 
-        find.byType(CircularProgressIndicator).evaluate().isNotEmpty, 
-        isTrue
+        find.byType(WordleGameScreen).evaluate().isNotEmpty ||
+        find.byType(CircularProgressIndicator).evaluate().isNotEmpty,
+        isTrue,
       );
     });
 
     testWidgets('should handle app backgrounding and foregrounding', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement background handling
+      // This test should fail initially - we need to implement background
+      // handling
       await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should handle backgrounding/foregrounding
-      // Wait for FutureBuilder to complete (services initialization) with timeout
+      // Wait for FutureBuilder to complete (services initialization) with
+      // timeout
       await tester.pump(const Duration(seconds: 2));
-      // Should show main game screen (or loading screen if initialization is slow)
+      // Should show main game screen (or loading screen if initialization is
+      // slow)
       expect(
-        find.byType(WordleGameScreen).evaluate().isNotEmpty || 
-        find.byType(CircularProgressIndicator).evaluate().isNotEmpty, 
-        isTrue
+        find.byType(WordleGameScreen).evaluate().isNotEmpty ||
+        find.byType(CircularProgressIndicator).evaluate().isNotEmpty,
+        isTrue,
       );
     });
 
     testWidgets('should handle system interruptions gracefully', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement interruption handling
+      // This test should fail initially - we need to implement interruption
+      // handling
       await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should handle system interruptions
-      // Wait for FutureBuilder to complete (services initialization) with timeout
+      // Wait for FutureBuilder to complete (services initialization) with
+      // timeout
       await tester.pump(const Duration(seconds: 2));
-      // Should show main game screen (or loading screen if initialization is slow)
+      // Should show main game screen (or loading screen if initialization is
+      // slow)
       expect(
-        find.byType(WordleGameScreen).evaluate().isNotEmpty || 
-        find.byType(CircularProgressIndicator).evaluate().isNotEmpty, 
-        isTrue
+        find.byType(WordleGameScreen).evaluate().isNotEmpty ||
+        find.byType(CircularProgressIndicator).evaluate().isNotEmpty,
+        isTrue,
       );
     });
 
     testWidgets('should have proper error boundaries', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement error boundaries
+      // This test should fail initially - we need to implement error
+      // boundaries
       await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should have proper error handling
-      // Wait for FutureBuilder to complete (services initialization) with timeout
+      // Wait for FutureBuilder to complete (services initialization) with
+      // timeout
       await tester.pump(const Duration(seconds: 2));
-      // Should show main game screen (or loading screen if initialization is slow)
+      // Should show main game screen (or loading screen if initialization is
+      // slow)
       expect(
-        find.byType(WordleGameScreen).evaluate().isNotEmpty || 
-        find.byType(CircularProgressIndicator).evaluate().isNotEmpty, 
-        isTrue
+        find.byType(WordleGameScreen).evaluate().isNotEmpty ||
+        find.byType(CircularProgressIndicator).evaluate().isNotEmpty,
+        isTrue,
       );
     });
 
     testWidgets('should handle app updates correctly', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement update handling
+      // This test should fail initially - we need to implement update
+      // handling
       await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should handle app updates
-      // Wait for FutureBuilder to complete (services initialization) with timeout
+      // Wait for FutureBuilder to complete (services initialization) with
+      // timeout
       await tester.pump(const Duration(seconds: 2));
-      // Should show main game screen (or loading screen if initialization is slow)
+      // Should show main game screen (or loading screen if initialization is
+      // slow)
       expect(
-        find.byType(WordleGameScreen).evaluate().isNotEmpty || 
-        find.byType(CircularProgressIndicator).evaluate().isNotEmpty, 
-        isTrue
+        find.byType(WordleGameScreen).evaluate().isNotEmpty ||
+        find.byType(CircularProgressIndicator).evaluate().isNotEmpty,
+        isTrue,
       );
     });
 
     testWidgets('should have proper performance characteristics', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement performance optimization
+      // This test should fail initially - we need to implement performance
+      // optimization
       await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should have good performance
-      // Wait for FutureBuilder to complete (services initialization) with timeout
+      // Wait for FutureBuilder to complete (services initialization) with
+      // timeout
       await tester.pump(const Duration(seconds: 2));
-      // Should show main game screen (or loading screen if initialization is slow)
+      // Should show main game screen (or loading screen if initialization is
+      // slow)
       expect(
-        find.byType(WordleGameScreen).evaluate().isNotEmpty || 
-        find.byType(CircularProgressIndicator).evaluate().isNotEmpty, 
-        isTrue
+        find.byType(WordleGameScreen).evaluate().isNotEmpty ||
+        find.byType(CircularProgressIndicator).evaluate().isNotEmpty,
+        isTrue,
       );
     });
 
     testWidgets('should handle different input methods', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement input method handling
+      // This test should fail initially - we need to implement input method
+      // handling
       await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should handle different input methods
-      // Wait for FutureBuilder to complete (services initialization) with timeout
+      // Wait for FutureBuilder to complete (services initialization) with
+      // timeout
       await tester.pump(const Duration(seconds: 2));
-      // Should show main game screen (or loading screen if initialization is slow)
+      // Should show main game screen (or loading screen if initialization is
+      // slow)
       expect(
-        find.byType(WordleGameScreen).evaluate().isNotEmpty || 
-        find.byType(CircularProgressIndicator).evaluate().isNotEmpty, 
-        isTrue
+        find.byType(WordleGameScreen).evaluate().isNotEmpty ||
+        find.byType(CircularProgressIndicator).evaluate().isNotEmpty,
+        isTrue,
       );
     });
 
     testWidgets('should handle network connectivity changes', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement connectivity handling
+      // This test should fail initially - we need to implement connectivity
+      // handling
       await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should handle connectivity changes
-      // Wait for FutureBuilder to complete (services initialization) with timeout
+      // Wait for FutureBuilder to complete (services initialization) with
+      // timeout
       await tester.pump(const Duration(seconds: 2));
-      // Should show main game screen (or loading screen if initialization is slow)
+      // Should show main game screen (or loading screen if initialization is
+      // slow)
       expect(
-        find.byType(WordleGameScreen).evaluate().isNotEmpty || 
-        find.byType(CircularProgressIndicator).evaluate().isNotEmpty, 
-        isTrue
+        find.byType(WordleGameScreen).evaluate().isNotEmpty ||
+        find.byType(CircularProgressIndicator).evaluate().isNotEmpty,
+        isTrue,
       );
     });
 
     testWidgets('should handle device orientation changes', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement orientation handling
+      // This test should fail initially - we need to implement orientation
+      // handling
       await tester.pumpWidget(const MyApp());
       await tester.pump();
 
       // Should handle orientation changes
-      // Wait for FutureBuilder to complete (services initialization) with timeout
+      // Wait for FutureBuilder to complete (services initialization) with
+      // timeout
       await tester.pump(const Duration(seconds: 2));
       // Should show main game screen (or loading screen if initialization is slow)
       expect(

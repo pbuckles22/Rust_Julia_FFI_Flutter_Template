@@ -180,7 +180,11 @@ void main() {
           ffi.getAnswerWords();
         }
         
-        expect(true, isTrue, reason: 'No memory issues during repeated operations');
+        expect(
+          true,
+          isTrue,
+          reason: 'No memory issues during repeated operations',
+        );
       });
 
       test('should handle large data sets', () async {

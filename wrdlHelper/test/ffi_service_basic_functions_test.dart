@@ -27,8 +27,14 @@ void main() {
       
       // Should contain some known answer words
       final knownAnswerWords = ['CRANE', 'SLATE', 'CRATE', 'PLATE', 'GRATE'];
-      final hasKnownWords = knownAnswerWords.any((word) => answerWords.contains(word));
-      expect(hasKnownWords, isTrue, reason: 'Should contain some known answer words');
+      final hasKnownWords = knownAnswerWords.any(
+        (word) => answerWords.contains(word),
+      );
+      expect(
+        hasKnownWords,
+        isTrue,
+        reason: 'Should contain some known answer words',
+      );
     });
 
     test('getGuessWords() should return list of guess words', () {
@@ -46,7 +52,8 @@ void main() {
         expect(word, matches(RegExp(r'^[A-Z]{5}$')));
       }
       
-      // Should contain more words than answer words (guess words include all valid words)
+      // Should contain more words than answer words (guess words include all
+      // valid words)
       final answerWords = FfiService.getAnswerWords();
       expect(guessWords.length, greaterThan(answerWords.length));
     });

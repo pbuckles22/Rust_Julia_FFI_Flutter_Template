@@ -27,27 +27,36 @@ class GuessResult {
       letterStates.any((state) => state != LetterState.gray);
   
   /// Whether this guess is correct (all letters are green)
-  bool get isCorrect => letterStates.every((state) => state == LetterState.green);
+  bool get isCorrect =>
+      letterStates.every((state) => state == LetterState.green);
   
   /// Whether this result has any correct letters (green or yellow)
-  bool get hasCorrectLetters => letterStates.any((state) => 
-      state == LetterState.green || state == LetterState.yellow);
+  bool get hasCorrectLetters => letterStates.any(
+    (state) => state == LetterState.green || state == LetterState.yellow,
+  );
   
   /// Number of green letters
-  int get greenCount => letterStates.where((state) => state == LetterState.green).length;
+  int get greenCount =>
+      letterStates.where((state) => state == LetterState.green).length;
   
   /// Number of yellow letters
-  int get yellowCount => letterStates.where((state) => state == LetterState.yellow).length;
+  int get yellowCount =>
+      letterStates.where((state) => state == LetterState.yellow).length;
   
   /// Number of gray letters
-  int get grayCount => letterStates.where((state) => state == LetterState.gray).length;
+  int get grayCount =>
+      letterStates.where((state) => state == LetterState.gray).length;
   
   /// Constructor that validates inputs
   GuessResult({
     required Word? word,
     required List<LetterState>? letterStates,
-  }) : word = word ?? (throw const InvalidGuessResultException('Word cannot be null')),
-       letterStates = letterStates ?? (throw const InvalidGuessResultException('Letter states cannot be null')) {
+  }) : word = word ?? (throw const InvalidGuessResultException(
+          'Word cannot be null',
+        )),
+       letterStates = letterStates ?? (throw const InvalidGuessResultException(
+          'Letter states cannot be null',
+        )) {
     if (this.letterStates.length != this.word.length) {
       throw const InvalidGuessResultException(
       'Letter states length must match word length');

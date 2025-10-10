@@ -169,7 +169,8 @@ class GameControls extends StatelessWidget {
     );
   }
 
-  /// Builds a consistent feedback container with optional details and retry button
+  /// Builds a consistent feedback container with optional details and retry
+  /// button
   Widget _buildFeedbackContainer({
     required MaterialColor color,
     required IconData icon,

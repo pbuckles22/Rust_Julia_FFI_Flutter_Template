@@ -19,7 +19,8 @@ class WordEntropyRanking {
 
   @override
   String toString() {
-    return 'WordEntropyRanking(word: ${word.value}, entropy: ${entropy.toStringAsFixed(4)}, metadata: $metadata)';
+    return 'WordEntropyRanking(word: ${word.value}, '
+        'entropy: ${entropy.toStringAsFixed(4)}, metadata: $metadata)';
   }
 
   @override
@@ -60,7 +61,10 @@ class EntropyMetadata {
 
   @override
   String toString() {
-    return 'EntropyMetadata(remaining: $remainingWordCount, patterns: $patternCount, avgElimination: ${averageElimination.toStringAsFixed(2)}, primeSuspect: $isPrimeSuspect)';
+    return 'EntropyMetadata(remaining: $remainingWordCount, '
+        'patterns: $patternCount, '
+        'avgElimination: ${averageElimination.toStringAsFixed(2)}, '
+        'primeSuspect: $isPrimeSuspect)';
   }
 
   @override

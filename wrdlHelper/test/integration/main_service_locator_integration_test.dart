@@ -19,9 +19,11 @@ void main() {
     testWidgets('should initialize services through service locator', (
       WidgetTester tester,
     ) async {
-      // TDD: Test that main.dart uses service locator instead of direct AppService creation
+      // TDD: Test that main.dart uses service locator instead of direct
+      // AppService creation
 
-      // This test will fail initially because main.dart doesn't use service locator yet
+      // This test will fail initially because main.dart doesn't use service
+      // locator yet
       // We'll implement the service locator integration to make this pass
 
       // Verify services are available before app starts

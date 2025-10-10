@@ -66,7 +66,9 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: isRunning ? null : runPerformanceTests,
-              child: const Text(isRunning ? 'Running Tests...' : 'Run Performance Tests'),
+              child: const Text(
+                isRunning ? 'Running Tests...' : 'Run Performance Tests',
+              ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,

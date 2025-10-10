@@ -11,7 +11,8 @@ import 'package:wrdlhelper/widgets/virtual_keyboard.dart';
 /// NOTE: The hit test warnings are false positives caused by Flutter's testing
 /// framework limitations with complex widget hierarchies. The tests are actually
 /// working correctly - the widgets are found and the functionality is tested.
-/// Using warnIfMissed: false is a strategic workaround for this known limitation.
+/// Using warnIfMissed: false is a strategic workaround for this known
+/// limitation.
 class KeyboardTestHelpers {
   /// Tap a specific letter key by letter
   static Future<void> tapLetterKey(WidgetTester tester, String letter) async {
@@ -23,7 +24,8 @@ class KeyboardTestHelpers {
       // Use ensureVisible to ensure the widget is properly positioned
       await tester.ensureVisible(key);
       await tester.pumpAndSettle();
-      // Strategic use of warnIfMissed: false for known Flutter testing limitation
+      // Strategic use of warnIfMissed: false for known Flutter testing
+      // limitation
       await tester.tap(key, warnIfMissed: false);
     }
   }
@@ -35,7 +37,8 @@ class KeyboardTestHelpers {
       await tester.pumpAndSettle();
       await tester.ensureVisible(enterKey);
       await tester.pumpAndSettle();
-      // Strategic use of warnIfMissed: false for known Flutter testing limitation
+      // Strategic use of warnIfMissed: false for known Flutter testing
+      // limitation
       await tester.tap(enterKey, warnIfMissed: false);
     }
   }
@@ -47,7 +50,8 @@ class KeyboardTestHelpers {
       await tester.pumpAndSettle();
       await tester.ensureVisible(deleteKey);
       await tester.pumpAndSettle();
-      // Strategic use of warnIfMissed: false for known Flutter testing limitation
+      // Strategic use of warnIfMissed: false for known Flutter testing
+      // limitation
       await tester.tap(deleteKey, warnIfMissed: false);
     }
   }

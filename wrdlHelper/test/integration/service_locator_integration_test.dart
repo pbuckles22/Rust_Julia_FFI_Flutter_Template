@@ -31,7 +31,8 @@ void main() {
       expect(appService, isA<AppService>());
       expect(appService.isInitialized, isTrue);
 
-      // Verify individual services are registered (WordService removed, using centralized FFI)
+      // Verify individual services are registered (WordService removed, using
+      // centralized FFI)
       expect(sl.isRegistered<GameService>(), isTrue);
 
       final gameService = sl<GameService>();
@@ -53,7 +54,8 @@ void main() {
       // Mock services are initialized by default
       expect(appService.isInitialized, isTrue);
 
-      // Verify individual services are registered (WordService removed, using centralized FFI)
+      // Verify individual services are registered (WordService removed, using
+      // centralized FFI)
       expect(sl.isRegistered<GameService>(), isTrue);
 
       final gameService = sl<GameService>();
@@ -86,7 +88,8 @@ void main() {
       expect(sl.isRegistered<AppService>(), isTrue);
 
       sl.reset();
-      // Note: GetIt reset behavior may vary, so let's test the core functionality
+      // Note: GetIt reset behavior may vary, so let's test the core
+      // functionality
       // The important thing is that we can register services after reset
       await setupTestServices();
       expect(sl.isRegistered<AppService>(), isTrue);

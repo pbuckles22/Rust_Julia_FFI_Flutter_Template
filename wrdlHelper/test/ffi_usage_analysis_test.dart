@@ -19,14 +19,22 @@ void main() {
         'filterWords',              // ✅ Used in FfiService.filterWords()
         'getIntelligentGuess',      // ✅ Used in FfiService.getBestGuess()
         'getIntelligentGuessFast',  // ✅ Used in FfiService.getBestGuessFast()
-        'getIntelligentGuessReference', // ✅ Used in FfiService.getBestGuessReference()
-        'getOptimalFirstGuess',     // ✅ Used in FfiService.getOptimalFirstGuess()
-        'calculateEntropy',         // ✅ Used in FfiService.calculateEntropy()
-        'simulateGuessPattern',     // ✅ Used in FfiService.simulateGuessPattern()
-        'loadWordListsFromDart',    // ✅ Used in FfiService.loadWordListsToRust()
-        'getAnswerWords',           // ✅ Used in FfiService.getAnswerWords()
-        'getGuessWords',            // ✅ Used in FfiService.getGuessWords()
-        'isValidWord',              // ✅ Used in FfiService.isValidWord()
+        'getIntelligentGuessReference', // ✅ Used in
+        // FfiService.getBestGuessReference()
+        'getOptimalFirstGuess',     // ✅ Used in
+        // FfiService.getOptimalFirstGuess()
+        'calculateEntropy',         // ✅ Used in
+        // FfiService.calculateEntropy()
+        'simulateGuessPattern',     // ✅ Used in
+        // FfiService.simulateGuessPattern()
+        'loadWordListsFromDart',    // ✅ Used in
+        // FfiService.loadWordListsToRust()
+        'getAnswerWords',           // ✅ Used in
+        // FfiService.getAnswerWords()
+        'getGuessWords',            // ✅ Used in
+        // FfiService.getGuessWords()
+        'isValidWord',              // ✅ Used in
+        // FfiService.isValidWord()
         // 'setSolverConfig',       // ❌ Commented out in FfiService.setConfiguration()
       ];
       
@@ -53,7 +61,10 @@ void main() {
       // The real value is in identifying what can be cleaned up
       print('✅ Used FFI functions: ${usedFunctions.length}');
       print('❌ Unused FFI functions: ${unusedFunctions.length}');
-      print('📊 Total FFI functions: ${usedFunctions.length + unusedFunctions.length}');
+      print(
+        '📊 Total FFI functions: '
+        '${usedFunctions.length + unusedFunctions.length}',
+      );
     });
 
     test('should verify all used FFI functions work correctly', () {
@@ -82,17 +93,26 @@ void main() {
       expect(optimalGuess!.length, equals(5));
       
       // Test getBestGuessFast
-      final fastGuess = FfiService.getBestGuessFast(answerWords.take(10).toList(), []);
+      final fastGuess = FfiService.getBestGuessFast(
+        answerWords.take(10).toList(),
+        [],
+      );
       expect(fastGuess, isNotNull);
       expect(fastGuess!.length, equals(5));
       
       // Test getBestGuessReference
-      final referenceGuess = FfiService.getBestGuessReference(answerWords.take(10).toList(), []);
+      final referenceGuess = FfiService.getBestGuessReference(
+        answerWords.take(10).toList(),
+        [],
+      );
       expect(referenceGuess, isNotNull);
       expect(referenceGuess!.length, equals(5));
       
       // Test calculateEntropy
-      final entropy = FfiService.calculateEntropy('CRANE', answerWords.take(10).toList());
+      final entropy = FfiService.calculateEntropy(
+        'CRANE',
+        answerWords.take(10).toList(),
+      );
       expect(entropy, isA<double>());
       expect(entropy, greaterThanOrEqualTo(0.0));
       
@@ -114,9 +134,12 @@ void main() {
       
       // Functions that are only used in debug/test code and can be removed:
       final deprecatedFunctions = [
-        'greet',                    // Only used in wordle_game_screen.dart debug code
-        'addNumbers',               // Only used in performance test files
-        'multiplyFloats',           // Only used in performance test files
+        'greet',                    // Only used in wordle_game_screen.dart
+        // debug code
+        'addNumbers',               // Only used in performance test
+        // files
+        'multiplyFloats',           // Only used in performance test
+        // files
         'isEven',                   // Not used anywhere
         'getCurrentTimestamp',      // Not used anywhere
         'getStringLengths',         // Not used anywhere
@@ -129,12 +152,17 @@ void main() {
       
       // Functions that are commented out and need to be implemented:
       final commentedFunctions = [
-        'setSolverConfig',          // Commented out in FfiService.setConfiguration()
+        'setSolverConfig',          // Commented out in
+        // FfiService.setConfiguration()
       ];
       
       // This test documents what needs cleanup
-      print('🗑️ Deprecated functions to remove: ${deprecatedFunctions.length}');
-      print('🔧 Commented functions to implement: ${commentedFunctions.length}');
+      print(
+        '🗑️ Deprecated functions to remove: ${deprecatedFunctions.length}',
+      );
+      print(
+        '🔧 Commented functions to implement: ${commentedFunctions.length}',
+      );
       
       // Verify we have identified cleanup opportunities
       expect(deprecatedFunctions.length, greaterThan(0));

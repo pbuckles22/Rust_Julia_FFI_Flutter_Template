@@ -22,7 +22,10 @@ class GlobalTestSetup {
       await setupTestServices();
       _isInitialized = true;
       
-      print('🚀 Global FFI initialization complete with comprehensive algorithm-testing word list');
+      print(
+        '🚀 Global FFI initialization complete with comprehensive '
+        'algorithm-testing word list',
+      );
     } catch (e) {
       print('❌ Global FFI initialization failed: $e');
       rethrow;

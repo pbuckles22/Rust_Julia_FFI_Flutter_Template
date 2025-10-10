@@ -17,7 +17,10 @@ void main() {
       final remainingWords = FfiService.getAnswerWords().take(100).toList();
       final guessResults = <(String, List<String>)>[];
       
-      final suggestion = FfiService.getBestGuessReference(remainingWords, guessResults);
+      final suggestion = FfiService.getBestGuessReference(
+        remainingWords,
+        guessResults,
+      );
       
       // Should return a valid suggestion
       expect(suggestion, isNotNull);
@@ -33,14 +36,19 @@ void main() {
       // RED: This test will verify the function works with complex game progression
       
       // Simulate a complex game state with multiple guesses and patterns
-      final remainingWords = ['CRANE', 'SLATE', 'CRATE', 'PLATE', 'GRATE', 'TRACE', 'CHASE'];
+      final remainingWords = [
+        'CRANE', 'SLATE', 'CRATE', 'PLATE', 'GRATE', 'TRACE', 'CHASE'
+      ];
       final guessResults = <(String, List<String>)>[
         ('HELLO', ['X', 'X', 'X', 'X', 'X']), // All gray
         ('WORLD', ['X', 'X', 'X', 'X', 'X']), // All gray
         ('STARE', ['Y', 'X', 'X', 'X', 'X']), // S yellow, rest gray
       ];
       
-      final suggestion = FfiService.getBestGuessReference(remainingWords, guessResults);
+      final suggestion = FfiService.getBestGuessReference(
+        remainingWords,
+        guessResults,
+      );
       
       // Should return a valid suggestion
       expect(suggestion, isNotNull);
@@ -69,7 +77,10 @@ void main() {
         ('CRATE', ['G', 'X', 'X', 'X', 'X']), // C green
       ];
       
-      final suggestion = FfiService.getBestGuessReference(endgameWords, guessResults);
+      final suggestion = FfiService.getBestGuessReference(
+        endgameWords,
+        guessResults,
+      );
       
       // Should return a valid suggestion
       expect(suggestion, isNotNull);
@@ -91,8 +102,14 @@ void main() {
         ('WORLD', ['X', 'X', 'X', 'X', 'X']),
       ];
       
-      final referenceSuggestion = FfiService.getBestGuessReference(remainingWords, guessResults);
-      final fastSuggestion = FfiService.getBestGuessFast(remainingWords, guessResults);
+      final referenceSuggestion = FfiService.getBestGuessReference(
+        remainingWords,
+        guessResults,
+      );
+      final fastSuggestion = FfiService.getBestGuessFast(
+        remainingWords,
+        guessResults,
+      );
       
       // Both should return valid suggestions
       expect(referenceSuggestion, isNotNull);
@@ -111,13 +128,18 @@ void main() {
       // The fast mode uses optimized algorithms for speed
     });
 
-    test('getBestGuessReference() should handle empty remaining words gracefully', () {
+    test(
+      'getBestGuessReference() should handle empty remaining words gracefully',
+      () {
       // RED: This test will verify edge case handling
       
       final emptyWords = <String>[];
       final guessResults = <(String, List<String>)>[];
       
-      final suggestion = FfiService.getBestGuessReference(emptyWords, guessResults);
+      final suggestion = FfiService.getBestGuessReference(
+        emptyWords,
+        guessResults,
+      );
       
       // Should handle gracefully - might return null or a default suggestion
       if (suggestion != null) {

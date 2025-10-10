@@ -10,7 +10,9 @@ import 'package:wrdlhelper/src/rust/frb_generated.dart';
 import 'package:wrdlhelper/utils/debug_logger.dart';
 
 void main() async {
-  DebugLogger.debug('🚀 Device Performance Test - Julia-Rust Cross-Integration');
+  DebugLogger.debug(
+    '🚀 Device Performance Test - Julia-Rust Cross-Integration',
+  );
   DebugLogger.debug('=' * 60);
   
   // Initialize Rust library

@@ -5,7 +5,8 @@ import 'package:wrdlhelper/src/rust/frb_generated.dart';
 /// Tests for centralized FFI asset loading functionality
 ///
 /// These tests verify that the word list assets are properly loaded
-/// via centralized FFI and contain the expected data structure for the Wordle Helper app.
+/// via centralized FFI and contain the expected data structure for the Wordle
+/// Helper app.
 void main() {
   // Initialize Flutter binding for asset loading tests
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -92,11 +93,14 @@ void main() {
       expect(guessWords.length, lessThan(50000));
     });
 
-    test('word lists contain expected number of words via centralized FFI', () async {
+    test(
+      'word lists contain expected number of words via centralized FFI',
+      () async {
       final answerWords = FfiService.getAnswerWords();
       final guessWords = FfiService.getGuessWords();
 
-      // Should have a reasonable number of words (typical Wordle lists have 100+ words)
+      // Should have a reasonable number of words (typical Wordle lists have
+      // 100+ words)
       expect(answerWords.length, greaterThan(10));
       expect(guessWords.length, greaterThan(10));
       expect(answerWords.length, lessThan(50000)); // Reasonable upper bound

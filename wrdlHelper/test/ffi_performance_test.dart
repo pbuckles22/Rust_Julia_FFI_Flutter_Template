@@ -19,7 +19,10 @@ void main() {
       stopwatch.stop();
       
       print('🎯 Optimal first guess: $result');
-      print('⏱️  FFI call time: ${stopwatch.elapsedMicroseconds}μs (${stopwatch.elapsedMilliseconds}ms)');
+      print(
+        '⏱️  FFI call time: ${stopwatch.elapsedMicroseconds}μs '
+        '(${stopwatch.elapsedMilliseconds}ms)',
+      );
       
       expect(result, isNotNull);
       expect(stopwatch.elapsedMilliseconds, lessThan(10)); // Should be < 10ms
@@ -37,7 +40,10 @@ void main() {
       stopwatch.stop();
       
       print('🧠 Full algorithm result: $result');
-      print('⏱️  FFI call time: ${stopwatch.elapsedMicroseconds}μs (${stopwatch.elapsedMilliseconds}ms)');
+      print(
+        '⏱️  FFI call time: ${stopwatch.elapsedMicroseconds}μs '
+        '(${stopwatch.elapsedMilliseconds}ms)',
+      );
       
       expect(result, isNotNull);
       expect(stopwatch.elapsedMilliseconds, lessThan(200)); // Should be < 200ms
@@ -57,9 +63,18 @@ void main() {
       );
       secondGuessStopwatch.stop();
       
-      print('🎯 First guess (optimized): $firstGuess - ${firstGuessStopwatch.elapsedMicroseconds}μs');
-      print('🧠 Second guess (full algo): $secondGuess - ${secondGuessStopwatch.elapsedMicroseconds}μs');
-      print('📊 Performance ratio: ${secondGuessStopwatch.elapsedMicroseconds / firstGuessStopwatch.elapsedMicroseconds}x slower');
+      print(
+        '🎯 First guess (optimized): $firstGuess - '
+        '${firstGuessStopwatch.elapsedMicroseconds}μs',
+      );
+      print(
+        '🧠 Second guess (full algo): $secondGuess - '
+        '${secondGuessStopwatch.elapsedMicroseconds}μs',
+      );
+      print(
+        '📊 Performance ratio: '
+        '${secondGuessStopwatch.elapsedMicroseconds / firstGuessStopwatch.elapsedMicroseconds}x slower',
+      );
       
       expect(firstGuess, isNotNull);
       expect(secondGuess, isNotNull);

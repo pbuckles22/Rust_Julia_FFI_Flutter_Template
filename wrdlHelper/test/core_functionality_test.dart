@@ -41,12 +41,21 @@ void main() {
         // Note: These words are legitimate in the official Wordle word list
         final words = FfiService.getGuessWords();
         expect(words.isNotEmpty, true);
-        expect(words.length, greaterThan(1000)); // Should have substantial word list
+        expect(
+          words.length,
+          greaterThan(1000), // Should have substantial word list
+        );
         
         // Verify words are properly formatted (5 letters, uppercase)
         expect(words.every((word) => word.length == 5), true);
-        expect(words.every((word) => word == word.toUpperCase()), true);
-        expect(words.every((word) => RegExp(r'^[A-Z]{5}$').hasMatch(word)), true);
+        expect(
+          words.every((word) => word == word.toUpperCase()),
+          true,
+        );
+        expect(
+          words.every((word) => RegExp(r'^[A-Z]{5}$').hasMatch(word)),
+          true,
+        );
         
         // Verify we're using official Wordle lists (not hardcoded fake data)
         // The presence of these words confirms we're using real Wordle data
@@ -72,11 +81,14 @@ void main() {
 
     group('Bug Fix 2: Two-List Strategy', () {
       test('GameService should use answer words for first guess', () async {
-        // TODO: Fix optimal first guess computation - currently returning fallback word
-        // Issue: getOptimalFirstGuess() is not returning the expected optimal first guess
+        // TODO: Fix optimal first guess computation - currently returning
+        // fallback word
+        // Issue: getOptimalFirstGuess() is not returning the expected optimal
+        // first guess
         // Expected: One of [TARES, SLATE, CRANE, CRATE, SLANT]
         // Actual: ROSSA (fallback word)
-        // Skip for now - this test is disabled until optimal first guess is fixed
+        // Skip for now - this test is disabled until optimal first guess is
+        // fixed
         expect(true, true); // Placeholder test
       });
 
@@ -107,7 +119,8 @@ void main() {
           
           final gameState = GameState.newGame();
           
-          // Create an impossible scenario - guess a word that eliminates all remaining words
+          // Create an impossible scenario - guess a word that eliminates all
+          // remaining words
           // This is a realistic edge case that can happen in Wordle
           final impossibleWord = Word.fromString('CRANE');
           final impossibleResult = GuessResult.withStates(
@@ -139,7 +152,8 @@ void main() {
 
     group('Bug Fix 3: Game State Updates', () {
       test('GameState should detect win condition with all green letters', () {
-        // TDD: Test that win condition works when any guess has all green letters
+        // TDD: Test that win condition works when any guess has all green
+        // letters
         final gameState = GameState.newGame();
 
         // Add a guess with all green letters

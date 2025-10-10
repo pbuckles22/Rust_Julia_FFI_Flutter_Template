@@ -102,7 +102,9 @@ class GameService {
     List<Word>? wordList,
   }) {
     if (!isInitialized) {
-      throw const ServiceNotInitializedException('Word service not initialized');
+      throw const ServiceNotInitializedException(
+        'Word service not initialized',
+      );
     }
 
     // Select target word
@@ -127,7 +129,9 @@ class GameService {
   /// Creates a new game with a specific target word
   GameState createNewGameWithTarget(Word targetWord, {int maxGuesses = 5}) {
     if (!isInitialized) {
-      throw const ServiceNotInitializedException('Word service not initialized');
+      throw const ServiceNotInitializedException(
+        'Word service not initialized',
+      );
     }
 
     // Target word is pre-validated during word list loading
@@ -144,7 +148,9 @@ class GameService {
   /// Processes a guess and returns the result
   GuessResult processGuess(GameState? gameState, Word? guess) {
     if (!isInitialized) {
-      throw const ServiceNotInitializedException('Word service not initialized');
+      throw const ServiceNotInitializedException(
+        'Word service not initialized',
+      );
     }
 
     if (gameState == null) {
@@ -176,7 +182,9 @@ class GameService {
   /// Adds a guess to the game state
   void addGuessToGame(GameState gameState, Word guess, GuessResult result) {
     if (!isInitialized) {
-      throw const ServiceNotInitializedException('Word service not initialized');
+      throw const ServiceNotInitializedException(
+        'Word service not initialized',
+      );
     }
 
     // Add guess to game state
@@ -201,8 +209,8 @@ class GameService {
       // HARD FAILURE: No fallback allowed - centralized validation must work
       throw Exception(
         'CRITICAL FAILURE: Centralized word validation is not working. '
-        'This is a fatal error - the app cannot function without proper word validation. '
-        'Error: $e',
+        'This is a fatal error - the app cannot function without proper '
+        'word validation. Error: $e',
       );
     }
   }
@@ -210,7 +218,9 @@ class GameService {
   /// Validates if a word has valid length
   bool isValidWordLength(Word word) {
     if (!isInitialized) {
-      throw const ServiceNotInitializedException('Word service not initialized');
+      throw const ServiceNotInitializedException(
+        'Word service not initialized',
+      );
     }
 
     try {
@@ -223,7 +233,9 @@ class GameService {
   /// Validates if a word has valid characters
   bool isValidWordCharacters(Word word) {
     if (!isInitialized) {
-      throw const ServiceNotInitializedException('Word service not initialized');
+      throw const ServiceNotInitializedException(
+        'Word service not initialized',
+      );
     }
 
     try {
@@ -236,7 +248,9 @@ class GameService {
   /// Validates if a word is not empty
   bool isValidWordNotEmpty(Word word) {
     if (!isInitialized) {
-      throw const ServiceNotInitializedException('Word service not initialized');
+      throw const ServiceNotInitializedException(
+        'Word service not initialized',
+      );
     }
 
     try {
@@ -249,7 +263,9 @@ class GameService {
   /// Analyzes game progress
   GameProgressAnalysis analyzeGameProgress(GameState gameState) {
     if (!isInitialized) {
-      throw const ServiceNotInitializedException('Word service not initialized');
+      throw const ServiceNotInitializedException(
+        'Word service not initialized',
+      );
     }
 
     return GameProgressAnalysis(
@@ -268,7 +284,9 @@ class GameService {
   /// Analyzes letter frequency in the game
   Map<String, int> analyzeLetterFrequency(GameState gameState) {
     if (!isInitialized) {
-      throw const ServiceNotInitializedException('Word service not initialized');
+      throw const ServiceNotInitializedException(
+        'Word service not initialized',
+      );
     }
 
     final Map<String, int> frequency = {};
@@ -303,11 +321,14 @@ class GameService {
 
     if (!isInitialized) {
       DebugLogger.error('GameService not initialized', tag: 'GameService');
-      throw const ServiceNotInitializedException('Word service not initialized');
+      throw const ServiceNotInitializedException(
+        'Word service not initialized',
+      );
     }
 
     DebugLogger.debug(
-      'GameState: guesses=${gameState.guesses.length}, isGameOver=${gameState.isGameOver}',
+      'GameState: guesses=${gameState.guesses.length}, '
+      'isGameOver=${gameState.isGameOver}',
       tag: 'GameService',
     );
 
@@ -339,7 +360,9 @@ class GameService {
   /// Makes a guess in the current game
   Future<GuessResult> makeGuess(String guessWord) async {
     if (!isInitialized) {
-      throw const ServiceNotInitializedException('Word service not initialized');
+      throw const ServiceNotInitializedException(
+        'Word service not initialized',
+      );
     }
 
     if (_currentGame == null) {
@@ -457,7 +480,8 @@ class GameService {
   }
 
   /// Filters the word list based on the current game state's guess history.
-  /// This method now correctly uses the high-performance Rust filtering function.
+  /// This method now correctly uses the high-performance Rust filtering
+  /// function.
   List<Word> getFilteredWords([GameState? gameState]) {
     final state = gameState ?? _currentGame;
     if (state == null || state.guesses.isEmpty) {
@@ -468,7 +492,8 @@ class GameService {
       return answerWords.map((word) => Word.fromString(word)).toList();
     }
 
-    // Convert the game state's guesses into the format required by the FFI function
+    // Convert the game state's guesses into the format required by the FFI
+    // function
     final ffiGuessResults = state.guesses.map((guessEntry) {
       final pattern = guessEntry.result.letterStates.map((state) {
         switch (state) {
@@ -491,10 +516,13 @@ class GameService {
     );
 
     // Convert the filtered strings back to Word objects
-    return filteredWordStrings.map((str) => Word.fromString(str)).toList();
+    return filteredWordStrings
+        .map((str) => Word.fromString(str))
+        .toList();
   }
 
-  /// Gets the best next guess based on current game state using Rust FFI intelligent solver
+  /// Gets the best next guess based on current game state using Rust FFI
+  /// intelligent solver
   Word? getBestNextGuess([GameState? gameState]) {
     final state = gameState ?? _currentGame;
     if (state == null) {
@@ -513,8 +541,8 @@ class GameService {
       // HARD FAILURE: No fallback allowed - FFI solver must work
       throw Exception(
         'CRITICAL FAILURE: FFI intelligent solver is not working. '
-        'This is a fatal error - the app cannot function without the Rust algorithm. '
-        'Error: $e',
+        'This is a fatal error - the app cannot function without the Rust '
+        'algorithm. Error: $e',
       );
     }
   }
@@ -622,37 +650,59 @@ class GameService {
 
     // Trust the algorithm - it knows what it's doing
     DebugLogger.debug(
-      'Trusting elite Rust algorithm with ${remainingWords.length} words',
+      'Trusting elite Rust algorithm with '
+      '${remainingWords.length} words',
       tag: 'GameService',
     );
 
     // Use the optimized intelligent solver with Rust-managed word lists
-    DebugLogger.info('🚀 CALLING OPTIMIZED RUST FFI SOLVER...', tag: 'GameService');
+    DebugLogger.info(
+      '🚀 CALLING OPTIMIZED RUST FFI SOLVER...',
+      tag: 'GameService',
+    );
     
     String? suggestion;
     try {
-      // For first guess (no previous guesses), use pre-computed optimal first guess
+      // For first guess (no previous guesses), use pre-computed optimal first
+      // guess
       if (guessResults.isEmpty) {
-        DebugLogger.info('🎯 Using pre-computed optimal first guess...', tag: 'GameService');
+        DebugLogger.info(
+          '🎯 Using pre-computed optimal first guess...',
+          tag: 'GameService',
+        );
         suggestion = FfiService.getOptimalFirstGuess();
         if (suggestion != null) {
-          DebugLogger.success('✅ Got optimal first guess: $suggestion', tag: 'GameService');
+          DebugLogger.success(
+            '✅ Got optimal first guess: $suggestion',
+            tag: 'GameService',
+          );
         } else {
-          DebugLogger.warning('⚠️ No optimal first guess available, falling back to full algorithm', tag: 'GameService');
+          DebugLogger.warning(
+            '⚠️ No optimal first guess available, falling back to full '
+            'algorithm',
+            tag: 'GameService',
+          );
         }
       }
       
-      // If we don't have a suggestion yet (not first guess or optimal first guess failed),
+      // If we don't have a suggestion yet (not first guess or optimal first
+      // guess failed),
       // use the MAIN algorithm (99.8% success rate)
       if (suggestion == null) {
-        DebugLogger.info('🧠 Using MAIN algorithm (99.8% success rate)...', tag: 'GameService');
+        DebugLogger.info(
+          '🧠 Using MAIN algorithm (99.8% success rate)...',
+          tag: 'GameService',
+        );
         suggestion = FfiService.getBestGuessFast(
           remainingWords,
           guessResults,
         );
       }
     } catch (e) {
-      DebugLogger.warning('FFI solver failed, using fallback: $e', tag: 'GameService');
+      DebugLogger.warning(
+        'FFI solver failed, using fallback: $e',
+        tag: 'GameService',
+      );
       // Fallback to simple entropy-based selection
       if (remainingWords.isNotEmpty) {
         suggestion = remainingWords.first;
@@ -661,7 +711,10 @@ class GameService {
 
     // COMPREHENSIVE DEBUG LOGGING - FFI Response
     if (suggestion != null) {
-      DebugLogger.success('✅ SUCCESS: Rust suggested "$suggestion"', tag: 'GameService');
+      DebugLogger.success(
+        '✅ SUCCESS: Rust suggested "$suggestion"',
+        tag: 'GameService',
+      );
       DebugLogger.info('🎯 Suggestion analysis:', tag: 'GameService');
       DebugLogger.info(
         '  • Word length: ${suggestion.length}',

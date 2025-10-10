@@ -55,7 +55,10 @@ void main() {
           if (suggestion == null) break;
 
           // Simulate guess result (random for benchmark)
-          final guessResult = _simulateGuessResult(suggestion, gameState.targetWord!);
+          final guessResult = _simulateGuessResult(
+            suggestion,
+            gameState.targetWord!,
+          );
           
           try {
             gameState.addGuess(suggestion, guessResult);
@@ -88,7 +91,11 @@ void main() {
         if (game % 200 == 0) {
           final currentSuccessRate = (gamesWon / game) * 100;
           final currentAvgGuesses = totalGuesses / game;
-          DebugLogger.debug('📊 Progress Update - Games $game: Success Rate: ${currentSuccessRate.toStringAsFixed(1)}%, Avg Guesses: ${currentAvgGuesses.toStringAsFixed(2)}');
+          DebugLogger.debug(
+            '📊 Progress Update - Games $game: Success Rate: '
+            '${currentSuccessRate.toStringAsFixed(1)}%, '
+            'Avg Guesses: ${currentAvgGuesses.toStringAsFixed(2)}',
+          );
         }
       }
 
@@ -107,20 +114,35 @@ void main() {
       DebugLogger.debug('');
       DebugLogger.debug('🎯 PERFORMANCE SUMMARY');
       DebugLogger.debug('Sample Size: 500 words');
-      DebugLogger.debug('Benchmark Duration: ${totalTime.toStringAsFixed(2)}s');
-      DebugLogger.debug('📊 Note: For full statistical significance, consider running 857+ tests');
+      DebugLogger.debug(
+        'Benchmark Duration: ${totalTime.toStringAsFixed(2)}s',
+      );
+      DebugLogger.debug(
+        '📊 Note: For full statistical significance, consider running '
+        '857+ tests',
+      );
       DebugLogger.debug('');
       DebugLogger.debug('📊 Win Distribution by Guess Count:');
       for (int i = 2; i <= 6; i++) {
         final wins = guessDistribution[i] ?? 0;
-        final percentage = wins > 0 ? (wins / gamesWon * 100).toStringAsFixed(1) : '0.0';
-        DebugLogger.debug('  $i guesses: $wins wins ($percentage% of wins)');
+        final percentage = wins > 0
+            ? (wins / gamesWon * 100).toStringAsFixed(1)
+            : '0.0';
+        DebugLogger.debug(
+          '  $i guesses: $wins wins ($percentage% of wins)',
+        );
       }
       DebugLogger.debug('');
       DebugLogger.debug('📈 Performance Summary:');
-      DebugLogger.debug('Success Rate: ${successRate.toStringAsFixed(1)}% (Human: 89.0%)');
-      DebugLogger.debug('Average Guesses: ${averageGuesses.toStringAsFixed(2)} (Human: 4.10)');
-      DebugLogger.debug('Average Speed: ${averageTime.toStringAsFixed(3)}s per game');
+      DebugLogger.debug(
+        'Success Rate: ${successRate.toStringAsFixed(1)}% (Human: 89.0%)',
+      );
+      DebugLogger.debug(
+        'Average Guesses: ${averageGuesses.toStringAsFixed(2)} (Human: 4.10)',
+      );
+      DebugLogger.debug(
+        'Average Speed: ${averageTime.toStringAsFixed(3)}s per game',
+      );
       DebugLogger.debug('Total Games: 500');
       DebugLogger.debug('Total Time: ${totalTime.toStringAsFixed(2)}s');
 

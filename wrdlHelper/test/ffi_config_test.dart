@@ -15,11 +15,31 @@ void main() {
       final config = FfiService.getConfiguration();
       
       expect(config.referenceMode, false, reason: 'Default should be false');
-      expect(config.includeKillerWords, false, reason: 'Default should be false');
-      expect(config.candidateCap, 200, reason: 'Default should be 200');
-      expect(config.earlyTerminationEnabled, true, reason: 'Default should be true');
-      expect(config.earlyTerminationThreshold, 5.0, reason: 'Default should be 5.0');
-      expect(config.entropyOnlyScoring, false, reason: 'Default should be false');
+      expect(
+        config.includeKillerWords,
+        false,
+        reason: 'Default should be false',
+      );
+      expect(
+        config.candidateCap,
+        200,
+        reason: 'Default should be 200',
+      );
+      expect(
+        config.earlyTerminationEnabled,
+        true,
+        reason: 'Default should be true',
+      );
+      expect(
+        config.earlyTerminationThreshold,
+        5.0,
+        reason: 'Default should be 5.0',
+      );
+      expect(
+        config.entropyOnlyScoring,
+        false,
+        reason: 'Default should be false',
+      );
     });
 
     test('should allow setting configuration values', () {

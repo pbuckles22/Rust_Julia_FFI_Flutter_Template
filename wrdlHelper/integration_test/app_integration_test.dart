@@ -49,7 +49,10 @@ void main() {
       expect(find.byType(Scaffold), findsOneWidget);
 
       // Verify the main content is displayed
-      expect(find.textContaining('flutter_rust_bridge quickstart'), findsOneWidget);
+      expect(
+        find.textContaining('flutter_rust_bridge quickstart'),
+        findsOneWidget,
+      );
       expect(find.textContaining('Hello, Tom!'), findsOneWidget);
 
       // Verify the app structure
@@ -68,7 +71,10 @@ void main() {
       stopwatch.stop();
 
       // Verify startup time is reasonable
-      expect(stopwatch.elapsedMilliseconds, lessThan(5000)); // Should start within 5 seconds
+      expect(
+        stopwatch.elapsedMilliseconds,
+        lessThan(5000), // Should start within 5 seconds
+      );
       
       // Verify the app is fully loaded
       expect(find.byType(MaterialApp), findsOneWidget);
@@ -153,7 +159,8 @@ void main() {
 
       for (final _ in textScales) {
         // Set text scale (using platformDispatcher for newer Flutter versions)
-        // Note: textScaleFactor setter is deprecated, using platformDispatcher instead
+        // Note: textScaleFactor setter is deprecated, using platformDispatcher
+        // instead
         // tester.view.textScaleFactor = scale;
 
         // Start the app
@@ -354,7 +361,10 @@ void main() {
       stopwatch.stop();
 
       // Verify performance metrics
-      expect(stopwatch.elapsedMilliseconds, lessThan(3000)); // Should start within 3 seconds
+      expect(
+        stopwatch.elapsedMilliseconds,
+        lessThan(3000), // Should start within 3 seconds
+      );
       
       // Verify the app is fully functional
       expect(find.byType(MaterialApp), findsOneWidget);
@@ -413,7 +423,9 @@ void main() {
       expect(find.textContaining('Hello, Tom!'), findsOneWidget);
     });
 
-    testWidgets('App cross-platform compatibility test', (WidgetTester tester) async {
+    testWidgets(
+      'App cross-platform compatibility test',
+      (WidgetTester tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();

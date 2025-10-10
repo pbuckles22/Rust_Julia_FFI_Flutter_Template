@@ -24,7 +24,8 @@ void main() {
         // TDD: Test that WordleGameScreen uses service locator
         // Services are already initialized in setUpAll()
 
-        // Verify services are available (WordService removed, using centralized FFI)
+        // Verify services are available (WordService removed, using
+        // centralized FFI)
         expect(sl.isRegistered<AppService>(), isTrue);
         expect(sl.isRegistered<GameService>(), isTrue);
 
@@ -41,7 +42,8 @@ void main() {
 
         expect(appService.isInitialized, isTrue);
         expect(gameService.isInitialized, isTrue);
-        expect(FfiService.isInitialized, isTrue); // FFI service provides word lists
+        expect(FfiService.isInitialized, isTrue); // FFI service provides word
+        // lists
       },
     );
 
@@ -78,7 +80,8 @@ void main() {
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
-      // Get services at different points (WordService removed, using centralized FFI)
+      // Get services at different points (WordService removed, using
+      // centralized FFI)
       final appService1 = sl<AppService>();
       final gameService1 = sl<GameService>();
 
@@ -108,7 +111,8 @@ void main() {
 
       // Reset and test with real services
       sl.reset();
-      // Note: We can't easily test real services in unit tests due to asset loading
+      // Note: We can't easily test real services in unit tests due to asset
+      // loading
       // This would be tested in integration tests with actual device
       
       // Restore services for other tests

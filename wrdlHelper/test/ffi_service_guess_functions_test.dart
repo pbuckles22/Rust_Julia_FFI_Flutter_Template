@@ -17,7 +17,10 @@ void main() {
       final remainingWords = FfiService.getAnswerWords().take(100).toList();
       final guessResults = <(String, List<String>)>[];
       
-      final suggestion = FfiService.getBestGuessFast(remainingWords, guessResults);
+      final suggestion = FfiService.getBestGuessFast(
+        remainingWords,
+        guessResults,
+      );
       
       // Should return a valid suggestion
       expect(suggestion, isNotNull);
@@ -39,7 +42,10 @@ void main() {
         ('WORLD', ['X', 'X', 'X', 'X', 'X']), // All gray
       ];
       
-      final suggestion = FfiService.getBestGuessFast(remainingWords, guessResults);
+      final suggestion = FfiService.getBestGuessFast(
+        remainingWords,
+        guessResults,
+      );
       
       // Should return a valid suggestion
       expect(suggestion, isNotNull);
@@ -71,8 +77,14 @@ void main() {
       expect(FfiService.isValidWord(suggestion), isTrue);
       
       // Test with many guess results
-      final manyResults = List.generate(5, (i) => ('GUESS${i}', ['X', 'X', 'X', 'X', 'X']));
-      final suggestion2 = FfiService.getBestGuessFast(fewWords, manyResults);
+      final manyResults = List.generate(
+        5,
+        (i) => ('GUESS${i}', ['X', 'X', 'X', 'X', 'X']),
+      );
+      final suggestion2 = FfiService.getBestGuessFast(
+        fewWords,
+        manyResults,
+      );
       
       expect(suggestion2, isNotNull);
       expect(suggestion2!.length, equals(5));
@@ -95,8 +107,12 @@ void main() {
       
       // Should be one of the known optimal first guesses
       final knownOptimalGuesses = ['TARES', 'SLATE', 'CRANE', 'CRATE', 'SLANT'];
-      expect(knownOptimalGuesses.contains(optimalGuess), isTrue,
-             reason: 'Should be one of the known optimal first guesses: $knownOptimalGuesses');
+      expect(
+        knownOptimalGuesses.contains(optimalGuess),
+        isTrue,
+        reason: 'Should be one of the known optimal first guesses: '
+            '$knownOptimalGuesses',
+      );
     });
   });
 }

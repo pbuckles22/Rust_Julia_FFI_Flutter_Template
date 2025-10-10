@@ -67,7 +67,8 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
       );
       if (!appService.isInitialized) {
         DebugLogger.info(
-          '🔧 WordleGameScreen: AppService not initialized, initializing now...',
+          '🔧 WordleGameScreen: AppService not initialized, '
+          'initializing now...',
           tag: 'WordleGameScreen',
         );
         await appService.initialize();
@@ -150,24 +151,28 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
           if (guess.word.value[j].toUpperCase() == letter) {
             final state = guess.result.letterStates[j];
 
-            // If this is the same position and it's green, use it (green takes precedence)
+            // If this is the same position and it's green, use it
+            // (green takes precedence)
             if (j == i && state == LetterState.green) {
               knownStates[i] = LetterTileState.correct;
             }
-            // If this is the same position and it's yellow, use it if we don't have green
+            // If this is the same position and it's yellow, use it if we
+            // don't have green
             else if (j == i &&
                 state == LetterState.yellow &&
                 knownStates[i] != LetterTileState.correct) {
               knownStates[i] = LetterTileState.present;
             }
-            // If this is a different position but the letter was marked as present (yellow)
-            // and we haven't found a green state for this position yet
+            // If this is a different position but the letter was marked as
+            // present (yellow) and we haven't found a green state for this
+            // position yet
             else if (j != i &&
                 state == LetterState.yellow &&
                 knownStates[i] != LetterTileState.correct) {
               knownStates[i] = LetterTileState.present;
             }
-            // If this is the same position and it's gray, use it if we don't have anything better
+            // If this is the same position and it's gray, use it if we don't
+            // have anything better
             else if (j == i &&
                 state == LetterState.gray &&
                 !knownStates.containsKey(i)) {
@@ -311,7 +316,8 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
     } else if (_currentInput.isNotEmpty) {
       _showErrorDialog('Word must be 5 letters long');
     }
-    // If input is empty, do nothing (user might be changing colors on completed guesses)
+    // If input is empty, do nothing (user might be changing colors on
+    // completed guesses)
   }
 
   void _showErrorDialog(String message) {
@@ -341,7 +347,8 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
         return AlertDialog(
           title: const Text('No More Suggestions'),
           content: const Text(
-            'No more suggestions available. You may have already found the correct word!',
+            'No more suggestions available. You may have already found the '
+            'correct word!',
           ),
           actions: [
             TextButton(
@@ -448,7 +455,8 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
     }
 
     DebugLogger.debug(
-      'GameState: guesses=${_gameState!.guesses.length}, isGameOver=${_gameState!.isGameOver}',
+      'GameState: guesses=${_gameState!.guesses.length}, '
+      'isGameOver=${_gameState!.isGameOver}',
       tag: 'UI',
     );
 
@@ -523,7 +531,10 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
       );
 
       // Show a success dialog
-      _showErrorDialog('FFI Connection Successful!\n\nRust loaded ${answerWords.length} answer words');
+      _showErrorDialog(
+        'FFI Connection Successful!\n\nRust loaded '
+        '${answerWords.length} answer words',
+      );
     } catch (e, stackTrace) {
       DebugLogger.error(
         '❌ FFI FAILED: Could not call getAnswerWords.',
@@ -656,7 +667,8 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
                         currentInput: _currentInput,
                         availableHeight:
                             availableHeight *
-                            0.35, // Use 35% of available height (reduced from 40%)
+                            0.35, // Use 35% of available height
+                            // (reduced from 40%)
                         onTileTap: _onTileTap,
                         knownLetterStates: _getKnownLetterStates(_currentInput),
                       ),
@@ -798,13 +810,16 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.8),
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Colors.grey.shade300),
+                          border: Border.all(
+                            color: Colors.grey.shade300,
+                          ),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              'Mark Letters (tap to cycle: Gray → Yellow → Green):',
+                              'Mark Letters (tap to cycle: '
+                              'Gray → Yellow → Green):',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12,

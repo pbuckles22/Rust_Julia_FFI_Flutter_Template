@@ -23,21 +23,65 @@ void main() {
       expect(FfiService.isValidWord('WORLD'), isTrue);
       
       // Valid words with different cases (should be normalized to uppercase)
-      expect(FfiService.isValidWord('crane'), isTrue, reason: 'Lowercase should be normalized to uppercase');
-      expect(FfiService.isValidWord('CrAnE'), isTrue, reason: 'Mixed case should be normalized to uppercase');
+      expect(
+        FfiService.isValidWord('crane'),
+        isTrue,
+        reason: 'Lowercase should be normalized to uppercase',
+      );
+      expect(
+        FfiService.isValidWord('CrAnE'),
+        isTrue,
+        reason: 'Mixed case should be normalized to uppercase',
+      );
       
       // Invalid format cases
-      expect(FfiService.isValidWord(''), isFalse, reason: 'Empty string should be invalid');
-      expect(FfiService.isValidWord('WORD'), isFalse, reason: '4-letter word should be invalid');
-      expect(FfiService.isValidWord('TOOLONG'), isFalse, reason: '6-letter word should be invalid');
-      expect(FfiService.isValidWord('CR4NE'), isFalse, reason: 'Numbers should be invalid');
-      expect(FfiService.isValidWord('CR-AN'), isFalse, reason: 'Special characters should be invalid');
-      expect(FfiService.isValidWord('CR AN'), isFalse, reason: 'Spaces should be invalid');
+      expect(
+        FfiService.isValidWord(''),
+        isFalse,
+        reason: 'Empty string should be invalid',
+      );
+      expect(
+        FfiService.isValidWord('WORD'),
+        isFalse,
+        reason: '4-letter word should be invalid',
+      );
+      expect(
+        FfiService.isValidWord('TOOLONG'),
+        isFalse,
+        reason: '6-letter word should be invalid',
+      );
+      expect(
+        FfiService.isValidWord('CR4NE'),
+        isFalse,
+        reason: 'Numbers should be invalid',
+      );
+      expect(
+        FfiService.isValidWord('CR-AN'),
+        isFalse,
+        reason: 'Special characters should be invalid',
+      );
+      expect(
+        FfiService.isValidWord('CR AN'),
+        isFalse,
+        reason: 'Spaces should be invalid',
+      );
       
       // Non-existent words
-      expect(FfiService.isValidWord('XXXXX'), isFalse, reason: 'Non-existent word should be invalid');
-      expect(FfiService.isValidWord('QWERT'), isFalse, reason: 'Non-existent word should be invalid');
-      expect(FfiService.isValidWord('ASDFG'), isFalse, reason: 'Non-existent word should be invalid');
+      expect(
+        FfiService.isValidWord('XXXXX'),
+        isFalse,
+        reason: 'Non-existent word should be invalid',
+      );
+      expect(
+        FfiService.isValidWord('QWERT'),
+        isFalse,
+        reason: 'Non-existent word should be invalid',
+      );
+      expect(
+        FfiService.isValidWord('ASDFG'),
+        isFalse,
+        reason: 'Non-existent word should be invalid',
+      );
     });
 
     test('isValidWord() should be consistent with word lists', () {

@@ -36,7 +36,10 @@ class AppService {
       // Always use comprehensive word list for algorithm testing
       // This maintains the spirit of Shannon Entropy and statistical analysis
       // while being fast enough for 800+ test suite
-      DebugLogger.info('🚀 Initializing with comprehensive algorithm-testing word list', tag: 'AppService');
+      DebugLogger.info(
+        '🚀 Initializing with comprehensive algorithm-testing word list',
+        tag: 'AppService',
+      );
 
       DebugLogger.info(
         '🔧 Step 0: Initializing FFI Service...',
@@ -49,10 +52,17 @@ class AppService {
         tag: 'AppService',
       );
 
-      DebugLogger.info('🔧 Step 1: Word lists already loaded by FFI Service...', tag: 'AppService');
-      // Step 1: Word lists are already loaded by FFI Service during initialization
+      DebugLogger.info(
+        '🔧 Step 1: Word lists already loaded by FFI Service...',
+        tag: 'AppService',
+      );
+      // Step 1: Word lists are already loaded by FFI Service during
+      // initialization
       // No need to create WordService or load word lists manually
-      DebugLogger.success('✅ Word lists available via centralized FFI', tag: 'AppService');
+      DebugLogger.success(
+        '✅ Word lists available via centralized FFI',
+        tag: 'AppService',
+      );
 
       DebugLogger.info('🔧 Step 6: Creating GameService...', tag: 'AppService');
       // Step 6: Initialize GameService (now uses centralized FFI)
@@ -91,21 +101,31 @@ class AppService {
   }
 
   /// Initialize AppService for testing with pre-created services
-  /// This allows tests to use algorithm-testing word lists instead of full production lists
+  /// This allows tests to use algorithm-testing word lists instead of full
+  /// production lists
   Future<void> initializeForTesting(GameService gameService) async {
     if (_isInitialized) {
       return; // Already initialized
     }
 
     try {
-      DebugLogger.info('🧪 Initializing AppService for testing with centralized FFI', tag: 'AppService');
+      DebugLogger.info(
+        '🧪 Initializing AppService for testing with centralized FFI',
+        tag: 'AppService',
+      );
 
       _gameService = gameService;
       _isInitialized = true;
 
-      DebugLogger.success('🎉 AppService initialized for testing successfully!', tag: 'AppService');
+      DebugLogger.success(
+        '🎉 AppService initialized for testing successfully!',
+        tag: 'AppService',
+      );
     } catch (e, stackTrace) {
-      DebugLogger.error('❌ CRITICAL: App service test initialization failed: $e', tag: 'AppService');
+      DebugLogger.error(
+        '❌ CRITICAL: App service test initialization failed: $e',
+        tag: 'AppService',
+      );
       DebugLogger.error('Stack trace: $stackTrace', tag: 'AppService');
       rethrow;
     }

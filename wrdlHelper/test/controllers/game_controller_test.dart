@@ -41,7 +41,8 @@ void main() {
     });
 
     test('should initialize services successfully', () async {
-      // This test should fail initially - we need to implement service initialization
+      // This test should fail initially - we need to implement service
+      // initialization
       await gameController.initialize();
 
       expect(gameController.isInitialized, isTrue);
@@ -89,14 +90,16 @@ void main() {
     });
 
     test('should not remove letter from empty input', () {
-      // This test should fail initially - we need to implement backspace validation
+      // This test should fail initially - we need to implement backspace
+      // validation
       gameController.removeLastLetter();
 
       expect(gameController.currentInput, isEmpty);
     });
 
     test('should clear current input', () {
-      // This test should fail initially - we need to implement clear functionality
+      // This test should fail initially - we need to implement clear
+      // functionality
       gameController.addLetter('A');
       gameController.addLetter('B');
       gameController.addLetter('C');
@@ -150,7 +153,8 @@ void main() {
     });
 
     test('should start new game', () async {
-      // This test should fail initially - we need to implement new game functionality
+      // This test should fail initially - we need to implement new game
+      // functionality
       await gameController.initialize();
       gameController.addLetter('A');
       gameController.addLetter('B');
@@ -163,7 +167,8 @@ void main() {
     });
 
     test('should get suggestion for next guess', () async {
-      // This test should fail initially - we need to implement suggestion functionality
+      // This test should fail initially - we need to implement suggestion
+      // functionality
       await gameController.initialize();
 
       final suggestion = await gameController.getSuggestion();
@@ -173,10 +178,12 @@ void main() {
     });
 
     test('should return null suggestion when game is over', () async {
-      // This test should fail initially - we need to implement game over handling
+      // This test should fail initially - we need to implement game over
+      // handling
       await gameController.initialize();
       // Simulate game over state
-      // Simulate game over state by creating a game with 5 guesses (max for helper app)
+      // Simulate game over state by creating a game with 5 guesses (max for
+      // helper app)
       final gameState = GameState.newGame(
         targetWord: Word.fromString('CRATE'),
         maxGuesses: 5,
@@ -216,7 +223,8 @@ void main() {
     });
 
     test('should handle rapid input correctly', () {
-      // This test should fail initially - we need to implement rapid input handling
+      // This test should fail initially - we need to implement rapid input
+      // handling
       for (int i = 0; i < 10; i++) {
         gameController.addLetter('A');
       }

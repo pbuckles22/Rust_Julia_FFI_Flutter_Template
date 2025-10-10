@@ -40,7 +40,9 @@ void main() {
       expect(updatedConfig.entropyOnlyScoring, isTrue);
     });
 
-    test('applyReferenceModePreset() should set reference mode configuration', () {
+    test(
+      'applyReferenceModePreset() should set reference mode configuration',
+      () {
       // RED: This test will verify reference mode preset works
       
       // Apply reference mode preset
@@ -96,11 +98,17 @@ void main() {
       
       // Test with default configuration
       FfiService.resetToDefaultConfiguration();
-      final defaultSuggestion = FfiService.getBestGuessFast(remainingWords, guessResults);
+      final defaultSuggestion = FfiService.getBestGuessFast(
+        remainingWords,
+        guessResults,
+      );
       
       // Test with reference mode configuration
       FfiService.applyReferenceModePreset();
-      final referenceSuggestion = FfiService.getBestGuessReference(remainingWords, guessResults);
+      final referenceSuggestion = FfiService.getBestGuessReference(
+        remainingWords,
+        guessResults,
+      );
       
       // Both should return valid suggestions
       expect(defaultSuggestion, isNotNull);

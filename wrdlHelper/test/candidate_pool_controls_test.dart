@@ -27,7 +27,10 @@ void main() {
       final remainingWords = List.generate(100, (i) => 'WORD$i');
       final guessResults = <(String, List<String>)>[];
       
-      final bestGuess = FfiService.getBestGuessFast(remainingWords, guessResults);
+      final bestGuess = FfiService.getBestGuessFast(
+        remainingWords,
+        guessResults,
+      );
       
       // Should still work with small candidate cap
       expect(bestGuess, isNotNull);
@@ -51,13 +54,17 @@ void main() {
       final guessResults = <(String, List<String>)>[];
       
       final stopwatch = Stopwatch()..start();
-      final bestGuess = FfiService.getBestGuessFast(remainingWords, guessResults);
+      final bestGuess = FfiService.getBestGuessFast(
+        remainingWords,
+        guessResults,
+      );
       stopwatch.stop();
       
       expect(bestGuess, isNotNull);
       
       // With early termination disabled, should process more candidates
-      // (This is hard to test without exposing internal state, but we can test it doesn't crash)
+      // (This is hard to test without exposing internal state, but we can test
+      // it doesn't crash)
       expect(stopwatch.elapsedMilliseconds, lessThan(1000));
     });
 
@@ -97,13 +104,22 @@ void main() {
         final guessResults = <(String, List<String>)>[];
         
         final stopwatch = Stopwatch()..start();
-        final bestGuess = FfiService.getBestGuessFast(remainingWords, guessResults);
+        final bestGuess = FfiService.getBestGuessFast(
+          remainingWords,
+          guessResults,
+        );
         stopwatch.stop();
         
         expect(bestGuess, isNotNull);
-        expect(stopwatch.elapsedMilliseconds, lessThan(testCase['expectedMaxTime'] as int));
+        expect(
+          stopwatch.elapsedMilliseconds,
+          lessThan(testCase['expectedMaxTime'] as int),
+        );
         
-        DebugLogger.debug('Candidate cap ${testCase['cap']}: ${stopwatch.elapsedMilliseconds}ms');
+        DebugLogger.debug(
+          'Candidate cap ${testCase['cap']}: '
+          '${stopwatch.elapsedMilliseconds}ms',
+        );
       }
     });
 
@@ -123,7 +139,10 @@ void main() {
       final remainingWords = ['CRANE', 'SLATE', 'TRACE'];
       final guessResults = <(String, List<String>)>[];
       
-      final bestGuess = FfiService.getBestGuessFast(remainingWords, guessResults);
+      final bestGuess = FfiService.getBestGuessFast(
+        remainingWords,
+        guessResults,
+      );
       
       // Should still work with very small cap
       expect(bestGuess, isNotNull);
@@ -138,7 +157,10 @@ void main() {
         entropyOnlyScoring: false,
       ));
 
-      final bestGuess2 = FfiService.getBestGuessFast(remainingWords, guessResults);
+      final bestGuess2 = FfiService.getBestGuessFast(
+        remainingWords,
+        guessResults,
+      );
       expect(bestGuess2, isNotNull);
     });
 

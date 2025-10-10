@@ -10,7 +10,10 @@ void main() {
     test('debug GXXXX pattern', () async {
       // Pattern: GXXXX (C=Green, R,A,N,E=Gray) for guess "CRANE"
       // Should return words that start with 'C' but don't contain R, A, N, E
-      final words = ['CRANE', 'SLATE', 'CRATE', 'PLATE', 'GRATE', 'TRACE', 'CHASE', 'CLOTH', 'CLOUD'];
+      final words = [
+        'CRANE', 'SLATE', 'CRATE', 'PLATE', 'GRATE', 'TRACE', 'CHASE',
+        'CLOTH', 'CLOUD'
+      ];
       final guessResults = [
         ('CRANE', ['G', 'X', 'X', 'X', 'X']), // C=Green, R,A,N,E=Gray
       ];
@@ -25,9 +28,11 @@ void main() {
       print('Filtered: $filtered');
       print('');
       print('Analysis:');
-      print('- CRANE: starts with C, but contains R,A,N,E → should be rejected');
+      print('- CRANE: starts with C, but contains R,A,N,E → should be '
+          'rejected');
       print('- SLATE: doesn\'t start with C → should be rejected');
-      print('- CRATE: starts with C, but contains R,A,E → should be rejected');
+      print('- CRATE: starts with C, but contains R,A,E → should be '
+          'rejected');
       print('- PLATE: doesn\'t start with C → should be rejected');
       print('- GRATE: doesn\'t start with C → should be rejected');
       print('- TRACE: doesn\'t start with C → should be rejected');

@@ -66,7 +66,10 @@ void main() {
       expect(stopwatch.elapsedMilliseconds, lessThan(50), 
           reason: 'Entropy calculation should be fast (<50ms)');
       
-      DebugLogger.debug('Entropy calculation: ${stopwatch.elapsedMilliseconds}ms, value: $entropy');
+      DebugLogger.debug(
+        'Entropy calculation: ${stopwatch.elapsedMilliseconds}ms, '
+        'value: $entropy',
+      );
     });
 
     test('filtering performance with multiple patterns', () {
@@ -88,7 +91,10 @@ void main() {
       expect(stopwatch.elapsedMilliseconds, lessThan(50), 
           reason: 'Filtering should be fast (<50ms)');
       
-      DebugLogger.debug('Filtering: ${stopwatch.elapsedMilliseconds}ms, filtered: ${filtered.length} words');
+      DebugLogger.debug(
+        'Filtering: ${stopwatch.elapsedMilliseconds}ms, '
+        'filtered: ${filtered.length} words',
+      );
     });
 
     test('configuration switching performance', () {
@@ -145,7 +151,9 @@ void main() {
       expect(stopwatch.elapsedMilliseconds, lessThan(100), 
           reason: 'Performance should not degrade after many calls');
       
-      DebugLogger.debug('Final call after 100 iterations: ${stopwatch.elapsedMilliseconds}ms');
+      DebugLogger.debug(
+        'Final call after 100 iterations: ${stopwatch.elapsedMilliseconds}ms',
+      );
     });
   });
 }

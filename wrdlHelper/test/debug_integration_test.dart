@@ -10,7 +10,8 @@ void main() {
     test('debug integration test pattern', () async {
       final allWords = ['CRANE', 'SLATE', 'CRATE', 'PLATE', 'GRATE', 'TRACE'];
       final guessResults = [
-        ('CRANE', ['G', 'G', 'G', 'X', 'X']), // C=Green, R=Green, A=Green, N=Gray, E=Gray
+        ('CRANE', ['G', 'G', 'G', 'X', 'X']), // C=Green, R=Green, A=Green,
+        // N=Gray, E=Gray
       ];
       
       print('Original words: $allWords');
@@ -47,7 +48,8 @@ void main() {
         final hasE = word.contains('E');
         print('  Has E: $hasE');
         
-        final shouldMatch = hasCInPos1 && hasRInPos2 && hasAInPos3 && !hasN && !hasE;
+        final shouldMatch = hasCInPos1 && hasRInPos2 && hasAInPos3 && !hasN &&
+            !hasE;
         print('  Should match: $shouldMatch');
         print('');
       }

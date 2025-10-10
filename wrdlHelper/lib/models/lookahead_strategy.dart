@@ -31,7 +31,9 @@ class GameTreeBranch {
 
   @override
   String toString() {
-    return 'GameTreeBranch(pattern: $pattern, probability: ${probability.toStringAsFixed(3)}, remaining: ${remainingWords.length})';
+    return 'GameTreeBranch(pattern: $pattern, '
+        'probability: ${probability.toStringAsFixed(3)}, '
+        'remaining: ${remainingWords.length})';
   }
 
   @override
@@ -84,7 +86,8 @@ class BranchMetadata {
 
   @override
   String toString() {
-    return 'BranchMetadata(depth: $depth, eliminated: $wordsEliminated, infoGain: ${informationGain.toStringAsFixed(3)})';
+    return 'BranchMetadata(depth: $depth, eliminated: $wordsEliminated, '
+        'infoGain: ${informationGain.toStringAsFixed(3)})';
   }
 
   @override
@@ -139,7 +142,9 @@ class LookAheadAnalysis {
 
   @override
   String toString() {
-    return 'LookAheadAnalysis(word: ${candidateWord.value}, depth: $maxDepth, branches: ${branches.length}, expectedRemaining: ${expectedRemainingWords.toStringAsFixed(1)})';
+    return 'LookAheadAnalysis(word: ${candidateWord.value}, depth: $maxDepth, '
+        'branches: ${branches.length}, '
+        'expectedRemaining: ${expectedRemainingWords.toStringAsFixed(1)})';
   }
 
   @override
@@ -192,7 +197,8 @@ class LookAheadMetadata {
 
   @override
   String toString() {
-    return 'LookAheadMetadata(words: $totalWordsAnalyzed, patterns: $uniquePatterns, time: ${computationTimeMs}ms)';
+    return 'LookAheadMetadata(words: $totalWordsAnalyzed, '
+        'patterns: $uniquePatterns, time: ${computationTimeMs}ms)';
   }
 
   @override
@@ -247,7 +253,9 @@ class OptimalStrategy {
 
   @override
   String toString() {
-    return 'OptimalStrategy(word: ${recommendedWord.value}, score: ${expectedScore.toStringAsFixed(3)}, confidence: ${confidence.toStringAsFixed(3)})';
+    return 'OptimalStrategy(word: ${recommendedWord.value}, '
+        'score: ${expectedScore.toStringAsFixed(3)}, '
+        'confidence: ${confidence.toStringAsFixed(3)})';
   }
 
   @override
@@ -300,7 +308,8 @@ class StrategyMetadata {
 
   @override
   String toString() {
-    return 'StrategyMetadata(words: $wordsAnalyzed, depth: $analysisDepth, endgame: $isEndgameStrategy)';
+    return 'StrategyMetadata(words: $wordsAnalyzed, depth: $analysisDepth, '
+        'endgame: $isEndgameStrategy)';
   }
 
   @override

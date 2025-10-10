@@ -10,7 +10,8 @@ void main() {
       // Initialize Flutter binding for asset loading
       TestWidgetsFlutterBinding.ensureInitialized();
       
-      // Initialize FFI once (word lists are loaded by centralized FFI during initialization)
+      // Initialize FFI once (word lists are loaded by centralized FFI during
+      // initialization)
       await RustLib.init();
       await FfiService.initialize();
     });
@@ -23,11 +24,17 @@ void main() {
       stopwatch.stop();
       
       print('🎯 First guess result: $result');
-      print('⏱️  E2E time: ${stopwatch.elapsedMicroseconds}μs (${stopwatch.elapsedMilliseconds}ms)');
+      print(
+        '⏱️  E2E time: ${stopwatch.elapsedMicroseconds}μs '
+        '(${stopwatch.elapsedMilliseconds}ms)',
+      );
       
       expect(result, isNotNull);
       expect(result!.length, equals(5));
-      expect(stopwatch.elapsedMilliseconds, lessThanOrEqualTo(5)); // Allow up to 5ms (FFI overhead)
+      expect(
+        stopwatch.elapsedMilliseconds,
+        lessThanOrEqualTo(5), // Allow up to 5ms (FFI overhead)
+      );
     });
 
     test('E2E performance: subsequent guesses should be <200ms', () {
@@ -44,7 +51,10 @@ void main() {
       stopwatch.stop();
       
       print('🧠 Subsequent guess result: $result');
-      print('⏱️  E2E time: ${stopwatch.elapsedMicroseconds}μs (${stopwatch.elapsedMilliseconds}ms)');
+      print(
+        '⏱️  E2E time: ${stopwatch.elapsedMicroseconds}μs '
+        '(${stopwatch.elapsedMilliseconds}ms)',
+      );
       
       expect(result, isNotNull);
       expect(result!.length, equals(5));
@@ -65,11 +75,17 @@ void main() {
       stopwatch.stop();
       
       print('🔍 Filtered ${filtered.length} words from ${allWords.length}');
-      print('⏱️  E2E time: ${stopwatch.elapsedMicroseconds}μs (${stopwatch.elapsedMilliseconds}ms)');
+      print(
+        '⏱️  E2E time: ${stopwatch.elapsedMicroseconds}μs '
+        '(${stopwatch.elapsedMilliseconds}ms)',
+      );
       
       expect(filtered, isNotEmpty);
       expect(filtered.length, lessThan(allWords.length));
-      expect(stopwatch.elapsedMilliseconds, lessThan(50)); // Should be <50ms
+      expect(
+        stopwatch.elapsedMilliseconds,
+        lessThan(50), // Should be <50ms
+      );
     });
 
     test('E2E performance: entropy calculation should be <10ms', () {
@@ -79,12 +95,18 @@ void main() {
       final candidateWord = 'TARES';
       final remainingWords = FfiService.getGuessWords().take(1000).toList();
       
-      final entropy = FfiService.calculateEntropy(candidateWord, remainingWords);
+      final entropy = FfiService.calculateEntropy(
+        candidateWord,
+        remainingWords,
+      );
       
       stopwatch.stop();
       
       print('📊 Entropy for $candidateWord: $entropy');
-      print('⏱️  E2E time: ${stopwatch.elapsedMicroseconds}μs (${stopwatch.elapsedMilliseconds}ms)');
+      print(
+        '⏱️  E2E time: ${stopwatch.elapsedMicroseconds}μs '
+        '(${stopwatch.elapsedMilliseconds}ms)',
+      );
       
       expect(entropy, greaterThan(0.0));
       expect(stopwatch.elapsedMilliseconds, lessThan(10)); // Should be <10ms
@@ -99,16 +121,23 @@ void main() {
       stopwatch.stop();
       
       print('🎨 Pattern for CRANE vs CRATE: $pattern');
-      print('⏱️  E2E time: ${stopwatch.elapsedMicroseconds}μs (${stopwatch.elapsedMilliseconds}ms)');
+      print(
+        '⏱️  E2E time: ${stopwatch.elapsedMicroseconds}μs '
+        '(${stopwatch.elapsedMilliseconds}ms)',
+      );
       
       expect(pattern, equals('GGGXG')); // C, R, A match, N doesn't, E matches
-      expect(stopwatch.elapsedMilliseconds, lessThanOrEqualTo(1)); // Allow up to 1ms
+      expect(
+        stopwatch.elapsedMilliseconds,
+        lessThanOrEqualTo(1), // Allow up to 1ms
+      );
     });
 
     test('E2E performance: stress test with multiple operations', () {
       final stopwatch = Stopwatch()..start();
       
-      // Perform multiple operations to test overall performance using centralized FFI
+      // Perform multiple operations to test overall performance using
+      // centralized FFI
       final allWords = FfiService.getGuessWords().take(2000).toList();
       
       // Operation 1: Get optimal first guess
@@ -120,10 +149,16 @@ void main() {
       ]);
       
       // Operation 3: Get best guess from filtered words
-      final bestGuess = FfiService.getBestGuessFast(filtered.take(100).toList(), []);
+      final bestGuess = FfiService.getBestGuessFast(
+        filtered.take(100).toList(),
+        [],
+      );
       
       // Operation 4: Calculate entropy
-      final entropy = FfiService.calculateEntropy(bestGuess!, filtered.take(100).toList());
+      final entropy = FfiService.calculateEntropy(
+        bestGuess!,
+        filtered.take(100).toList(),
+      );
       
       // Operation 5: Simulate pattern
       final pattern = FfiService.simulateGuessPattern(bestGuess!, 'SLATE');
@@ -136,18 +171,25 @@ void main() {
       print('  • Best guess: $bestGuess');
       print('  • Entropy: $entropy');
       print('  • Pattern: $pattern');
-      print('⏱️  Total E2E time: ${stopwatch.elapsedMicroseconds}μs (${stopwatch.elapsedMilliseconds}ms)');
+      print(
+        '⏱️  Total E2E time: ${stopwatch.elapsedMicroseconds}μs '
+        '(${stopwatch.elapsedMilliseconds}ms)',
+      );
       
       expect(firstGuess, isNotNull);
       expect(filtered, isNotEmpty);
       expect(bestGuess, isNotNull);
       expect(entropy, greaterThan(0.0));
       expect(pattern, isNotEmpty);
-      expect(stopwatch.elapsedMilliseconds, lessThan(300)); // Should be <300ms total
+      expect(
+        stopwatch.elapsedMilliseconds,
+        lessThan(300), // Should be <300ms total
+      );
     });
 
     test('E2E performance: memory usage validation', () {
-      // Test that we can handle large word lists without memory issues using centralized FFI
+      // Test that we can handle large word lists without memory issues using
+      // centralized FFI
       final allWords = FfiService.getGuessWords();
       
       print('📊 Memory test with ${allWords.length} words');
@@ -155,16 +197,25 @@ void main() {
       final stopwatch = Stopwatch()..start();
       
       // Test with full word list
-      final result = FfiService.getBestGuessFast(allWords.take(1000).toList(), []);
+      final result = FfiService.getBestGuessFast(
+        allWords.take(1000).toList(),
+        [],
+      );
       
       stopwatch.stop();
       
       print('🧠 Full word list result: $result');
-      print('⏱️  E2E time: ${stopwatch.elapsedMicroseconds}μs (${stopwatch.elapsedMilliseconds}ms)');
+      print(
+        '⏱️  E2E time: ${stopwatch.elapsedMicroseconds}μs '
+        '(${stopwatch.elapsedMilliseconds}ms)',
+      );
       
       expect(result, isNotNull);
       expect(result!.length, equals(5));
-      expect(stopwatch.elapsedMilliseconds, lessThan(500)); // Should handle large lists <500ms
+      expect(
+        stopwatch.elapsedMilliseconds,
+        lessThan(500), // Should handle large lists <500ms
+      );
     });
   });
 }

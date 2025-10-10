@@ -27,7 +27,8 @@ class LetterFrequencyAnalysis {
 
   @override
   String toString() {
-    return 'LetterFrequencyAnalysis(totalWords: $totalWords, mostCommon: ${mostCommonLetters.take(5).toList()})';
+    return 'LetterFrequencyAnalysis(totalWords: $totalWords, '
+        'mostCommon: ${mostCommonLetters.take(5).toList()})';
   }
 
   @override
@@ -75,7 +76,8 @@ class PositionProbabilityAnalysis {
 
   @override
   String toString() {
-    return 'PositionProbabilityAnalysis(totalWords: $totalWords, positions: ${positionProbabilities.length})';
+    return 'PositionProbabilityAnalysis(totalWords: $totalWords, '
+        'positions: ${positionProbabilities.length})';
   }
 
   @override
@@ -128,7 +130,8 @@ class WordStatisticalScore {
 
   @override
   String toString() {
-    return 'WordStatisticalScore(word: ${word.value}, score: ${score.toStringAsFixed(3)})';
+    return 'WordStatisticalScore(word: ${word.value}, '
+        'score: ${score.toStringAsFixed(3)})';
   }
 
   @override
@@ -181,7 +184,8 @@ class StatisticalScoreMetadata {
 
   @override
   String toString() {
-    return 'StatisticalScoreMetadata(primeSuspect: $isPrimeSuspect, combinedRank: $combinedRank)';
+    return 'StatisticalScoreMetadata(primeSuspect: $isPrimeSuspect, '
+        'combinedRank: $combinedRank)';
   }
 
   @override

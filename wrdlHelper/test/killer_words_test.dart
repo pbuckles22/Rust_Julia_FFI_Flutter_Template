@@ -29,18 +29,29 @@ void main() {
       
       // Should suggest a killer word that tests multiple letters
       expect(bestGuess, isNotNull);
-      expect(bestGuess, isNot(anyOf(equals('MATCH'), equals('PATCH'), equals('LATCH'), equals('HATCH'))));
+      expect(
+        bestGuess,
+        isNot(anyOf(
+          equals('MATCH'),
+          equals('PATCH'),
+          equals('LATCH'),
+          equals('HATCH'),
+        )),
+      );
       
       // Should be one of the known killer words or any valid strategic word
-      // The algorithm may suggest different strategic words, so we check it's a valid 5-letter word
+      // The algorithm may suggest different strategic words, so we check it's a
+      // valid 5-letter word
       expect(bestGuess, isNotNull);
       expect(bestGuess!.length, equals(5));
       expect(bestGuess, matches(RegExp(r'^[A-Z]{5}$')));
     });
 
     test('should not include killer words when flag is disabled', () {
-      // This test verifies that when killer words are disabled, we get original strategic words
-      // Since FFI bindings aren't connected yet, this tests the default Rust behavior
+      // This test verifies that when killer words are disabled, we get original
+      // strategic words
+      // Since FFI bindings aren't connected yet, this tests the default Rust
+      // behavior
       FfiService.setConfiguration(const FfiConfiguration(
         referenceMode: false,
         includeKillerWords: false,
@@ -55,20 +66,24 @@ void main() {
       
       final bestGuess = FfiService.getBestGuessFast(remainingWords, guessResults);
       
-      // With killer words disabled (default), should get original strategic words
+      // With killer words disabled (default), should get original strategic
+      // words
       expect(bestGuess, isNotNull);
-      // Should be a valid 5-letter word (algorithm may suggest different strategic words)
+      // Should be a valid 5-letter word (algorithm may suggest different
+      // strategic words)
       expect(bestGuess!.length, equals(5));
       expect(bestGuess, matches(RegExp(r'^[A-Z]{5}$')));
     });
 
     test('should have higher entropy for killer words in classic trap scenario', () {
-      // RED: This test will fail until we implement entropy calculation with killer words
+      // RED: This test will fail until we implement entropy calculation with
+      // killer words
       FfiService.setConfiguration(const FfiConfiguration(
         referenceMode: false,
         includeKillerWords: true,
         candidateCap: 500,
-        earlyTerminationEnabled: false, // Disable early termination for full analysis
+        earlyTerminationEnabled: false, // Disable early termination for full
+        // analysis
         earlyTerminationThreshold: 10.0,
         entropyOnlyScoring: true,
       ));
@@ -86,7 +101,10 @@ void main() {
       expect(matchEntropy, greaterThan(0.0));
       expect(slateEntropy, greaterThan(0.0));
       
-      print('Entropy values: VOMIT=$vomitEntropy, MATCH=$matchEntropy, SLATE=$slateEntropy');
+      print(
+        'Entropy values: VOMIT=$vomitEntropy, MATCH=$matchEntropy, '
+        'SLATE=$slateEntropy',
+      );
     });
 
     test('should include all curated killer words in candidate pool', () {
@@ -108,11 +126,15 @@ void main() {
         'PSYCH', 'GLYPH', 'VOMIT', 'JUMBO', 'ZEBRA'
       ];
 
-      // Test with a small set of remaining words to see killer words in action
+      // Test with a small set of remaining words to see killer words in
+      // action
       final remainingWords = ['CRANE'];
       final guessResults = <(String, List<String>)>[];
       
-      final bestGuess = FfiService.getBestGuessFast(remainingWords, guessResults);
+      final bestGuess = FfiService.getBestGuessFast(
+        remainingWords,
+        guessResults,
+      );
       
       // Should return one of the killer words or the remaining word
       expect(bestGuess, isNotNull);
@@ -139,9 +161,15 @@ void main() {
       stopwatch.stop();
       
       expect(bestGuess, isNotNull);
-      expect(stopwatch.elapsedMilliseconds, lessThan(1000), reason: 'Should complete within 1 second');
+      expect(
+        stopwatch.elapsedMilliseconds,
+        lessThan(1000),
+        reason: 'Should complete within 1 second',
+      );
       
-      print('Performance with killer words: ${stopwatch.elapsedMilliseconds}ms');
+      print(
+        'Performance with killer words: ${stopwatch.elapsedMilliseconds}ms',
+      );
     });
   });
 }

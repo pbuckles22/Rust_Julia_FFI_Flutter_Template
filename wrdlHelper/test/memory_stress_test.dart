@@ -25,7 +25,10 @@ void main() {
           List.generate(5, (j) => ['correct', 'present', 'absent'][j % 3])
         ));
         
-        expect(() => FfiService.filterWords(largeWordList, largeResults), throwsA(isA<ServiceNotInitializedException>()));
+        expect(
+          () => FfiService.filterWords(largeWordList, largeResults),
+          throwsA(isA<ServiceNotInitializedException>()),
+        );
       });
 
       test('should handle memory-intensive operations', () async {
@@ -33,7 +36,10 @@ void main() {
         final memoryIntensiveData = List.generate(50000, (i) => 'MEMORY$i');
         
         for (int i = 0; i < 10; i++) {
-          expect(() => FfiService.getBestGuessFast(memoryIntensiveData, []), throwsA(isA<ServiceNotInitializedException>()));
+          expect(
+            () => FfiService.getBestGuessFast(memoryIntensiveData, []),
+            throwsA(isA<ServiceNotInitializedException>()),
+          );
         }
       });
 
@@ -46,7 +52,10 @@ void main() {
             ['correct', 'present', 'absent', 'present', 'absent']
           ));
           
-          expect(() => FfiService.getBestGuessReference(tempList, tempResults), throwsA(isA<ServiceNotInitializedException>()));
+          expect(
+            () => FfiService.getBestGuessReference(tempList, tempResults),
+            throwsA(isA<ServiceNotInitializedException>()),
+          );
         }
       });
     });
@@ -61,7 +70,10 @@ void main() {
             ['correct', 'present', 'absent', 'present', 'absent']
           ));
           
-          expect(() => FfiService.filterWords(cycleData, cycleResults), throwsA(isA<ServiceNotInitializedException>()));
+          expect(
+            () => FfiService.filterWords(cycleData, cycleResults),
+            throwsA(isA<ServiceNotInitializedException>()),
+          );
         }
       });
 
@@ -100,7 +112,10 @@ void main() {
         for (int i = 0; i < 100; i++) {
           final gcData = List.generate(5000, (j) => 'GC$i$j');
           
-          expect(() => FfiService.getBestGuessReference(gcData, []), throwsA(isA<ServiceNotInitializedException>()));
+          expect(
+            () => FfiService.getBestGuessReference(gcData, []),
+            throwsA(isA<ServiceNotInitializedException>()),
+          );
           
           // Force garbage collection hint
           if (i % 10 == 0) {
@@ -114,7 +129,10 @@ void main() {
         final pressureData = List.generate(20000, (i) => 'PRESSURE$i');
         
         for (int i = 0; i < 20; i++) {
-          expect(() => FfiService.getBestGuessFast(pressureData, []), throwsA(isA<ServiceNotInitializedException>()));
+          expect(
+            () => FfiService.getBestGuessFast(pressureData, []),
+            throwsA(isA<ServiceNotInitializedException>()),
+          );
         }
       });
     });
@@ -124,7 +142,10 @@ void main() {
         // Test behavior when resources are exhausted
         final exhaustionData = List.generate(100000, (i) => 'EXHAUSTION$i');
         
-        expect(() => FfiService.filterWords(exhaustionData, []), throwsA(isA<ServiceNotInitializedException>()));
+        expect(
+          () => FfiService.filterWords(exhaustionData, []),
+          throwsA(isA<ServiceNotInitializedException>()),
+        );
       });
 
       test('should recover from resource exhaustion', () async {

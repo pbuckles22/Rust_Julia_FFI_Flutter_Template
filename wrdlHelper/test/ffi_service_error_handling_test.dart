@@ -11,36 +11,54 @@ void main() {
     group('FFI Initialization Errors', () {
       test('should handle FFI service not initialized', () async {
         // Test FFI service when not initialized
-        expect(() => FfiService.getOptimalFirstGuess(), throwsA(isA<ServiceNotInitializedException>()));
+        expect(
+          () => FfiService.getOptimalFirstGuess(),
+          throwsA(isA<ServiceNotInitializedException>()),
+        );
       });
 
       test('should handle FFI bridge generation errors', () async {
         // Test when FFI bridge generation fails
-        expect(() => FfiService.getBestGuessFast([], []), throwsA(isA<ServiceNotInitializedException>()));
+        expect(
+          () => FfiService.getBestGuessFast([], []),
+          throwsA(isA<ServiceNotInitializedException>()),
+        );
       });
     });
 
     group('Word Validation Errors', () {
       test('should handle invalid word format errors', () async {
         // Test with invalid word formats
-        expect(() => FfiService.filterWords([], []), throwsA(isA<ServiceNotInitializedException>()));
+        expect(
+          () => FfiService.filterWords([], []),
+          throwsA(isA<ServiceNotInitializedException>()),
+        );
       });
 
       test('should handle null word input', () async {
         // Test with null input
-        expect(() => FfiService.filterWords([], []), throwsA(isA<ServiceNotInitializedException>()));
+        expect(
+          () => FfiService.filterWords([], []),
+          throwsA(isA<ServiceNotInitializedException>()),
+        );
       });
     });
 
     group('Service Unavailable Scenarios', () {
       test('should handle service not initialized', () async {
         // Test when service is not properly initialized
-        expect(() => FfiService.getBestGuessReference([], []), throwsA(isA<ServiceNotInitializedException>()));
+        expect(
+          () => FfiService.getBestGuessReference([], []),
+          throwsA(isA<ServiceNotInitializedException>()),
+        );
       });
 
       test('should handle service in error state', () async {
         // Test when service is in error state
-        expect(() => FfiService.getBestGuessFast([], []), throwsA(isA<ServiceNotInitializedException>()));
+        expect(
+          () => FfiService.getBestGuessFast([], []),
+          throwsA(isA<ServiceNotInitializedException>()),
+        );
       });
     });
 

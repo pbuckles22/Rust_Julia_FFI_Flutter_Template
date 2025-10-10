@@ -53,7 +53,9 @@ class FfiService {
         await RustLib.init();
       } catch (e) {
         // If FFI is already initialized, that's fine - continue
-        if (e.toString().contains('Should not initialize flutter_rust_bridge twice')) {
+        if (e.toString().contains(
+          'Should not initialize flutter_rust_bridge twice',
+        )) {
           // FFI bridge already initialized, continue
         } else {
           rethrow;
@@ -127,7 +129,8 @@ class FfiService {
   /// Get best guess using the REFERENCE algorithm (99.8% success rate)
   /// 
   /// This uses the exact same algorithm that achieved 99.8% success rate
-  /// in the Rust benchmark. This is the high-performance reference implementation.
+  /// in the Rust benchmark. This is the high-performance reference
+  /// implementation.
   static String? getBestGuessReference(
     List<String> remainingWords,
     List<(String, List<String>)> guessResults,
@@ -210,7 +213,11 @@ class FfiService {
         answerWords: answerWords,
         guessWords: guessWords,
       );
-      DebugLogger.success('✅ Successfully loaded ${answerWords.length} answer words and ${guessWords.length} guess words to Rust', tag: 'FfiService');
+      DebugLogger.success(
+        '✅ Successfully loaded ${answerWords.length} answer words and '
+        '${guessWords.length} guess words to Rust',
+        tag: 'FfiService',
+      );
     } catch (e) {
       throw AssetLoadException('Failed to load word lists to Rust: $e');
     }
@@ -224,11 +231,14 @@ class FfiService {
 
     try {
       // First check basic format - 5 letters, all uppercase
-      if (word.length != 5 || word != word.toUpperCase() || !word.contains(RegExp(r'^[A-Z]+$'))) {
+      if (word.length != 5 ||
+          word != word.toUpperCase() ||
+          !word.contains(RegExp(r'^[A-Z]+$'))) {
         return false;
       }
       
-      // For now, just check basic format - the word list validation will be handled
+      // For now, just check basic format - the word list validation will be
+      // handled
       // by the game service when it processes guesses
       return true;
     } catch (e) {
@@ -245,9 +255,9 @@ class FfiService {
     }
   }
 
-  // ============================================================================
+  // ===========================================================================
   // Configuration Methods
-  // ============================================================================
+  // ===========================================================================
 
   /// Get the current configuration
   static FfiConfiguration getConfiguration() {

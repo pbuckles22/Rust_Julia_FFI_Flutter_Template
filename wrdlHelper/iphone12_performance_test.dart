@@ -29,10 +29,12 @@ class iPhone12PerformanceTestScreen extends StatefulWidget {
   const iPhone12PerformanceTestScreen({super.key});
 
   @override
-  State<iPhone12PerformanceTestScreen> createState() => _iPhone12PerformanceTestScreenState();
+  State<iPhone12PerformanceTestScreen> createState() =>
+      _iPhone12PerformanceTestScreenState();
 }
 
-class _iPhone12PerformanceTestScreenState extends State<iPhone12PerformanceTestScreen> {
+class _iPhone12PerformanceTestScreenState
+    extends State<iPhone12PerformanceTestScreen> {
   String _result = 'Ready to test iPhone 12 performance...';
   bool _isRunning = false;
 
@@ -107,7 +109,10 @@ class _iPhone12PerformanceTestScreenState extends State<iPhone12PerformanceTestS
     
     try {
       for (int chunk = 0; chunk < 120; chunk++) { // 60% of 200
-        final chunkData = List.generate(300, (index) => chunk * 300 + index); // 60% of 500
+        final chunkData = List.generate(
+          300,
+          (index) => chunk * 300 + index,
+        ); // 60% of 500
         memoryTest.add(chunkData);
         
         for (int _ in chunkData) {
@@ -201,8 +206,12 @@ class _iPhone12PerformanceTestScreenState extends State<iPhone12PerformanceTestS
     results.add('🕐 Finished: ${DateTime.now()}');
     results.add('');
     results.add('📊 Performance Comparison:');
-    results.add('• iPhone 12 (A14 Bionic): ~60% of iPhone 15 Pro Max performance');
-    results.add('• Expected: Lower throughput but still excellent FFI performance');
+    results.add(
+      '• iPhone 12 (A14 Bionic): ~60% of iPhone 15 Pro Max performance',
+    );
+    results.add(
+      '• Expected: Lower throughput but still excellent FFI performance',
+    );
     results.add('• Real-world: iPhone 12 would handle this workload well');
 
     setState(() {
@@ -239,15 +248,19 @@ class _iPhone12PerformanceTestScreenState extends State<iPhone12PerformanceTestS
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      'This test simulates iPhone 12 (A14 Bionic) performance characteristics:\n'
+                      'This test simulates iPhone 12 (A14 Bionic) '
+                      'performance characteristics:\n'
                       '• 60% of iPhone 15 Pro Max (A17 Pro) performance\n'
-                      '• Reduced test parameters to match expected capabilities\n'
+                      '• Reduced test parameters to match expected '
+                      'capabilities\n'
                       '• More frequent yielding to simulate older hardware',
                       style: TextStyle(fontSize: 14),
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
-                      onPressed: _isRunning ? null : _runiPhone12PerformanceTest,
+                      onPressed: _isRunning
+                          ? null
+                          : _runiPhone12PerformanceTest,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
                         foregroundColor: Colors.white,
@@ -262,7 +275,9 @@ class _iPhone12PerformanceTestScreenState extends State<iPhone12PerformanceTestS
                                   height: 20,
                                   child: CircularProgressIndicator(
                                     strokeWidth: 2,
-                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.white,
+                                    ),
                                   ),
                                 ),
                                 SizedBox(width: 8),

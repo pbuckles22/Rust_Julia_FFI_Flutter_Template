@@ -25,7 +25,8 @@ void main() {
 
     test('green: fixes letters in exact positions', () {
       final remaining = ['CRANE'];
-      // Guess: CRANE -> C(0) green, R(1) green, A(2) green, N(3) green, E(4) green
+      // Guess: CRANE -> C(0) green, R(1) green, A(2) green, N(3) green,
+      // E(4) green
       final guessResults = <(String, List<String>)>[
         ('CRANE', ['G','G','G','G','G'])
       ];
@@ -35,9 +36,11 @@ void main() {
     });
 
     test('yellow: letter present but in different position', () {
-      // Choose remaining words that do not include L,A,T,E to avoid gray-elimination side effects
+      // Choose remaining words that do not include L,A,T,E to avoid
+      // gray-elimination side effects
       final remaining = ['ASIDE', 'BASIS', 'MOSSY'];
-      // Guess: SQQQQ with yellow at index 0 (S present elsewhere), others gray (Q not present)
+      // Guess: SQQQQ with yellow at index 0 (S present elsewhere), others
+      // gray (Q not present)
       final guessResults = <(String, List<String>)>[
         ('SQQQQ', ['Y','X','X','X','X'])
       ];
@@ -50,7 +53,8 @@ void main() {
 
     test('duplicate letters: gray means count limit reached', () {
       final remaining = ['MUMMY', 'HUMUS', 'HUMPH'];
-      // Guess: MUMMY -> suppose pattern says M green at 0, U yellow at 1, M gray at 2 (no second M allowed), M gray at 3, Y gray at 4
+      // Guess: MUMMY -> suppose pattern says M green at 0, U yellow at 1,
+      // M gray at 2 (no second M allowed), M gray at 3, Y gray at 4
       final guessResults = <(String, List<String>)>[
         ('MUMMY', ['G','Y','X','X','X'])
       ];

@@ -35,7 +35,8 @@ void main() {
     testWidgets('should handle word service loading failure', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement word service error handling
+      // This test should fail initially - we need to implement word service
+      // error handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -46,7 +47,8 @@ void main() {
     testWidgets('should handle game service initialization failure', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement game service error handling
+      // This test should fail initially - we need to implement game service
+      // error handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -57,7 +59,8 @@ void main() {
     testWidgets('should handle invalid word submission', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement invalid word handling
+      // This test should fail initially - we need to implement invalid word
+      // handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -77,7 +80,8 @@ void main() {
     testWidgets('should handle network connectivity issues', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement network error handling
+      // This test should fail initially - we need to implement network error
+      // handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -88,11 +92,13 @@ void main() {
     testWidgets('should handle memory pressure gracefully', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement memory pressure handling
+      // This test should fail initially - we need to implement memory pressure
+      // handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
-      // Simulate memory pressure with realistic user behavior (indecisive user scenario)
+      // Simulate memory pressure with realistic user behavior (indecisive user
+      // scenario)
       for (int i = 0; i < 30; i++) {
         // Use keyboard interaction instead of text search
         final keyboard = find.byType(VirtualKeyboard);
@@ -116,7 +122,8 @@ void main() {
     testWidgets('should handle rapid error conditions', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement rapid error handling
+      // This test should fail initially - we need to implement rapid error
+      // handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -154,7 +161,8 @@ void main() {
     testWidgets('should handle data corruption errors', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement data corruption handling
+      // This test should fail initially - we need to implement data corruption
+      // handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -165,7 +173,8 @@ void main() {
     testWidgets('should handle file system errors', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement file system error handling
+      // This test should fail initially - we need to implement file system
+      // error handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -174,7 +183,8 @@ void main() {
     });
 
     testWidgets('should handle permission errors', (WidgetTester tester) async {
-      // This test should fail initially - we need to implement permission error handling
+      // This test should fail initially - we need to implement permission error
+      // handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -185,7 +195,8 @@ void main() {
     testWidgets('should handle concurrent access errors', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement concurrent access handling
+      // This test should fail initially - we need to implement concurrent
+      // access handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -196,7 +207,8 @@ void main() {
     testWidgets('should handle state corruption errors', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement state corruption handling
+      // This test should fail initially - we need to implement state corruption
+      // handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -207,7 +219,8 @@ void main() {
     testWidgets('should handle widget lifecycle errors', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement widget lifecycle error handling
+      // This test should fail initially - we need to implement widget lifecycle
+      // error handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -223,7 +236,8 @@ void main() {
     testWidgets('should handle input validation errors', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement input validation error handling
+      // This test should fail initially - we need to implement input validation
+      // error handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -243,7 +257,8 @@ void main() {
     testWidgets('should handle service unavailable errors', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement service unavailable handling
+      // This test should fail initially - we need to implement service
+      // unavailable handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -254,7 +269,8 @@ void main() {
     testWidgets('should handle resource exhaustion errors', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement resource exhaustion handling
+      // This test should fail initially - we need to implement resource
+      // exhaustion handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -265,7 +281,8 @@ void main() {
     testWidgets('should handle unexpected service responses', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement unexpected response handling
+      // This test should fail initially - we need to implement unexpected
+      // response handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -276,7 +293,8 @@ void main() {
     testWidgets('should handle system resource constraints', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement system resource handling
+      // This test should fail initially - we need to implement system resource
+      // handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -287,7 +305,8 @@ void main() {
     testWidgets('should handle concurrent error conditions', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement concurrent error handling
+      // This test should fail initially - we need to implement concurrent error
+      // handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -318,7 +337,8 @@ void main() {
     testWidgets('should handle error state persistence', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement error state persistence
+      // This test should fail initially - we need to implement error state
+      // persistence
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -335,10 +355,13 @@ void main() {
       expect(find.text('Word must be 5 letters long'), findsOneWidget);
     });
 
-    testWidgets('should handle error message display', (
+    testWidgets(
+      'should handle error message display',
+      (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement error message display
+      // This test should fail initially - we need to implement error message
+      // display
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -355,10 +378,13 @@ void main() {
       expect(find.text('Word must be 5 letters long'), findsOneWidget);
     });
 
-    testWidgets('should handle error state clearing', (
+    testWidgets(
+      'should handle error state clearing',
+      (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement error state clearing
+      // This test should fail initially - we need to implement error state
+      // clearing
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -367,7 +393,8 @@ void main() {
       await KeyboardTestHelpers.tapEnterKey(tester);
       await tester.pump();
 
-      // Clear error by typing any letter (error should clear on first letter typed)
+      // Clear error by typing any letter (error should clear on first letter
+      // typed)
       await KeyboardTestHelpers.tapLetterKey(tester, 'A');
       await tester.pump();
 

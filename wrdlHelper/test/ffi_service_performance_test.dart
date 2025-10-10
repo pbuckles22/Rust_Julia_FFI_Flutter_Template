@@ -20,27 +20,60 @@ void main() {
       test('should handle memory allocation efficiently', () async {
         // Test memory allocation for large word lists
         final largeWordList = List.generate(10000, (i) => 'WORD$i');
-        final guessResults = List.generate(100, (i) => ('GUESS$i', ['correct', 'present', 'absent', 'present', 'absent']));
+        final guessResults = List.generate(
+          100,
+          (i) => (
+            'GUESS$i',
+            ['correct', 'present', 'absent', 'present', 'absent'],
+          ),
+        );
         
         // This should not cause memory issues
-        expect(() => FfiService.filterWords(largeWordList, guessResults), throwsA(isA<ServiceNotInitializedException>()));
+        expect(
+          () => FfiService.filterWords(largeWordList, guessResults),
+          throwsA(isA<ServiceNotInitializedException>()),
+        );
       });
 
       test('should handle memory pressure gracefully', () async {
         // Test under memory pressure conditions
         final memoryIntensiveList = List.generate(50000, (i) => 'MEMORY$i');
-        final complexResults = List.generate(1000, (i) => ('COMPLEX$i', ['correct', 'present', 'absent', 'present', 'absent']));
+        final complexResults = List.generate(
+          1000,
+          (i) => (
+            'COMPLEX$i',
+            ['correct', 'present', 'absent', 'present', 'absent'],
+          ),
+        );
         
-        expect(() => FfiService.getBestGuessFast(memoryIntensiveList, complexResults), throwsA(isA<ServiceNotInitializedException>()));
+        expect(
+          () => FfiService.getBestGuessFast(
+            memoryIntensiveList,
+            complexResults,
+          ),
+          throwsA(isA<ServiceNotInitializedException>()),
+        );
       });
 
       test('should not leak memory during repeated operations', () async {
         // Test for memory leaks during repeated operations
         for (int i = 0; i < 100; i++) {
-          final wordList = List.generate(1000, (j) => 'WORD${i}_$j');
-          final results = List.generate(10, (j) => ('RESULT${i}_$j', ['correct', 'present', 'absent', 'present', 'absent']));
+          final wordList = List.generate(
+            1000,
+            (j) => 'WORD${i}_$j',
+          );
+          final results = List.generate(
+            10,
+            (j) => (
+              'RESULT${i}_$j',
+              ['correct', 'present', 'absent', 'present', 'absent'],
+            ),
+          );
           
-          expect(() => FfiService.getBestGuessReference(wordList, results), throwsA(isA<ServiceNotInitializedException>()));
+          expect(
+            () => FfiService.getBestGuessReference(wordList, results),
+            throwsA(isA<ServiceNotInitializedException>()),
+          );
         }
       });
     });
@@ -100,10 +133,22 @@ void main() {
     group('Stress Testing', () {
       test('should handle maximum word list size', () async {
         // Test with maximum realistic word list size
-        final maxWordList = List.generate(20000, (i) => 'MAXWORD$i');
-        final maxResults = List.generate(1000, (i) => ('MAXRESULT$i', ['correct', 'present', 'absent', 'present', 'absent']));
+        final maxWordList = List.generate(
+          20000,
+          (i) => 'MAXWORD$i',
+        );
+        final maxResults = List.generate(
+          1000,
+          (i) => (
+            'MAXRESULT$i',
+            ['correct', 'present', 'absent', 'present', 'absent'],
+          ),
+        );
         
-        expect(() => FfiService.filterWords(maxWordList, maxResults), throwsA(isA<ServiceNotInitializedException>()));
+        expect(
+          () => FfiService.filterWords(maxWordList, maxResults),
+          throwsA(isA<ServiceNotInitializedException>()),
+        );
       });
 
       test('should handle complex guess results', () async {
@@ -113,7 +158,10 @@ void main() {
           List.generate(5, (j) => ['correct', 'present', 'absent'][j % 3])
         ));
         
-        expect(() => FfiService.getBestGuessFast(['TEST'], complexResults), throwsA(isA<ServiceNotInitializedException>()));
+        expect(
+          () => FfiService.getBestGuessFast(['TEST'], complexResults),
+          throwsA(isA<ServiceNotInitializedException>()),
+        );
       });
 
       test('should handle rapid successive calls', () async {
@@ -146,9 +194,15 @@ void main() {
 
       test('should handle resource exhaustion gracefully', () async {
         // Test behavior when resources are exhausted
-        final resourceIntensiveList = List.generate(100000, (i) => 'RESOURCE$i');
+        final resourceIntensiveList = List.generate(
+          100000,
+          (i) => 'RESOURCE$i',
+        );
         
-        expect(() => FfiService.getBestGuessFast(resourceIntensiveList, []), throwsA(isA<ServiceNotInitializedException>()));
+        expect(
+          () => FfiService.getBestGuessFast(resourceIntensiveList, []),
+          throwsA(isA<ServiceNotInitializedException>()),
+        );
       });
 
       test('should recover from resource errors', () async {
@@ -254,7 +308,9 @@ void main() {
         final initialDuration = DateTime.now().difference(initialTime);
         
         // Wait a bit
-        await Future.delayed(const Duration(milliseconds: 100));
+        await Future.delayed(
+          const Duration(milliseconds: 100),
+        );
         
         final laterTime = DateTime.now();
         
@@ -267,7 +323,10 @@ void main() {
         final laterDuration = DateTime.now().difference(laterTime);
         
         // Performance should not degrade significantly
-        expect(laterDuration.inMilliseconds, lessThan(initialDuration.inMilliseconds + 1000));
+        expect(
+          laterDuration.inMilliseconds,
+          lessThan(initialDuration.inMilliseconds + 1000),
+        );
       });
     });
   });
