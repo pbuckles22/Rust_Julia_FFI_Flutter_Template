@@ -6,8 +6,8 @@ import 'package:wrdlhelper/models/word.dart';
 
 /// Comprehensive tests for GameState model
 ///
-/// These tests validate game state management, guess tracking, and game progression
-/// for the Wordle game following TDD principles.
+/// These tests validate game state management, guess tracking, and game
+/// progression for the Wordle game following TDD principles.
 void main() {
   group('GameState Model Tests', () {
     group('Game Initialization', () {

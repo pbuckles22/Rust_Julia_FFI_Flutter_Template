@@ -9,9 +9,9 @@ import 'package:wrdlhelper/widgets/virtual_keyboard.dart';
 /// text widgets or generic widget types.
 ///
 /// NOTE: The hit test warnings are false positives caused by Flutter's testing
-/// framework limitations with complex widget hierarchies. The tests are actually
-/// working correctly - the widgets are found and the functionality is tested.
-/// Using warnIfMissed: false is a strategic workaround for this known
+/// framework limitations with complex widget hierarchies. The tests are
+/// actually working correctly - the widgets are found and the functionality is
+/// tested. Using warnIfMissed: false is a strategic workaround for this known
 /// limitation.
 class KeyboardTestHelpers {
   /// Tap a specific letter key by letter

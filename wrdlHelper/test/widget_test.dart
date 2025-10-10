@@ -92,7 +92,9 @@ void main() {
       expect(materialApp.theme?.colorScheme, anyOf(isNull, isNotNull));
     });
 
-    testWidgets('App should be responsive to different screen sizes', (tester) async {
+    testWidgets(
+      'App should be responsive to different screen sizes',
+      (tester) async {
       final testSizes = [
         const Size(400, 800),
         const Size(800, 400),

@@ -171,7 +171,10 @@ void main() {
         // Test concurrent resource exhaustion
         final futures = List.generate(10, (i) async {
           try {
-            final concurrentData = List.generate(10000, (j) => 'CONCURRENT$i$j');
+            final concurrentData = List.generate(
+              10000,
+              (j) => 'CONCURRENT$i$j',
+            );
             return FfiService.getBestGuessFast(concurrentData, []);
           } catch (e) {
             return null;
@@ -207,9 +210,15 @@ void main() {
       test('should handle memory fragmentation', () async {
         // Test memory fragmentation handling
         for (int i = 0; i < 50; i++) {
-          final fragmentedData = List.generate(100 + (i % 10) * 100, (j) => 'FRAGMENT$i$j');
+          final fragmentedData = List.generate(
+            100 + (i % 10) * 100,
+            (j) => 'FRAGMENT$i$j',
+          );
           
-          expect(() => FfiService.getBestGuessFast(fragmentedData, []), throwsA(isA<ServiceNotInitializedException>()));
+          expect(
+            () => FfiService.getBestGuessFast(fragmentedData, []),
+            throwsA(isA<ServiceNotInitializedException>()),
+          );
         }
       });
     });

@@ -10,7 +10,8 @@ void main() {
       // Initialize Flutter binding for asset loading
       TestWidgetsFlutterBinding.ensureInitialized();
       
-      // Initialize FFI once (word lists are loaded by centralized FFI during initialization)
+      // Initialize FFI once (word lists are loaded by centralized FFI during
+      // initialization)
       await RustLib.init();
       await FfiService.initialize();
     });
@@ -28,9 +29,13 @@ void main() {
       expect(dartGuessWords, greaterThan(10000)); // Should have 14,854+ words
       expect(dartAnswerWords, greaterThan(2000)); // Should have 2,315+ words
       
-      // Word lists are already loaded to Rust by centralized FFI during initialization
+      // Word lists are already loaded to Rust by centralized FFI during
+      // initialization
       print('✅ Word lists already loaded to Rust by centralized FFI');
-      print('🎯 Rust now has ${dartGuessWords} guess words and ${dartAnswerWords} answer words');
+      print(
+        '🎯 Rust now has ${dartGuessWords} guess words and '
+        '${dartAnswerWords} answer words',
+      );
     });
 
     test('optimal first guess should be available from Rust', () {
@@ -57,7 +62,8 @@ void main() {
       
       expect(result, isNotNull);
       expect(result!.length, equals(5));
-      // The result should be a valid 5-letter word (may not be in the subset due to algorithm logic)
+      // The result should be a valid 5-letter word (may not be in the subset
+      // due to algorithm logic)
       expect(result, matches(RegExp(r'^[A-Z]{5}$')));
       
       print('🧠 Rust processed real words successfully: $result');
@@ -84,7 +90,10 @@ void main() {
         expect(word.contains('E'), isFalse);
       }
       
-      print('🔍 Word filtering works with real words: ${filtered.length} words remaining');
+      print(
+        '🔍 Word filtering works with real words: '
+        '${filtered.length} words remaining',
+      );
     });
   });
 }

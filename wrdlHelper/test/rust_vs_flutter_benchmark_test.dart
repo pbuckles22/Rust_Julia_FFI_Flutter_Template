@@ -42,7 +42,10 @@ void main() {
           final suggestion = gameService.getBestNextGuess(gameState);
           if (suggestion == null) break;
 
-          final guessResult = _simulateGuessResult(suggestion, gameState.targetWord!);
+          final guessResult = _simulateGuessResult(
+            suggestion,
+            gameState.targetWord!,
+          );
           try {
             gameState.addGuess(suggestion, guessResult);
             guesses++;
@@ -81,21 +84,40 @@ void main() {
       print('  🕐 Total Time: ${totalTime.toStringAsFixed(1)}s');
 
       print('\n📊 Comparison with Rust Benchmark:');
-      print('  🦀 Rust (500 games): 100.0% success, 3.57 avg guesses, 0.947s per game');
-      print('  🎯 Flutter (50 games): ${successRate.toStringAsFixed(1)}% success, ${averageGuesses.toStringAsFixed(2)} avg guesses, ${averageTime.toStringAsFixed(3)}s per game');
+      print(
+        '  🦀 Rust (500 games): 100.0% success, 3.57 avg guesses, '
+        '0.947s per game',
+      );
+      print(
+        '  🎯 Flutter (50 games): ${successRate.toStringAsFixed(1)}% success, '
+        '${averageGuesses.toStringAsFixed(2)} avg guesses, '
+        '${averageTime.toStringAsFixed(3)}s per game',
+      );
       
       final successGap = 100.0 - successRate;
       final guessGap = averageGuesses - 3.57;
       final timeGap = averageTime - 0.947;
       
       print('\n📈 Performance Gap Analysis:');
-      print('  🔴 Success Rate Gap: ${successGap.toStringAsFixed(1)}% (Flutter underperforming)');
-      print('  🟡 Average Guesses Gap: ${guessGap.toStringAsFixed(2)} (Flutter using more guesses)');
-      print('  🟢 Time Gap: ${timeGap.toStringAsFixed(3)}s (Flutter slower but acceptable)');
+      print(
+        '  🔴 Success Rate Gap: ${successGap.toStringAsFixed(1)}% '
+        '(Flutter underperforming)',
+      );
+      print(
+        '  🟡 Average Guesses Gap: ${guessGap.toStringAsFixed(2)} '
+        '(Flutter using more guesses)',
+      );
+      print(
+        '  🟢 Time Gap: ${timeGap.toStringAsFixed(3)}s '
+        '(Flutter slower but acceptable)',
+      );
       
       if (successGap > 5.0) {
         print('\n🚨 CRITICAL: Large success rate gap detected!');
-        print('   This indicates a fundamental difference between Rust and Flutter implementations.');
+        print(
+          '   This indicates a fundamental difference between Rust and '
+          'Flutter implementations.',
+        );
         print('   Possible causes:');
         print('   - Different candidate word selection');
         print('   - Different algorithm configuration');
@@ -103,7 +125,10 @@ void main() {
         print('   - Word list synchronization problems');
       } else if (successGap > 2.0) {
         print('\n⚠️  MODERATE: Noticeable success rate gap detected.');
-        print('   This suggests minor differences in implementation or configuration.');
+        print(
+          '   This suggests minor differences in implementation or '
+          'configuration.',
+        );
       } else {
         print('\n✅ GOOD: Success rate gap is within acceptable range.');
       }

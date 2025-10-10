@@ -44,7 +44,8 @@ void main() {
       // Wait for FutureBuilder to complete (services initialization) with
       // timeout
       await tester.pump(const Duration(seconds: 2));
-      // Should show main game screen (or loading screen if initialization is slow)
+      // Should show main game screen (or loading screen if initialization is
+      // slow)
       expect(
         find.byType(WordleGameScreen).evaluate().isNotEmpty || 
         find.byType(CircularProgressIndicator).evaluate().isNotEmpty, 
@@ -79,7 +80,8 @@ void main() {
       // Wait for FutureBuilder to complete (services initialization) with
       // timeout
       await tester.pump(const Duration(seconds: 2));
-      // Should show main game screen (or loading screen if initialization is slow)
+      // Should show main game screen (or loading screen if initialization is
+      // slow)
       expect(
         find.byType(WordleGameScreen).evaluate().isNotEmpty || 
         find.byType(CircularProgressIndicator).evaluate().isNotEmpty, 
@@ -95,7 +97,8 @@ void main() {
       // Wait for FutureBuilder to complete (services initialization) with
       // timeout
       await tester.pump(const Duration(seconds: 2));
-      // Should show main game screen (or loading screen if initialization is slow)
+      // Should show main game screen (or loading screen if initialization is
+      // slow)
       expect(
         find.byType(WordleGameScreen).evaluate().isNotEmpty || 
         find.byType(CircularProgressIndicator).evaluate().isNotEmpty, 
@@ -469,7 +472,8 @@ void main() {
       // Wait for FutureBuilder to complete (services initialization) with
       // timeout
       await tester.pump(const Duration(seconds: 2));
-      // Should show main game screen (or loading screen if initialization is slow)
+      // Should show main game screen (or loading screen if initialization is
+      // slow)
       expect(
         find.byType(WordleGameScreen).evaluate().isNotEmpty || 
         find.byType(CircularProgressIndicator).evaluate().isNotEmpty, 

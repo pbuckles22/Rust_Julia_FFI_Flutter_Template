@@ -25,7 +25,10 @@ void main() {
       final remainingWords = ['MATCH', 'PATCH', 'LATCH', 'HATCH'];
       final guessResults = <(String, List<String>)>[];
       
-      final bestGuess = FfiService.getBestGuessFast(remainingWords, guessResults);
+      final bestGuess = FfiService.getBestGuessFast(
+        remainingWords,
+        guessResults,
+      );
       
       // Should suggest a killer word that tests multiple letters
       expect(bestGuess, isNotNull);
@@ -64,7 +67,10 @@ void main() {
       final remainingWords = ['MATCH', 'PATCH', 'LATCH', 'HATCH'];
       final guessResults = <(String, List<String>)>[];
       
-      final bestGuess = FfiService.getBestGuessFast(remainingWords, guessResults);
+      final bestGuess = FfiService.getBestGuessFast(
+        remainingWords,
+        guessResults,
+      );
       
       // With killer words disabled (default), should get original strategic
       // words
@@ -75,7 +81,9 @@ void main() {
       expect(bestGuess, matches(RegExp(r'^[A-Z]{5}$')));
     });
 
-    test('should have higher entropy for killer words in classic trap scenario', () {
+    test(
+      'should have higher entropy for killer words in classic trap scenario',
+      () {
       // RED: This test will fail until we implement entropy calculation with
       // killer words
       FfiService.setConfiguration(const FfiConfiguration(
@@ -157,7 +165,10 @@ void main() {
       final guessResults = <(String, List<String>)>[];
       
       final stopwatch = Stopwatch()..start();
-      final bestGuess = FfiService.getBestGuessFast(remainingWords, guessResults);
+      final bestGuess = FfiService.getBestGuessFast(
+        remainingWords,
+        guessResults,
+      );
       stopwatch.stop();
       
       expect(bestGuess, isNotNull);

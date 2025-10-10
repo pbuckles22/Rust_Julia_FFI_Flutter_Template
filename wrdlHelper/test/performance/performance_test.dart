@@ -7,8 +7,8 @@ import 'package:wrdlhelper/services/ffi_service.dart';
 
 /// Comprehensive performance and edge case tests
 ///
-/// These tests validate performance characteristics, memory usage, and edge cases
-/// for the Wordle game following TDD principles.
+/// These tests validate performance characteristics, memory usage, and edge
+/// cases for the Wordle game following TDD principles.
 void main() {
   // Initialize Flutter binding for asset loading tests
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -66,7 +66,8 @@ void main() {
         // Arrange
         // Act
         final stopwatch = Stopwatch()..start();
-        await FfiService.initialize(); // Load both answer and guess words via FFI
+        await FfiService.initialize(); // Load both answer and guess words via
+        // FFI
         stopwatch.stop();
 
         // Assert
@@ -195,7 +196,8 @@ void main() {
 
         // Act
         final stopwatch = Stopwatch()..start();
-        final isValid = FfiService.isValidWord('SLATE'); // Test FFI validation performance
+        final isValid = FfiService.isValidWord('SLATE'); // Test FFI validation
+        // performance
         stopwatch.stop();
 
         // Assert
@@ -211,7 +213,8 @@ void main() {
 
         // Act
         final stopwatch = Stopwatch()..start();
-        final isValid = FfiService.isValidWord('SLATE'); // Test FFI validation performance
+        final isValid = FfiService.isValidWord('SLATE'); // Test FFI validation
+        // performance
         stopwatch.stop();
 
         // Assert
@@ -278,7 +281,8 @@ void main() {
         if (suggestion != null) {
           expect(suggestion.isValid, isTrue);
         } else {
-          // If no suggestion is available, that's also acceptable for performance test
+          // If no suggestion is available, that's also acceptable for
+          // performance test
           expect(suggestion, isNull);
         }
         expect(
@@ -322,8 +326,12 @@ void main() {
           FfiService.getAnswerWords().length,
           greaterThan(1000),
         ); // Should have large word list (actual: 2300 words in production)
-        expect(FfiService.getAnswerWords().every((word) => word.length == 5), isTrue);
-        // Memory usage should be reasonable (no explicit memory check in Flutter test)
+        expect(
+          FfiService.getAnswerWords().every((word) => word.length == 5),
+          isTrue,
+        );
+        // Memory usage should be reasonable (no explicit memory check in
+        // Flutter test)
       });
 
       test('handles multiple game instances efficiently', () {
@@ -418,7 +426,8 @@ void main() {
         final stopwatch = Stopwatch()..start();
 
         final futures = patterns.map((pattern) async {
-          return FfiService.isValidWord('SLATE'); // Test FFI validation performance
+          return FfiService.isValidWord('SLATE'); // Test FFI validation
+          // performance
         });
 
         final results = await Future.wait(futures);
@@ -434,7 +443,8 @@ void main() {
       });
 
       test('handles concurrent asset loading', () async {
-        // Arrange - with centralized system, we test concurrent access to the same service
+        // Arrange - with centralized system, we test concurrent access to the
+        // same service
         final services = List.generate(5, (index) => FfiService);
 
         // Act
@@ -549,7 +559,8 @@ void main() {
         // Act
         final stopwatch = Stopwatch()..start();
 
-        // Create multiple games and make one guess each (stress test with multiple games)
+        // Create multiple games and make one guess each (stress test with
+        // multiple games)
         for (int i = 0; i < operations; i++) {
           final gameState = appService.gameService.createNewGameWithTarget(
             Word.fromString('WORDS'),
@@ -603,7 +614,8 @@ void main() {
 
         for (int i = 0; i < operations; i++) {
           for (final searchWord in searchWords) {
-            FfiService.isValidWord(searchWord); // Test FFI validation performance
+            FfiService.isValidWord(searchWord); // Test FFI validation
+            // performance
           }
         }
 

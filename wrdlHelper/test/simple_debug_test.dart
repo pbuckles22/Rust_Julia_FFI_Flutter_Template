@@ -26,7 +26,8 @@ void main() {
       DebugLogger.debug('All green for CRANE: $allGreenFiltered');
       expect(allGreenFiltered, equals(['CRANE']));
       
-      // Test 2: All gray for CRANE should return empty (SLATE contains A and E which are gray)
+      // Test 2: All gray for CRANE should return empty (SLATE contains A and E
+      // which are gray)
       final allGrayResults = [
         ('CRANE', ['X', 'X', 'X', 'X', 'X']),
       ];
@@ -37,7 +38,8 @@ void main() {
       );
       
       DebugLogger.debug('All gray for CRANE: $allGrayFiltered');
-      expect(allGrayFiltered, isEmpty); // SLATE contains A and E which are gray in CRANE
+      expect(allGrayFiltered, isEmpty); // SLATE contains A and E which are
+      // gray in CRANE
       
       // Test 3: Better example - guess "CRANE" with only C gray, others green
       final partialGrayResults = [
@@ -50,7 +52,8 @@ void main() {
       );
       
       DebugLogger.debug('Partial gray for CRANE: $partialGrayFiltered');
-      expect(partialGrayFiltered, isEmpty); // No word can have RANE in positions 2-5 and not have C
+      expect(partialGrayFiltered, isEmpty); // No word can have RANE in
+      // positions 2-5 and not have C
     });
   });
 }

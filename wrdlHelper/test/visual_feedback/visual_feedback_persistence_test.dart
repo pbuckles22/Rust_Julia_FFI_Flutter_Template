@@ -329,7 +329,8 @@ void main() {
       await tester.tap(find.byKey(const Key('tile_0_1'))); // E -> yellow
       await tester.pumpAndSettle();
 
-      // ASSERT: E key should show the "best" state (green takes precedence over yellow)
+      // ASSERT: E key should show the "best" state (green takes precedence
+      // over yellow)
       final keyboard = find.byType(VirtualKeyboard);
       final eKey = find.descendant(
         of: keyboard,

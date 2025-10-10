@@ -13,8 +13,26 @@ void main() {
     test('baseline vs reference-mode latency', () {
       // Use a modest set to keep test stable and fast
       final remainingWords = [
-        'CRANE','SLATE','TRACE','CRATE','SLANT','LEAST','STARE','TARES','RAISE','ARISE',
-        'SOARE','ROATE','ADIEU','AUDIO','ALIEN','STONE','STORE','STORM','STOMP','PLATE'
+        'CRANE',
+        'SLATE',
+        'TRACE',
+        'CRATE',
+        'SLANT',
+        'LEAST',
+        'STARE',
+        'TARES',
+        'RAISE',
+        'ARISE',
+        'SOARE',
+        'ROATE',
+        'ADIEU',
+        'AUDIO',
+        'ALIEN',
+        'STONE',
+        'STORE',
+        'STORM',
+        'STOMP',
+        'PLATE'
       ];
       final guessResults = <(String, List<String>)>[];
 
@@ -34,7 +52,10 @@ void main() {
 
       // Print timings for observability
       // ignore: avoid_print
-      print('Benchmark — baseline: ${t1.elapsedMicroseconds}µs, reference: ${t2.elapsedMicroseconds}µs');
+      print(
+        'Benchmark — baseline: ${t1.elapsedMicroseconds}µs, '
+        'reference: ${t2.elapsedMicroseconds}µs',
+      );
 
       // Guardrails: both should be fast in unit context
       expect(t1.elapsedMilliseconds, lessThan(200));

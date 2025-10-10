@@ -82,7 +82,8 @@ void main() {
           ),
         );
 
-        // Assert - Verify all buttons are present (New Game, Get Suggestion, Undo)
+        // Assert - Verify all buttons are present (New Game, Get Suggestion,
+        // Undo)
         expect(find.text('New Game'), findsOneWidget);
         expect(find.text('🎯 Get Next Hint'), findsOneWidget);
         expect(find.text('↶ Undo'), findsOneWidget);

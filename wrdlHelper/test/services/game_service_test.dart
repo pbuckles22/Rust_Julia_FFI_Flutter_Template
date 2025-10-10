@@ -493,7 +493,8 @@ void main() {
         // Arrange - create a new AppService without initializing
         final uninitializedAppService = AppService();
 
-        // Act & Assert - should throw error when accessing uninitialized service
+        // Act & Assert - should throw error when accessing uninitialized
+        // service
         expect(
           () => uninitializedAppService.gameService.createNewGame(),
           throwsA(isA<StateError>()),

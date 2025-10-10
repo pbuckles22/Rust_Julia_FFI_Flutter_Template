@@ -73,7 +73,8 @@ void main() {
       );
       print(
         '📊 Performance ratio: '
-        '${secondGuessStopwatch.elapsedMicroseconds / firstGuessStopwatch.elapsedMicroseconds}x slower',
+        '${secondGuessStopwatch.elapsedMicroseconds / '
+        'firstGuessStopwatch.elapsedMicroseconds}x slower',
       );
       
       expect(firstGuess, isNotNull);

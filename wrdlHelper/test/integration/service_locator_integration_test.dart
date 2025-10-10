@@ -21,17 +21,20 @@ void main() {
       sl.reset();
     });
 
-    test('should register real services with setupServices(fastTestMode: true)', () async {
-      // TDD: Test that setupServices registers real services
-      await setupTestServices();
+    test(
+      'should register real services with setupServices(fastTestMode: true)',
+      () async {
+        // TDD: Test that setupServices registers real services
+        await setupTestServices();
 
-      // Verify AppService is registered
-      expect(sl.isRegistered<AppService>(), isTrue);
-      final appService = sl<AppService>();
-      expect(appService, isA<AppService>());
-      expect(appService.isInitialized, isTrue);
+        // Verify AppService is registered
+        expect(sl.isRegistered<AppService>(), isTrue);
+        final appService = sl<AppService>();
+        expect(appService, isA<AppService>());
+        expect(appService.isInitialized, isTrue);
 
-      // Verify individual services are registered (WordService removed, using
+        // Verify individual services are registered (WordService removed, using
+        // centralized FFI)
       // centralized FFI)
       expect(sl.isRegistered<GameService>(), isTrue);
 
@@ -43,15 +46,17 @@ void main() {
       expect(gameService.isInitialized, isTrue);
     });
 
-    test('should register real services with setupServices(fastTestMode: true)', () async {
-      // TDD: Test that setupServices registers real services
-      await setupTestServices();
+    test(
+      'should register real services with setupServices(fastTestMode: true)',
+      () async {
+        // TDD: Test that setupServices registers real services
+        await setupTestServices();
 
-      // Verify AppService is registered
-      expect(sl.isRegistered<AppService>(), isTrue);
-      final appService = sl<AppService>();
-      expect(appService, isA<AppService>());
-      // Mock services are initialized by default
+        // Verify AppService is registered
+        expect(sl.isRegistered<AppService>(), isTrue);
+        final appService = sl<AppService>();
+        expect(appService, isA<AppService>());
+        // Mock services are initialized by default
       expect(appService.isInitialized, isTrue);
 
       // Verify individual services are registered (WordService removed, using

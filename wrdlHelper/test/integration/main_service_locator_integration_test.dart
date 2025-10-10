@@ -45,7 +45,8 @@ void main() {
       // This test verifies that if service locator setup fails,
       // the app still starts with fallback behavior
 
-      // Services are already set up in setUpAll(), so we expect them to be available
+      // Services are already set up in setUpAll(), so we expect them to be
+      // available
       expect(sl.isRegistered<AppService>(), isTrue);
       
       // Verify the service is properly initialized

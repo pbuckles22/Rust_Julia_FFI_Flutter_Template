@@ -27,7 +27,8 @@ void main() {
           'CRANE',
           'CRATE',
         );
-        expect(pattern1, equals('GGGXG')); // C, R, A match, N doesn't, E matches
+        expect(pattern1, equals('GGGXG')); // C, R, A match, N doesn't, E
+        // matches
         
         final pattern2 = FfiService.simulateGuessPattern(
           'CRANE',
@@ -39,7 +40,8 @@ void main() {
       test('should filter words based on guess results', () async {
         final words = ['CRANE', 'SLATE', 'CRATE'];
         final guessResults = [
-          ('CRANE', ['G', 'Y', 'X', 'X', 'G']), // C=Green, R=Yellow, A=Gray, N=Gray, E=Green
+          ('CRANE', ['G', 'Y', 'X', 'X', 'G']), // C=Green, R=Yellow, A=Gray,
+          // N=Gray, E=Green
         ];
         
         final filtered = FfiService.filterWords(
@@ -100,8 +102,10 @@ void main() {
       test('should handle complex guess results', () async {
         final words = ['CRANE', 'SLATE', 'CRATE', 'PLATE', 'GRATE'];
         final guessResults = [
-          ('CRANE', ['G', 'Y', 'X', 'X', 'G']), // C=Green, R=Yellow, A=Gray, N=Gray, E=Green
-          ('SLATE', ['X', 'X', 'G', 'X', 'G']), // S=Gray, L=Gray, A=Green, T=Gray, E=Green
+          ('CRANE', ['G', 'Y', 'X', 'X', 'G']), // C=Green, R=Yellow, A=Gray,
+          // N=Gray, E=Green
+          ('SLATE', ['X', 'X', 'G', 'X', 'G']), // S=Gray, L=Gray, A=Green,
+          // T=Gray, E=Green
         ];
         
         final filtered = FfiService.filterWords(
@@ -153,7 +157,8 @@ void main() {
       test('should handle invalid patterns gracefully', () async {
         final words = ['CRANE', 'SLATE', 'CRATE'];
         final guessResults = [
-          ('CRANE', ['INVALID', 'Y', 'X', 'X', 'G']), // Invalid pattern should default to Gray
+          ('CRANE', ['INVALID', 'Y', 'X', 'X', 'G']), // Invalid pattern should
+          // default to Gray
         ];
         
         final filtered = FfiService.filterWords(
@@ -183,7 +188,8 @@ void main() {
         // Test basic word filtering with a simple pattern
         final allWords = ['CRANE', 'SLATE', 'CRATE', 'PLATE', 'GRATE', 'TRACE'];
         final guessResults = [
-          ('CRANE', ['G', 'G', 'G', 'G', 'G']), // All green - should match CRANE exactly
+          ('CRANE', ['G', 'G', 'G', 'G', 'G']), // All green - should match
+          // CRANE exactly
         ];
         
         // Filter remaining words

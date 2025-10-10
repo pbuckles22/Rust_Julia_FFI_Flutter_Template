@@ -24,10 +24,13 @@ void main() {
     });
 
     group('UI Element Accessibility', () {
-      testWidgets('should have all virtual keyboard keys accessible on screen', (
-        WidgetTester tester,
-      ) async {
-        // This test should fail initially - we need to fix UI element positioning
+      testWidgets(
+        'should have all virtual keyboard keys accessible on screen',
+        (
+          WidgetTester tester,
+        ) async {
+          // This test should fail initially - we need to fix UI element
+          // positioning
         await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
 
@@ -63,10 +66,13 @@ void main() {
         await tester.pump();
       });
 
-      testWidgets('should have ENTER and DELETE keys accessible on screen', (
-        WidgetTester tester,
-      ) async {
-        // This test should fail initially - we need to fix action key positioning
+      testWidgets(
+        'should have ENTER and DELETE keys accessible on screen',
+        (
+          WidgetTester tester,
+        ) async {
+          // This test should fail initially - we need to fix action key
+          // positioning
         await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
 
@@ -93,10 +99,13 @@ void main() {
         await tester.pump();
       });
 
-      testWidgets('should have all game grid tiles accessible on screen', (
-        WidgetTester tester,
-      ) async {
-        // This test should fail initially - we need to fix grid tile positioning
+      testWidgets(
+        'should have all game grid tiles accessible on screen',
+        (
+          WidgetTester tester,
+        ) async {
+          // This test should fail initially - we need to fix grid tile
+          // positioning
         await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
 
@@ -120,10 +129,13 @@ void main() {
     });
 
     group('Visual Feedback Color Changes', () {
-      testWidgets('should change tile colors when tapped (Gray → Yellow → Green)', (
-        WidgetTester tester,
-      ) async {
-        // This test should fail initially - we need to implement reliable color changes
+      testWidgets(
+        'should change tile colors when tapped (Gray → Yellow → Green)',
+        (
+          WidgetTester tester,
+        ) async {
+          // This test should fail initially - we need to implement reliable
+          // color changes
         await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
 
@@ -139,9 +151,9 @@ void main() {
         LetterTile initialTile = tester.widget<LetterTile>(firstTile);
         expect(initialTile.state, equals(LetterTileState.empty));
 
-        // Note: The current implementation doesn't support cycling through states
-        // by tapping tiles. This test documents the desired behavior that we
-        // need to implement for visual feedback reliability.
+        // Note: The current implementation doesn't support cycling through
+        // states by tapping tiles. This test documents the desired behavior
+        // that we need to implement for visual feedback reliability.
 
         // TODO: Implement tile state cycling for visual feedback
         // Expected behavior:
@@ -152,10 +164,13 @@ void main() {
         // - Tap absent tile → empty state (cycle back)
       });
 
-      testWidgets('should update keyboard key colors based on letter states', (
-        WidgetTester tester,
-      ) async {
-        // This test should fail initially - we need to implement keyboard color updates
+      testWidgets(
+        'should update keyboard key colors based on letter states',
+        (
+          WidgetTester tester,
+        ) async {
+          // This test should fail initially - we need to implement keyboard
+          // color updates
         await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
 
@@ -188,7 +203,8 @@ void main() {
         await tester.pumpAndSettle();
 
         // C key should now be green on keyboard
-        // This will fail initially - we need to implement keyboard color updates
+        // This will fail initially - we need to implement keyboard color
+        // updates
         final updatedCKey = find.descendant(
           of: keyboard,
           matching: find.text('C'),
@@ -251,15 +267,19 @@ void main() {
     });
 
     group('Service Locator Reliability', () {
-      testWidgets('should not have service locator conflicts between tests', (
-        WidgetTester tester,
-      ) async {
-        // This test should fail initially - we need to fix service locator cleanup
+      testWidgets(
+        'should not have service locator conflicts between tests',
+        (
+          WidgetTester tester,
+        ) async {
+          // This test should fail initially - we need to fix service locator
+          // cleanup
         await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
 
         // Should not have service locator warnings
-        // This will fail initially - we need to implement proper service cleanup
+        // This will fail initially - we need to implement proper service
+        // cleanup
         expect(find.byType(WordleGameScreen), findsOneWidget);
 
         // TODO: Verify no service locator warnings in test output
@@ -270,7 +290,8 @@ void main() {
       testWidgets(
         'should handle multiple app initializations without conflicts',
         (WidgetTester tester) async {
-          // This test should fail initially - we need to fix service locator state
+          // This test should fail initially - we need to fix service locator
+          // state
           // Initialize app multiple times
           await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
           await tester.pumpAndSettle();
@@ -294,10 +315,13 @@ void main() {
     });
 
     group('Visual Feedback Integration', () {
-      testWidgets('should provide visual feedback for complete game flow', (
-        WidgetTester tester,
-      ) async {
-        // This test should fail initially - we need to implement complete visual feedback
+      testWidgets(
+        'should provide visual feedback for complete game flow',
+        (
+          WidgetTester tester,
+        ) async {
+          // This test should fail initially - we need to implement complete
+          // visual feedback
         await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
 
@@ -337,7 +361,8 @@ void main() {
         await tester.pumpAndSettle();
 
         // Should have visual feedback applied
-        // This will fail initially - we need to implement visual feedback integration
+        // This will fail initially - we need to implement visual feedback
+        // integration
         expect(find.byType(WordleGameScreen), findsOneWidget);
       });
     });

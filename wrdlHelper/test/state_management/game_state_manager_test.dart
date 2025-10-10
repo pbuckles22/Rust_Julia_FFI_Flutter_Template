@@ -73,7 +73,8 @@ void main() {
     });
 
     test('should clear current input', () {
-      // This test should fail initially - we need to implement clear functionality
+      // This test should fail initially - we need to implement clear
+      // functionality
       stateManager.appendLetter('A');
       stateManager.appendLetter('B');
       stateManager.appendLetter('C');
@@ -118,7 +119,8 @@ void main() {
     });
 
     test('should update game state when max guesses reached', () {
-      // This test should fail initially - we need to implement game over condition
+      // This test should fail initially - we need to implement game over
+      // condition
       final gameState = stateManager.createNewGame(Word.fromString('CRATE'));
 
       // Add 5 different guesses (max for helper app)
@@ -156,7 +158,8 @@ void main() {
     });
 
     test('should clear loading state', () {
-      // This test should fail initially - we need to implement loading state clearing
+      // This test should fail initially - we need to implement loading state
+      // clearing
       stateManager.setLoading(true);
       stateManager.setLoading(false);
 
@@ -199,7 +202,8 @@ void main() {
     });
 
     test('should check if game is in progress', () {
-      // This test should fail initially - we need to implement game status checking
+      // This test should fail initially - we need to implement game status
+      // checking
       final gameState = stateManager.createNewGame(Word.fromString('CRATE'));
 
       expect(stateManager.isGameInProgress(gameState), isTrue);
@@ -245,7 +249,8 @@ void main() {
     });
 
     test('should handle rapid state changes', () {
-      // This test should fail initially - we need to implement rapid change handling
+      // This test should fail initially - we need to implement rapid change
+      // handling
       for (int i = 0; i < 100; i++) {
         stateManager.appendLetter('A');
         stateManager.removeLastLetter();
@@ -255,8 +260,10 @@ void main() {
     });
 
     test('should maintain state consistency across operations', () {
-      // This test should fail initially - we need to implement state consistency
-      // final gameState = stateManager.createNewGame(Word.fromString('CRATE')); // Not used in this test
+      // This test should fail initially - we need to implement state
+      // consistency
+      // final gameState = stateManager.createNewGame(Word.fromString('CRATE'));
+      // Not used in this test
       stateManager.createNewGame(Word.fromString('CRATE'));
       stateManager.appendLetter('A');
       stateManager.appendLetter('B');

@@ -173,7 +173,9 @@ void main() {
         // Act - Use the gameService for word filtering
         final filteredWords = appService.gameService
             .getFilteredWords(gameState)
-            .where((word) => word.containsLetter('A') && word.containsLetter('E'))
+            .where(
+              (word) => word.containsLetter('A') && word.containsLetter('E'),
+            )
             .toList();
 
         // Assert
@@ -219,21 +221,23 @@ void main() {
           tag: 'GameIntegrationTest',
         );
 
-        // Assert - wordList should be loaded, guessWords might be empty due to test environment
+        // Assert - wordList should be loaded, guessWords might be empty due to
+        // test environment
         expect(wordList.isNotEmpty, isTrue);
         // Note: Some words in the official Wordle list may not pass strict Word
-        // validation (e.g., "HELLO" is considered invalid by Word model but is a
-        // legitimate Wordle word)
-        // So we check that words are properly formatted instead of strictly valid
+        // validation (e.g., "HELLO" is considered invalid by Word model but is
+        // a legitimate Wordle word)
+        // So we check that words are properly formatted instead of strictly
+        // valid
         expect(wordList.every((word) => word.value.length == 5), isTrue);
         expect(
           wordList.every((word) => word.value == word.value.toUpperCase()),
           isTrue,
         );
         // Note: guessWords are now loaded by centralized FFI
-        // Guess words include many words that may not pass strict Word validation
-        // (like proper nouns, abbreviations, etc.) so we only check they're
-        // properly formatted
+        // Guess words include many words that may not pass strict Word
+        // validation (like proper nouns, abbreviations, etc.) so we only check
+        // they're properly formatted
         if (guessWords.isNotEmpty) {
           expect(
             guessWords.every((word) => word.value.length == 5),
@@ -466,7 +470,8 @@ void main() {
           maxGuesses: 5,
         );
 
-        // Act - use different words for each guess to avoid duplicate validation and winning
+        // Act - use different words for each guess to avoid duplicate
+        // validation and winning
         final words = ['SLATE', 'TRACE', 'BLAME', 'GRADE', 'SHARE'];
         for (int i = 0; i < 5; i++) {
           final guess = Word.fromString(words[i]);

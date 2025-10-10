@@ -36,8 +36,19 @@ void main() {
       test('should handle partial gray pattern correctly', () async {
         // TDD Green: This test should PASS now
         // Pattern: GXXXX (first letter green, rest gray) for guess "CRANE"
-        // Should return words that start with 'C' but don't contain R, A, N, E elsewhere
-        final words = ['CRANE', 'SLATE', 'CRATE', 'PLATE', 'GRATE', 'TRACE', 'CHASE', 'CLOTH', 'CLOUD'];
+        // Should return words that start with 'C' but don't contain R, A, N, E
+        // elsewhere
+        final words = [
+          'CRANE',
+          'SLATE',
+          'CRATE',
+          'PLATE',
+          'GRATE',
+          'TRACE',
+          'CHASE',
+          'CLOTH',
+          'CLOUD'
+        ];
         final guessResults = [
           ('CRANE', ['G', 'X', 'X', 'X', 'X']), // C=Green, R,A,N,E=Gray
         ];
@@ -63,11 +74,24 @@ void main() {
 
       test('should handle mixed pattern correctly', () async {
         // TDD Green: This test should PASS now
-        // Pattern: GYXXY (C=Green, R=Yellow, A=Gray, N=Gray, E=Yellow) for guess "CRANE"
-        // Should return words that: start with C, contain R (not in pos 2), don't contain A or N, contain E (not in pos 5)
-        final words = ['CRANE', 'SLATE', 'CRATE', 'PLATE', 'GRATE', 'TRACE', 'CHORE', 'CRUDE', 'CRIME'];
+        // Pattern: GYXXY (C=Green, R=Yellow, A=Gray, N=Gray, E=Yellow) for
+        // guess "CRANE"
+        // Should return words that: start with C, contain R (not in pos 2),
+        // don't contain A or N, contain E (not in pos 5)
+        final words = [
+          'CRANE',
+          'SLATE',
+          'CRATE',
+          'PLATE',
+          'GRATE',
+          'TRACE',
+          'CHORE',
+          'CRUDE',
+          'CRIME'
+        ];
         final guessResults = [
-          ('CRANE', ['G', 'Y', 'X', 'X', 'Y']), // C=Green, R=Yellow, A=Gray, N=Gray, E=Yellow
+          ('CRANE', ['G', 'Y', 'X', 'X', 'Y']), // C=Green, R=Yellow, A=Gray,
+          // N=Gray, E=Yellow
         ];
         
         final filtered = FfiService.filterWords(
@@ -77,13 +101,25 @@ void main() {
         
         print('Mixed pattern GYXXY filtered words: $filtered');
         print('Analysis:');
-        print('- CRANE: C=G, R=Y(pos2❌), A=X❌, N=X❌, E=Y(pos5❌) → should be rejected');
-        print('- CRUDE: C=G, R=Y(pos2❌), no A, no N, E=Y(pos5❌) → should be rejected');
-        print('- CRIME: C=G, R=Y(pos2❌), no A, no N, no E → should be rejected');
-        print('- Need words like: C_R_E (C at pos1, R not at pos2, E not at pos5, no A/N)');
+        print(
+          '- CRANE: C=G, R=Y(pos2❌), A=X❌, N=X❌, E=Y(pos5❌) → should be '
+          'rejected',
+        );
+        print(
+          '- CRUDE: C=G, R=Y(pos2❌), no A, no N, E=Y(pos5❌) → should be '
+          'rejected',
+        );
+        print(
+          '- CRIME: C=G, R=Y(pos2❌), no A, no N, no E → should be rejected',
+        );
+        print(
+          '- Need words like: C_R_E (C at pos1, R not at pos2, E not at pos5, '
+          'no A/N)',
+        );
         
         // This pattern is very restrictive - might return empty list
-        // Let's just verify the algorithm doesn't crash and returns a valid result
+        // Let's just verify the algorithm doesn't crash and returns a valid
+        // result
         expect(filtered, isA<List<String>>());
       });
     });

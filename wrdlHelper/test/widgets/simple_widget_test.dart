@@ -15,7 +15,9 @@ import 'package:wrdlhelper/widgets/letter_tile.dart';
 
 void main() {
   group('Simple Widget Tests', () {
-    testWidgets('should render letter tile correctly', (WidgetTester tester) async {
+    testWidgets(
+      'should render letter tile correctly',
+      (WidgetTester tester) async {
       // Test basic letter tile rendering
       await tester.pumpWidget(
         const MaterialApp(
@@ -33,7 +35,9 @@ void main() {
       expect(find.text('A'), findsOneWidget);
     });
 
-    testWidgets('should display different letters correctly', (WidgetTester tester) async {
+    testWidgets(
+      'should display different letters correctly',
+      (WidgetTester tester) async {
       // Test different letter display
       final letters = ['A', 'B', 'C', 'D', 'E'];
       
@@ -54,7 +58,9 @@ void main() {
       }
     });
 
-    testWidgets('should handle different letter states', (WidgetTester tester) async {
+    testWidgets(
+      'should handle different letter states',
+      (WidgetTester tester) async {
       // Test different letter states
       final states = [
         LetterTileState.empty,
@@ -81,7 +87,9 @@ void main() {
       }
     });
 
-    testWidgets('should handle revealed state correctly', (WidgetTester tester) async {
+    testWidgets(
+      'should handle revealed state correctly',
+      (WidgetTester tester) async {
       // Test revealed state
       await tester.pumpWidget(
         const MaterialApp(
@@ -123,7 +131,9 @@ void main() {
       expect(tapped, isTrue);
     });
 
-    testWidgets('should handle theme changes correctly', (WidgetTester tester) async {
+    testWidgets(
+      'should handle theme changes correctly',
+      (WidgetTester tester) async {
       // Test theme change handling
       await tester.pumpWidget(
         MaterialApp(
@@ -183,7 +193,9 @@ void main() {
       expect(find.byType(LetterTile), findsOneWidget);
     });
 
-    testWidgets('should handle accessibility features', (WidgetTester tester) async {
+    testWidgets(
+      'should handle accessibility features',
+      (WidgetTester tester) async {
       // Test accessibility features
       await tester.pumpWidget(
         const MaterialApp(
@@ -201,7 +213,9 @@ void main() {
       expect(find.byType(LetterTile), findsOneWidget);
     });
 
-    testWidgets('should handle rapid state changes', (WidgetTester tester) async {
+    testWidgets(
+      'should handle rapid state changes',
+      (WidgetTester tester) async {
       // Test rapid state changes
       await tester.pumpWidget(
         const MaterialApp(
@@ -241,7 +255,9 @@ void main() {
       expect(find.byType(LetterTile), findsOneWidget);
     });
 
-    testWidgets('should handle concurrent state updates', (WidgetTester tester) async {
+    testWidgets(
+      'should handle concurrent state updates',
+      (WidgetTester tester) async {
       // Test concurrent state updates
       await tester.pumpWidget(
         const MaterialApp(
@@ -271,7 +287,9 @@ void main() {
       expect(find.byType(LetterTile), findsOneWidget);
     });
 
-    testWidgets('should handle error states gracefully', (WidgetTester tester) async {
+    testWidgets(
+      'should handle error states gracefully',
+      (WidgetTester tester) async {
       // Test error state handling
       await tester.pumpWidget(
         const MaterialApp(
@@ -289,7 +307,9 @@ void main() {
       expect(find.byType(LetterTile), findsOneWidget);
     });
 
-    testWidgets('should maintain state during rebuilds', (WidgetTester tester) async {
+    testWidgets(
+      'should maintain state during rebuilds',
+      (WidgetTester tester) async {
       // Test state maintenance during rebuilds
       int rebuildCount = 0;
 
@@ -325,7 +345,9 @@ void main() {
       expect(find.byType(LetterTile), findsOneWidget);
     });
 
-    testWidgets('should handle performance under load', (WidgetTester tester) async {
+    testWidgets(
+      'should handle performance under load',
+      (WidgetTester tester) async {
       // Test performance under load
       await tester.pumpWidget(
         const MaterialApp(
@@ -346,7 +368,9 @@ void main() {
             home: Scaffold(
               body: LetterTile(
                 letter: 'A',
-                state: LetterTileState.values[i % LetterTileState.values.length],
+                state: LetterTileState.values[
+                  i % LetterTileState.values.length
+                ],
                 isRevealed: i % 2 == 0,
               ),
             ),
@@ -358,7 +382,9 @@ void main() {
       expect(find.byType(LetterTile), findsOneWidget);
     });
 
-    testWidgets('should handle different letter cases', (WidgetTester tester) async {
+    testWidgets(
+      'should handle different letter cases',
+      (WidgetTester tester) async {
       // Test different letter cases
       final letters = ['A', 'a', 'B', 'b', 'C', 'c'];
       
@@ -379,7 +405,9 @@ void main() {
       }
     });
 
-    testWidgets('should handle empty letter correctly', (WidgetTester tester) async {
+    testWidgets(
+      'should handle empty letter correctly',
+      (WidgetTester tester) async {
       // Test empty letter handling
       await tester.pumpWidget(
         const MaterialApp(
@@ -396,7 +424,9 @@ void main() {
       expect(find.byType(LetterTile), findsOneWidget);
     });
 
-    testWidgets('should handle special characters correctly', (WidgetTester tester) async {
+    testWidgets(
+      'should handle special characters correctly',
+      (WidgetTester tester) async {
       // Test special character handling
       await tester.pumpWidget(
         const MaterialApp(

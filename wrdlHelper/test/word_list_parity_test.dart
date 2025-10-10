@@ -21,13 +21,25 @@ void main() {
       expect(guesses.length, greaterThan(12000));
 
       // All uppercase and deduped
-      expect(answers, everyElement(predicate((String w) => w.length == 5 && w == w.toUpperCase())));
-      expect(guesses, everyElement(predicate((String w) => w.length == 5 && w == w.toUpperCase())));
+      expect(
+        answers,
+        everyElement(
+          predicate((String w) => w.length == 5 && w == w.toUpperCase()),
+        ),
+      );
+      expect(
+        guesses,
+        everyElement(
+          predicate((String w) => w.length == 5 && w == w.toUpperCase()),
+        ),
+      );
       expect(answers.toSet().length, answers.length);
       expect(guesses.toSet().length, guesses.length);
     });
 
-    test('FFI loads full lists to Rust WORD_MANAGER once without panic', () async {
+    test(
+      'FFI loads full lists to Rust WORD_MANAGER once without panic',
+      () async {
       final answers = FfiService.getAnswerWords();
 
       // Word lists are now loaded directly by Rust during FFI initialization
@@ -37,7 +49,10 @@ void main() {
       final filtered = FfiService.filterWords(answers.take(1000).toList(), []);
       expect(filtered, isA<List<String>>());
 
-      final entropy = FfiService.calculateEntropy('SLATE', answers.take(500).toList());
+      final entropy = FfiService.calculateEntropy(
+        'SLATE',
+        answers.take(500).toList(),
+      );
       expect(entropy, greaterThanOrEqualTo(0.0));
     });
 

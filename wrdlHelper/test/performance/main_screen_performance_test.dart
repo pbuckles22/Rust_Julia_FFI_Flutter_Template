@@ -14,7 +14,8 @@ void main() {
     testWidgets('should initialize within performance limits', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement performance optimization
+      // This test should fail initially - we need to implement performance
+      // optimization
       final stopwatch = Stopwatch()..start();
 
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
@@ -29,7 +30,8 @@ void main() {
     testWidgets('should handle rapid key presses efficiently', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement rapid input optimization
+      // This test should fail initially - we need to implement rapid input
+      // optimization
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -55,7 +57,8 @@ void main() {
     testWidgets('should maintain smooth animations', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement smooth animations
+      // This test should fail initially - we need to implement smooth
+      // animations
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -77,7 +80,8 @@ void main() {
     testWidgets('should handle memory efficiently with multiple games', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement memory management
+      // This test should fail initially - we need to implement memory
+      // management
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -94,7 +98,8 @@ void main() {
     testWidgets('should handle large word lists efficiently', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement efficient word list handling
+      // This test should fail initially - we need to implement efficient word
+      // list handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -113,7 +118,8 @@ void main() {
     testWidgets('should handle complex game states efficiently', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement efficient state management
+      // This test should fail initially - we need to implement efficient state
+      // management
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -163,7 +169,8 @@ void main() {
     testWidgets('should handle widget rebuilds efficiently', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement efficient rebuilds
+      // This test should fail initially - we need to implement efficient
+      // rebuilds
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -183,7 +190,8 @@ void main() {
     testWidgets('should handle keyboard color updates efficiently', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement efficient color updates
+      // This test should fail initially - we need to implement efficient color
+      // updates
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -242,7 +250,8 @@ void main() {
     testWidgets('should handle error states efficiently', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement efficient error handling
+      // This test should fail initially - we need to implement efficient error
+      // handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -285,7 +294,8 @@ void main() {
     testWidgets('should handle state changes efficiently', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement efficient state changes
+      // This test should fail initially - we need to implement efficient state
+      // changes
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -344,7 +354,8 @@ void main() {
     testWidgets('should handle concurrent operations efficiently', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement concurrent operation handling
+      // This test should fail initially - we need to implement concurrent
+      // operation handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -382,7 +393,8 @@ void main() {
     testWidgets('should handle large game grids efficiently', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement efficient grid rendering
+      // This test should fail initially - we need to implement efficient grid
+      // rendering
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -408,7 +420,8 @@ void main() {
     testWidgets('should handle rapid state transitions efficiently', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement efficient state transitions
+      // This test should fail initially - we need to implement efficient state
+      // transitions
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -429,7 +442,8 @@ void main() {
     testWidgets('should handle memory pressure efficiently', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement memory pressure handling
+      // This test should fail initially - we need to implement memory pressure
+      // handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -458,7 +472,8 @@ void main() {
     testWidgets('should handle background processing efficiently', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement efficient background processing
+      // This test should fail initially - we need to implement efficient
+      // background processing
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
@@ -477,7 +492,8 @@ void main() {
     testWidgets('should handle UI updates efficiently', (
       WidgetTester tester,
     ) async {
-      // This test should fail initially - we need to implement efficient UI updates
+      // This test should fail initially - we need to implement efficient UI
+      // updates
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 

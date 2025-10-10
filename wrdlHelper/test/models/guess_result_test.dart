@@ -20,7 +20,10 @@ void main() {
         // Assert
         expect(result.word, equals(word));
         expect(result.letterStates.length, equals(5));
-        expect(result.letterStates.every((state) => state == LetterState.gray), isTrue);
+        expect(
+          result.letterStates.every((state) => state == LetterState.gray),
+          isTrue,
+        );
         expect(result.isComplete, isFalse);
       });
 
@@ -200,8 +203,14 @@ void main() {
         ];
         
         // Act
-        final correctResult = GuessResult(word: word, letterStates: correctStates);
-        final incorrectResult = GuessResult(word: word, letterStates: incorrectStates);
+        final correctResult = GuessResult(
+          word: word,
+          letterStates: correctStates,
+        );
+        final incorrectResult = GuessResult(
+          word: word,
+          letterStates: incorrectStates,
+        );
         
         // Assert
         expect(correctResult.isCorrect, isTrue);
@@ -227,8 +236,14 @@ void main() {
         ];
         
         // Act
-        final someCorrectResult = GuessResult(word: word, letterStates: someCorrectStates);
-        final noCorrectResult = GuessResult(word: word, letterStates: noCorrectStates);
+        final someCorrectResult = GuessResult(
+          word: word,
+          letterStates: someCorrectStates,
+        );
+        final noCorrectResult = GuessResult(
+          word: word,
+          letterStates: noCorrectStates,
+        );
         
         // Assert
         expect(someCorrectResult.hasCorrectLetters, isTrue);

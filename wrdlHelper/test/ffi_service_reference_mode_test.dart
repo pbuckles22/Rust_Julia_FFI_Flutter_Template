@@ -33,7 +33,8 @@ void main() {
     });
 
     test('getBestGuessReference() should handle complex game states', () {
-      // RED: This test will verify the function works with complex game progression
+      // RED: This test will verify the function works with complex game
+      // progression
       
       // Simulate a complex game state with multiple guesses and patterns
       final remainingWords = [

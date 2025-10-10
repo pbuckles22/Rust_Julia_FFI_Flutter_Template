@@ -26,8 +26,14 @@ void main() {
 
     test('FFI Service should provide real words', () async {
       // Test that FFI service has comprehensive algorithm-testing data
-      expect(FfiService.getGuessWords().length, greaterThan(200)); // Comprehensive word list has ~250 words
-      expect(FfiService.getAnswerWords().length, greaterThan(200)); // Comprehensive word list has ~250 words
+      expect(
+        FfiService.getGuessWords().length,
+        greaterThan(200), // Comprehensive word list has ~250 words
+      );
+      expect(
+        FfiService.getAnswerWords().length,
+        greaterThan(200), // Comprehensive word list has ~250 words
+      );
       expect(FfiService.isInitialized, true);
 
       // Test that it can validate words
@@ -58,7 +64,8 @@ void main() {
       // Get the real app service
       final appService = sl<AppService>();
 
-      // Test that it initializes with real services (WordService removed, using centralized FFI)
+      // Test that it initializes with real services (WordService removed,
+      // using centralized FFI)
       expect(appService.isInitialized, true);
       expect(appService.gameService, isNotNull);
     });
