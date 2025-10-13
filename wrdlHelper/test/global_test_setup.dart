@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/service_locator.dart';
+import 'package:wrdlhelper/utils/debug_logger.dart';
 
 /// Global test setup for FFI optimization
 /// 
@@ -22,12 +23,13 @@ class GlobalTestSetup {
       await setupTestServices();
       _isInitialized = true;
       
-      print(
+      DebugLogger.info(
         '🚀 Global FFI initialization complete with comprehensive '
         'algorithm-testing word list',
+        tag: 'Setup',
       );
     } catch (e) {
-      print('❌ Global FFI initialization failed: $e');
+      DebugLogger.error('❌ Global FFI initialization failed: $e', tag: 'Setup');
       rethrow;
     }
   }
@@ -51,7 +53,7 @@ class GlobalTestSetup {
     if (_isInitialized) {
       resetAllServices();
       _isInitialized = false;
-      print('🧹 Global FFI cleanup complete');
+      DebugLogger.info('🧹 Global FFI cleanup complete', tag: 'Setup');
     }
   }
 

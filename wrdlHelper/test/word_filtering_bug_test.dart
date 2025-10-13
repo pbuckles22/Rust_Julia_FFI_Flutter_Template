@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/services/ffi_service.dart';
+import 'package:wrdlhelper/utils/debug_logger.dart';
 
 void main() {
   group('Word Filtering Bug Tests (TDD Red Phase)', () {
@@ -99,20 +100,22 @@ void main() {
           guessResults,
         );
         
-        print('Mixed pattern GYXXY filtered words: $filtered');
-        print('Analysis:');
-        print(
+        DebugLogger.info('Mixed pattern GYXXY filtered words: $filtered', tag: 'Bug');
+        DebugLogger.info('Analysis:', tag: 'Bug');
+        DebugLogger.info(
           '- CRANE: C=G, R=Y(pos2❌), A=X❌, N=X❌, E=Y(pos5❌) → should be '
           'rejected',
+          tag: 'Bug',
         );
-        print(
+        DebugLogger.info(
           '- CRUDE: C=G, R=Y(pos2❌), no A, no N, E=Y(pos5❌) → should be '
           'rejected',
+          tag: 'Bug',
         );
-        print(
+        DebugLogger.info(
           '- CRIME: C=G, R=Y(pos2❌), no A, no N, no E → should be rejected',
         );
-        print(
+        DebugLogger.info(
           '- Need words like: C_R_E (C at pos1, R not at pos2, E not at pos5, '
           'no A/N)',
         );

@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/services/ffi_service.dart';
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
+import 'package:wrdlhelper/utils/debug_logger.dart';
 
 void main() {
   group('FFI Performance Tests', () {
@@ -18,10 +19,11 @@ void main() {
       
       stopwatch.stop();
       
-      print('🎯 Optimal first guess: $result');
-      print(
+      DebugLogger.info('🎯 Optimal first guess: $result', tag: 'Performance');
+      DebugLogger.info(
         '⏱️  FFI call time: ${stopwatch.elapsedMicroseconds}μs '
         '(${stopwatch.elapsedMilliseconds}ms)',
+        tag: 'Performance',
       );
       
       expect(result, isNotNull);
@@ -39,10 +41,11 @@ void main() {
       
       stopwatch.stop();
       
-      print('🧠 Full algorithm result: $result');
-      print(
+      DebugLogger.info('🧠 Full algorithm result: $result', tag: 'Performance');
+      DebugLogger.info(
         '⏱️  FFI call time: ${stopwatch.elapsedMicroseconds}μs '
         '(${stopwatch.elapsedMilliseconds}ms)',
+        tag: 'Performance',
       );
       
       expect(result, isNotNull);
@@ -63,18 +66,21 @@ void main() {
       );
       secondGuessStopwatch.stop();
       
-      print(
+      DebugLogger.info(
         '🎯 First guess (optimized): $firstGuess - '
         '${firstGuessStopwatch.elapsedMicroseconds}μs',
+        tag: 'Performance',
       );
-      print(
+      DebugLogger.info(
         '🧠 Second guess (full algo): $secondGuess - '
         '${secondGuessStopwatch.elapsedMicroseconds}μs',
+        tag: 'Performance',
       );
-      print(
+      DebugLogger.info(
         '📊 Performance ratio: '
         '${secondGuessStopwatch.elapsedMicroseconds / '
         'firstGuessStopwatch.elapsedMicroseconds}x slower',
+        tag: 'Performance',
       );
       
       expect(firstGuess, isNotNull);

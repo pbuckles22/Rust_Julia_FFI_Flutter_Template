@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
 import 'package:wrdlhelper/services/ffi_service.dart';
+import 'package:wrdlhelper/utils/debug_logger.dart';
 
 void main() {
   group('Killer Words Tests', () {
@@ -109,9 +110,10 @@ void main() {
       expect(matchEntropy, greaterThan(0.0));
       expect(slateEntropy, greaterThan(0.0));
       
-      print(
+      DebugLogger.info(
         'Entropy values: VOMIT=$vomitEntropy, MATCH=$matchEntropy, '
         'SLATE=$slateEntropy',
+        tag: 'KillerWords',
       );
     });
 
@@ -178,8 +180,9 @@ void main() {
         reason: 'Should complete within 1 second',
       );
       
-      print(
+      DebugLogger.info(
         'Performance with killer words: ${stopwatch.elapsedMilliseconds}ms',
+        tag: 'KillerWords',
       );
     });
   });

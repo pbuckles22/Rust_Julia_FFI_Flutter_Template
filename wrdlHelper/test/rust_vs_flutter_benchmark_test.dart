@@ -4,6 +4,7 @@ import 'package:wrdlhelper/models/word.dart';
 import 'package:wrdlhelper/services/ffi_service.dart';
 import 'package:wrdlhelper/services/game_service.dart';
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
+import 'package:wrdlhelper/utils/debug_logger.dart';
 
 /// Rust vs Flutter Benchmark Comparison Test
 /// 
@@ -22,8 +23,8 @@ void main() {
     });
 
     test('Compare Rust vs Flutter performance on same 50 games', () async {
-      print('\n🎯 Rust vs Flutter Performance Comparison (50 games)');
-      print('=' * 60);
+      DebugLogger.info('\n🎯 Rust vs Flutter Performance Comparison (50 games)', tag: 'Benchmark');
+      DebugLogger.info('=' * 60, tag: 'Benchmark');
       
       final stopwatch = Stopwatch()..start();
       var gamesWon = 0;
@@ -65,7 +66,7 @@ void main() {
         totalGuesses += guesses;
         
         if (game % 10 == 0) {
-          print('  Game $game/50 completed');
+          DebugLogger.info('  Game $game/50 completed', tag: 'Benchmark');
         }
       }
 
@@ -75,62 +76,69 @@ void main() {
       final totalTime = stopwatch.elapsedMilliseconds / 1000.0;
       final averageTime = totalTime / 50;
 
-      print('\n📊 Flutter FFI Benchmark Results (50 games):');
-      print('  🎯 Success Rate: ${successRate.toStringAsFixed(1)}%');
-      print('  📈 Average Guesses: ${averageGuesses.toStringAsFixed(2)}');
-      print('  ⏱️  Average Time per Game: ${averageTime.toStringAsFixed(3)}s');
-      print('  🏆 Games Won: $gamesWon/50');
-      print('  📝 Total Guesses: $totalGuesses');
-      print('  🕐 Total Time: ${totalTime.toStringAsFixed(1)}s');
+      DebugLogger.info('\n📊 Flutter FFI Benchmark Results (50 games):', tag: 'Benchmark');
+      DebugLogger.info('  🎯 Success Rate: ${successRate.toStringAsFixed(1)}%', tag: 'Benchmark');
+      DebugLogger.info('  📈 Average Guesses: ${averageGuesses.toStringAsFixed(2)}', tag: 'Benchmark');
+      DebugLogger.info('  ⏱️  Average Time per Game: ${averageTime.toStringAsFixed(3)}s', tag: 'Benchmark');
+      DebugLogger.info('  🏆 Games Won: $gamesWon/50', tag: 'Benchmark');
+      DebugLogger.info('  📝 Total Guesses: $totalGuesses', tag: 'Benchmark');
+      DebugLogger.info('  🕐 Total Time: ${totalTime.toStringAsFixed(1)}s', tag: 'Benchmark');
 
-      print('\n📊 Comparison with Rust Benchmark:');
-      print(
+      DebugLogger.info('\n📊 Comparison with Rust Benchmark:', tag: 'Benchmark');
+      DebugLogger.info(
         '  🦀 Rust (500 games): 100.0% success, 3.57 avg guesses, '
         '0.947s per game',
+        tag: 'Benchmark',
       );
-      print(
+      DebugLogger.info(
         '  🎯 Flutter (50 games): ${successRate.toStringAsFixed(1)}% success, '
         '${averageGuesses.toStringAsFixed(2)} avg guesses, '
         '${averageTime.toStringAsFixed(3)}s per game',
+        tag: 'Benchmark',
       );
       
       final successGap = 100.0 - successRate;
       final guessGap = averageGuesses - 3.57;
       final timeGap = averageTime - 0.947;
       
-      print('\n📈 Performance Gap Analysis:');
-      print(
+      DebugLogger.info('\n📈 Performance Gap Analysis:', tag: 'Benchmark');
+      DebugLogger.info(
         '  🔴 Success Rate Gap: ${successGap.toStringAsFixed(1)}% '
         '(Flutter underperforming)',
+        tag: 'Benchmark',
       );
-      print(
+      DebugLogger.info(
         '  🟡 Average Guesses Gap: ${guessGap.toStringAsFixed(2)} '
         '(Flutter using more guesses)',
+        tag: 'Benchmark',
       );
-      print(
+      DebugLogger.info(
         '  🟢 Time Gap: ${timeGap.toStringAsFixed(3)}s '
         '(Flutter slower but acceptable)',
+        tag: 'Benchmark',
       );
       
       if (successGap > 5.0) {
-        print('\n🚨 CRITICAL: Large success rate gap detected!');
-        print(
+        DebugLogger.warning('\n🚨 CRITICAL: Large success rate gap detected!', tag: 'Benchmark');
+        DebugLogger.warning(
           '   This indicates a fundamental difference between Rust and '
           'Flutter implementations.',
+          tag: 'Benchmark',
         );
-        print('   Possible causes:');
-        print('   - Different candidate word selection');
-        print('   - Different algorithm configuration');
-        print('   - Data format conversion issues');
-        print('   - Word list synchronization problems');
+        DebugLogger.warning('   Possible causes:', tag: 'Benchmark');
+        DebugLogger.warning('   - Different candidate word selection', tag: 'Benchmark');
+        DebugLogger.warning('   - Different algorithm configuration', tag: 'Benchmark');
+        DebugLogger.warning('   - Data format conversion issues', tag: 'Benchmark');
+        DebugLogger.warning('   - Word list synchronization problems', tag: 'Benchmark');
       } else if (successGap > 2.0) {
-        print('\n⚠️  MODERATE: Noticeable success rate gap detected.');
-        print(
+        DebugLogger.warning('\n⚠️  MODERATE: Noticeable success rate gap detected.', tag: 'Benchmark');
+        DebugLogger.warning(
           '   This suggests minor differences in implementation or '
           'configuration.',
+          tag: 'Benchmark',
         );
       } else {
-        print('\n✅ GOOD: Success rate gap is within acceptable range.');
+        DebugLogger.info('\n✅ GOOD: Success rate gap is within acceptable range.', tag: 'Benchmark');
       }
 
       // We expect the gap to be small if the implementations are identical

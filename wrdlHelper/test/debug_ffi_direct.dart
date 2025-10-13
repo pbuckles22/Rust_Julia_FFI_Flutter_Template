@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
 import 'package:wrdlhelper/src/rust/api/simple.dart' as ffi;
+import 'package:wrdlhelper/utils/debug_logger.dart';
 
 void main() {
   // Initialize Flutter binding for tests
@@ -11,9 +12,9 @@ void main() {
       // Initialize FFI
       try {
         await RustLib.init();
-        print('✅ FFI initialized successfully');
+        DebugLogger.info('✅ FFI initialized successfully', tag: 'Debug');
       } catch (e) {
-        print('❌ FFI initialization failed: $e');
+        DebugLogger.error('❌ FFI initialization failed: $e', tag: 'Debug');
         rethrow;
       }
     });
@@ -34,7 +35,7 @@ void main() {
       
       // If we get here, it didn't hang
       expect(result, isNotNull);
-      print('✅ getIntelligentGuess returned: $result');
+      DebugLogger.info('✅ getIntelligentGuess returned: $result', tag: 'Debug');
     });
 
     test('should call getIntelligentGuess with one guess', () {
@@ -47,7 +48,7 @@ void main() {
       
       // If we get here, it didn't hang
       expect(result, isNotNull);
-      print('✅ getIntelligentGuess with guess returned: $result');
+      DebugLogger.info('✅ getIntelligentGuess with guess returned: $result', tag: 'Debug');
     });
   });
 }

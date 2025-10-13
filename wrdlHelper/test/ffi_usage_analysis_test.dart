@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
 import 'package:wrdlhelper/services/ffi_service.dart';
+import 'package:wrdlhelper/utils/debug_logger.dart';
 
 void main() {
   group('FFI Usage Analysis Tests', () {
@@ -59,11 +60,12 @@ void main() {
       
       // This test documents the current state - no assertions needed
       // The real value is in identifying what can be cleaned up
-      print('✅ Used FFI functions: ${usedFunctions.length}');
-      print('❌ Unused FFI functions: ${unusedFunctions.length}');
-      print(
+      DebugLogger.info('✅ Used FFI functions: ${usedFunctions.length}', tag: 'Analysis');
+      DebugLogger.info('❌ Unused FFI functions: ${unusedFunctions.length}', tag: 'Analysis');
+      DebugLogger.info(
         '📊 Total FFI functions: '
         '${usedFunctions.length + unusedFunctions.length}',
+        tag: 'Analysis',
       );
     });
 
@@ -157,11 +159,13 @@ void main() {
       ];
       
       // This test documents what needs cleanup
-      print(
+      DebugLogger.info(
         '🗑️ Deprecated functions to remove: ${deprecatedFunctions.length}',
+        tag: 'Analysis',
       );
-      print(
+      DebugLogger.info(
         '🔧 Commented functions to implement: ${commentedFunctions.length}',
+        tag: 'Analysis',
       );
       
       // Verify we have identified cleanup opportunities
@@ -182,9 +186,9 @@ void main() {
         
         // The TODO in setConfiguration should be resolved
         // by implementing the Rust-side configuration
-        print('✅ Configuration system is working');
+        DebugLogger.info('✅ Configuration system is working');
       } catch (e) {
-        print('❌ Configuration system needs work: $e');
+        DebugLogger.info('❌ Configuration system needs work: $e');
         // This is expected if the TODO hasn't been resolved yet
       }
     });

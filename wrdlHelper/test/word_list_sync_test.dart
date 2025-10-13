@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/services/ffi_service.dart';
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
+import 'package:wrdlhelper/utils/debug_logger.dart';
 
 void main() {
   group('Word List Synchronization Tests', () {
@@ -21,9 +22,9 @@ void main() {
       final dartGuessWords = FfiService.getGuessWords().length;
       final dartAnswerWords = FfiService.getAnswerWords().length;
       
-      print('📊 Centralized FFI word counts:');
-      print('  • Guess words: $dartGuessWords');
-      print('  • Answer words: $dartAnswerWords');
+      DebugLogger.info('📊 Centralized FFI word counts:', tag: 'Sync');
+      DebugLogger.info('  • Guess words: $dartGuessWords', tag: 'Sync');
+      DebugLogger.info('  • Answer words: $dartAnswerWords', tag: 'Sync');
       
       // Test that we have the expected word counts
       expect(dartGuessWords, greaterThan(10000)); // Should have 14,854+ words
@@ -31,10 +32,11 @@ void main() {
       
       // Word lists are already loaded to Rust by centralized FFI during
       // initialization
-      print('✅ Word lists already loaded to Rust by centralized FFI');
-      print(
+      DebugLogger.info('✅ Word lists already loaded to Rust by centralized FFI', tag: 'Sync');
+      DebugLogger.info(
         '🎯 Rust now has ${dartGuessWords} guess words and '
         '${dartAnswerWords} answer words',
+        tag: 'Sync',
       );
     });
 
@@ -45,7 +47,7 @@ void main() {
       expect(optimalFirstGuess!.length, equals(5));
       expect(optimalFirstGuess, isA<String>());
       
-      print('🎯 Optimal first guess from Rust: $optimalFirstGuess');
+      DebugLogger.info('🎯 Optimal first guess from Rust: $optimalFirstGuess', tag: 'Sync');
       
       // Should be one of the known optimal first guesses
       final knownOptimalGuesses = ['TARES', 'SLATE', 'CRANE', 'CRATE', 'SLANT'];
@@ -66,7 +68,7 @@ void main() {
       // due to algorithm logic)
       expect(result, matches(RegExp(r'^[A-Z]{5}$')));
       
-      print('🧠 Rust processed real words successfully: $result');
+      DebugLogger.info('🧠 Rust processed real words successfully: $result', tag: 'Sync');
     });
 
     test('word filtering should work with real word lists', () {
@@ -90,9 +92,10 @@ void main() {
         expect(word.contains('E'), isFalse);
       }
       
-      print(
+      DebugLogger.info(
         '🔍 Word filtering works with real words: '
         '${filtered.length} words remaining',
+        tag: 'Sync',
       );
     });
   });

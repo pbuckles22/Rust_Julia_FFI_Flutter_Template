@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/services/ffi_service.dart';
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
+import 'package:wrdlhelper/utils/debug_logger.dart';
 
 void main() {
   group('Comprehensive Performance Tests', () {
@@ -23,10 +24,11 @@ void main() {
       
       stopwatch.stop();
       
-      print('🎯 First guess result: $result');
-      print(
+      DebugLogger.info('🎯 First guess result: $result', tag: 'Performance');
+      DebugLogger.info(
         '⏱️  E2E time: ${stopwatch.elapsedMicroseconds}μs '
         '(${stopwatch.elapsedMilliseconds}ms)',
+        tag: 'Performance',
       );
       
       expect(result, isNotNull);
@@ -50,10 +52,11 @@ void main() {
       
       stopwatch.stop();
       
-      print('🧠 Subsequent guess result: $result');
-      print(
+      DebugLogger.info('🧠 Subsequent guess result: $result', tag: 'Performance');
+      DebugLogger.info(
         '⏱️  E2E time: ${stopwatch.elapsedMicroseconds}μs '
         '(${stopwatch.elapsedMilliseconds}ms)',
+        tag: 'Performance',
       );
       
       expect(result, isNotNull);
@@ -74,10 +77,11 @@ void main() {
       
       stopwatch.stop();
       
-      print('🔍 Filtered ${filtered.length} words from ${allWords.length}');
-      print(
+      DebugLogger.info('🔍 Filtered ${filtered.length} words from ${allWords.length}', tag: 'Performance');
+      DebugLogger.info(
         '⏱️  E2E time: ${stopwatch.elapsedMicroseconds}μs '
         '(${stopwatch.elapsedMilliseconds}ms)',
+        tag: 'Performance',
       );
       
       expect(filtered, isNotEmpty);
@@ -102,10 +106,11 @@ void main() {
       
       stopwatch.stop();
       
-      print('📊 Entropy for $candidateWord: $entropy');
-      print(
+      DebugLogger.info('📊 Entropy for $candidateWord: $entropy', tag: 'Performance');
+      DebugLogger.info(
         '⏱️  E2E time: ${stopwatch.elapsedMicroseconds}μs '
         '(${stopwatch.elapsedMilliseconds}ms)',
+        tag: 'Performance',
       );
       
       expect(entropy, greaterThan(0.0));
@@ -120,10 +125,11 @@ void main() {
       
       stopwatch.stop();
       
-      print('🎨 Pattern for CRANE vs CRATE: $pattern');
-      print(
+      DebugLogger.info('🎨 Pattern for CRANE vs CRATE: $pattern', tag: 'Performance');
+      DebugLogger.info(
         '⏱️  E2E time: ${stopwatch.elapsedMicroseconds}μs '
         '(${stopwatch.elapsedMilliseconds}ms)',
+        tag: 'Performance',
       );
       
       expect(pattern, equals('GGGXG')); // C, R, A match, N doesn't, E matches
@@ -165,15 +171,16 @@ void main() {
       
       stopwatch.stop();
       
-      print('🚀 Stress test results:');
-      print('  • First guess: $firstGuess');
-      print('  • Filtered words: ${filtered.length}');
-      print('  • Best guess: $bestGuess');
-      print('  • Entropy: $entropy');
-      print('  • Pattern: $pattern');
-      print(
+      DebugLogger.info('🚀 Stress test results:', tag: 'Performance');
+      DebugLogger.info('  • First guess: $firstGuess', tag: 'Performance');
+      DebugLogger.info('  • Filtered words: ${filtered.length}', tag: 'Performance');
+      DebugLogger.info('  • Best guess: $bestGuess', tag: 'Performance');
+      DebugLogger.info('  • Entropy: $entropy', tag: 'Performance');
+      DebugLogger.info('  • Pattern: $pattern', tag: 'Performance');
+      DebugLogger.info(
         '⏱️  Total E2E time: ${stopwatch.elapsedMicroseconds}μs '
         '(${stopwatch.elapsedMilliseconds}ms)',
+        tag: 'Performance',
       );
       
       expect(firstGuess, isNotNull);
@@ -192,7 +199,7 @@ void main() {
       // centralized FFI
       final allWords = FfiService.getGuessWords();
       
-      print('📊 Memory test with ${allWords.length} words');
+      DebugLogger.info('📊 Memory test with ${allWords.length} words');
       
       final stopwatch = Stopwatch()..start();
       
@@ -204,8 +211,8 @@ void main() {
       
       stopwatch.stop();
       
-      print('🧠 Full word list result: $result');
-      print(
+      DebugLogger.info('🧠 Full word list result: $result');
+      DebugLogger.info(
         '⏱️  E2E time: ${stopwatch.elapsedMicroseconds}μs '
         '(${stopwatch.elapsedMilliseconds}ms)',
       );
