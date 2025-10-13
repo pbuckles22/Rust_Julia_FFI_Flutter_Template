@@ -13,8 +13,7 @@ class iPhone12PerformanceTestApp extends StatelessWidget {
   const iPhone12PerformanceTestApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context) => MaterialApp(
       title: 'iPhone 12 Performance Test',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -22,7 +21,6 @@ class iPhone12PerformanceTestApp extends StatelessWidget {
       ),
       home: const iPhone12PerformanceTestScreen(),
     );
-  }
 }
 
 class iPhone12PerformanceTestScreen extends StatefulWidget {

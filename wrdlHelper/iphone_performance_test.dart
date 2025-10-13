@@ -18,13 +18,11 @@ void main() async {
 
 class IPhonePerformanceTestApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context) => MaterialApp(
       title: 'iPhone Performance Test',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: PerformanceTestScreen(),
     );
-  }
 }
 
 class PerformanceTestScreen extends StatefulWidget {
@@ -37,8 +35,7 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
   bool isRunning = false;
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
         title: const Text('iPhone Performance Test'),
         backgroundColor: Colors.blue,
@@ -48,8 +45,7 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
           Expanded(
             child: ListView.builder(
               itemCount: testResults.length,
-              itemBuilder: (context, index) {
-                return Card(
+              itemBuilder: (context, index) => Card(
                   margin: const EdgeInsets.all(8.0),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),

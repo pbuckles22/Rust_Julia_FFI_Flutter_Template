@@ -102,12 +102,10 @@ class GuessResult {
   factory GuessResult.withStates({
     required Word word,
     required List<LetterState> letterStates,
-  }) {
-    return GuessResult(
+  }) => GuessResult(
       word: word,
       letterStates: List.from(letterStates),
     );
-  }
   
   /// Gets the letter state at the specified position
   LetterState getLetterState(int position) {
@@ -172,19 +170,13 @@ class GuessResult {
   }
   
   /// Gets all positions with green letters
-  List<int> getGreenPositions() {
-    return getPositionsOfState(LetterState.green);
-  }
+  List<int> getGreenPositions() => getPositionsOfState(LetterState.green);
   
   /// Gets all positions with yellow letters
-  List<int> getYellowPositions() {
-    return getPositionsOfState(LetterState.yellow);
-  }
+  List<int> getYellowPositions() => getPositionsOfState(LetterState.yellow);
   
   /// Gets all positions with gray letters
-  List<int> getGrayPositions() {
-    return getPositionsOfState(LetterState.gray);
-  }
+  List<int> getGrayPositions() => getPositionsOfState(LetterState.gray);
   
   /// Gets all letters with a specific state
   List<String> getLettersByState(LetterState state) {

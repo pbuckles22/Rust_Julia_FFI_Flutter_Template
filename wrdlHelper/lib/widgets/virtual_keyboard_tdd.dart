@@ -23,8 +23,7 @@ class VirtualKeyboard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Semantics(
+  Widget build(BuildContext context) => Semantics(
       label: 'Virtual Keyboard',
       child: Container(
         padding: const EdgeInsets.all(8),
@@ -45,14 +44,11 @@ class VirtualKeyboard extends StatelessWidget {
         ),
       ),
     );
-  }
 
-  Widget _buildRow(List<String> keys) {
-    return Row(
+  Widget _buildRow(List<String> keys) => Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: keys.map(_buildKey).toList(),
     );
-  }
 
   Widget _buildKey(String key) {
     final isDisabled = disabledKeys?.contains(key) ?? false;

@@ -110,19 +110,13 @@ class GameStateManager {
   }
 
   /// Check if word length is valid
-  bool isValidWordLength(String word) {
-    return word.length == 5;
-  }
+  bool isValidWordLength(String word) => word.length == 5;
 
   /// Get remaining guesses count
-  int getRemainingGuesses(GameState gameState) {
-    return 6 - gameState.guesses.length;
-  }
+  int getRemainingGuesses(GameState gameState) => 6 - gameState.guesses.length;
 
   /// Check if game is in progress
-  bool isGameInProgress(GameState gameState) {
-    return !gameState.isGameOver;
-  }
+  bool isGameInProgress(GameState gameState) => !gameState.isGameOver;
 
   /// Add listener for state changes
   void addListener(VoidCallback listener) {

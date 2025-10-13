@@ -331,8 +331,7 @@ class GameService {
   }
 
   /// Analyzes guess effectiveness
-  GuessEffectivenessAnalysis analyzeGuessEffectiveness(GuessResult result) {
-    return GuessEffectivenessAnalysis(
+  GuessEffectivenessAnalysis analyzeGuessEffectiveness(GuessResult result) => GuessEffectivenessAnalysis(
       greenCount: result.greenCount,
       yellowCount: result.yellowCount,
       grayCount: result.grayCount,
@@ -472,9 +471,7 @@ class GameService {
   }
 
   /// Gets the current game state
-  GameState? getGameState() {
-    return _currentGame;
-  }
+  GameState? getGameState() => _currentGame;
 
   /// Resets the current game
   void resetGame() {

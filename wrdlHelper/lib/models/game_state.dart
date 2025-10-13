@@ -32,12 +32,10 @@ class GuessEntry {
   };
 
   /// Creates a guess entry from JSON
-  factory GuessEntry.fromJson(Map<String, dynamic> json) {
-    return GuessEntry(
+  factory GuessEntry.fromJson(Map<String, dynamic> json) => GuessEntry(
       word: Word.fromJson(json['word'] as Map<String, dynamic>),
       result: GuessResult.fromJson(json['result'] as Map<String, dynamic>),
     );
-  }
 
   @override
   bool operator ==(Object other) {
@@ -96,8 +94,7 @@ class GameState {
   });
 
   /// Creates a new game with default settings
-  factory GameState.newGame({Word? targetWord, int maxGuesses = 5}) {
-    return GameState._(
+  factory GameState.newGame({Word? targetWord, int maxGuesses = 5}) => GameState._(
       guesses: [],
       maxGuesses: maxGuesses,
       currentGuess: 0,
@@ -321,8 +318,7 @@ class GameState {
     Word? targetWord,
     GameStatus? gameStatus,
     DateTime? startTime,
-  }) {
-    return GameState._(
+  }) => GameState._(
       guesses: guesses ?? this.guesses,
       maxGuesses: maxGuesses ?? this.maxGuesses,
       currentGuess: currentGuess ?? this.currentGuess,
@@ -333,13 +329,10 @@ class GameState {
       gameStatus: gameStatus ?? this.gameStatus,
       startTime: startTime ?? this.startTime,
     );
-  }
 
   /// String representation of the game state
   @override
-  String toString() {
-    return 'GameState(guesses: ${guesses.length}, maxGuesses: $maxGuesses, '
-        'currentGuess: $currentGuess, isGameOver: $isGameOver, '
-        'isWon: $isWon, isLost: $isLost, gameStatus: $gameStatus)';
-  }
+  String toString() => 'GameState(guesses: ${guesses.length}, maxGuesses: $maxGuesses, '
+      'currentGuess: $currentGuess, isGameOver: $isGameOver, '
+      'isWon: $isWon, isLost: $isLost, gameStatus: $gameStatus)';
 }

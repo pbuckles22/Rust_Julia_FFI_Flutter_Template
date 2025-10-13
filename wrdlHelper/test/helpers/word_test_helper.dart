@@ -695,8 +695,7 @@ class WordTestHelper {
   }
 
   /// Get a specific set of words for consistent testing
-  static List<Word> getTestWords() {
-    return [
+  static List<Word> getTestWords() => [
       Word.fromString('CRANE'),
       Word.fromString('SLATE'),
       Word.fromString('TRACE'),
@@ -718,5 +717,4 @@ class WordTestHelper {
       Word.fromString('GAMES'),
       Word.fromString('NAMES'),
     ];
-  }
 }

@@ -272,9 +272,7 @@ class FfiService {
   // ===========================================================================
 
   /// Get the current configuration
-  static FfiConfiguration getConfiguration() {
-    return _currentConfig;
-  }
+  static FfiConfiguration getConfiguration() => _currentConfig;
 
   /// Set the configuration
   static void setConfiguration(FfiConfiguration config) {

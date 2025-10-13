@@ -83,10 +83,8 @@ class Word {
   }
   
   /// Validates that the word contains only letters
-  static bool _isValidWordFormat(String word) {
-    return word.split('').every((char) => 
+  static bool _isValidWordFormat(String word) => word.split('').every((char) => 
       char.codeUnitAt(0) >= 65 && char.codeUnitAt(0) <= 90);
-  }
   
   /// Gets the character at the specified index
   String charAt(int index) {
@@ -105,9 +103,7 @@ class Word {
   }
   
   /// Checks if the word contains a specific letter
-  bool containsLetter(String letter) {
-    return value.contains(letter.toUpperCase());
-  }
+  bool containsLetter(String letter) => value.contains(letter.toUpperCase());
   
   /// Checks if the word contains a specific letter at a specific position
   bool containsLetterAt(String letter, int position) {

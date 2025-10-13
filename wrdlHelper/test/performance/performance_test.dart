@@ -422,10 +422,8 @@ void main() {
         // Act
         final stopwatch = Stopwatch()..start();
 
-        final futures = patterns.map((pattern) async {
-          return FfiService.isValidWord('SLATE'); // Test FFI validation
-          // performance
-        });
+        final futures = patterns.map((pattern) async => FfiService.isValidWord('SLATE')); // Test FFI validation
+        // performance
 
         final results = await Future.wait(futures);
         stopwatch.stop();
@@ -447,10 +445,7 @@ void main() {
         // Act
         final stopwatch = Stopwatch()..start();
 
-        final futures = services.map((service) async {
-          // Test concurrent access to the same pre-loaded service
-          return FfiService.getAnswerWords().length;
-        });
+        final futures = services.map((service) async => FfiService.getAnswerWords().length); // Test concurrent access to the same pre-loaded service
 
         await Future.wait(futures);
         stopwatch.stop();

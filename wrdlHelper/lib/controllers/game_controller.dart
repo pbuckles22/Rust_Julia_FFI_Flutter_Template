@@ -119,10 +119,7 @@ class GameController {
   }
 
   /// Basic word validation
-  bool _isValidWord(String word) {
-    // For testing purposes, reject words with 'X' as invalid
-    return !word.contains('X');
-  }
+  bool _isValidWord(String word) => !word.contains('X'); // For testing purposes, reject words with 'X' as invalid
 
   /// Start a new game
   Future<void> newGame() async {

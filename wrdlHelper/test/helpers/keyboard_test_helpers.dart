@@ -80,28 +80,22 @@ class KeyboardTestHelpers {
   }
 
   /// Get a specific letter key finder
-  static Finder getLetterKeyFinder(String letter) {
-    return find.descendant(
+  static Finder getLetterKeyFinder(String letter) => find.descendant(
       of: find.byType(VirtualKeyboard),
       matching: find.byKey(Key('key_$letter')),
     );
-  }
 
   /// Get the ENTER key finder
-  static Finder getEnterKeyFinder() {
-    return find.descendant(
+  static Finder getEnterKeyFinder() => find.descendant(
       of: find.byType(VirtualKeyboard),
       matching: find.byKey(const Key('key_ENTER')),
     );
-  }
 
   /// Get the DELETE key finder
-  static Finder getDeleteKeyFinder() {
-    return find.descendant(
+  static Finder getDeleteKeyFinder() => find.descendant(
       of: find.byType(VirtualKeyboard),
       matching: find.byKey(const Key('key_DELETE')),
     );
-  }
 
   /// Verify that all keyboard keys are present and accessible
   static void verifyKeyboardAccessibility(WidgetTester tester) {

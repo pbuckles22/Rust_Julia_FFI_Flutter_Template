@@ -100,16 +100,14 @@ class GameGrid extends StatelessWidget {
                       : null,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(5, (colIndex) {
-                      return Padding(
+                    children: List.generate(5, (colIndex) => Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 2),
                         child: SizedBox(
                           width: tileSize,
                           height: tileSize,
                           child: _buildTile(rowIndex, colIndex),
                         ),
-                      );
-                    }),
+                      )),
                   ),
                 );
               }),

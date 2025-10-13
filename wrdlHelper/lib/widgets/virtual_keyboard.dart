@@ -75,17 +75,14 @@ class VirtualKeyboard extends StatelessWidget {
     );
   }
 
-  Widget _buildKeyboardRow(List<String> keys, bool isSmall) {
-    return Wrap(
+  Widget _buildKeyboardRow(List<String> keys, bool isSmall) => Wrap(
       alignment: WrapAlignment.center,
       spacing: isSmall ? 1 : 2,
       runSpacing: isSmall ? 1 : 2,
       children: keys.map((key) => _buildKey(key, isSmall)).toList(),
     );
-  }
 
-  Widget _buildActionRow(bool isSmall) {
-    return Row(
+  Widget _buildActionRow(bool isSmall) => Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _buildActionKey('ENTER', isEnter: true, isSmall: isSmall),
@@ -93,7 +90,6 @@ class VirtualKeyboard extends StatelessWidget {
         _buildActionKey('DELETE', isDelete: true, isSmall: isSmall),
       ],
     );
-  }
 
   Widget _buildKey(String letter, bool isSmall) {
     final isDisabled = disabledKeys.contains(letter);
