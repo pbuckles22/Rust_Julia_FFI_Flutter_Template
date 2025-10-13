@@ -6,9 +6,13 @@ library;
 
 /// Base class for all game exceptions
 abstract class GameException implements Exception {
+  /// The main error message
   final String message;
+  
+  /// Optional additional details about the error
   final String? details;
 
+  /// Creates a new game exception
   const GameException(this.message, [this.details]);
 
   @override

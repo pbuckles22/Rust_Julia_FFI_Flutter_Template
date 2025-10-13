@@ -16,16 +16,22 @@ enum GameStatus {
 
 /// Guess entry for tracking guesses and results
 class GuessEntry {
+  /// The word that was guessed
   final Word word;
+  
+  /// The result of the guess
   final GuessResult result;
 
+  /// Creates a new guess entry
   const GuessEntry({required this.word, required this.result});
 
+  /// Converts the guess entry to JSON
   Map<String, dynamic> toJson() => {
     'word': word.toJson(),
     'result': result.toJson(),
   };
 
+  /// Creates a guess entry from JSON
   factory GuessEntry.fromJson(Map<String, dynamic> json) {
     return GuessEntry(
       word: Word.fromJson(json['word'] as Map<String, dynamic>),

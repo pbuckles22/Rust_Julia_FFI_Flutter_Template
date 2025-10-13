@@ -20,6 +20,7 @@ class GameTreeBranch {
   /// Analysis metadata
   final BranchMetadata metadata;
 
+  /// Creates a new game tree branch
   const GameTreeBranch({
     required this.pattern,
     required this.probability,
@@ -76,6 +77,7 @@ class BranchMetadata {
   /// Confidence in this branch's analysis
   final double confidence;
 
+  /// Creates new branch metadata
   const BranchMetadata({
     required this.depth,
     required this.wordsEliminated,
@@ -131,6 +133,7 @@ class LookAheadAnalysis {
   /// Analysis metadata
   final LookAheadMetadata metadata;
 
+  /// Creates a new lookahead analysis
   const LookAheadAnalysis({
     required this.candidateWord,
     required this.maxDepth,
@@ -187,6 +190,7 @@ class LookAheadMetadata {
   /// Confidence in the analysis
   final double confidence;
 
+  /// Creates new lookahead metadata
   const LookAheadMetadata({
     required this.totalWordsAnalyzed,
     required this.uniquePatterns,
@@ -242,6 +246,7 @@ class OptimalStrategy {
   /// Strategy metadata
   final StrategyMetadata metadata;
 
+  /// Creates a new optimal strategy
   const OptimalStrategy({
     required this.recommendedWord,
     required this.expectedScore,
@@ -298,6 +303,7 @@ class StrategyMetadata {
   /// Expected number of remaining guesses
   final double expectedRemainingGuesses;
 
+  /// Creates new strategy metadata
   const StrategyMetadata({
     required this.wordsAnalyzed,
     required this.analysisDepth,

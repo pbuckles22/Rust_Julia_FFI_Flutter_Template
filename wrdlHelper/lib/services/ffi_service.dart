@@ -5,13 +5,25 @@ import '../utils/debug_logger.dart';
 
 /// Configuration class for FFI settings
 class FfiConfiguration {
+  /// Whether to use reference mode for optimal performance
   final bool referenceMode;
+  
+  /// Whether to include killer words in analysis
   final bool includeKillerWords;
+  
+  /// Maximum number of candidates to consider
   final int candidateCap;
+  
+  /// Whether early termination is enabled
   final bool earlyTerminationEnabled;
+  
+  /// Threshold for early termination
   final double earlyTerminationThreshold;
+  
+  /// Whether to use entropy-only scoring
   final bool entropyOnlyScoring;
 
+  /// Creates a new FFI configuration
   const FfiConfiguration({
     required this.referenceMode,
     required this.includeKillerWords,

@@ -10,16 +10,34 @@ import 'ffi_service.dart';
 
 /// Game progress analysis result
 class GameProgressAnalysis {
+  /// The current guess number (1-based)
   final int currentGuess;
+  
+  /// The maximum number of guesses allowed
   final int maxGuesses;
+  
+  /// The number of guesses remaining
   final int remainingGuesses;
+  
+  /// Whether the game is over
   final bool isGameOver;
+  
+  /// Whether the game was won
   final bool isWon;
+  
+  /// Whether the game was lost
   final bool isLost;
+  
+  /// Human-readable game status string
   final String gameStatus;
+  
+  /// Total number of guesses made
   final int guessCount;
+  
+  /// Game duration in seconds
   final int gameDuration;
 
+  /// Creates a new game progress analysis
   const GameProgressAnalysis({
     required this.currentGuess,
     required this.maxGuesses,
@@ -35,13 +53,25 @@ class GameProgressAnalysis {
 
 /// Guess effectiveness analysis result
 class GuessEffectivenessAnalysis {
+  /// Number of green (correct position) letters
   final int greenCount;
+  
+  /// Number of yellow (correct letter, wrong position) letters
   final int yellowCount;
+  
+  /// Number of gray (not in word) letters
   final int grayCount;
+  
+  /// Whether the guess was completely correct
   final bool isCorrect;
+  
+  /// Whether the guess has any correct letters
   final bool hasCorrectLetters;
+  
+  /// Whether the guess was effective for narrowing down possibilities
   final bool isEffective;
 
+  /// Creates a new guess effectiveness analysis
   const GuessEffectivenessAnalysis({
     required this.greenCount,
     required this.yellowCount,

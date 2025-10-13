@@ -6,9 +6,13 @@ library;
 
 /// Base class for all service exceptions
 abstract class ServiceException implements Exception {
+  /// The main error message
   final String message;
+  
+  /// Optional additional details about the error
   final String? details;
 
+  /// Creates a new service exception
   const ServiceException(this.message, [this.details]);
 
   @override

@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
 
+/// Virtual keyboard widget for Wordle game input
 class VirtualKeyboard extends StatelessWidget {
+  /// Callback when a key is pressed
   final Function(String) onKeyPress;
+  
+  /// Colors for specific keys based on guess results
   final Map<String, Color> keyColors;
+  
+  /// Set of keys that are disabled
   final Set<String> disabledKeys;
+  
+  /// Available width for the keyboard
   final double? availableWidth;
+  
+  /// Whether this is a small screen device
   final bool? isSmallScreen;
 
+  /// Creates a new virtual keyboard widget
   const VirtualKeyboard({
     super.key,
     required this.onKeyPress,

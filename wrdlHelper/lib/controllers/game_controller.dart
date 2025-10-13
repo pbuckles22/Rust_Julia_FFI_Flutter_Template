@@ -10,21 +10,39 @@ import '../service_locator.dart';
 class GameController {
   // Services are now accessed through AppService singleton
 
+  /// The current game state
   GameState? _gameState;
+  
+  /// Whether the controller is initialized
   bool _isInitialized = false;
+  
+  /// The current user input
   String _currentInput = '';
+  
+  /// Any error message from operations
   String? _errorMessage;
+  
+  /// List of listeners for state changes
   final List<VoidCallback> _listeners = [];
 
+  /// Creates a new game controller
   GameController();
 
   // Getters
+  /// The current game state
   GameState? get gameState => _gameState;
+  
+  /// Whether the controller is initialized
   bool get isInitialized => _isInitialized;
+  
+  /// The current user input
   String get currentInput => _currentInput;
+  
+  /// Any error message from operations
   String? get errorMessage => _errorMessage;
 
   // Setter for testing
+  /// Sets the game state (for testing purposes)
   set gameState(GameState? state) => _gameState = state;
 
   /// Initialize the game controller

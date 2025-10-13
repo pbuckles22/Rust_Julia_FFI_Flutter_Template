@@ -6,14 +6,28 @@ import 'package:wrdlhelper/models/game_state.dart';
 /// Provides buttons for starting a new game and getting suggestions
 /// with proper state management and visual feedback.
 class GameControls extends StatelessWidget {
+  /// The current game state
   final GameState gameState;
+  
+  /// Callback when new game button is pressed
   final VoidCallback? onNewGame;
+  
+  /// Callback when get suggestion button is pressed
   final VoidCallback? onGetSuggestion;
+  
+  /// Callback when undo button is pressed
   final VoidCallback? onUndo;
+  
+  /// Whether the controls are in loading state
   final bool isLoading;
+  
+  /// Whether a suggestion has been received
   final bool suggestionReceived;
+  
+  /// Error message if suggestion failed
   final String? suggestionError;
 
+  /// Creates a new game controls widget
   const GameControls({
     super.key,
     required this.gameState,
