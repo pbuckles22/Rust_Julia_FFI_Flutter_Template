@@ -38,7 +38,7 @@ void main() {
       final stopwatch = Stopwatch()..start();
 
       // Rapidly tap keys
-      for (int i = 0; i < 20; i++) {
+      for (var i = 0; i < 20; i++) {
         await tester.tap(
           find.descendant(
             of: find.byType(VirtualKeyboard),
@@ -86,7 +86,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Play multiple games
-      for (int i = 0; i < 10; i++) {
+      for (var i = 0; i < 10; i++) {
         await tester.tap(find.text('New Game'));
         await tester.pump();
       }
@@ -126,7 +126,7 @@ void main() {
       final stopwatch = Stopwatch()..start();
 
       // Submit multiple guesses
-      for (int i = 0; i < 6; i++) {
+      for (var i = 0; i < 6; i++) {
         // Use keyboard interaction instead of ambiguous text search
         final keyboard = find.byType(VirtualKeyboard);
         if (keyboard.evaluate().isNotEmpty) {
@@ -135,7 +135,7 @@ void main() {
             of: keyboard,
             matching: find.byType(InkWell),
           );
-          for (int j = 0; j < 5 && j < letterKeys.evaluate().length; j++) {
+          for (var j = 0; j < 5 && j < letterKeys.evaluate().length; j++) {
             try {
               await tester.tap(letterKeys.at(j), warnIfMissed: false);
               await tester.pump();
@@ -177,7 +177,7 @@ void main() {
       final stopwatch = Stopwatch()..start();
 
       // Force multiple rebuilds
-      for (int i = 0; i < 50; i++) {
+      for (var i = 0; i < 50; i++) {
         await tester.pump();
       }
 
@@ -428,7 +428,7 @@ void main() {
       final stopwatch = Stopwatch()..start();
 
       // Rapid state transitions
-      for (int i = 0; i < 20; i++) {
+      for (var i = 0; i < 20; i++) {
         await tester.tap(find.text('New Game'));
         await tester.pump();
       }

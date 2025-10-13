@@ -289,7 +289,7 @@ class GameService {
       );
     }
 
-    final Map<String, int> frequency = {};
+    final frequency = <String, int>{};
 
     for (final guessEntry in gameState.guesses) {
       for (final letter in guessEntry.word.value.split('')) {
@@ -398,7 +398,7 @@ class GameService {
     final guessLetters = guess.value.split('');
 
     // First pass: mark exact matches (green)
-    for (int i = 0; i < guessLetters.length; i++) {
+    for (var i = 0; i < guessLetters.length; i++) {
       if (i < targetLetters.length && guessLetters[i] == targetLetters[i]) {
         letterStates.add(LetterState.green);
         targetLetters[i] = ''; // Mark as used
@@ -408,7 +408,7 @@ class GameService {
     }
 
     // Second pass: mark partial matches (yellow)
-    for (int i = 0; i < guessLetters.length; i++) {
+    for (var i = 0; i < guessLetters.length; i++) {
       if (i < letterStates.length && letterStates[i] == LetterState.gray) {
         final letter = guessLetters[i];
         final targetIndex = targetLetters.indexOf(letter);

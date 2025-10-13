@@ -45,7 +45,7 @@ void main() {
 
       test('should handle rapid memory allocation', () async {
         // Test rapid memory allocation and deallocation
-        for (int i = 0; i < 100; i++) {
+        for (var i = 0; i < 100; i++) {
           final tempList = List.generate(1000, (j) => 'TEMP$i$j');
           final tempResults = List.generate(100, (j) => (
             'TEMPRESULT$i$j',
@@ -63,7 +63,7 @@ void main() {
     group('Memory Leak Detection', () {
       test('should not leak memory during repeated operations', () async {
         // Test for memory leaks during repeated operations
-        for (int cycle = 0; cycle < 50; cycle++) {
+        for (var cycle = 0; cycle < 50; cycle++) {
           final cycleData = List.generate(1000, (i) => 'CYCLE${cycle}_$i');
           final cycleResults = List.generate(100, (i) => (
             'CYCLERESULT${cycle}_$i',
@@ -79,7 +79,7 @@ void main() {
 
       test('should clean up after failed operations', () async {
         // Test cleanup after failed operations
-        for (int i = 0; i < 20; i++) {
+        for (var i = 0; i < 20; i++) {
           try {
             FfiService.getOptimalFirstGuess();
           } catch (e) {
@@ -93,7 +93,7 @@ void main() {
 
       test('should handle memory cleanup on exceptions', () async {
         // Test memory cleanup when exceptions occur
-        for (int i = 0; i < 30; i++) {
+        for (var i = 0; i < 30; i++) {
           try {
             FfiService.getBestGuessFast(['EXCEPTION$i'], []);
           } catch (e) {
@@ -109,7 +109,7 @@ void main() {
     group('Garbage Collection Behavior', () {
       test('should trigger garbage collection appropriately', () async {
         // Test garbage collection behavior
-        for (int i = 0; i < 100; i++) {
+        for (var i = 0; i < 100; i++) {
           final gcData = List.generate(5000, (j) => 'GC$i$j');
           
           expect(
@@ -128,7 +128,7 @@ void main() {
         // Test behavior under memory pressure
         final pressureData = List.generate(20000, (i) => 'PRESSURE$i');
         
-        for (int i = 0; i < 20; i++) {
+        for (var i = 0; i < 20; i++) {
           expect(
             () => FfiService.getBestGuessFast(pressureData, []),
             throwsA(isA<ServiceNotInitializedException>()),

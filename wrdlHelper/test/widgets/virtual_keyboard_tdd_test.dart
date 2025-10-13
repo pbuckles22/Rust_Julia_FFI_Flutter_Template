@@ -255,7 +255,7 @@ void main() {
     testWidgets('should handle rapid key tapping correctly', (
       WidgetTester tester,
     ) async {
-      List<String> pressedKeys = [];
+      final pressedKeys = <String>[];
 
       await tester.pumpWidget(
         MaterialApp(
@@ -277,7 +277,7 @@ void main() {
     testWidgets('should handle all letter keys correctly', (
       WidgetTester tester,
     ) async {
-      List<String> pressedKeys = [];
+      final pressedKeys = <String>[];
 
       await tester.pumpWidget(
         MaterialApp(
@@ -328,7 +328,7 @@ void main() {
     testWidgets('should handle action keys correctly', (
       WidgetTester tester,
     ) async {
-      List<String> pressedKeys = [];
+      final pressedKeys = <String>[];
 
       await tester.pumpWidget(
         MaterialApp(
@@ -351,7 +351,7 @@ void main() {
     testWidgets('should maintain state across rebuilds', (
       WidgetTester tester,
     ) async {
-      List<String> pressedKeys = [];
+      final pressedKeys = <String>[];
 
       await tester.pumpWidget(
         MaterialApp(
@@ -379,7 +379,7 @@ void main() {
     testWidgets('should handle empty disabledKeys set', (
       WidgetTester tester,
     ) async {
-      List<String> pressedKeys = [];
+      final pressedKeys = <String>[];
 
       await tester.pumpWidget(
         MaterialApp(

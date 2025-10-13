@@ -125,7 +125,7 @@ void main() {
 
       // Add 5 different guesses (max for helper app)
       final words = ['CRANE', 'SLATE', 'TRACE', 'BLAME', 'GRADE'];
-      for (int i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         final guess = Word.fromString(words[i]);
         final result = GuessResult.fromWord(Word.fromString(words[i]));
         stateManager.addGuess(gameState, guess, result);
@@ -216,7 +216,7 @@ void main() {
 
     test('should handle state changes with listeners', () {
       // This test should fail initially - we need to implement listener system
-      bool listenerCalled = false;
+      var listenerCalled = false;
 
       stateManager.addListener(() {
         listenerCalled = true;
@@ -229,7 +229,7 @@ void main() {
 
     test('should remove listeners', () {
       // This test should fail initially - we need to implement listener removal
-      bool listenerCalled = false;
+      var listenerCalled = false;
 
       void listener() {
         listenerCalled = true;

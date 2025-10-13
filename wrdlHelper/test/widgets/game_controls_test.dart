@@ -135,7 +135,7 @@ void main() {
         WidgetTester tester,
       ) async {
         // Arrange
-        bool newGameCalled = false;
+        var newGameCalled = false;
         void onNewGameCallback() {
           newGameCalled = true;
         }
@@ -241,7 +241,7 @@ void main() {
         'calls onGetSuggestion when get suggestion button is tapped',
         (WidgetTester tester) async {
           // Arrange
-          bool suggestionCalled = false;
+          var suggestionCalled = false;
           void onSuggestionCallback() {
             suggestionCalled = true;
           }
@@ -607,7 +607,7 @@ void main() {
         WidgetTester tester,
       ) async {
         // Arrange
-        bool suggestionCalled = false;
+        var suggestionCalled = false;
         void onSuggestionCallback() {
           suggestionCalled = true;
         }
@@ -869,7 +869,7 @@ void main() {
         );
         final words = ['SLATE', 'CRICK', 'CRATE', 'CRAMP', 'CRANE'];
 
-        for (int i = 0; i < 5; i++) {
+        for (var i = 0; i < 5; i++) {
           maxGameState.addGuess(
             Word.fromString(words[i]),
             GuessResult(
@@ -939,7 +939,7 @@ void main() {
         );
 
         // Act - Rapid loading state changes
-        for (int i = 0; i < 10; i++) {
+        for (var i = 0; i < 10; i++) {
           await tester.pumpWidget(
             MaterialApp(
               home: Scaffold(
@@ -971,7 +971,7 @@ void main() {
         );
         // Add 3 mock guesses (not 5 to avoid game over)
         final words = ['SLATE', 'CRICK', 'CRATE'];
-        for (int i = 0; i < 3; i++) {
+        for (var i = 0; i < 3; i++) {
           complexGameState.addGuess(
             Word.fromString(words[i]),
             GuessResult(

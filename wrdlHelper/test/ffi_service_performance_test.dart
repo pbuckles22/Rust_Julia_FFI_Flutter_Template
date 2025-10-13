@@ -57,7 +57,7 @@ void main() {
 
       test('should not leak memory during repeated operations', () async {
         // Test for memory leaks during repeated operations
-        for (int i = 0; i < 100; i++) {
+        for (var i = 0; i < 100; i++) {
           final wordList = List.generate(
             1000,
             (j) => 'WORD${i}_$j',
@@ -114,7 +114,7 @@ void main() {
         // Test performance under sustained load
         final startTime = DateTime.now();
         
-        for (int i = 0; i < 50; i++) {
+        for (var i = 0; i < 50; i++) {
           try {
             FfiService.getBestGuessReference(['LOAD$i'], []);
           } catch (e) {
@@ -166,7 +166,7 @@ void main() {
 
       test('should handle rapid successive calls', () async {
         // Test rapid successive calls
-        for (int i = 0; i < 100; i++) {
+        for (var i = 0; i < 100; i++) {
           try {
             FfiService.getOptimalFirstGuess();
           } catch (e) {

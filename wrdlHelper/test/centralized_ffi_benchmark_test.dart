@@ -34,19 +34,19 @@ void main() {
       DebugLogger.debug('📊 Testing on 500 random Wordle answer words...');
       
       final stopwatch = Stopwatch()..start();
-      int gamesWon = 0;
-      int totalGuesses = 0;
-      final List<double> gameTimes = [];
-      final Map<int, int> guessDistribution = {};
+      var gamesWon = 0;
+      var totalGuesses = 0;
+      final gameTimes = <double>[];
+      final guessDistribution = <int, int>{};
 
       // Run 500 games
-      for (int game = 1; game <= 500; game++) {
+      for (var game = 1; game <= 500; game++) {
         final gameStopwatch = Stopwatch()..start();
         
         // Create new game
         final gameState = gameService.createNewGame();
-        int guesses = 0;
-        bool gameWon = false;
+        var guesses = 0;
+        var gameWon = false;
 
         // Play game until win or 6 guesses
         while (guesses < 6 && !gameWon) {
@@ -123,7 +123,7 @@ void main() {
       );
       DebugLogger.debug('');
       DebugLogger.debug('📊 Win Distribution by Guess Count:');
-      for (int i = 2; i <= 6; i++) {
+      for (var i = 2; i <= 6; i++) {
         final wins = guessDistribution[i] ?? 0;
         final percentage = wins > 0
             ? (wins / gamesWon * 100).toStringAsFixed(1)
@@ -166,7 +166,7 @@ GuessResult _simulateGuessResult(Word guess, Word target) {
   final usedGuessPositions = <int>{};
 
   // First pass: find exact matches (green)
-  for (int i = 0; i < 5; i++) {
+  for (var i = 0; i < 5; i++) {
     if (guessLetters[i] == targetLetters[i]) {
       result.add(LetterState.green);
       usedTargetPositions.add(i);
@@ -177,9 +177,9 @@ GuessResult _simulateGuessResult(Word guess, Word target) {
   }
 
   // Second pass: find partial matches (yellow)
-  for (int i = 0; i < 5; i++) {
+  for (var i = 0; i < 5; i++) {
     if (!usedGuessPositions.contains(i)) {
-      for (int j = 0; j < 5; j++) {
+      for (var j = 0; j < 5; j++) {
         if (!usedTargetPositions.contains(j) && 
             guessLetters[i] == targetLetters[j]) {
           result[i] = LetterState.yellow;

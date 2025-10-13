@@ -212,7 +212,7 @@ void main() {
     ) async {
       final gameState = GameState();
       // Add 5 guesses (max allowed for helper app)
-      for (int i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         gameState.addGuess('SLATE');
       }
       gameState.setGameLost(true);
@@ -246,7 +246,7 @@ void main() {
       expect(find.byType(Row), findsNWidgets(5));
 
       // Each row should have 5 tiles
-      for (int i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         final rowTiles = find.descendant(
           of: find.byType(Row).at(i),
           matching: find.byType(LetterTile),
@@ -259,7 +259,7 @@ void main() {
       WidgetTester tester,
     ) async {
       final gameState = GameState();
-      int tapCount = 0;
+      var tapCount = 0;
 
       await tester.pumpWidget(
         MaterialApp(

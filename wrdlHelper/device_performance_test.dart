@@ -41,11 +41,11 @@ Future<void> testBasicFFIPerformance() async {
   DebugLogger.debug('-' * 40);
   
   final stopwatch = Stopwatch()..start();
-  int operations = 0;
+  var operations = 0;
   const maxOperations = 10000;
   
   // Use actual FFI calls for performance testing
-  for (int i = 0; i < maxOperations; i++) {
+  for (var i = 0; i < maxOperations; i++) {
     // Use existing FFI function for performance testing
     final result = getAnswerWords();
     if (result.isEmpty) {
@@ -77,15 +77,15 @@ Future<void> testMemoryPerformance() async {
   DebugLogger.debug('-' * 40);
   
   final stopwatch = Stopwatch()..start();
-  final List<List<int>> memoryTest = [];
+  final memoryTest = <List<int>>[];
   
   // Allocate memory in chunks
-  for (int chunk = 0; chunk < 100; chunk++) {
+  for (var chunk = 0; chunk < 100; chunk++) {
     final chunkData = List.generate(1000, (index) => chunk * 1000 + index);
     memoryTest.add(chunkData);
     
     // Simulate processing
-    for (int value in chunkData) {
+    for (var value in chunkData) {
       final processed = value * 2;
       if (processed != value * 2) {
         DebugLogger.debug('❌ Memory processing failed at chunk $chunk');
@@ -121,11 +121,11 @@ Future<void> testRealTimeProcessing() async {
   DebugLogger.debug('-' * 40);
   
   final stopwatch = Stopwatch()..start();
-  int processedItems = 0;
+  var processedItems = 0;
   const targetItems = 5000;
   
   // Simulate real-time data processing
-  for (int i = 0; i < targetItems; i++) {
+  for (var i = 0; i < targetItems; i++) {
     // Simulate data processing
     final data = i * 1.5;
     final processed = data * 2.0;
@@ -172,13 +172,13 @@ Future<void> testLargeDataProcessing() async {
   final largeData = List.generate(dataSize, (index) => index);
   
   // Process large dataset
-  int processedCount = 0;
-  for (int i = 0; i < largeData.length; i += 100) {
+  var processedCount = 0;
+  for (var i = 0; i < largeData.length; i += 100) {
     final chunkEnd = (i + 100).clamp(0, largeData.length);
     final chunk = largeData.sublist(i, chunkEnd);
     
     // Process chunk
-    for (int value in chunk) {
+    for (var value in chunk) {
       final processed = value * 1.5;
       if (processed != value * 1.5) {
         DebugLogger.debug('❌ Large data processing failed at index $i');
@@ -211,7 +211,7 @@ Future<void> testStressTest() async {
   DebugLogger.debug('-' * 40);
   
   final stopwatch = Stopwatch()..start();
-  int totalOperations = 0;
+  var totalOperations = 0;
   const stressDuration = 5000; // 5 seconds
   
   final random = Random();

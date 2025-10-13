@@ -87,7 +87,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Perform multiple operations to test memory management
-      for (int i = 0; i < 100; i++) {
+      for (var i = 0; i < 100; i++) {
         // Trigger rebuilds
         await tester.pump();
         await tester.pumpAndSettle();
@@ -182,7 +182,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Perform stress operations
-      for (int i = 0; i < 1000; i++) {
+      for (var i = 0; i < 1000; i++) {
         // Rapid rebuilds
         await tester.pump();
         
@@ -254,7 +254,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Simulate memory pressure by creating and destroying widgets
-      for (int i = 0; i < 100; i++) {
+      for (var i = 0; i < 100; i++) {
         // Create a complex widget tree
         await tester.pumpWidget(MaterialApp(
           home: Scaffold(
@@ -377,7 +377,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Perform operations that might create resources
-      for (int i = 0; i < 100; i++) {
+      for (var i = 0; i < 100; i++) {
         await tester.pump();
         await tester.pumpAndSettle();
       }

@@ -142,12 +142,12 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
     final knownStates = <int, LetterTileState>{};
 
     // For each position in the current word
-    for (int i = 0; i < word.length; i++) {
+    for (var i = 0; i < word.length; i++) {
       final letter = word[i].toUpperCase();
 
       // Check all previous guesses for this letter
       for (final guess in _gameState!.guesses) {
-        for (int j = 0; j < guess.word.value.length; j++) {
+        for (var j = 0; j < guess.word.value.length; j++) {
           if (guess.word.value[j].toUpperCase() == letter) {
             final state = guess.result.letterStates[j];
 
@@ -192,9 +192,9 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
   List<Widget> _buildLetterStateButtons() {
     final buttons = <Widget>[];
 
-    for (int row = 0; row < _gameState!.guesses.length; row++) {
+    for (var row = 0; row < _gameState!.guesses.length; row++) {
       final guess = _gameState!.guesses[row];
-      for (int col = 0; col < guess.word.value.length; col++) {
+      for (var col = 0; col < guess.word.value.length; col++) {
         final letter = guess.word.value[col];
         final state = guess.result.letterStates[col];
 
@@ -490,7 +490,7 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
         DebugLogger.warning('GameService returned null suggestion', tag: 'UI');
 
         // Check if we have a correct answer (all green letters in any guess)
-        bool hasCorrectAnswer = false;
+        var hasCorrectAnswer = false;
         for (final guess in _gameState!.guesses) {
           if (guess.result.letterStates.every(
             (state) => state == LetterState.green,

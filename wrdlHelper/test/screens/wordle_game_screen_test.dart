@@ -364,7 +364,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Submit 5 guesses to trigger game over (max for helper app)
-      for (int i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         // Use proper keyboard interaction
         await KeyboardTestHelpers.submitWord(tester, 'CRATE');
         await tester.pump();
@@ -398,7 +398,7 @@ void main() {
         await tester.pumpAndSettle();
 
         // Clear any pre-filled input
-        for (int i = 0; i < 5; i++) {
+        for (var i = 0; i < 5; i++) {
           await KeyboardTestHelpers.tapDeleteKey(tester);
         }
 
@@ -446,7 +446,7 @@ void main() {
         await tester.pumpAndSettle();
 
         // Clear any pre-filled input
-        for (int i = 0; i < 5; i++) {
+        for (var i = 0; i < 5; i++) {
           await KeyboardTestHelpers.tapDeleteKey(tester);
         }
 
@@ -502,7 +502,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Clear any pre-filled input
-      for (int i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         await KeyboardTestHelpers.tapDeleteKey(tester);
       }
 
@@ -545,7 +545,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Clear any pre-filled input
-      for (int i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         await KeyboardTestHelpers.tapDeleteKey(tester);
       }
 
@@ -604,7 +604,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Clear any pre-filled input
-      for (int i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         await KeyboardTestHelpers.tapDeleteKey(tester);
       }
 
@@ -639,7 +639,7 @@ void main() {
         await tester.pumpAndSettle();
 
         // Clear any pre-filled input
-        for (int i = 0; i < 5; i++) {
+        for (var i = 0; i < 5; i++) {
           await KeyboardTestHelpers.tapDeleteKey(tester);
         }
 
@@ -683,7 +683,7 @@ void main() {
         await tester.pumpAndSettle();
 
         // Clear any pre-filled input
-        for (int i = 0; i < 5; i++) {
+        for (var i = 0; i < 5; i++) {
           await KeyboardTestHelpers.tapDeleteKey(tester);
         }
 
@@ -702,7 +702,7 @@ void main() {
         await tester.pumpAndSettle();
 
         // Set some letters to yellow (not all green, so no correct answer)
-        for (int i = 0; i < 3; i++) {
+        for (var i = 0; i < 3; i++) {
           final tile = find
               .byWidgetPredicate(
                 (widget) => widget is LetterTile && widget.letter == 'CRATE'[i],
@@ -734,7 +734,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Clear any pre-filled input
-      for (int i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         await KeyboardTestHelpers.tapDeleteKey(tester);
       }
 
@@ -769,7 +769,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Clear any pre-filled input
-      for (int i = 0; i < 10; i++) {
+      for (var i = 0; i < 10; i++) {
         // Clear more aggressively
         await KeyboardTestHelpers.tapDeleteKey(tester);
         await tester.pump();
@@ -807,7 +807,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Clear any pre-filled input
-      for (int i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         await KeyboardTestHelpers.tapDeleteKey(tester);
       }
 
@@ -843,7 +843,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Clear any pre-filled input
-      for (int i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         await KeyboardTestHelpers.tapDeleteKey(tester);
       }
 
@@ -862,7 +862,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Set all letters to green (correct answer)
-      for (int i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         final tile = find
             .byWidgetPredicate(
               (widget) => widget is LetterTile && widget.letter == 'CRATE'[i],

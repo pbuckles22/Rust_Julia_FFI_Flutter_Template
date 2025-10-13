@@ -300,7 +300,7 @@ void main() {
         );
         final words = ['SLATE', 'CRICK', 'CRATE', 'CRAMP', 'CRANE'];
 
-        for (int i = 0; i < 5; i++) {
+        for (var i = 0; i < 5; i++) {
           finalGameState.addGuess(
             Word.fromString(words[i]),
             GuessResult(
@@ -475,7 +475,7 @@ void main() {
         );
 
         // Act - Rapid state changes
-        for (int i = 0; i < 10; i++) {
+        for (var i = 0; i < 10; i++) {
           final updatedState = mockGameState.copyWith(
             currentGuess: (i % 6) + 1,
           );
@@ -586,7 +586,7 @@ void main() {
         );
         final words = ['SLATE', 'CRICK', 'CRATE', 'CRAMP', 'CRASH'];
 
-        for (int i = 0; i < 5; i++) {
+        for (var i = 0; i < 5; i++) {
           complexGameState.addGuess(
             Word.fromString(words[i]),
             GuessResult(

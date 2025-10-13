@@ -108,7 +108,7 @@ void main() {
 
     testWidgets('should handle tap interactions', (WidgetTester tester) async {
       // Test tap interactions
-      bool tapped = false;
+      var tapped = false;
 
       await tester.pumpWidget(
         MaterialApp(
@@ -311,7 +311,7 @@ void main() {
       'should maintain state during rebuilds',
       (WidgetTester tester) async {
       // Test state maintenance during rebuilds
-      int rebuildCount = 0;
+      var rebuildCount = 0;
 
       await tester.pumpWidget(
         const MaterialApp(
@@ -326,7 +326,7 @@ void main() {
       );
 
       // Rebuild widget multiple times
-      for (int i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         await tester.pumpWidget(
           const MaterialApp(
             home: Scaffold(

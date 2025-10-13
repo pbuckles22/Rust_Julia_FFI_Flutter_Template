@@ -128,12 +128,12 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
     addResult('-' * 40);
     
     final stopwatch = Stopwatch()..start();
-    int operations = 0;
+    var operations = 0;
     const maxOperations = 10000;
     
     try {
       // Test actual RustLib calls
-      for (int i = 0; i < maxOperations; i++) {
+      for (var i = 0; i < maxOperations; i++) {
         // Use existing FFI function for performance testing
         final result = getAnswerWords();
         if (result.isEmpty) {
@@ -170,16 +170,16 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
     addResult('-' * 40);
     
     final stopwatch = Stopwatch()..start();
-    final List<List<int>> memoryTest = [];
+    final memoryTest = <List<int>>[];
     
     try {
       // Allocate memory in chunks
-      for (int chunk = 0; chunk < 100; chunk++) {
+      for (var chunk = 0; chunk < 100; chunk++) {
         final chunkData = List.generate(1000, (index) => chunk * 1000 + index);
         memoryTest.add(chunkData);
         
         // Process through Rust FFI
-        for (int _ in chunkData) {
+        for (var _ in chunkData) {
           // Use existing FFI function for memory testing
           final processed = getGuessWords();
           if (processed.isEmpty) {
@@ -221,12 +221,12 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
     addResult('-' * 40);
     
     final stopwatch = Stopwatch()..start();
-    int processedItems = 0;
+    var processedItems = 0;
     const targetItems = 5000;
     
     try {
       // Simulate real-time data processing
-      for (int i = 0; i < targetItems; i++) {
+      for (var i = 0; i < targetItems; i++) {
         // Use existing FFI function for real-time testing
         final result = getAnswerWords();
         
@@ -273,16 +273,16 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
     final stopwatch = Stopwatch()..start();
     const dataSize = 50000;
     final largeData = List.generate(dataSize, (index) => index);
-    int processedCount = 0;
+    var processedCount = 0;
     
     try {
       // Process large dataset
-      for (int i = 0; i < largeData.length; i += 100) {
+      for (var i = 0; i < largeData.length; i += 100) {
         final chunkEnd = (i + 100).clamp(0, largeData.length);
         final chunk = largeData.sublist(i, chunkEnd);
         
         // Process chunk through Rust FFI
-        for (int _ in chunk) {
+        for (var _ in chunk) {
           // Use existing FFI function for processing
           final processed = getGuessWords();
           
@@ -322,7 +322,7 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
     addResult('-' * 40);
     
     final stopwatch = Stopwatch()..start();
-    int totalOperations = 0;
+    var totalOperations = 0;
     const stressDuration = 5000; // 5 seconds
     
     try {

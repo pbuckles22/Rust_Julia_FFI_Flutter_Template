@@ -60,11 +60,11 @@ class _iPhone12PerformanceTestScreenState
     results.add('-' * 30);
     
     final stopwatch = Stopwatch()..start();
-    int operations = 0;
+    var operations = 0;
     const maxOperations = 6000; // 60% of 10,000
     
     try {
-      for (int i = 0; i < maxOperations; i++) {
+      for (var i = 0; i < maxOperations; i++) {
         // Use existing FFI function for performance testing
         final result = getAnswerWords();
         if (result.isEmpty) {
@@ -105,17 +105,17 @@ class _iPhone12PerformanceTestScreenState
     results.add('-' * 30);
     
     final memoryStopwatch = Stopwatch()..start();
-    final List<List<int>> memoryTest = [];
+    final memoryTest = <List<int>>[];
     
     try {
-      for (int chunk = 0; chunk < 120; chunk++) { // 60% of 200
+      for (var chunk = 0; chunk < 120; chunk++) { // 60% of 200
         final chunkData = List.generate(
           300,
           (index) => chunk * 300 + index,
         ); // 60% of 500
         memoryTest.add(chunkData);
         
-        for (int _ in chunkData) {
+        for (var _ in chunkData) {
           // Use existing FFI function for memory testing
           final processed = getGuessWords();
           if (processed.isEmpty) {
@@ -160,11 +160,11 @@ class _iPhone12PerformanceTestScreenState
     results.add('-' * 30);
     
     final realtimeStopwatch = Stopwatch()..start();
-    int processedItems = 0;
+    var processedItems = 0;
     const targetItems = 3000; // 60% of 5000
     
     try {
-      for (int i = 0; i < targetItems; i++) {
+      for (var i = 0; i < targetItems; i++) {
         // Use existing FFI function for real-time testing
         final result = getAnswerWords();
         

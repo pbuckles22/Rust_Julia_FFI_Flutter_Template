@@ -26,16 +26,16 @@ void main() {
       print('=' * 60);
       
       final stopwatch = Stopwatch()..start();
-      int gamesWon = 0;
-      int totalGuesses = 0;
-      final List<double> gameTimes = [];
+      var gamesWon = 0;
+      var totalGuesses = 0;
+      final gameTimes = <double>[];
 
       // Run 50 games with Flutter FFI
-      for (int game = 1; game <= 50; game++) {
+      for (var game = 1; game <= 50; game++) {
         final gameStopwatch = Stopwatch()..start();
         final gameState = gameService.createNewGame();
-        bool gameWon = false;
-        int guesses = 0;
+        var gameWon = false;
+        var guesses = 0;
 
         // Play game until win or 6 guesses
         while (guesses < 6 && !gameWon) {
@@ -149,7 +149,7 @@ GuessResult _simulateGuessResult(Word guess, Word target) {
   final usedGuessPositions = <int>{};
 
   // First pass: find exact matches (green)
-  for (int i = 0; i < 5; i++) {
+  for (var i = 0; i < 5; i++) {
     if (guessLetters[i] == targetLetters[i]) {
       result.add(LetterState.green);
       usedTargetPositions.add(i);
@@ -160,9 +160,9 @@ GuessResult _simulateGuessResult(Word guess, Word target) {
   }
 
   // Second pass: find partial matches (yellow)
-  for (int i = 0; i < 5; i++) {
+  for (var i = 0; i < 5; i++) {
     if (!usedGuessPositions.contains(i)) {
-      for (int j = 0; j < 5; j++) {
+      for (var j = 0; j < 5; j++) {
         if (!usedTargetPositions.contains(j) && 
             guessLetters[i] == targetLetters[j]) {
           result[i] = LetterState.yellow;

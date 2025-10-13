@@ -30,7 +30,7 @@ void main() {
     });
 
     testWidgets('should call onTap when tapped', (WidgetTester tester) async {
-      bool wasTapped = false;
+      var wasTapped = false;
 
       await tester.pumpWidget(
         MaterialApp(
@@ -176,7 +176,7 @@ void main() {
     testWidgets('should not call onTap when disabled', (
       WidgetTester tester,
     ) async {
-      bool wasTapped = false;
+      var wasTapped = false;
 
       await tester.pumpWidget(
         MaterialApp(
@@ -342,7 +342,7 @@ void main() {
     testWidgets('should handle rapid tapping correctly', (
       WidgetTester tester,
     ) async {
-      int tapCount = 0;
+      var tapCount = 0;
 
       await tester.pumpWidget(
         MaterialApp(
@@ -364,7 +364,7 @@ void main() {
     testWidgets('should maintain state across rebuilds', (
       WidgetTester tester,
     ) async {
-      bool wasTapped = false;
+      var wasTapped = false;
 
       await tester.pumpWidget(
         MaterialApp(
