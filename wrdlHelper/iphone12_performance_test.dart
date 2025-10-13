@@ -46,18 +46,16 @@ class _iPhone12PerformanceTestScreenState
       _result = '🔄 Running iPhone 12 Performance Test...\n';
     });
 
-    final results = <String>[];
-    results.add('📱 iPhone 12 Performance Test (Simulated)');
-    results.add('🕐 Started: ${DateTime.now()}');
-    results.add('');
-
-    // iPhone 12 has A14 Bionic vs iPhone 15 Pro Max A17 Pro
-    // A14 is roughly 60-70% of A17 Pro performance
-    // So we'll use 60% of the extreme test parameters
-    
-    // Test 1: Basic FFI Performance (60% of extreme)
-    results.add('📊 Test 1: Basic FFI Performance');
-    results.add('-' * 30);
+    final results = <String>[]
+      ..add('📱 iPhone 12 Performance Test (Simulated)')
+      ..add('🕐 Started: ${DateTime.now()}')
+      ..add('')
+      // iPhone 12 has A14 Bionic vs iPhone 15 Pro Max A17 Pro
+      // A14 is roughly 60-70% of A17 Pro performance
+      // So we'll use 60% of the extreme test parameters
+      // Test 1: Basic FFI Performance (60% of extreme)
+      ..add('📊 Test 1: Basic FFI Performance')
+      ..add('-' * 30);
     
     final stopwatch = Stopwatch()..start();
     var operations = 0;
@@ -86,9 +84,10 @@ class _iPhone12PerformanceTestScreenState
     final duration = stopwatch.elapsedMilliseconds;
     final opsPerSecond = (operations * 1000) / duration;
     
-    results.add('✅ Operations: $operations');
-    results.add('✅ Duration: ${duration}ms');
-    results.add('✅ Throughput: ${opsPerSecond.toStringAsFixed(0)} ops/s');
+    results
+      ..add('✅ Operations: $operations')
+      ..add('✅ Duration: ${duration}ms')
+      ..add('✅ Throughput: ${opsPerSecond.toStringAsFixed(0)} ops/s');
     
     // iPhone 12 performance thresholds (60% of iPhone 15 Pro Max)
     if (opsPerSecond > 3000) {
@@ -98,11 +97,11 @@ class _iPhone12PerformanceTestScreenState
     } else {
       results.add('⚠️  Performance: NEEDS IMPROVEMENT (<600 ops/s)');
     }
-    results.add('');
-
-    // Test 2: Memory Performance (60% of extreme)
-    results.add('🧠 Test 2: Memory Performance');
-    results.add('-' * 30);
+    results
+      ..add('')
+      // Test 2: Memory Performance (60% of extreme)
+      ..add('🧠 Test 2: Memory Performance')
+      ..add('-' * 30);
     
     final memoryStopwatch = Stopwatch()..start();
     final memoryTest = <List<int>>[];
@@ -138,10 +137,11 @@ class _iPhone12PerformanceTestScreenState
     final totalItems = memoryTest.length * 300; // Updated for new chunk size
     final itemsPerSecond = (totalItems * 1000) / memoryDuration;
     
-    results.add('✅ Memory chunks: ${memoryTest.length}');
-    results.add('✅ Total items: $totalItems');
-    results.add('✅ Duration: ${memoryDuration}ms');
-    results.add('✅ Throughput: ${itemsPerSecond.toStringAsFixed(0)} items/s');
+    results
+      ..add('✅ Memory chunks: ${memoryTest.length}')
+      ..add('✅ Total items: $totalItems')
+      ..add('✅ Duration: ${memoryDuration}ms')
+      ..add('✅ Throughput: ${itemsPerSecond.toStringAsFixed(0)} items/s');
     
     memoryTest.clear();
     
@@ -153,11 +153,11 @@ class _iPhone12PerformanceTestScreenState
     } else {
       results.add('⚠️  Memory Performance: NEEDS IMPROVEMENT (<6K items/s)');
     }
-    results.add('');
-
-    // Test 3: Real-time Processing (60% of extreme)
-    results.add('⚡ Test 3: Real-time Processing');
-    results.add('-' * 30);
+    results
+      ..add('')
+      // Test 3: Real-time Processing (60% of extreme)
+      ..add('⚡ Test 3: Real-time Processing')
+      ..add('-' * 30);
     
     final realtimeStopwatch = Stopwatch()..start();
     var processedItems = 0;
@@ -188,9 +188,10 @@ class _iPhone12PerformanceTestScreenState
     final realtimeDuration = realtimeStopwatch.elapsedMilliseconds;
     final realtimeItemsPerSecond = (processedItems * 1000) / realtimeDuration;
     
-    results.add('✅ Processed items: $processedItems');
-    results.add('✅ Duration: ${realtimeDuration}ms');
-    results.add('✅ Throughput: ${realtimeItemsPerSecond.toStringAsFixed(0)} items/s');
+    results
+      ..add('✅ Processed items: $processedItems')
+      ..add('✅ Duration: ${realtimeDuration}ms')
+      ..add('✅ Throughput: ${realtimeItemsPerSecond.toStringAsFixed(0)} items/s');
     
     // iPhone 12 real-time performance thresholds
     if (realtimeItemsPerSecond > 6000) {
@@ -200,19 +201,19 @@ class _iPhone12PerformanceTestScreenState
     } else {
       results.add('⚠️  Real-time Performance: NEEDS IMPROVEMENT (<600 items/s)');
     }
-    results.add('');
-
-    results.add('🎉 iPhone 12 Performance Test Complete!');
-    results.add('🕐 Finished: ${DateTime.now()}');
-    results.add('');
-    results.add('📊 Performance Comparison:');
-    results.add(
-      '• iPhone 12 (A14 Bionic): ~60% of iPhone 15 Pro Max performance',
-    );
-    results.add(
-      '• Expected: Lower throughput but still excellent FFI performance',
-    );
-    results.add('• Real-world: iPhone 12 would handle this workload well');
+    results
+      ..add('')
+      ..add('🎉 iPhone 12 Performance Test Complete!')
+      ..add('🕐 Finished: ${DateTime.now()}')
+      ..add('')
+      ..add('📊 Performance Comparison:')
+      ..add(
+        '• iPhone 12 (A14 Bionic): ~60% of iPhone 15 Pro Max performance',
+      )
+      ..add(
+        '• Expected: Lower throughput but still excellent FFI performance',
+      )
+      ..add('• Real-world: iPhone 12 would handle this workload well');
 
     setState(() {
       _result = results.join('\n');

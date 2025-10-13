@@ -25,9 +25,9 @@ void main() {
     testWidgets('should display guesses in correct positions', (
       WidgetTester tester,
     ) async {
-      final gameState = GameState();
-      gameState.addGuess('CRANE');
-      gameState.addGuess('SLATE');
+      final gameState = GameState()
+        ..addGuess('CRANE')
+        ..addGuess('SLATE');
 
       await tester.pumpWidget(
         MaterialApp(
@@ -53,31 +53,33 @@ void main() {
     testWidgets('should show correct letter states for each guess', (
       WidgetTester tester,
     ) async {
-      final gameState = GameState();
-      gameState.addGuess('CRANE');
-      gameState.addGuess('SLATE');
+      final gameState = GameState()
+        ..addGuess('CRANE')
+        ..addGuess('SLATE');
 
       // Set guess results
-      gameState.setGuessResult(
-        0,
-        GuessResult.fromWord('CRANE', [
-          LetterState.green,
-          LetterState.gray,
-          LetterState.gray,
-          LetterState.gray,
-          LetterState.green,
-        ]),
-      );
-      gameState.setGuessResult(
-        1,
-        GuessResult.fromWord('SLATE', [
-          LetterState.gray,
-          LetterState.gray,
-          LetterState.gray,
-          LetterState.gray,
-          LetterState.gray,
-        ]),
-      );
+      // ignore: cascade_invocations
+      gameState
+        ..setGuessResult(
+          0,
+          GuessResult.fromWord('CRANE', [
+            LetterState.green,
+            LetterState.gray,
+            LetterState.gray,
+            LetterState.gray,
+            LetterState.green,
+          ]),
+        )
+        ..setGuessResult(
+          1,
+          GuessResult.fromWord('SLATE', [
+            LetterState.gray,
+            LetterState.gray,
+            LetterState.gray,
+            LetterState.gray,
+            LetterState.gray,
+          ]),
+        );
 
       await tester.pumpWidget(
         MaterialApp(
@@ -128,8 +130,7 @@ void main() {
     testWidgets('should handle empty tiles correctly', (
       WidgetTester tester,
     ) async {
-      final gameState = GameState();
-      gameState.addGuess('CR'); // Partial guess
+      final gameState = GameState()..addGuess('CR'); // Partial guess
 
       await tester.pumpWidget(
         MaterialApp(
@@ -154,9 +155,9 @@ void main() {
     testWidgets('should display current guess correctly', (
       WidgetTester tester,
     ) async {
-      final gameState = GameState();
-      gameState.addGuess('CRANE');
-      gameState.setCurrentGuess('SLATE');
+      final gameState = GameState()
+        ..addGuess('CRANE')
+        ..setCurrentGuess('SLATE');
 
       await tester.pumpWidget(
         MaterialApp(
@@ -181,19 +182,19 @@ void main() {
     testWidgets('should handle game won state correctly', (
       WidgetTester tester,
     ) async {
-      final gameState = GameState();
-      gameState.addGuess('CRANE');
-      gameState.setGuessResult(
-        0,
-        GuessResult.fromWord('CRANE', [
-          LetterState.green,
-          LetterState.green,
-          LetterState.green,
-          LetterState.green,
-          LetterState.green,
-        ]),
-      );
-      gameState.setGameWon(true);
+      final gameState = GameState()
+        ..addGuess('CRANE')
+        ..setGuessResult(
+          0,
+          GuessResult.fromWord('CRANE', [
+            LetterState.green,
+            LetterState.green,
+            LetterState.green,
+            LetterState.green,
+            LetterState.green,
+          ]),
+        )
+        ..setGameWon(true);
 
       await tester.pumpWidget(
         MaterialApp(
@@ -316,8 +317,7 @@ void main() {
     testWidgets('should have proper accessibility support', (
       WidgetTester tester,
     ) async {
-      final gameState = GameState();
-      gameState.addGuess('CRANE');
+      final gameState = GameState()..addGuess('CRANE');
 
       await tester.pumpWidget(
         MaterialApp(
@@ -357,10 +357,10 @@ void main() {
     testWidgets('should handle partial guesses correctly', (
       WidgetTester tester,
     ) async {
-      final gameState = GameState();
-      gameState.addGuess('C');
-      gameState.addGuess('CR');
-      gameState.addGuess('CRA');
+      final gameState = GameState()
+        ..addGuess('C')
+        ..addGuess('CR')
+        ..addGuess('CRA');
 
       await tester.pumpWidget(
         MaterialApp(
@@ -381,8 +381,7 @@ void main() {
     testWidgets('should maintain tile order correctly', (
       WidgetTester tester,
     ) async {
-      final gameState = GameState();
-      gameState.addGuess('CRANE');
+      final gameState = GameState()..addGuess('CRANE');
 
       await tester.pumpWidget(
         MaterialApp(
@@ -404,18 +403,18 @@ void main() {
     testWidgets('should handle mixed letter states correctly', (
       WidgetTester tester,
     ) async {
-      final gameState = GameState();
-      gameState.addGuess('CRANE');
-      gameState.setGuessResult(
-        0,
-        GuessResult.fromWord('CRANE', [
-          LetterState.green,
-          LetterState.yellow,
-          LetterState.gray,
-          LetterState.gray,
-          LetterState.green,
-        ]),
-      );
+      final gameState = GameState()
+        ..addGuess('CRANE')
+        ..setGuessResult(
+          0,
+          GuessResult.fromWord('CRANE', [
+            LetterState.green,
+            LetterState.yellow,
+            LetterState.gray,
+            LetterState.gray,
+            LetterState.green,
+          ]),
+        );
 
       await tester.pumpWidget(
         MaterialApp(
@@ -434,29 +433,33 @@ void main() {
       final gameState = GameState();
 
       // Add multiple guesses with different states
-      gameState.addGuess('SLATE');
-      gameState.setGuessResult(
-        0,
-        GuessResult.fromWord('SLATE', [
-          LetterState.gray,
-          LetterState.gray,
-          LetterState.gray,
-          LetterState.gray,
-          LetterState.gray,
-        ]),
-      );
+      // ignore: cascade_invocations
+      gameState
+        ..addGuess('SLATE')
+        ..setGuessResult(
+          0,
+          GuessResult.fromWord('SLATE', [
+            LetterState.gray,
+            LetterState.gray,
+            LetterState.gray,
+            LetterState.gray,
+            LetterState.gray,
+          ]),
+        );
 
-      gameState.addGuess('CRANE');
-      gameState.setGuessResult(
-        1,
-        GuessResult.fromWord('CRANE', [
-          LetterState.green,
-          LetterState.yellow,
-          LetterState.gray,
-          LetterState.gray,
-          LetterState.green,
-        ]),
-      );
+      // ignore: cascade_invocations
+      gameState
+        ..addGuess('CRANE')
+        ..setGuessResult(
+          1,
+          GuessResult.fromWord('CRANE', [
+            LetterState.green,
+            LetterState.yellow,
+            LetterState.gray,
+            LetterState.gray,
+            LetterState.green,
+          ]),
+        );
 
       await tester.pumpWidget(
         MaterialApp(
@@ -472,8 +475,7 @@ void main() {
     testWidgets('should handle special characters in guesses', (
       WidgetTester tester,
     ) async {
-      final gameState = GameState();
-      gameState.addGuess('CRÉPE');
+      final gameState = GameState()..addGuess('CRÉPE');
 
       await tester.pumpWidget(
         MaterialApp(

@@ -68,23 +68,24 @@ void main() {
 
     test('should not add letter when input is full', () {
       // This test should fail initially - we need to implement input validation
-      gameController.addLetter('A');
-      gameController.addLetter('B');
-      gameController.addLetter('C');
-      gameController.addLetter('D');
-      gameController.addLetter('E');
-      gameController.addLetter('F'); // Should not be added
+      gameController
+        ..addLetter('A')
+        ..addLetter('B')
+        ..addLetter('C')
+        ..addLetter('D')
+        ..addLetter('E')
+        ..addLetter('F'); // Should not be added
 
       expect(gameController.currentInput, equals('ABCDE'));
     });
 
     test('should remove last letter from current input', () {
       // This test should fail initially - we need to implement backspace
-      gameController.addLetter('A');
-      gameController.addLetter('B');
-      gameController.addLetter('C');
-
-      gameController.removeLastLetter();
+      gameController
+        ..addLetter('A')
+        ..addLetter('B')
+        ..addLetter('C')
+        ..removeLastLetter();
 
       expect(gameController.currentInput, equals('AB'));
     });
@@ -100,11 +101,11 @@ void main() {
     test('should clear current input', () {
       // This test should fail initially - we need to implement clear
       // functionality
-      gameController.addLetter('A');
-      gameController.addLetter('B');
-      gameController.addLetter('C');
-
-      gameController.clearInput();
+      gameController
+        ..addLetter('A')
+        ..addLetter('B')
+        ..addLetter('C')
+        ..clearInput();
 
       expect(gameController.currentInput, isEmpty);
     });
@@ -112,11 +113,12 @@ void main() {
     test('should submit valid guess', () async {
       // This test should fail initially - we need to implement guess submission
       await gameController.initialize();
-      gameController.addLetter('C');
-      gameController.addLetter('R');
-      gameController.addLetter('A');
-      gameController.addLetter('T');
-      gameController.addLetter('E');
+      gameController
+        ..addLetter('C')
+        ..addLetter('R')
+        ..addLetter('A')
+        ..addLetter('T')
+        ..addLetter('E');
 
       await gameController.submitGuess();
 
@@ -127,8 +129,9 @@ void main() {
     test('should show error for invalid word length', () async {
       // This test should fail initially - we need to implement validation
       await gameController.initialize();
-      gameController.addLetter('A');
-      gameController.addLetter('B');
+      gameController
+        ..addLetter('A')
+        ..addLetter('B');
 
       await gameController.submitGuess();
 
@@ -141,11 +144,12 @@ void main() {
     test('should show error for invalid word', () async {
       // This test should fail initially - we need to implement word validation
       await gameController.initialize();
-      gameController.addLetter('X');
-      gameController.addLetter('X');
-      gameController.addLetter('X');
-      gameController.addLetter('X');
-      gameController.addLetter('X');
+      gameController
+        ..addLetter('X')
+        ..addLetter('X')
+        ..addLetter('X')
+        ..addLetter('X')
+        ..addLetter('X');
 
       await gameController.submitGuess();
 
@@ -156,8 +160,9 @@ void main() {
       // This test should fail initially - we need to implement new game
       // functionality
       await gameController.initialize();
-      gameController.addLetter('A');
-      gameController.addLetter('B');
+      gameController
+        ..addLetter('A')
+        ..addLetter('B');
 
       await gameController.newGame();
 
@@ -196,8 +201,9 @@ void main() {
           ),
         );
       }
-      gameState.isGameOver = true;
-      gameState.isWon = false;
+      gameState
+        ..isGameOver = true
+        ..isWon = false;
 
       // Set the game state in the controller
       gameController.gameState = gameState;
@@ -235,13 +241,15 @@ void main() {
     test('should maintain state across operations', () async {
       // This test should fail initially - we need to implement state management
       await gameController.initialize();
-      gameController.addLetter('A');
-      gameController.addLetter('B');
+      gameController
+        ..addLetter('A')
+        ..addLetter('B');
 
       final state1 = gameController.currentInput;
 
-      gameController.addLetter('C');
-      gameController.removeLastLetter();
+      gameController
+        ..addLetter('C')
+        ..removeLastLetter();
 
       expect(gameController.currentInput, equals(state1));
     });
@@ -249,11 +257,12 @@ void main() {
     test('should handle service errors gracefully', () async {
       // Test error handling with AppService
       await gameController.initialize();
-      gameController.addLetter('A');
-      gameController.addLetter('B');
-      gameController.addLetter('C');
-      gameController.addLetter('D');
-      gameController.addLetter('E');
+      gameController
+        ..addLetter('A')
+        ..addLetter('B')
+        ..addLetter('C')
+        ..addLetter('D')
+        ..addLetter('E');
 
       await gameController.submitGuess();
 

@@ -42,32 +42,34 @@ void main() {
 
     test('should append letter to current input', () {
       // This test should fail initially - we need to implement letter appending
-      stateManager.appendLetter('A');
-      stateManager.appendLetter('B');
-      stateManager.appendLetter('C');
+      stateManager
+        ..appendLetter('A')
+        ..appendLetter('B')
+        ..appendLetter('C');
 
       expect(stateManager.currentInput, equals('ABC'));
     });
 
     test('should not append letter when input is full', () {
       // This test should fail initially - we need to implement input validation
-      stateManager.appendLetter('A');
-      stateManager.appendLetter('B');
-      stateManager.appendLetter('C');
-      stateManager.appendLetter('D');
-      stateManager.appendLetter('E');
-      stateManager.appendLetter('F'); // Should not be added
+      stateManager
+        ..appendLetter('A')
+        ..appendLetter('B')
+        ..appendLetter('C')
+        ..appendLetter('D')
+        ..appendLetter('E')
+        ..appendLetter('F'); // Should not be added
 
       expect(stateManager.currentInput, equals('ABCDE'));
     });
 
     test('should remove last letter from input', () {
       // This test should fail initially - we need to implement backspace
-      stateManager.appendLetter('A');
-      stateManager.appendLetter('B');
-      stateManager.appendLetter('C');
-
-      stateManager.removeLastLetter();
+      stateManager
+        ..appendLetter('A')
+        ..appendLetter('B')
+        ..appendLetter('C')
+        ..removeLastLetter();
 
       expect(stateManager.currentInput, equals('AB'));
     });
@@ -75,11 +77,11 @@ void main() {
     test('should clear current input', () {
       // This test should fail initially - we need to implement clear
       // functionality
-      stateManager.appendLetter('A');
-      stateManager.appendLetter('B');
-      stateManager.appendLetter('C');
-
-      stateManager.clearInput();
+      stateManager
+        ..appendLetter('A')
+        ..appendLetter('B')
+        ..appendLetter('C')
+        ..clearInput();
 
       expect(stateManager.currentInput, isEmpty);
     });
@@ -144,8 +146,9 @@ void main() {
 
     test('should clear error message', () {
       // This test should fail initially - we need to implement error clearing
-      stateManager.setError('Test error message');
-      stateManager.clearError();
+      stateManager
+        ..setError('Test error message')
+        ..clearError();
 
       expect(stateManager.errorMessage, isNull);
     });
@@ -160,19 +163,20 @@ void main() {
     test('should clear loading state', () {
       // This test should fail initially - we need to implement loading state
       // clearing
-      stateManager.setLoading(true);
-      stateManager.setLoading(false);
+      stateManager
+        ..setLoading(true)
+        ..setLoading(false);
 
       expect(stateManager.isLoading, isFalse);
     });
 
     test('should reset all state', () {
       // This test should fail initially - we need to implement state reset
-      stateManager.appendLetter('A');
-      stateManager.setError('Test error');
-      stateManager.setLoading(true);
-
-      stateManager.reset();
+      stateManager
+        ..appendLetter('A')
+        ..setError('Test error')
+        ..setLoading(true)
+        ..reset();
 
       expect(stateManager.currentInput, isEmpty);
       expect(stateManager.errorMessage, isNull);
@@ -218,11 +222,11 @@ void main() {
       // This test should fail initially - we need to implement listener system
       var listenerCalled = false;
 
-      stateManager.addListener(() {
-        listenerCalled = true;
-      });
-
-      stateManager.appendLetter('A');
+      stateManager
+        ..addListener(() {
+          listenerCalled = true;
+        })
+        ..appendLetter('A');
 
       expect(listenerCalled, isTrue);
     });
@@ -235,10 +239,10 @@ void main() {
         listenerCalled = true;
       }
 
-      stateManager.addListener(listener);
-      stateManager.removeListener(listener);
-
-      stateManager.appendLetter('A');
+      stateManager
+        ..addListener(listener)
+        ..removeListener(listener)
+        ..appendLetter('A');
 
       expect(listenerCalled, isFalse);
     });
@@ -252,8 +256,9 @@ void main() {
       // This test should fail initially - we need to implement rapid change
       // handling
       for (var i = 0; i < 100; i++) {
-        stateManager.appendLetter('A');
-        stateManager.removeLastLetter();
+        stateManager
+          ..appendLetter('A')
+          ..removeLastLetter();
       }
 
       expect(stateManager.currentInput, isEmpty);
@@ -264,15 +269,17 @@ void main() {
       // consistency
       // final gameState = stateManager.createNewGame(Word.fromString('CRATE'));
       // Not used in this test
-      stateManager.createNewGame(Word.fromString('CRATE'));
-      stateManager.appendLetter('A');
-      stateManager.appendLetter('B');
+      stateManager
+        ..createNewGame(Word.fromString('CRATE'))
+        ..appendLetter('A')
+        ..appendLetter('B');
 
       final inputBefore = stateManager.currentInput;
       final gameStateBefore = stateManager.gameState;
 
-      stateManager.appendLetter('C');
-      stateManager.removeLastLetter();
+      stateManager
+        ..appendLetter('C')
+        ..removeLastLetter();
 
       expect(stateManager.currentInput, equals(inputBefore));
       expect(stateManager.gameState, equals(gameStateBefore));

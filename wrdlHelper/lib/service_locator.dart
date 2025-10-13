@@ -44,8 +44,9 @@ Future<void> setupServices({bool useMocks = false}) async {
       );
       
       // Register the cached service
-      sl.registerSingleton<AppService>(_cachedAppService!);
-      sl.registerSingleton<GameService>(_cachedAppService!.gameService);
+      sl
+        ..registerSingleton<AppService>(_cachedAppService!)
+        ..registerSingleton<GameService>(_cachedAppService!.gameService);
       
       DebugLogger.success(
         '✅ Cached services registered successfully!',
@@ -68,10 +69,10 @@ Future<void> setupServices({bool useMocks = false}) async {
     );
 
     // Register it as a singleton in the service locator
-    sl.registerSingleton<AppService>(appService);
-
-    // Register individual services for easier access
-    sl.registerSingleton<GameService>(appService.gameService);
+    sl
+      ..registerSingleton<AppService>(appService)
+      // Register individual services for easier access
+      ..registerSingleton<GameService>(appService.gameService);
 
     // Cache for future tests
     if (!_isTestCacheInitialized) {
@@ -127,8 +128,9 @@ Future<void> setupTestServices({bool useMocks = false}) async {
       );
       
       // Register the cached service
-      sl.registerSingleton<AppService>(_cachedAppService!);
-      sl.registerSingleton<GameService>(_cachedAppService!.gameService);
+      sl
+        ..registerSingleton<AppService>(_cachedAppService!)
+        ..registerSingleton<GameService>(_cachedAppService!.gameService);
       
       DebugLogger.success(
         '✅ Cached test services registered successfully!',
@@ -162,10 +164,10 @@ Future<void> setupTestServices({bool useMocks = false}) async {
     );
 
     // Register it as a singleton in the service locator
-    sl.registerSingleton<AppService>(appService);
-
-    // Register individual services for easier access
-    sl.registerSingleton<GameService>(gameService);
+    sl
+      ..registerSingleton<AppService>(appService)
+      // Register individual services for easier access
+      ..registerSingleton<GameService>(gameService);
 
     // Cache for future tests
     if (!_isTestCacheInitialized) {

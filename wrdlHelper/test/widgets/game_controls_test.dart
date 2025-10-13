@@ -26,39 +26,39 @@ void main() {
           word: Word.fromString('SLATE'),
           letterStates: [
             LetterState.gray,
-            LetterState.gray,
-            LetterState.gray,
-            LetterState.gray,
-            LetterState.gray,
-          ],
-        ),
-      );
-      mockGameState.addGuess(
-        Word.fromString('CRICK'),
-        GuessResult(
-          word: Word.fromString('CRICK'),
-          letterStates: [
-            LetterState.green,
-            LetterState.green,
-            LetterState.gray,
-            LetterState.gray,
-            LetterState.gray,
-          ],
-        ),
-      );
-      mockGameState.addGuess(
-        Word.fromString('CRATE'),
-        GuessResult(
-          word: Word.fromString('CRATE'),
-          letterStates: [
-            LetterState.green,
-            LetterState.green,
-            LetterState.gray,
-            LetterState.gray,
-            LetterState.gray,
-          ],
-        ),
-      );
+              LetterState.gray,
+              LetterState.gray,
+              LetterState.gray,
+              LetterState.gray,
+            ],
+          ),
+        )
+        ..addGuess(
+          Word.fromString('CRICK'),
+          GuessResult(
+            word: Word.fromString('CRICK'),
+            letterStates: [
+              LetterState.green,
+              LetterState.green,
+              LetterState.gray,
+              LetterState.gray,
+              LetterState.gray,
+            ],
+          ),
+        )
+        ..addGuess(
+          Word.fromString('CRATE'),
+          GuessResult(
+            word: Word.fromString('CRATE'),
+            letterStates: [
+              LetterState.green,
+              LetterState.green,
+              LetterState.gray,
+              LetterState.gray,
+              LetterState.gray,
+            ],
+          ),
+        );
       mockOnNewGame = () {};
       mockOnGetSuggestion = () {};
       mockIsLoading = false;

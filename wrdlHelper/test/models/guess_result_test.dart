@@ -258,8 +258,10 @@ void main() {
         final result = GuessResult.fromWord(word);
         
         // Act
-        result.updateLetterState(0, LetterState.green);
-        result.updateLetterState(1, LetterState.yellow);
+        // ignore: cascade_invocations
+        result
+          ..updateLetterState(0, LetterState.green)
+          ..updateLetterState(1, LetterState.yellow);
         
         // Assert
         expect(result[0], equals(LetterState.green));
@@ -275,6 +277,7 @@ void main() {
         final result = GuessResult.fromWord(word);
         
         // Act
+        // ignore: cascade_invocations
         result.updateLetterStates([
           LetterState.green,
           LetterState.green,

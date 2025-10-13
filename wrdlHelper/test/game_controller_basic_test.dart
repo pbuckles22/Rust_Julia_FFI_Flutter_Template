@@ -83,9 +83,10 @@ void main() {
 
       test('should handle letter removal', () {
         // Test letter removal
-        gameController.addLetter('T');
-        gameController.addLetter('E');
-        gameController.removeLastLetter();
+        gameController
+          ..addLetter('T')
+          ..addLetter('E')
+          ..removeLastLetter();
         expect(gameController.currentInput, equals('T'));
       });
 
@@ -97,9 +98,10 @@ void main() {
 
       test('should clear input correctly', () {
         // Test input clearing
-        gameController.addLetter('T');
-        gameController.addLetter('E');
-        gameController.clearInput();
+        gameController
+          ..addLetter('T')
+          ..addLetter('E')
+          ..clearInput();
         expect(gameController.currentInput, equals(''));
       });
     });
@@ -119,9 +121,10 @@ void main() {
 
       test('should maintain state during errors', () {
         // Test state maintenance during errors
-        gameController.addLetter('T');
-        gameController.addLetter('E');
-        gameController.addLetter('!'); // Invalid input
+        gameController
+          ..addLetter('T')
+          ..addLetter('E')
+          ..addLetter('!'); // Invalid input
         expect(gameController.currentInput, equals('TE!'));
       });
     });
@@ -130,8 +133,9 @@ void main() {
       test('should handle rapid input changes', () {
         // Test rapid input changes
         for (var i = 0; i < 100; i++) {
-          gameController.addLetter('A');
-          gameController.removeLastLetter();
+          gameController
+            ..addLetter('A')
+            ..removeLastLetter();
         }
         
         expect(gameController.currentInput, equals(''));
@@ -140,8 +144,9 @@ void main() {
       test('should handle concurrent operations', () async {
         // Test concurrent operations
         final futures = List.generate(10, (i) async {
-          gameController.addLetter('A');
-          gameController.removeLastLetter();
+          gameController
+            ..addLetter('A')
+            ..removeLastLetter();
         });
         
         await Future.wait(futures);
@@ -165,9 +170,10 @@ void main() {
 
       test('should validate input format', () {
         // Test input format validation
-        gameController.addLetter('A');
-        gameController.addLetter('B');
-        gameController.addLetter('C');
+        gameController
+          ..addLetter('A')
+          ..addLetter('B')
+          ..addLetter('C');
         
         expect(gameController.currentInput, equals('ABC'));
       });
@@ -176,21 +182,23 @@ void main() {
     group('Recovery Tests', () {
       test('should recover from errors', () {
         // Test error recovery
-        gameController.addLetter('T');
-        gameController.addLetter('E');
-        gameController.addLetter('!'); // Invalid
-        gameController.addLetter('S');
-        gameController.addLetter('T');
+        gameController
+          ..addLetter('T')
+          ..addLetter('E')
+          ..addLetter('!') // Invalid
+          ..addLetter('S')
+          ..addLetter('T');
         
         expect(gameController.currentInput, equals('TE!ST'));
       });
 
       test('should maintain state after errors', () {
         // Test state maintenance after errors
-        gameController.addLetter('T');
-        gameController.addLetter('E');
-        gameController.addLetter('!'); // Invalid
-        gameController.addLetter('S');
+        gameController
+          ..addLetter('T')
+          ..addLetter('E')
+          ..addLetter('!') // Invalid
+          ..addLetter('S');
         
         expect(gameController.currentInput, equals('TE!S'));
       });

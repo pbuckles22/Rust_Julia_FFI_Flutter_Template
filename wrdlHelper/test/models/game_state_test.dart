@@ -79,8 +79,9 @@ void main() {
         final result2 = GuessResult.fromWord(guess2);
 
         // Act
-        gameState.addGuess(guess1, result1);
-        gameState.addGuess(guess2, result2);
+        gameState
+          ..addGuess(guess1, result1)
+          ..addGuess(guess2, result2);
 
         // Assert
         expect(gameState.guesses.length, equals(2));
@@ -91,8 +92,7 @@ void main() {
 
       test('prevents adding guess when game is over', () {
         // Arrange
-        final gameState = GameState.newGame();
-        gameState.setGameOver(); // Simulate game over
+        final gameState = GameState.newGame()..setGameOver(); // Simulate game over
         final guess = Word.fromString('CRANE');
         final result = GuessResult.fromWord(guess);
 
@@ -259,8 +259,9 @@ void main() {
         final result2 = GuessResult.fromWord(guess2);
 
         // Act
-        gameState.addGuess(guess1, result1);
-        gameState.addGuess(guess2, result2);
+        gameState
+          ..addGuess(guess1, result1)
+          ..addGuess(guess2, result2);
 
         // Assert
         expect(gameState.guessCount, equals(2));
