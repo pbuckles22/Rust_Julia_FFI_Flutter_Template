@@ -14,7 +14,7 @@ void main() {
     tearDownAll(resetAllServices);
 
     testWidgets('should initialize services through service locator', (
-      WidgetTester tester,
+      tester,
     ) async {
       // TDD: Test that main.dart uses service locator instead of direct
       // AppService creation

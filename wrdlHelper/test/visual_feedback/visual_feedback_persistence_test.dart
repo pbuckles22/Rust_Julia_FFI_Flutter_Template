@@ -32,7 +32,7 @@ void main() {
 
     testWidgets(
       'should show keyboard keys with correct colors after marking letters',
-      (WidgetTester tester) async {
+      (tester) async {
         // ARRANGE: Load the game screen
         await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
@@ -113,7 +113,7 @@ void main() {
     );
 
     testWidgets('should pre-populate next guess with known letter states', (
-      WidgetTester tester,
+      tester,
     ) async {
       // ARRANGE: Load the game screen and submit CRANT with marked letters
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
@@ -188,7 +188,7 @@ void main() {
     });
 
     testWidgets('should update keyboard colors when letter states change', (
-      WidgetTester tester,
+      tester,
     ) async {
       // ARRANGE: Load the game screen
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
@@ -223,7 +223,7 @@ void main() {
 
     testWidgets(
       'should handle multiple guesses with persistent keyboard colors',
-      (WidgetTester tester) async {
+      (tester) async {
         // ARRANGE: Load the game screen
         await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
@@ -276,7 +276,7 @@ void main() {
     );
 
     testWidgets('should reset keyboard colors when starting new game', (
-      WidgetTester tester,
+      tester,
     ) async {
       // ARRANGE: Load the game screen and mark some letters
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
@@ -307,7 +307,7 @@ void main() {
     });
 
     testWidgets('should handle edge case with duplicate letters correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       // ARRANGE: Load the game screen
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));

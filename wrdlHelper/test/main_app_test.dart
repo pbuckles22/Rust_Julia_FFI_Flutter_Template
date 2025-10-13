@@ -13,7 +13,7 @@ void main() {
 
     tearDownAll(resetAllServices);
     testWidgets('should create app with correct title', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement proper app
       // structure
@@ -28,7 +28,7 @@ void main() {
     });
 
     testWidgets('should display WordleGameScreen as home', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement proper routing
       await tester.pumpWidget(const MyApp());
@@ -51,7 +51,7 @@ void main() {
     });
 
     testWidgets('should have proper theme configuration', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement proper theming
       await tester.pumpWidget(const MyApp());
@@ -66,7 +66,7 @@ void main() {
     });
 
     testWidgets('should handle app lifecycle correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement lifecycle
       // handling
@@ -104,7 +104,7 @@ void main() {
     });
 
     testWidgets('should have proper navigation structure', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement navigation
       await tester.pumpWidget(const MyApp());
@@ -115,7 +115,7 @@ void main() {
     });
 
     testWidgets('should handle different screen sizes', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement responsive
       // design
@@ -169,7 +169,7 @@ void main() {
     });
 
     testWidgets('should handle system UI overlay changes', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement system UI
       // handling
@@ -190,7 +190,7 @@ void main() {
     });
 
     testWidgets('should have proper accessibility support', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement accessibility
       await tester.pumpWidget(const MyApp());
@@ -210,7 +210,7 @@ void main() {
     });
 
     testWidgets('should handle app state restoration', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement state
       // restoration
@@ -230,7 +230,7 @@ void main() {
       );
     });
 
-    testWidgets('should handle different locales', (WidgetTester tester) async {
+    testWidgets('should handle different locales', (tester) async {
       // This test should fail initially - we need to implement localization
       await tester.pumpWidget(const MyApp());
       await tester.pump();
@@ -249,7 +249,7 @@ void main() {
     });
 
     testWidgets('should handle dark mode correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement dark mode
       // support
@@ -270,7 +270,7 @@ void main() {
     });
 
     testWidgets('should handle system font scaling', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement font scaling
       await tester.pumpWidget(const MyApp());
@@ -290,7 +290,7 @@ void main() {
     });
 
     testWidgets('should handle memory pressure correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement memory
       // management
@@ -311,7 +311,7 @@ void main() {
     });
 
     testWidgets('should handle app backgrounding and foregrounding', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement background
       // handling
@@ -332,7 +332,7 @@ void main() {
     });
 
     testWidgets('should handle system interruptions gracefully', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement interruption
       // handling
@@ -353,7 +353,7 @@ void main() {
     });
 
     testWidgets('should have proper error boundaries', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement error
       // boundaries
@@ -374,7 +374,7 @@ void main() {
     });
 
     testWidgets('should handle app updates correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement update
       // handling
@@ -395,7 +395,7 @@ void main() {
     });
 
     testWidgets('should have proper performance characteristics', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement performance
       // optimization
@@ -416,7 +416,7 @@ void main() {
     });
 
     testWidgets('should handle different input methods', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement input method
       // handling
@@ -437,7 +437,7 @@ void main() {
     });
 
     testWidgets('should handle network connectivity changes', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement connectivity
       // handling
@@ -458,7 +458,7 @@ void main() {
     });
 
     testWidgets('should handle device orientation changes', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement orientation
       // handling

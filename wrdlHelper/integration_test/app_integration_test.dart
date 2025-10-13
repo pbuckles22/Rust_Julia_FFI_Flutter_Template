@@ -39,7 +39,7 @@ void main() {
       await RustLib.init();
     });
 
-    testWidgets('Complete app workflow test', (WidgetTester tester) async {
+    testWidgets('Complete app workflow test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
@@ -61,7 +61,7 @@ void main() {
       expect(find.byType(Text), findsOneWidget);
     });
 
-    testWidgets('App startup performance test', (WidgetTester tester) async {
+    testWidgets('App startup performance test', (tester) async {
       final stopwatch = Stopwatch()..start();
 
       // Start the app
@@ -81,7 +81,7 @@ void main() {
       expect(find.textContaining('Hello, Tom!'), findsOneWidget);
     });
 
-    testWidgets('App memory usage test', (WidgetTester tester) async {
+    testWidgets('App memory usage test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
@@ -98,7 +98,7 @@ void main() {
       expect(find.textContaining('Hello, Tom!'), findsOneWidget);
     });
 
-    testWidgets('App orientation change test', (WidgetTester tester) async {
+    testWidgets('App orientation change test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
@@ -124,7 +124,7 @@ void main() {
       expect(find.textContaining('Hello, Tom!'), findsOneWidget);
     });
 
-    testWidgets('App screen size adaptation test', (WidgetTester tester) async {
+    testWidgets('App screen size adaptation test', (tester) async {
       // Test different screen sizes
       final screenSizes = [
         const Size(320, 568),   // iPhone SE
@@ -153,7 +153,7 @@ void main() {
       }
     });
 
-    testWidgets('App text scale adaptation test', (WidgetTester tester) async {
+    testWidgets('App text scale adaptation test', (tester) async {
       // Test different text scale factors
       final textScales = [0.8, 1.0, 1.2, 1.5, 2.0, 3.0];
 
@@ -176,7 +176,7 @@ void main() {
       }
     });
 
-    testWidgets('App stress test', (WidgetTester tester) async {
+    testWidgets('App stress test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
@@ -197,7 +197,7 @@ void main() {
       expect(find.textContaining('Hello, Tom!'), findsOneWidget);
     });
 
-    testWidgets('App error recovery test', (WidgetTester tester) async {
+    testWidgets('App error recovery test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
@@ -226,7 +226,7 @@ void main() {
       expect(find.byType(MaterialApp), findsOneWidget);
     });
 
-    testWidgets('App background/foreground test', (WidgetTester tester) async {
+    testWidgets('App background/foreground test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
@@ -248,7 +248,7 @@ void main() {
       expect(find.textContaining('Hello, Tom!'), findsOneWidget);
     });
 
-    testWidgets('App memory pressure test', (WidgetTester tester) async {
+    testWidgets('App memory pressure test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
@@ -277,7 +277,7 @@ void main() {
       expect(find.textContaining('Hello, Tom!'), findsOneWidget);
     });
 
-    testWidgets('App concurrent operations test', (WidgetTester tester) async {
+    testWidgets('App concurrent operations test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
@@ -301,7 +301,7 @@ void main() {
       expect(find.textContaining('Hello, Tom!'), findsOneWidget);
     });
 
-    testWidgets('App accessibility test', (WidgetTester tester) async {
+    testWidgets('App accessibility test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
@@ -315,7 +315,7 @@ void main() {
       expect(semantics, isNotNull);
     });
 
-    testWidgets('App platform integration test', (WidgetTester tester) async {
+    testWidgets('App platform integration test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
@@ -331,7 +331,7 @@ void main() {
       expect(materialApp.theme?.colorScheme, isNotNull);
     });
 
-    testWidgets('App lifecycle test', (WidgetTester tester) async {
+    testWidgets('App lifecycle test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
@@ -351,7 +351,7 @@ void main() {
       expect(find.textContaining('Hello, Tom!'), findsOneWidget);
     });
 
-    testWidgets('App performance benchmark test', (WidgetTester tester) async {
+    testWidgets('App performance benchmark test', (tester) async {
       final stopwatch = Stopwatch()..start();
 
       // Start the app
@@ -371,7 +371,7 @@ void main() {
       expect(find.textContaining('Hello, Tom!'), findsOneWidget);
     });
 
-    testWidgets('App resource cleanup test', (WidgetTester tester) async {
+    testWidgets('App resource cleanup test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
@@ -395,7 +395,7 @@ void main() {
       expect(find.textContaining('Hello, Tom!'), findsOneWidget);
     });
 
-    testWidgets('App error boundary test', (WidgetTester tester) async {
+    testWidgets('App error boundary test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
@@ -407,7 +407,7 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('App state persistence test', (WidgetTester tester) async {
+    testWidgets('App state persistence test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
@@ -425,7 +425,7 @@ void main() {
 
     testWidgets(
       'App cross-platform compatibility test',
-      (WidgetTester tester) async {
+      (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();

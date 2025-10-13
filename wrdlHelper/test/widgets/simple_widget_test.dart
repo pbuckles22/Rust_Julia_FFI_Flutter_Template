@@ -17,7 +17,7 @@ void main() {
   group('Simple Widget Tests', () {
     testWidgets(
       'should render letter tile correctly',
-      (WidgetTester tester) async {
+      (tester) async {
       // Test basic letter tile rendering
       await tester.pumpWidget(
         const MaterialApp(
@@ -37,7 +37,7 @@ void main() {
 
     testWidgets(
       'should display different letters correctly',
-      (WidgetTester tester) async {
+      (tester) async {
       // Test different letter display
       final letters = ['A', 'B', 'C', 'D', 'E'];
       
@@ -60,7 +60,7 @@ void main() {
 
     testWidgets(
       'should handle different letter states',
-      (WidgetTester tester) async {
+      (tester) async {
       // Test different letter states
       final states = [
         LetterTileState.empty,
@@ -89,7 +89,7 @@ void main() {
 
     testWidgets(
       'should handle revealed state correctly',
-      (WidgetTester tester) async {
+      (tester) async {
       // Test revealed state
       await tester.pumpWidget(
         const MaterialApp(
@@ -106,7 +106,7 @@ void main() {
       expect(find.byType(LetterTile), findsOneWidget);
     });
 
-    testWidgets('should handle tap interactions', (WidgetTester tester) async {
+    testWidgets('should handle tap interactions', (tester) async {
       // Test tap interactions
       var tapped = false;
 
@@ -133,7 +133,7 @@ void main() {
 
     testWidgets(
       'should handle theme changes correctly',
-      (WidgetTester tester) async {
+      (tester) async {
       // Test theme change handling
       await tester.pumpWidget(
         MaterialApp(
@@ -167,7 +167,7 @@ void main() {
       expect(find.byType(LetterTile), findsOneWidget);
     });
 
-    testWidgets('should handle responsive layout', (WidgetTester tester) async {
+    testWidgets('should handle responsive layout', (tester) async {
       // Test responsive layout
       await tester.pumpWidget(
         const MaterialApp(
@@ -195,7 +195,7 @@ void main() {
 
     testWidgets(
       'should handle accessibility features',
-      (WidgetTester tester) async {
+      (tester) async {
       // Test accessibility features
       await tester.pumpWidget(
         const MaterialApp(
@@ -215,7 +215,7 @@ void main() {
 
     testWidgets(
       'should handle rapid state changes',
-      (WidgetTester tester) async {
+      (tester) async {
       // Test rapid state changes
       await tester.pumpWidget(
         const MaterialApp(
@@ -257,7 +257,7 @@ void main() {
 
     testWidgets(
       'should handle concurrent state updates',
-      (WidgetTester tester) async {
+      (tester) async {
       // Test concurrent state updates
       await tester.pumpWidget(
         const MaterialApp(
@@ -289,7 +289,7 @@ void main() {
 
     testWidgets(
       'should handle error states gracefully',
-      (WidgetTester tester) async {
+      (tester) async {
       // Test error state handling
       await tester.pumpWidget(
         const MaterialApp(
@@ -309,7 +309,7 @@ void main() {
 
     testWidgets(
       'should maintain state during rebuilds',
-      (WidgetTester tester) async {
+      (tester) async {
       // Test state maintenance during rebuilds
       var rebuildCount = 0;
 
@@ -347,7 +347,7 @@ void main() {
 
     testWidgets(
       'should handle performance under load',
-      (WidgetTester tester) async {
+      (tester) async {
       // Test performance under load
       await tester.pumpWidget(
         const MaterialApp(
@@ -384,7 +384,7 @@ void main() {
 
     testWidgets(
       'should handle different letter cases',
-      (WidgetTester tester) async {
+      (tester) async {
       // Test different letter cases
       final letters = ['A', 'a', 'B', 'b', 'C', 'c'];
       
@@ -407,7 +407,7 @@ void main() {
 
     testWidgets(
       'should handle empty letter correctly',
-      (WidgetTester tester) async {
+      (tester) async {
       // Test empty letter handling
       await tester.pumpWidget(
         const MaterialApp(
@@ -426,7 +426,7 @@ void main() {
 
     testWidgets(
       'should handle special characters correctly',
-      (WidgetTester tester) async {
+      (tester) async {
       // Test special character handling
       await tester.pumpWidget(
         const MaterialApp(

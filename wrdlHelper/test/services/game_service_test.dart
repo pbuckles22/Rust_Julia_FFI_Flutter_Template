@@ -80,7 +80,7 @@ void main() {
 
         // Assert
         expect(gameState.targetWord, isNotNull);
-        expect(wordList.contains(gameState.targetWord!), isTrue);
+        expect(wordList.contains(gameState.targetWord), isTrue);
       });
     });
 

@@ -12,7 +12,7 @@ void main() {
       await setupTestServices();
     });
     testWidgets('should initialize within performance limits', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement performance
       // optimization
@@ -28,7 +28,7 @@ void main() {
     });
 
     testWidgets('should handle rapid key presses efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement rapid input
       // optimization
@@ -55,7 +55,7 @@ void main() {
     });
 
     testWidgets('should maintain smooth animations', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement smooth
       // animations
@@ -78,7 +78,7 @@ void main() {
     });
 
     testWidgets('should handle memory efficiently with multiple games', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement memory
       // management
@@ -96,7 +96,7 @@ void main() {
     });
 
     testWidgets('should handle large word lists efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement efficient word
       // list handling
@@ -116,7 +116,7 @@ void main() {
     });
 
     testWidgets('should handle complex game states efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement efficient state
       // management
@@ -167,7 +167,7 @@ void main() {
     });
 
     testWidgets('should handle widget rebuilds efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement efficient
       // rebuilds
@@ -188,7 +188,7 @@ void main() {
     });
 
     testWidgets('should handle keyboard color updates efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement efficient color
       // updates
@@ -248,7 +248,7 @@ void main() {
     });
 
     testWidgets('should handle error states efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement efficient error
       // handling
@@ -292,7 +292,7 @@ void main() {
     });
 
     testWidgets('should handle state changes efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement efficient state
       // changes
@@ -352,7 +352,7 @@ void main() {
     });
 
     testWidgets('should handle concurrent operations efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement concurrent
       // operation handling
@@ -391,7 +391,7 @@ void main() {
     });
 
     testWidgets('should handle large game grids efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement efficient grid
       // rendering
@@ -418,7 +418,7 @@ void main() {
     });
 
     testWidgets('should handle rapid state transitions efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement efficient state
       // transitions
@@ -440,7 +440,7 @@ void main() {
     });
 
     testWidgets('should handle memory pressure efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement memory pressure
       // handling
@@ -470,7 +470,7 @@ void main() {
     });
 
     testWidgets('should handle background processing efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement efficient
       // background processing
@@ -490,7 +490,7 @@ void main() {
     });
 
     testWidgets('should handle UI updates efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement efficient UI
       // updates

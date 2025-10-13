@@ -4,7 +4,7 @@ import 'package:wrdlhelper/widgets/letter_tile.dart';
 
 void main() {
   group('LetterTile', () {
-    testWidgets('displays letter correctly', (WidgetTester tester) async {
+    testWidgets('displays letter correctly', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -20,7 +20,7 @@ void main() {
       expect(find.text('A'), findsOneWidget);
     });
 
-    testWidgets('displays empty tile correctly', (WidgetTester tester) async {
+    testWidgets('displays empty tile correctly', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -39,7 +39,7 @@ void main() {
     });
 
     testWidgets('shows correct color for gray state when revealed', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         const MaterialApp(
@@ -66,7 +66,7 @@ void main() {
     });
 
     testWidgets('shows correct color for yellow state when revealed', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         const MaterialApp(
@@ -93,7 +93,7 @@ void main() {
     });
 
     testWidgets('shows correct color for green state when revealed', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         const MaterialApp(
@@ -120,7 +120,7 @@ void main() {
     });
 
     testWidgets('shows white background when not revealed', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         const MaterialApp(
@@ -147,7 +147,7 @@ void main() {
     });
 
     testWidgets('shows correct text color for different states when revealed', (
-      WidgetTester tester,
+      tester,
     ) async {
       // Test gray state text color
       await tester.pumpWidget(
@@ -214,7 +214,7 @@ void main() {
     });
 
     testWidgets('shows black text color when not revealed', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         const MaterialApp(
@@ -237,7 +237,7 @@ void main() {
       expect(animatedTextStyle.style.color, equals(Colors.black));
     });
 
-    testWidgets('has proper sizing constraints', (WidgetTester tester) async {
+    testWidgets('has proper sizing constraints', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -261,7 +261,7 @@ void main() {
       expect(container.constraints?.minHeight, equals(56));
     });
 
-    testWidgets('has proper border radius', (WidgetTester tester) async {
+    testWidgets('has proper border radius', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -286,7 +286,7 @@ void main() {
       expect(decoration.borderRadius, equals(BorderRadius.circular(12)));
     });
 
-    testWidgets('shows letter in uppercase', (WidgetTester tester) async {
+    testWidgets('shows letter in uppercase', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -303,7 +303,7 @@ void main() {
     });
 
     testWidgets('handles special characters correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         const MaterialApp(
@@ -321,7 +321,7 @@ void main() {
     });
 
     testWidgets('shows correct border color for input state', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         const MaterialApp(
@@ -351,7 +351,7 @@ void main() {
     });
 
     testWidgets('shows correct border color for empty state', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         const MaterialApp(
@@ -380,7 +380,7 @@ void main() {
       ); // Light gray border
     });
 
-    testWidgets('has proper animation duration', (WidgetTester tester) async {
+    testWidgets('has proper animation duration', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -403,7 +403,7 @@ void main() {
       expect(container.duration, equals(const Duration(milliseconds: 600)));
     });
 
-    testWidgets('maintains state across rebuilds', (WidgetTester tester) async {
+    testWidgets('maintains state across rebuilds', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -444,7 +444,7 @@ void main() {
     });
 
     testWidgets('handles all letter tile states correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       final states = [
         LetterTileState.empty,
@@ -469,7 +469,7 @@ void main() {
     });
 
     testWidgets('handles empty letter with different states', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         const MaterialApp(

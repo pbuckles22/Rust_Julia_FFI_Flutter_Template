@@ -112,9 +112,9 @@ void main() {
       final guessWords = FfiService.getGuessWords();
 
       // Verify all words are valid 5-letter uppercase strings
-      expect(answerWords, everyElement(predicate((String word) => 
+      expect(answerWords, everyElement(predicate((word) => 
         word.length == 5 && word == word.toUpperCase())));
-      expect(guessWords, everyElement(predicate((String word) => 
+      expect(guessWords, everyElement(predicate((word) => 
         word.length == 5 && word == word.toUpperCase())));
     });
   });

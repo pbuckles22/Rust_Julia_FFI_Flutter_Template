@@ -17,7 +17,7 @@ void main() {
     testWidgets(
       'should complete full game workflow from start to finish',
       (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement complete
       // integration
@@ -126,7 +126,7 @@ void main() {
     });
 
     testWidgets('should handle word analysis after guess', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This is a helper app - it analyzes guesses, doesn't have win/loss
       await tester.pumpWidget(const MyApp());
@@ -157,7 +157,7 @@ void main() {
     });
 
     testWidgets('should handle multiple guess analysis', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This is a helper app - it analyzes multiple guesses to provide
       // suggestions
@@ -198,7 +198,7 @@ void main() {
     });
 
     testWidgets('should handle new game after completion', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement new game
       // functionality
@@ -253,7 +253,7 @@ void main() {
     });
 
     testWidgets('should handle suggestion functionality', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement suggestion
       // functionality
@@ -269,7 +269,7 @@ void main() {
     });
 
     testWidgets('should handle error scenarios gracefully', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement error handling
       await tester.pumpWidget(const MyApp());
@@ -334,7 +334,7 @@ void main() {
     });
 
     testWidgets('should maintain state across app lifecycle', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement state
       // persistence
@@ -373,7 +373,7 @@ void main() {
 
     testWidgets(
       'should handle complete keyboard workflow with valid and invalid inputs',
-      (WidgetTester tester) async {
+      (tester) async {
         await tester.pumpWidget(const MyApp());
         await tester.pumpAndSettle();
 
@@ -450,7 +450,7 @@ void main() {
     );
 
     testWidgets('should update UI based on game state changes', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement UI updates
       await tester.pumpWidget(const MyApp());
@@ -501,7 +501,7 @@ void main() {
     });
 
     testWidgets('should handle service failures gracefully', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement service error
       // handling
@@ -517,7 +517,7 @@ void main() {
     });
 
     testWidgets('should handle accessibility features', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement accessibility
       await tester.pumpWidget(const MyApp());
@@ -530,7 +530,7 @@ void main() {
     });
 
     testWidgets('should handle different screen orientations', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement orientation
       // handling
@@ -558,7 +558,7 @@ void main() {
     });
 
     testWidgets('should handle memory management correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement memory
       // management

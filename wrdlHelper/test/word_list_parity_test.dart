@@ -24,13 +24,13 @@ void main() {
       expect(
         answers,
         everyElement(
-          predicate((String w) => w.length == 5 && w == w.toUpperCase()),
+          predicate((w) => w.length == 5 && w == w.toUpperCase()),
         ),
       );
       expect(
         guesses,
         everyElement(
-          predicate((String w) => w.length == 5 && w == w.toUpperCase()),
+          predicate((w) => w.length == 5 && w == w.toUpperCase()),
         ),
       );
       expect(answers.toSet().length, answers.length);

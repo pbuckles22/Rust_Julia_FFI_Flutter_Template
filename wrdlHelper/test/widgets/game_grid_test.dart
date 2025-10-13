@@ -9,7 +9,7 @@ import 'package:wrdlhelper/widgets/letter_tile.dart';
 void main() {
   group('GameGrid', () {
     testWidgets('displays empty grid with correct dimensions', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState.newGame();
       const currentInput = '';
@@ -27,7 +27,7 @@ void main() {
     });
 
     testWidgets('displays guesses in correct positions', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState.newGame();
       const currentInput = '';
@@ -63,7 +63,7 @@ void main() {
     });
 
     testWidgets('shows correct letter states for each guess', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState.newGame();
       const currentInput = '';
@@ -95,7 +95,7 @@ void main() {
     });
 
     testWidgets('displays current input correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState.newGame();
       const currentInput = 'SLATE';
@@ -117,7 +117,7 @@ void main() {
     });
 
     testWidgets('handles partial current input correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState.newGame();
       const currentInput = 'SL';
@@ -137,7 +137,7 @@ void main() {
     });
 
     testWidgets('handles game won state correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState.newGame();
       const currentInput = '';
@@ -169,7 +169,7 @@ void main() {
     });
 
     testWidgets('handles game lost state correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState.newGame();
       const currentInput = '';
@@ -194,7 +194,7 @@ void main() {
       expect(find.byType(LetterTile), findsNWidgets(25));
     });
 
-    testWidgets('maintains proper grid layout', (WidgetTester tester) async {
+    testWidgets('maintains proper grid layout', (tester) async {
       final gameState = GameState.newGame();
       const currentInput = '';
 
@@ -219,7 +219,7 @@ void main() {
       }
     });
 
-    testWidgets('handles state changes correctly', (WidgetTester tester) async {
+    testWidgets('handles state changes correctly', (tester) async {
       final gameState = GameState.newGame();
       const currentInput = '';
 
@@ -253,7 +253,7 @@ void main() {
     });
 
     testWidgets('has proper accessibility support', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState.newGame();
       const currentInput = '';
@@ -275,7 +275,7 @@ void main() {
     });
 
     testWidgets('handles edge case with no guesses', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState.newGame();
       const currentInput = '';
@@ -299,7 +299,7 @@ void main() {
     });
 
     testWidgets('handles partial current input correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState.newGame();
       const currentInput = 'CRA';
@@ -318,7 +318,7 @@ void main() {
       expect(find.text('A'), findsAtLeastNWidgets(1));
     });
 
-    testWidgets('maintains tile order correctly', (WidgetTester tester) async {
+    testWidgets('maintains tile order correctly', (tester) async {
       final gameState = GameState.newGame();
       const currentInput = '';
 
@@ -344,7 +344,7 @@ void main() {
     });
 
     testWidgets('handles mixed guess results correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState.newGame();
       const currentInput = '';
@@ -375,7 +375,7 @@ void main() {
     });
 
     testWidgets('handles empty current input with existing guesses', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState.newGame();
       const currentInput = '';
@@ -404,7 +404,7 @@ void main() {
     });
 
     testWidgets('handles long current input correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState.newGame();
       const currentInput = 'SLATE';
@@ -426,7 +426,7 @@ void main() {
     });
 
     testWidgets('handles special characters in current input', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState.newGame();
       const currentInput = 'CRÉPE';
@@ -448,7 +448,7 @@ void main() {
     });
 
     testWidgets('handles multiple guesses with different states', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState.newGame();
       const currentInput = '';

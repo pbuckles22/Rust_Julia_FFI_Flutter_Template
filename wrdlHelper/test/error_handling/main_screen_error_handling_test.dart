@@ -15,7 +15,7 @@ void main() {
     
     tearDownAll(resetAllServices);
     testWidgets('should handle service initialization failure', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement error handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
@@ -30,7 +30,7 @@ void main() {
     });
 
     testWidgets('should handle word service loading failure', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement word service
       // error handling
@@ -42,7 +42,7 @@ void main() {
     });
 
     testWidgets('should handle game service initialization failure', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement game service
       // error handling
@@ -54,7 +54,7 @@ void main() {
     });
 
     testWidgets('should handle invalid word submission', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement invalid word
       // handling
@@ -75,7 +75,7 @@ void main() {
     });
 
     testWidgets('should handle network connectivity issues', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement network error
       // handling
@@ -87,7 +87,7 @@ void main() {
     });
 
     testWidgets('should handle memory pressure gracefully', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement memory pressure
       // handling
@@ -117,7 +117,7 @@ void main() {
     });
 
     testWidgets('should handle rapid error conditions', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement rapid error
       // handling
@@ -145,7 +145,7 @@ void main() {
     });
 
     testWidgets('should handle service timeout errors', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement timeout handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
@@ -156,7 +156,7 @@ void main() {
     });
 
     testWidgets('should handle data corruption errors', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement data corruption
       // handling
@@ -168,7 +168,7 @@ void main() {
     });
 
     testWidgets('should handle file system errors', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement file system
       // error handling
@@ -179,7 +179,7 @@ void main() {
       expect(find.byType(WordleGameScreen), findsOneWidget);
     });
 
-    testWidgets('should handle permission errors', (WidgetTester tester) async {
+    testWidgets('should handle permission errors', (tester) async {
       // This test should fail initially - we need to implement permission error
       // handling
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
@@ -190,7 +190,7 @@ void main() {
     });
 
     testWidgets('should handle concurrent access errors', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement concurrent
       // access handling
@@ -202,7 +202,7 @@ void main() {
     });
 
     testWidgets('should handle state corruption errors', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement state corruption
       // handling
@@ -214,7 +214,7 @@ void main() {
     });
 
     testWidgets('should handle widget lifecycle errors', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement widget lifecycle
       // error handling
@@ -231,7 +231,7 @@ void main() {
     });
 
     testWidgets('should handle input validation errors', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement input validation
       // error handling
@@ -252,7 +252,7 @@ void main() {
     });
 
     testWidgets('should handle service unavailable errors', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement service
       // unavailable handling
@@ -264,7 +264,7 @@ void main() {
     });
 
     testWidgets('should handle resource exhaustion errors', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement resource
       // exhaustion handling
@@ -276,7 +276,7 @@ void main() {
     });
 
     testWidgets('should handle unexpected service responses', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement unexpected
       // response handling
@@ -288,7 +288,7 @@ void main() {
     });
 
     testWidgets('should handle system resource constraints', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement system resource
       // handling
@@ -300,7 +300,7 @@ void main() {
     });
 
     testWidgets('should handle concurrent error conditions', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement concurrent error
       // handling
@@ -312,7 +312,7 @@ void main() {
     });
 
     testWidgets('should handle error recovery gracefully', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement error recovery
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
@@ -332,7 +332,7 @@ void main() {
     });
 
     testWidgets('should handle error state persistence', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement error state
       // persistence
@@ -355,7 +355,7 @@ void main() {
     testWidgets(
       'should handle error message display',
       (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement error message
       // display
@@ -378,7 +378,7 @@ void main() {
     testWidgets(
       'should handle error state clearing',
       (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement error state
       // clearing

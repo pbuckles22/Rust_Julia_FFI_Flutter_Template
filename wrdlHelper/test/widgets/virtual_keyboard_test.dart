@@ -4,7 +4,7 @@ import 'package:wrdlhelper/widgets/virtual_keyboard.dart';
 
 void main() {
   group('VirtualKeyboard', () {
-    testWidgets('displays QWERTY layout', (WidgetTester tester) async {
+    testWidgets('displays QWERTY layout', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(body: VirtualKeyboard(onKeyPress: (key) {})),
@@ -49,7 +49,7 @@ void main() {
     });
 
     testWidgets('calls onKeyPress when letter key is tapped', (
-      WidgetTester tester,
+      tester,
     ) async {
       String? pressedKey;
 
@@ -75,7 +75,7 @@ void main() {
     });
 
     testWidgets('calls onKeyPress when action key is tapped', (
-      WidgetTester tester,
+      tester,
     ) async {
       String? pressedKey;
 
@@ -101,7 +101,7 @@ void main() {
     });
 
     testWidgets('shows correct color states for keys', (
-      WidgetTester tester,
+      tester,
     ) async {
       final keyColors = {
         'Q': Colors.green,
@@ -158,7 +158,7 @@ void main() {
     });
 
     testWidgets('disables keys when in disabledKeys set', (
-      WidgetTester tester,
+      tester,
     ) async {
       String? pressedKey;
       final disabledKeys = {'Q', 'W', 'ENTER'};
@@ -193,7 +193,7 @@ void main() {
       expect(pressedKey, equals('A'));
     });
 
-    testWidgets('shows disabled state visually', (WidgetTester tester) async {
+    testWidgets('shows disabled state visually', (tester) async {
       final disabledKeys = {'Q', 'W'};
 
       await tester.pumpWidget(
@@ -234,7 +234,7 @@ void main() {
     });
 
     testWidgets('has proper key sizing and spacing', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         MaterialApp(

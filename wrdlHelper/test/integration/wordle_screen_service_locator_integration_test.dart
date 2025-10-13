@@ -17,7 +17,7 @@ void main() {
 
     testWidgets(
       'should use service locator instead of direct AppService creation',
-      (WidgetTester tester) async {
+      (tester) async {
         // TDD: Test that WordleGameScreen uses service locator
         // Services are already initialized in setUpAll()
 
@@ -45,7 +45,7 @@ void main() {
     );
 
     testWidgets('should handle service locator errors gracefully', (
-      WidgetTester tester,
+      tester,
     ) async {
       // TDD: Test that WordleGameScreen handles missing services gracefully
       // This test needs to run in isolation with no services registered
@@ -68,7 +68,7 @@ void main() {
     });
 
     testWidgets('should maintain service consistency during screen lifecycle', (
-      WidgetTester tester,
+      tester,
     ) async {
       // TDD: Test that services remain consistent during screen lifecycle
       // Services are already initialized in setUpAll()
@@ -96,7 +96,7 @@ void main() {
     });
 
     testWidgets('should work with both real and mock services', (
-      WidgetTester tester,
+      tester,
     ) async {
       // TDD: Test that screen works with both real and mock services
 

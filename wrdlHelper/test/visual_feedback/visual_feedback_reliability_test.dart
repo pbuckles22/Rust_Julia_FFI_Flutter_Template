@@ -24,7 +24,7 @@ void main() {
       testWidgets(
         'should have all virtual keyboard keys accessible on screen',
         (
-          WidgetTester tester,
+          tester,
         ) async {
           // This test should fail initially - we need to fix UI element
           // positioning
@@ -66,7 +66,7 @@ void main() {
       testWidgets(
         'should have ENTER and DELETE keys accessible on screen',
         (
-          WidgetTester tester,
+          tester,
         ) async {
           // This test should fail initially - we need to fix action key
           // positioning
@@ -99,7 +99,7 @@ void main() {
       testWidgets(
         'should have all game grid tiles accessible on screen',
         (
-          WidgetTester tester,
+          tester,
         ) async {
           // This test should fail initially - we need to fix grid tile
           // positioning
@@ -129,7 +129,7 @@ void main() {
       testWidgets(
         'should change tile colors when tapped (Gray → Yellow → Green)',
         (
-          WidgetTester tester,
+          tester,
         ) async {
           // This test should fail initially - we need to implement reliable
           // color changes
@@ -164,7 +164,7 @@ void main() {
       testWidgets(
         'should update keyboard key colors based on letter states',
         (
-          WidgetTester tester,
+          tester,
         ) async {
           // This test should fail initially - we need to implement keyboard
           // color updates
@@ -213,7 +213,7 @@ void main() {
 
     group('Screen Size Responsiveness', () {
       testWidgets('should work on iPhone SE screen size (375x667)', (
-        WidgetTester tester,
+        tester,
       ) async {
         // This test should fail initially - we need to fix responsive layout
         await tester.binding.setSurfaceSize(const Size(375, 667)); // iPhone SE
@@ -237,7 +237,7 @@ void main() {
       });
 
       testWidgets('should work on iPhone 14 Pro Max screen size (430x932)', (
-        WidgetTester tester,
+        tester,
       ) async {
         // This test should fail initially - we need to fix responsive layout
         await tester.binding.setSurfaceSize(
@@ -267,7 +267,7 @@ void main() {
       testWidgets(
         'should not have service locator conflicts between tests',
         (
-          WidgetTester tester,
+          tester,
         ) async {
           // This test should fail initially - we need to fix service locator
           // cleanup
@@ -286,7 +286,7 @@ void main() {
 
       testWidgets(
         'should handle multiple app initializations without conflicts',
-        (WidgetTester tester) async {
+        (tester) async {
           // This test should fail initially - we need to fix service locator
           // state
           // Initialize app multiple times
@@ -315,7 +315,7 @@ void main() {
       testWidgets(
         'should provide visual feedback for complete game flow',
         (
-          WidgetTester tester,
+          tester,
         ) async {
           // This test should fail initially - we need to implement complete
           // visual feedback

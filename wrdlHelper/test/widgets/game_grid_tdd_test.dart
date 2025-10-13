@@ -6,7 +6,7 @@ import 'package:wrdlhelper/widgets/letter_tile_tdd.dart';
 void main() {
   group('GameGrid TDD Tests', () {
     testWidgets('should display empty grid with correct dimensions', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState();
 
@@ -23,7 +23,7 @@ void main() {
     });
 
     testWidgets('should display guesses in correct positions', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState()
         ..addGuess('CRANE')
@@ -51,7 +51,7 @@ void main() {
     });
 
     testWidgets('should show correct letter states for each guess', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState()
         ..addGuess('CRANE')
@@ -99,7 +99,7 @@ void main() {
     });
 
     testWidgets('should call onTileTap when tile is tapped', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState();
       int? tappedRow;
@@ -128,7 +128,7 @@ void main() {
     });
 
     testWidgets('should handle empty tiles correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState()..addGuess('CR'); // Partial guess
 
@@ -153,7 +153,7 @@ void main() {
     });
 
     testWidgets('should display current guess correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState()
         ..addGuess('CRANE')
@@ -180,7 +180,7 @@ void main() {
     });
 
     testWidgets('should handle game won state correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState()
         ..addGuess('CRANE')
@@ -209,7 +209,7 @@ void main() {
     });
 
     testWidgets('should handle game lost state correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState();
       // Add 5 guesses (max allowed for helper app)
@@ -231,7 +231,7 @@ void main() {
     });
 
     testWidgets('should maintain proper grid layout', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState();
 
@@ -257,7 +257,7 @@ void main() {
     });
 
     testWidgets('should handle rapid tile tapping correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState();
       var tapCount = 0;
@@ -283,7 +283,7 @@ void main() {
     });
 
     testWidgets('should handle state changes correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState();
 
@@ -315,7 +315,7 @@ void main() {
     });
 
     testWidgets('should have proper accessibility support', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState()..addGuess('CRANE');
 
@@ -332,7 +332,7 @@ void main() {
     });
 
     testWidgets('should handle edge case with no guesses', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState();
 
@@ -355,7 +355,7 @@ void main() {
     });
 
     testWidgets('should handle partial guesses correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState()
         ..addGuess('C')
@@ -379,7 +379,7 @@ void main() {
     });
 
     testWidgets('should maintain tile order correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState()..addGuess('CRANE');
 
@@ -401,7 +401,7 @@ void main() {
     });
 
     testWidgets('should handle mixed letter states correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState()
         ..addGuess('CRANE')
@@ -428,7 +428,7 @@ void main() {
     });
 
     testWidgets('should handle multiple rows with different states', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState();
 
@@ -473,7 +473,7 @@ void main() {
     });
 
     testWidgets('should handle special characters in guesses', (
-      WidgetTester tester,
+      tester,
     ) async {
       final gameState = GameState()..addGuess('CRÉPE');
 
