@@ -5,10 +5,16 @@ import 'package:flutter/material.dart';
 /// Displays a QWERTY layout with letter keys and action keys (ENTER, DELETE).
 /// Keys can be colored based on their state and disabled when needed.
 class VirtualKeyboard extends StatelessWidget {
+  /// Callback when a key is pressed
   final Function(String)? onKeyPress;
+  
+  /// Colors for specific keys based on guess results
   final Map<String, Color>? keyColors;
+  
+  /// Set of keys that are disabled
   final Set<String>? disabledKeys;
 
+  /// Creates a new virtual keyboard widget
   const VirtualKeyboard({
     super.key,
     required this.onKeyPress,

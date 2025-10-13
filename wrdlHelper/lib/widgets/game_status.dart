@@ -6,11 +6,19 @@ import 'package:wrdlhelper/models/game_state.dart';
 /// Displays game statistics, current state, and word suggestions
 /// with proper formatting and accessibility support.
 class GameStatusWidget extends StatelessWidget {
+  /// The current game state
   final GameState gameState;
+  
+  /// Total number of words in the word list
   final int totalWords;
+  
+  /// Number of words remaining to guess
   final int remainingWords;
+  
+  /// Current word suggestion
   final String? suggestion;
 
+  /// Creates a new game status widget
   const GameStatusWidget({
     super.key,
     required this.gameState,

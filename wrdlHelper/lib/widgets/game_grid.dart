@@ -10,12 +10,22 @@ import 'package:wrdlhelper/widgets/letter_tile.dart';
 /// Row 1 is pre-filled with suggested starting word, rows 2-4 are user inputs,
 /// row 5 is read-only (final guess, no interaction needed).
 class GameGrid extends StatelessWidget {
+  /// The current game state
   final GameState gameState;
+  
+  /// The current user input
   final String currentInput;
+  
+  /// Available height for the grid
   final double? availableHeight;
+  
+  /// Callback when a tile is tapped
   final Function(int row, int col)? onTileTap;
+  
+  /// Known letter states for tiles
   final Map<int, LetterTileState>? knownLetterStates;
 
+  /// Creates a new game grid widget
   const GameGrid({
     super.key,
     required this.gameState,

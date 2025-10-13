@@ -6,9 +6,13 @@ library;
 
 /// Base class for all validation exceptions
 abstract class ValidationException implements Exception {
+  /// The main error message
   final String message;
+  
+  /// Optional additional details about the error
   final String? details;
 
+  /// Creates a new validation exception
   const ValidationException(this.message, [this.details]);
 
   @override

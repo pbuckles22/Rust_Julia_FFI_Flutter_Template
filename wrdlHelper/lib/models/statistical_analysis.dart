@@ -17,6 +17,7 @@ class LetterFrequencyAnalysis {
   /// Least common letters in order
   final List<String> leastCommonLetters;
 
+  /// Creates a new letter frequency analysis
   const LetterFrequencyAnalysis({
     required this.totalWords,
     required this.letterCounts,
@@ -67,6 +68,7 @@ class PositionProbabilityAnalysis {
   /// Least likely letters for each position
   final Map<int, List<String>> leastLikelyLetters;
 
+  /// Creates a new position probability analysis
   const PositionProbabilityAnalysis({
     required this.totalWords,
     required this.positionProbabilities,
@@ -119,6 +121,7 @@ class WordStatisticalScore {
   /// Analysis metadata
   final StatisticalScoreMetadata metadata;
 
+  /// Creates a new word statistical score
   const WordStatisticalScore({
     required this.word,
     required this.score,
@@ -174,6 +177,7 @@ class StatisticalScoreMetadata {
   /// Combined rank
   final int combinedRank;
 
+  /// Creates new statistical score metadata
   const StatisticalScoreMetadata({
     required this.analysisWordCount,
     required this.isPrimeSuspect,

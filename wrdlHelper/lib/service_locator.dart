@@ -5,10 +5,10 @@ import 'services/ffi_service.dart';
 import 'services/game_service.dart';
 import 'utils/debug_logger.dart';
 
-// This is our global service locator
+/// Global service locator instance
 final sl = GetIt.instance;
 
-// Function to reset all services (for testing)
+/// Resets all services (for testing)
 void resetAllServices() {
   if (sl.isRegistered<AppService>()) {
     sl.unregister<AppService>();
@@ -24,7 +24,7 @@ void resetAllServices() {
 AppService? _cachedAppService;
 bool _isTestCacheInitialized = false;
 
-// This function will register your services with full production word lists
+/// Registers all services with the service locator
 Future<void> setupServices({bool useMocks = false}) async {
   try {
     // Check if services are already registered
@@ -107,8 +107,7 @@ Future<void> setupServices({bool useMocks = false}) async {
   }
 }
 
-// This function will register your services with algorithm-testing word list
-// for tests
+/// Registers all services for testing with algorithm-testing word list
 Future<void> setupTestServices({bool useMocks = false}) async {
   try {
     // Check if services are already registered
