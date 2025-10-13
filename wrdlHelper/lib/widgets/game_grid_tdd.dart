@@ -18,8 +18,7 @@ class GameGrid extends StatelessWidget {
   const GameGrid({super.key, required this.gameState, this.onTileTap});
 
   @override
-  Widget build(BuildContext context) {
-    return Semantics(
+  Widget build(BuildContext context) => Semantics(
       label: 'Game Grid',
       child: Container(
         padding: const EdgeInsets.all(16),
@@ -28,24 +27,19 @@ class GameGrid extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         child: Column(
-          children: List.generate(5, (rowIndex) {
-            return Padding(
+          children: List.generate(5, (rowIndex) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 2),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(5, (colIndex) {
-                  return Padding(
+                children: List.generate(5, (colIndex) => Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 2),
                     child: _buildTile(rowIndex, colIndex),
-                  );
-                }),
+                  )),
               ),
-            );
-          }),
+            )),
         ),
       ),
     );
-  }
 
   Widget _buildTile(int rowIndex, int colIndex) {
     // Check if this tile is part of a completed guess
@@ -138,7 +132,5 @@ class GuessResult {
   GuessResult({required this.letterStates});
 
   /// Creates a guess result from a word and its letter states
-  factory GuessResult.fromWord(String word, List<LetterState> states) {
-    return GuessResult(letterStates: states);
-  }
+  factory GuessResult.fromWord(String word, List<LetterState> states) => GuessResult(letterStates: states);
 }

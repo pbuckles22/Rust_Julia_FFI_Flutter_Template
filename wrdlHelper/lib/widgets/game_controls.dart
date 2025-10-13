@@ -54,8 +54,7 @@ class GameControls extends StatelessWidget {
   }
 
   /// Builds the main control buttons row
-  Widget _buildControlButtons() {
-    return Wrap(
+  Widget _buildControlButtons() => Wrap(
       alignment: WrapAlignment.center,
       spacing: 8,
       runSpacing: 8,
@@ -65,7 +64,6 @@ class GameControls extends StatelessWidget {
         if (gameState.guesses.isNotEmpty) _buildUndoButton(),
       ],
     );
-  }
 
   /// Builds the appropriate feedback message based on state
   /// Error takes precedence over success message
@@ -78,8 +76,7 @@ class GameControls extends StatelessWidget {
     return null;
   }
 
-  Widget _buildLoadingIndicator() {
-    return Container(
+  Widget _buildLoadingIndicator() => Container(
       margin: const EdgeInsets.only(top: 8),
       padding: const EdgeInsets.all(8),
       child: const Row(
@@ -95,15 +92,12 @@ class GameControls extends StatelessWidget {
         ],
       ),
     );
-  }
 
-  Widget _buildNewGameButton() {
-    return _buildButton(
+  Widget _buildNewGameButton() => _buildButton(
       text: 'New Game',
       onPressed: onNewGame,
       isDisabled: isLoading,
     );
-  }
 
   Widget _buildSuggestionButton() {
     final isDisabled = isLoading || gameState.isGameOver;
@@ -115,9 +109,7 @@ class GameControls extends StatelessWidget {
     );
   }
 
-  Widget _buildUndoButton() {
-    return _buildButton(text: '↶ Undo', onPressed: onUndo, isDisabled: false);
-  }
+  Widget _buildUndoButton() => _buildButton(text: '↶ Undo', onPressed: onUndo, isDisabled: false);
 
   /// Builds a button with consistent styling and error handling
   Widget _buildButton({
@@ -154,8 +146,7 @@ class GameControls extends StatelessWidget {
   }
 
   /// Safely executes a callback with exception handling
-  VoidCallback _safeCallback(VoidCallback callback) {
-    return () {
+  VoidCallback _safeCallback(VoidCallback callback) => () {
       try {
         callback();
       } catch (e) {
@@ -163,25 +154,20 @@ class GameControls extends StatelessWidget {
         // In a real app, you might want to log this error
       }
     };
-  }
 
-  Widget _buildSuccessMessage() {
-    return _buildFeedbackContainer(
+  Widget _buildSuccessMessage() => _buildFeedbackContainer(
       color: Colors.green,
       icon: Icons.check_circle,
       message: 'Suggestion received!',
     );
-  }
 
-  Widget _buildErrorMessage() {
-    return _buildFeedbackContainer(
+  Widget _buildErrorMessage() => _buildFeedbackContainer(
       color: Colors.red,
       icon: Icons.error,
       message: 'Error getting suggestion',
       details: suggestionError,
       showRetryButton: true,
     );
-  }
 
   /// Builds a consistent feedback container with optional details and retry
   /// button
@@ -191,8 +177,7 @@ class GameControls extends StatelessWidget {
     required String message,
     String? details,
     bool showRetryButton = false,
-  }) {
-    return Container(
+  }) => Container(
       margin: const EdgeInsets.only(top: 8),
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
