@@ -11,6 +11,7 @@ class WordEntropyRanking {
   /// Additional metadata about the ranking
   final EntropyMetadata metadata;
 
+  /// Creates a new word entropy ranking
   const WordEntropyRanking({
     required this.word,
     required this.entropy,
@@ -52,6 +53,7 @@ class EntropyMetadata {
   /// Whether this word is in the answer list (prime suspect)
   final bool isPrimeSuspect;
 
+  /// Creates new entropy metadata
   const EntropyMetadata({
     required this.remainingWordCount,
     required this.patternCount,

@@ -22,6 +22,7 @@ import 'package:wrdlhelper/widgets/virtual_keyboard.dart';
 /// - Analysis and suggestions for next moves
 /// - New game button to start helping with a new puzzle
 class WordleGameScreen extends StatefulWidget {
+  /// Creates a new Wordle game screen
   const WordleGameScreen({super.key});
 
   @override

@@ -8,6 +8,7 @@ import 'game_service.dart';
 /// in the correct order, ensuring proper dependency management.
 class AppService {
   // REMOVED: Static singleton pattern to eliminate global state
+  /// Creates a new app service instance
   AppService();
 
   GameService? _gameService;

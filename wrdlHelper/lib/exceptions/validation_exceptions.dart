@@ -21,12 +21,14 @@ abstract class ValidationException implements Exception {
 
 /// Exception thrown when an invalid pattern is provided
 class InvalidPatternException extends ValidationException {
+  /// Creates a new invalid pattern exception
   const InvalidPatternException([String? details])
     : super('Invalid pattern provided', details);
 }
 
 /// Exception thrown when an invalid letter is provided
 class InvalidLetterException extends ValidationException {
+  /// Creates a new invalid letter exception
   const InvalidLetterException([String? details])
     : super('Invalid letter provided', details);
 }
