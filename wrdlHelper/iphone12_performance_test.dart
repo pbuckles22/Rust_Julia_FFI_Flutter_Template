@@ -114,7 +114,7 @@ class _iPhone12PerformanceTestScreenState
         ); // 60% of 500
         memoryTest.add(chunkData);
         
-        for (var _ in chunkData) {
+        for (final _ in chunkData) {
           // Use existing FFI function for memory testing
           final processed = getGuessWords();
           if (processed.isEmpty) {

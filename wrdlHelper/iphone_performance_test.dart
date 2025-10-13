@@ -179,7 +179,7 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
         memoryTest.add(chunkData);
         
         // Process through Rust FFI
-        for (var _ in chunkData) {
+        for (final _ in chunkData) {
           // Use existing FFI function for memory testing
           final processed = getGuessWords();
           if (processed.isEmpty) {
@@ -282,7 +282,7 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
         final chunk = largeData.sublist(i, chunkEnd);
         
         // Process chunk through Rust FFI
-        for (var _ in chunk) {
+        for (final _ in chunk) {
           // Use existing FFI function for processing
           final processed = getGuessWords();
           

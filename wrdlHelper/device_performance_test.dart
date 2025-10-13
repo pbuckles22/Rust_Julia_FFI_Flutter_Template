@@ -85,7 +85,7 @@ Future<void> testMemoryPerformance() async {
     memoryTest.add(chunkData);
     
     // Simulate processing
-    for (var value in chunkData) {
+    for (final value in chunkData) {
       final processed = value * 2;
       if (processed != value * 2) {
         DebugLogger.debug('❌ Memory processing failed at chunk $chunk');
@@ -178,7 +178,7 @@ Future<void> testLargeDataProcessing() async {
     final chunk = largeData.sublist(i, chunkEnd);
     
     // Process chunk
-    for (var value in chunk) {
+    for (final value in chunk) {
       final processed = value * 1.5;
       if (processed != value * 1.5) {
         DebugLogger.debug('❌ Large data processing failed at index $i');
