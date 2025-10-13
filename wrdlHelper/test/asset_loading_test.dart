@@ -42,7 +42,7 @@ void main() {
       final answerWords = FfiService.getAnswerWords();
 
       // Check first 10 words to verify they are 5 letters
-      for (int i = 0; i < answerWords.length && i < 10; i++) {
+      for (var i = 0; i < answerWords.length && i < 10; i++) {
         final word = answerWords[i];
         expect(
           word.length,
@@ -56,7 +56,7 @@ void main() {
       final answerWords = FfiService.getAnswerWords();
 
       // Check first 10 words to verify they are uppercase
-      for (int i = 0; i < answerWords.length && i < 10; i++) {
+      for (var i = 0; i < answerWords.length && i < 10; i++) {
         final word = answerWords[i];
         expect(
           word,

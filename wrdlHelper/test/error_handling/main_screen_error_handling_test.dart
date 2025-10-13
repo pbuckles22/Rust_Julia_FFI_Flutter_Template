@@ -99,7 +99,7 @@ void main() {
 
       // Simulate memory pressure with realistic user behavior (indecisive user
       // scenario)
-      for (int i = 0; i < 30; i++) {
+      for (var i = 0; i < 30; i++) {
         // Use keyboard interaction instead of text search
         final keyboard = find.byType(VirtualKeyboard);
         if (keyboard.evaluate().isNotEmpty) {
@@ -130,7 +130,7 @@ void main() {
       // Rapidly trigger errors - use keyboard interaction
       final keyboardWidget = find.byType(VirtualKeyboard);
       if (keyboardWidget.evaluate().isNotEmpty) {
-        for (int i = 0; i < 10; i++) {
+        for (var i = 0; i < 10; i++) {
           // Try to find and tap the first letter key
           final letterKeys = find.descendant(
             of: keyboardWidget,

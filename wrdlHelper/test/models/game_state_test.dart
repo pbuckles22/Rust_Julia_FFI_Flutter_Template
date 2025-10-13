@@ -365,7 +365,7 @@ void main() {
 
         // Act
         final words = ['CRANE', 'CRATE', 'SLATE', 'BLADE', 'GRADE', 'SHADE'];
-        for (int i = 0; i < 6; i++) {
+        for (var i = 0; i < 6; i++) {
           final guess = Word.fromString(words[i]);
           final result = GuessResult.fromWord(guess);
           gameState.addGuess(guess, result);

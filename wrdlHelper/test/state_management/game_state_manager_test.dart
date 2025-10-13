@@ -251,7 +251,7 @@ void main() {
     test('should handle rapid state changes', () {
       // This test should fail initially - we need to implement rapid change
       // handling
-      for (int i = 0; i < 100; i++) {
+      for (var i = 0; i < 100; i++) {
         stateManager.appendLetter('A');
         stateManager.removeLastLetter();
       }

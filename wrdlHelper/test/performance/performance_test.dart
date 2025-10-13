@@ -561,7 +561,7 @@ void main() {
 
         // Create multiple games and make one guess each (stress test with
         // multiple games)
-        for (int i = 0; i < operations; i++) {
+        for (var i = 0; i < operations; i++) {
           final gameState = appService.gameService.createNewGameWithTarget(
             Word.fromString('WORDS'),
           );
@@ -591,7 +591,7 @@ void main() {
         final stopwatch = Stopwatch()..start();
 
         // Act
-        for (int i = 0; i < operations; i++) {
+        for (var i = 0; i < operations; i++) {
           FfiService.isValidWord('SLATE'); // Test FFI validation performance
         }
 
@@ -612,7 +612,7 @@ void main() {
         // Act
         final stopwatch = Stopwatch()..start();
 
-        for (int i = 0; i < operations; i++) {
+        for (var i = 0; i < operations; i++) {
           for (final searchWord in searchWords) {
             FfiService.isValidWord(searchWord); // Test FFI validation
             // performance

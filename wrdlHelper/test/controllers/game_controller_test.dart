@@ -188,7 +188,7 @@ void main() {
         targetWord: Word.fromString('CRATE'),
         maxGuesses: 5,
       );
-      for (int i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         gameState.guesses.add(
           GuessEntry(
             word: Word.fromString('CRANE'),
@@ -225,7 +225,7 @@ void main() {
     test('should handle rapid input correctly', () {
       // This test should fail initially - we need to implement rapid input
       // handling
-      for (int i = 0; i < 10; i++) {
+      for (var i = 0; i < 10; i++) {
         gameController.addLetter('A');
       }
 

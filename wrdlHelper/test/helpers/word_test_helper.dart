@@ -685,7 +685,7 @@ class WordTestHelper {
     final selectedWords = <String>[];
     final availableWords = List<String>.from(sourceWords);
 
-    for (int i = 0; i < count && availableWords.isNotEmpty; i++) {
+    for (var i = 0; i < count && availableWords.isNotEmpty; i++) {
       final randomIndex = random.nextInt(availableWords.length);
       final word = availableWords.removeAt(randomIndex);
       selectedWords.add(word);

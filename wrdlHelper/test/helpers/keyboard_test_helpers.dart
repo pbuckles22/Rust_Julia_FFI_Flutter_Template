@@ -58,7 +58,7 @@ class KeyboardTestHelpers {
 
   /// Type a word by tapping letter keys
   static Future<void> typeWord(WidgetTester tester, String word) async {
-    for (int i = 0; i < word.length; i++) {
+    for (var i = 0; i < word.length; i++) {
       await tapLetterKey(tester, word[i].toUpperCase());
       await tester.pump();
     }
@@ -66,7 +66,7 @@ class KeyboardTestHelpers {
 
   /// Clear the current input by tapping DELETE multiple times
   static Future<void> clearInput(WidgetTester tester, {int times = 5}) async {
-    for (int i = 0; i < times; i++) {
+    for (var i = 0; i < times; i++) {
       await tapDeleteKey(tester);
       await tester.pump();
     }

@@ -406,7 +406,7 @@ void main() {
 
         // Test 2: Invalid word submission - should show error screen
         // Clear current input with multiple backspaces
-        for (int i = 0; i < 5; i++) {
+        for (var i = 0; i < 5; i++) {
           await tester.tap(
             find.descendant(
               of: find.byType(VirtualKeyboard),
@@ -569,7 +569,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Perform multiple operations
-      for (int i = 0; i < 10; i++) {
+      for (var i = 0; i < 10; i++) {
         await tester.tap(find.text('New Game'));
         await tester.pump();
       }

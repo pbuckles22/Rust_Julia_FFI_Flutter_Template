@@ -142,7 +142,7 @@ void main() {
 
       test('should handle repeated operations consistently', () async {
         // Test repeated operations consistency
-        for (int i = 0; i < 5; i++) {
+        for (var i = 0; i < 5; i++) {
           final answerWords = ffi.getAnswerWords();
           expect(answerWords.length, greaterThan(0));
         }
@@ -176,7 +176,7 @@ void main() {
     group('Memory Management', () {
       test('should handle memory allocation efficiently', () async {
         // Test memory allocation
-        for (int i = 0; i < 100; i++) {
+        for (var i = 0; i < 100; i++) {
           ffi.getAnswerWords();
         }
         

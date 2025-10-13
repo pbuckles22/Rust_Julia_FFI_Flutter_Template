@@ -120,7 +120,7 @@ void main() {
         expect(tiles.evaluate().length, equals(25));
 
         // Test tapping first few tiles without hit test warnings
-        for (int i = 0; i < 5; i++) {
+        for (var i = 0; i < 5; i++) {
           final tile = tiles.at(i);
           await tester.tap(tile, warnIfMissed: false);
           await tester.pump();
@@ -148,7 +148,7 @@ void main() {
             .first;
 
         // Initial state should be empty
-        LetterTile initialTile = tester.widget<LetterTile>(firstTile);
+        final initialTile = tester.widget<LetterTile>(firstTile);
         expect(initialTile.state, equals(LetterTileState.empty));
 
         // Note: The current implementation doesn't support cycling through

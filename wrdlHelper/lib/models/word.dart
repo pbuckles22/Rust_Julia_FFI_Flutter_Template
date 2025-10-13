@@ -31,7 +31,7 @@ class Word {
       frequency[char] = (frequency[char] ?? 0) + 1;
     }
     // Ensure all letters A-Z have a frequency (0 if not present)
-    for (int i = 65; i <= 90; i++) {
+    for (var i = 65; i <= 90; i++) {
       final letter = String.fromCharCode(i);
       frequency[letter] ??= 0;
     }
@@ -128,7 +128,7 @@ class Word {
     final upperLetter = letter.toUpperCase();
     final positions = <int>[];
     
-    for (int i = 0; i < value.length; i++) {
+    for (var i = 0; i < value.length; i++) {
       if (value[i] == upperLetter) {
         positions.add(i);
       }

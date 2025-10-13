@@ -153,7 +153,7 @@ class GuessResult {
     if (newStates.length != letterStates.length) {
       throw ArgumentError('New states length must match current states length');
     }
-    for (int i = 0; i < newStates.length; i++) {
+    for (var i = 0; i < newStates.length; i++) {
       letterStates[i] = newStates[i];
     }
   }
@@ -162,7 +162,7 @@ class GuessResult {
   List<int> getPositionsOfState(LetterState state) {
     final positions = <int>[];
     
-    for (int i = 0; i < letterStates.length; i++) {
+    for (var i = 0; i < letterStates.length; i++) {
       if (letterStates[i] == state) {
         positions.add(i);
       }
@@ -190,7 +190,7 @@ class GuessResult {
   List<String> getLettersByState(LetterState state) {
     final letters = <String>[];
     
-    for (int i = 0; i < letterStates.length; i++) {
+    for (var i = 0; i < letterStates.length; i++) {
       if (letterStates[i] == state) {
         letters.add(word.charAt(i));
       }
@@ -211,7 +211,7 @@ class GuessResult {
   /// Helper method to compare lists
   bool _listEquals<T>(List<T> a, List<T> b) {
     if (a.length != b.length) return false;
-    for (int i = 0; i < a.length; i++) {
+    for (var i = 0; i < a.length; i++) {
       if (a[i] != b[i]) return false;
     }
     return true;

@@ -285,7 +285,7 @@ void main() {
       // Perform concurrent operations
       final futures = <Future>[];
       
-      for (int i = 0; i < 50; i++) {
+      for (var i = 0; i < 50; i++) {
         futures.add(Future(() async {
           // Simulate concurrent operations
           await tester.pump();

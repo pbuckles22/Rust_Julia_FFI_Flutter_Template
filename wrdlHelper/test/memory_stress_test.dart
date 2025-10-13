@@ -35,7 +35,7 @@ void main() {
         // Test memory-intensive operations
         final memoryIntensiveData = List.generate(50000, (i) => 'MEMORY$i');
         
-        for (int i = 0; i < 10; i++) {
+        for (var i = 0; i < 10; i++) {
           expect(
             () => FfiService.getBestGuessFast(memoryIntensiveData, []),
             throwsA(isA<ServiceNotInitializedException>()),
@@ -191,7 +191,7 @@ void main() {
         // Test consistent memory usage patterns
         final patterns = <int>[];
         
-        for (int i = 0; i < 10; i++) {
+        for (var i = 0; i < 10; i++) {
           final patternData = List.generate(1000, (j) => 'PATTERN$i$j');
           
           try {
@@ -209,7 +209,7 @@ void main() {
 
       test('should handle memory fragmentation', () async {
         // Test memory fragmentation handling
-        for (int i = 0; i < 50; i++) {
+        for (var i = 0; i < 50; i++) {
           final fragmentedData = List.generate(
             100 + (i % 10) * 100,
             (j) => 'FRAGMENT$i$j',

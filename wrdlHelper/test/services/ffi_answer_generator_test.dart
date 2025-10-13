@@ -4,7 +4,7 @@ import 'package:wrdlhelper/utils/debug_logger.dart';
 
 void main() {
   group('FFI Answer Generator Tests', () {
-    bool ffiAvailable = false;
+    var ffiAvailable = false;
 
     setUpAll(() async {
       // Initialize FFI service before running tests
@@ -200,7 +200,7 @@ void main() {
 
         // Act - Test consistency of intelligent solver
         final results = <String>[];
-        for (int i = 0; i < 10; i++) {
+        for (var i = 0; i < 10; i++) {
           final guess = FfiService.getBestGuessFast(answerWords, []);
           if (guess != null) {
             results.add(guess);

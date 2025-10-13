@@ -114,7 +114,7 @@ void main() {
         )),
       ];
       
-      for (int i = 0; i < configs.length; i++) {
+      for (var i = 0; i < configs.length; i++) {
         configs[i]();
         
         final stopwatch = Stopwatch()..start();
@@ -133,7 +133,7 @@ void main() {
       final testWords = ['CRANE', 'SLATE', 'TRACE', 'CRATE', 'SLANT'];
       
       // Make many calls to test for memory leaks or performance degradation
-      for (int i = 0; i < 100; i++) {
+      for (var i = 0; i < 100; i++) {
         final bestGuess = FfiService.getBestGuessFast(testWords, []);
         expect(bestGuess, isNotNull);
         

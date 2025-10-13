@@ -448,7 +448,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Simulate memory pressure with realistic user behavior
-      for (int i = 0; i < 20; i++) {
+      for (var i = 0; i < 20; i++) {
         // Use specific finders within VirtualKeyboard to avoid ambiguity
         await tester.tap(
           find.descendant(

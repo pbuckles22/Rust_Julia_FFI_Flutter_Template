@@ -614,7 +614,7 @@ class GameService {
 
     // Log each previous guess with full details
     DebugLogger.info('📝 PREVIOUS GUESSES HISTORY:', tag: 'GameService');
-    for (int i = 0; i < guessResults.length; i++) {
+    for (var i = 0; i < guessResults.length; i++) {
       final gr = guessResults[i];
       final resultString = gr.$2.join('');
       DebugLogger.info(

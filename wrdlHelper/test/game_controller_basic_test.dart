@@ -62,7 +62,7 @@ void main() {
 
       test('should handle input limits', () {
         // Test input limits
-        for (int i = 0; i < 10; i++) {
+        for (var i = 0; i < 10; i++) {
           gameController.addLetter('A');
         }
         
@@ -129,7 +129,7 @@ void main() {
     group('Performance Tests', () {
       test('should handle rapid input changes', () {
         // Test rapid input changes
-        for (int i = 0; i < 100; i++) {
+        for (var i = 0; i < 100; i++) {
           gameController.addLetter('A');
           gameController.removeLastLetter();
         }
@@ -152,7 +152,7 @@ void main() {
     group('State Validation', () {
       test('should validate input length', () {
         // Test input length validation
-        for (int i = 0; i < 5; i++) {
+        for (var i = 0; i < 5; i++) {
           gameController.addLetter('A');
         }
         

@@ -348,7 +348,7 @@ void main() {
       expect(find.byType(LetterTile), findsNWidgets(25));
 
       // All tiles should be empty
-      for (int i = 0; i < 25; i++) {
+      for (var i = 0; i < 25; i++) {
         final tile = find.byType(LetterTile).at(i);
         expect(tile, findsOneWidget);
       }

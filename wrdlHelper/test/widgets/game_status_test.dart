@@ -638,7 +638,7 @@ void main() {
         );
 
         // Act - Rapid state changes
-        for (int i = 0; i < 20; i++) {
+        for (var i = 0; i < 20; i++) {
           final updatedState = mockGameState.copyWith(
             currentGuess: (i % 6) + 1,
           );

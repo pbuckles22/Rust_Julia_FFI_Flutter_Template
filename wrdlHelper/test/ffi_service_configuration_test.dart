@@ -142,7 +142,7 @@ void main() {
       FfiService.setConfiguration(testConfig);
       
       // Make multiple calls and verify configuration persists
-      for (int i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         final config = FfiService.getConfiguration();
         expect(config.referenceMode, isFalse);
         expect(config.includeKillerWords, isTrue);

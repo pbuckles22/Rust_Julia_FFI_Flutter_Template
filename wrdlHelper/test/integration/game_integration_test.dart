@@ -473,7 +473,7 @@ void main() {
         // Act - use different words for each guess to avoid duplicate
         // validation and winning
         final words = ['SLATE', 'TRACE', 'BLAME', 'GRADE', 'SHARE'];
-        for (int i = 0; i < 5; i++) {
+        for (var i = 0; i < 5; i++) {
           final guess = Word.fromString(words[i]);
           final result = appService.gameService.processGuess(gameState, guess);
           appService.gameService.addGuessToGame(gameState, guess, result);

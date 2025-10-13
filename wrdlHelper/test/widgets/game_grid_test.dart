@@ -176,7 +176,7 @@ void main() {
 
       // Add 5 guesses (max allowed for helper app) using different words
       final words = ['CRATE', 'CRANE', 'SLATE', 'BLADE', 'GRADE'];
-      for (int i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         final word = Word.fromString(words[i]);
         final result = GuessResult.fromWord(word);
         gameState.addGuess(word, result);
@@ -210,7 +210,7 @@ void main() {
       expect(find.byType(Row), findsNWidgets(5));
 
       // Each row should have 5 tiles
-      for (int i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         final rowTiles = find.descendant(
           of: find.byType(Row).at(i),
           matching: find.byType(LetterTile),
@@ -292,7 +292,7 @@ void main() {
       expect(find.byType(LetterTile), findsNWidgets(25));
 
       // All tiles should be empty
-      for (int i = 0; i < 25; i++) {
+      for (var i = 0; i < 25; i++) {
         final tile = find.byType(LetterTile).at(i);
         expect(tile, findsOneWidget);
       }

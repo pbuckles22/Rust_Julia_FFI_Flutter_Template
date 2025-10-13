@@ -141,7 +141,7 @@ class GameController {
     final letterStates = <String, LetterState>{};
 
     for (final guess in _gameState!.guesses) {
-      for (int i = 0; i < guess.word.value.length; i++) {
+      for (var i = 0; i < guess.word.value.length; i++) {
         final letter = guess.word.value[i].toUpperCase();
         final state = guess.result.letterStates[i];
 

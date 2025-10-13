@@ -124,7 +124,7 @@ void main() {
       await FfiService.initialize();
       
       // Test multiple operations
-      for (int i = 0; i < 10; i++) {
+      for (var i = 0; i < 10; i++) {
         await FfiService.getAnswerWords();
         await FfiService.getGuessWords();
         await FfiService.isValidWord('CRANE');
@@ -141,7 +141,7 @@ void main() {
       await FfiService.initialize();
       
       // Test memory efficiency
-      for (int i = 0; i < 100; i++) {
+      for (var i = 0; i < 100; i++) {
         await FfiService.getAnswerWords();
         await FfiService.getGuessWords();
       }

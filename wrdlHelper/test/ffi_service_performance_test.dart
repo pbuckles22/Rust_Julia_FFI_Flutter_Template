@@ -244,7 +244,7 @@ void main() {
         final futures = <Future>[];
         
         // Add various operations
-        for (int i = 0; i < 10; i++) {
+        for (var i = 0; i < 10; i++) {
           futures.add(Future(() async {
             try {
               return FfiService.getOptimalFirstGuess();
@@ -254,7 +254,7 @@ void main() {
           }));
         }
         
-        for (int i = 0; i < 10; i++) {
+        for (var i = 0; i < 10; i++) {
           futures.add(Future(() async {
             try {
               return FfiService.getBestGuessFast(['CONCURRENT$i'], []);
@@ -274,7 +274,7 @@ void main() {
         // Test consistent performance across multiple runs
         final times = <int>[];
         
-        for (int run = 0; run < 5; run++) {
+        for (var run = 0; run < 5; run++) {
           final startTime = DateTime.now();
           
           try {
