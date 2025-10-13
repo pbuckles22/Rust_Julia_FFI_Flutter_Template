@@ -168,6 +168,13 @@
 - **Code quality** - Continue with public API docs, expression functions, etc.
 - **Documentation** - Add missing API documentation
 
+### **CRITICAL: Generated Files Must Be Excluded from Linting**
+- **NEVER edit generated files**: `lib/src/rust/frb_generated*.dart`, `lib/src/rust/api/wrdl_helper.dart`
+- **These files are auto-regenerated** and manual changes will be lost
+- **Focus only on manual files**: `lib/services/`, `lib/widgets/`, `lib/models/`, `lib/controllers/`, `lib/exceptions/`
+- **Use proper exclusion filters**: `grep -v "lib/src/rust/"` when counting linter issues
+- **See `docs/CODE_STANDARDS.md`** for comprehensive linting guidelines
+
 ---
 
 ## 📈 **CURRENT TEST COVERAGE**
