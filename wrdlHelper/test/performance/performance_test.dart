@@ -22,10 +22,7 @@ void main() {
       appService = sl<AppService>();
     });
 
-    tearDown(() {
-      // Clean up service locator after each test
-      sl.reset();
-    });
+    tearDown(sl.reset);
 
     group('Asset Loading Performance', () {
       test('loads word list within time limit', () async {

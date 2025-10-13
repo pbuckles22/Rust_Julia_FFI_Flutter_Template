@@ -32,10 +32,7 @@ void main() {
       appService = sl<AppService>();
     });
     
-    tearDownAll(() {
-      // Clean up after all tests
-      resetAllServices();
-    });
+    tearDownAll(resetAllServices);
 
     group('Complete Game Workflow', () {
       test('plays complete game from start to win', () async {
@@ -195,10 +192,10 @@ void main() {
       test('loads and validates word list assets', () async {
         // Arrange & Act
         final wordList = FfiService.getAnswerWords()
-            .map((word) => Word.fromString(word))
+            .map(Word.fromString)
             .toList();
         final guessWords = FfiService.getGuessWords()
-            .map((word) => Word.fromString(word))
+            .map(Word.fromString)
             .toList();
 
         // Debug output

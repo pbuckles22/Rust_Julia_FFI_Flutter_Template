@@ -11,15 +11,9 @@ void main() {
       // Initialize services with algorithm-testing word list
       await setupTestServices();
     });
-    setUp(() {
-      // Reset service locator before each test
-      sl.reset();
-    });
+    setUp(sl.reset);
 
-    tearDown(() {
-      // Clean up after each test
-      sl.reset();
-    });
+    tearDown(sl.reset);
 
     test(
       'should register real services with setupServices(fastTestMode: true)',
@@ -104,8 +98,8 @@ void main() {
 
     test('should handle service locator access before registration', () {
       // TDD: Test that accessing unregistered services throws appropriate error
-      expect(() => sl<AppService>(), throwsA(isA<StateError>()));
-      expect(() => sl<GameService>(), throwsA(isA<StateError>()));
+      expect(sl<AppService>, throwsA(isA<StateError>()));
+      expect(sl<GameService>, throwsA(isA<StateError>()));
     });
 
     test('should allow switching between real and mock services', () async {

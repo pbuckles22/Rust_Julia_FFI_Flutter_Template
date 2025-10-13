@@ -27,10 +27,7 @@ void main() {
       gameController = GameController();
     });
 
-    tearDownAll(() {
-      // Clean up global resources
-      GlobalTestSetup.cleanup();
-    });
+    tearDownAll(GlobalTestSetup.cleanup);
 
     test('should initialize with default state', () {
       // This test should fail initially - we need to implement initialization

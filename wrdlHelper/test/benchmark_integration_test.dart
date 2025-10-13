@@ -102,8 +102,8 @@ void main() {
       
       // Test switching between configurations
       final configs = [
-        () => FfiService.resetToDefaultConfiguration(),
-        () => FfiService.applyReferenceModePreset(),
+        FfiService.resetToDefaultConfiguration,
+        FfiService.applyReferenceModePreset,
         () => FfiService.setConfiguration(const FfiConfiguration(
           referenceMode: false,
           includeKillerWords: true,

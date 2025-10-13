@@ -27,9 +27,7 @@ void main() {
       
       // Should contain some known answer words
       final knownAnswerWords = ['CRANE', 'SLATE', 'CRATE', 'PLATE', 'GRATE'];
-      final hasKnownWords = knownAnswerWords.any(
-        (word) => answerWords.contains(word),
-      );
+      final hasKnownWords = knownAnswerWords.any(answerWords.contains);
       expect(
         hasKnownWords,
         isTrue,

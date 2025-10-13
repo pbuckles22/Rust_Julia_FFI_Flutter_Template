@@ -15,10 +15,7 @@ void main() {
       await setupTestServices();
     });
     
-    tearDownAll(() {
-      // Clean up after all tests
-      resetAllServices();
-    });
+    tearDownAll(resetAllServices);
     testWidgets('should display game screen when initialized', (
       WidgetTester tester,
     ) async {

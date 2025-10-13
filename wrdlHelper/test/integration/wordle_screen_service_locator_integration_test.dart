@@ -13,10 +13,7 @@ void main() {
       await setupTestServices();
     });
 
-    tearDownAll(() {
-      // Clean up after all tests
-      resetAllServices();
-    });
+    tearDownAll(resetAllServices);
 
     testWidgets(
       'should use service locator instead of direct AppService creation',

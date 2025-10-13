@@ -11,10 +11,7 @@ void main() {
       await setupTestServices();
     });
 
-    tearDownAll(() {
-      // Clean up after all tests
-      resetAllServices();
-    });
+    tearDownAll(resetAllServices);
     testWidgets('should create app with correct title', (
       WidgetTester tester,
     ) async {

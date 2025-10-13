@@ -26,10 +26,7 @@ void main() {
       gameService = sl<GameService>();
     });
 
-    tearDownAll(() {
-      // Clean up global resources
-      GlobalTestSetup.cleanup();
-    });
+    tearDownAll(GlobalTestSetup.cleanup);
 
     group('Bug Fix 1: Mock Data Removal', () {
       test('FFI Service should not contain hardcoded fake words', () {

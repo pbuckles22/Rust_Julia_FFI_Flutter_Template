@@ -4,9 +4,7 @@ import 'package:wrdlhelper/utils/debug_logger.dart';
 
 void main() {
   group('Debug Partial Gray', () {
-    setUpAll(() {
-      RustLib.init();
-    });
+    setUpAll(RustLib.init);
 
     test('debug GXXXX pattern', () async {
       // Pattern: GXXXX (C=Green, R,A,N,E=Gray) for guess "CRANE"

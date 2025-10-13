@@ -476,7 +476,7 @@ class GameService {
 
     // Use centralized Rust word list instead of WordService
     final guessWords = FfiService.getGuessWords();
-    return guessWords.map((word) => Word.fromString(word)).toList();
+    return guessWords.map(Word.fromString).toList();
   }
 
   /// Filters the word list based on the current game state's guess history.
@@ -489,7 +489,7 @@ class GameService {
       // Use centralized Rust word list instead of WordService
       // Use answer words (2,300) to match Rust benchmark behavior
       final answerWords = FfiService.getAnswerWords();
-      return answerWords.map((word) => Word.fromString(word)).toList();
+      return answerWords.map(Word.fromString).toList();
     }
 
     // Convert the game state's guesses into the format required by the FFI
@@ -517,7 +517,7 @@ class GameService {
 
     // Convert the filtered strings back to Word objects
     return filteredWordStrings
-        .map((str) => Word.fromString(str))
+        .map(Word.fromString)
         .toList();
   }
 

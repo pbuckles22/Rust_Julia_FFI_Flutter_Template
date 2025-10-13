@@ -4,9 +4,7 @@ import 'package:wrdlhelper/utils/debug_logger.dart';
 
 void main() {
   group('Debug Simple Case', () {
-    setUpAll(() {
-      RustLib.init();
-    });
+    setUpAll(RustLib.init);
 
     test('debug all gray case', () async {
       final words = ['CRANE', 'SLOTH', 'BLIMP'];

@@ -14,15 +14,9 @@ void main() {
       await GlobalTestSetup.initializeOnce();
     });
 
-    setUp(() {
-      // Reset services for individual test isolation
-      GlobalTestSetup.resetForTest();
-    });
+    setUp(GlobalTestSetup.resetForTest);
 
-    tearDownAll(() {
-      // Clean up global resources
-      GlobalTestSetup.cleanup();
-    });
+    tearDownAll(GlobalTestSetup.cleanup);
 
     test('FFI Service should provide real words', () async {
       // Test that FFI service has comprehensive algorithm-testing data

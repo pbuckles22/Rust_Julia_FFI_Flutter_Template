@@ -691,7 +691,7 @@ class WordTestHelper {
       selectedWords.add(word);
     }
 
-    return selectedWords.map((word) => Word.fromString(word)).toList();
+    return selectedWords.map(Word.fromString).toList();
   }
 
   /// Get a specific set of words for consistent testing

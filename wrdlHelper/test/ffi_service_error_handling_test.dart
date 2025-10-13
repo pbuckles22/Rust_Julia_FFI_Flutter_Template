@@ -12,7 +12,7 @@ void main() {
       test('should handle FFI service not initialized', () async {
         // Test FFI service when not initialized
         expect(
-          () => FfiService.getOptimalFirstGuess(),
+          FfiService.getOptimalFirstGuess,
           throwsA(isA<ServiceNotInitializedException>()),
         );
       });

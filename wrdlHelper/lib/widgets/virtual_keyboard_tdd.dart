@@ -44,7 +44,7 @@ class VirtualKeyboard extends StatelessWidget {
   Widget _buildRow(List<String> keys) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: keys.map((key) => _buildKey(key)).toList(),
+      children: keys.map(_buildKey).toList(),
     );
   }
 

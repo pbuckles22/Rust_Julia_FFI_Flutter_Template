@@ -260,7 +260,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: VirtualKeyboard(onKeyPress: (key) => pressedKeys.add(key)),
+            body: VirtualKeyboard(onKeyPress: pressedKeys.add),
           ),
         ),
       );
@@ -282,7 +282,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: VirtualKeyboard(onKeyPress: (key) => pressedKeys.add(key)),
+            body: VirtualKeyboard(onKeyPress: pressedKeys.add),
           ),
         ),
       );
@@ -333,7 +333,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: VirtualKeyboard(onKeyPress: (key) => pressedKeys.add(key)),
+            body: VirtualKeyboard(onKeyPress: pressedKeys.add),
           ),
         ),
       );
@@ -356,7 +356,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: VirtualKeyboard(onKeyPress: (key) => pressedKeys.add(key)),
+            body: VirtualKeyboard(onKeyPress: pressedKeys.add),
           ),
         ),
       );
@@ -365,7 +365,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: VirtualKeyboard(onKeyPress: (key) => pressedKeys.add(key)),
+            body: VirtualKeyboard(onKeyPress: pressedKeys.add),
           ),
         ),
       );
@@ -385,7 +385,7 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: VirtualKeyboard(
-              onKeyPress: (key) => pressedKeys.add(key),
+              onKeyPress: pressedKeys.add,
               disabledKeys: {},
             ),
           ),

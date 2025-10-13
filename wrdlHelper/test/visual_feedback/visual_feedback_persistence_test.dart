@@ -23,10 +23,7 @@ void main() {
       await setupTestServices();
     });
     
-    tearDownAll(() {
-      // Clean up after all tests
-      resetAllServices();
-    });
+    tearDownAll(resetAllServices);
 
     tearDown(() async {
       // Clean up services

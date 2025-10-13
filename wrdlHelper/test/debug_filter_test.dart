@@ -3,9 +3,7 @@ import 'package:wrdlhelper/src/rust/frb_generated.dart';
 
 void main() {
   group('Debug Filter Tests', () {
-    setUpAll(() {
-      RustLib.init();
-    });
+    setUpAll(RustLib.init);
 
     test('debug word filtering', () async {
       final words = ['CRANE', 'SLATE', 'CRATE', 'PLATE', 'GRATE', 'TRACE'];

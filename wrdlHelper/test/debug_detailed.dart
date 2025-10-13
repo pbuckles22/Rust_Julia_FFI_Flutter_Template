@@ -4,9 +4,7 @@ import 'package:wrdlhelper/utils/debug_logger.dart';
 
 void main() {
   group('Debug Detailed', () {
-    setUpAll(() {
-      RustLib.init();
-    });
+    setUpAll(RustLib.init);
 
     test('debug step by step', () async {
       // Test 1: All green (should work)

@@ -4,9 +4,7 @@ import 'package:wrdlhelper/utils/debug_logger.dart';
 
 void main() {
   group('Debug Integration Tests', () {
-    setUpAll(() {
-      RustLib.init();
-    });
+    setUpAll(RustLib.init);
 
     test('debug integration test pattern', () async {
       final allWords = ['CRANE', 'SLATE', 'CRATE', 'PLATE', 'GRATE', 'TRACE'];
