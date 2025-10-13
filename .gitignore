@@ -106,6 +106,5 @@ debug_words.dart
 *.debug
 debug_*
 
-# Agent handoff temporary files
-docs/agent-handoff/temp/
-docs/agent-handoff/*.tmp
+# Agent handoff documentation (temporary working files)
+docs/agent-handoff/
