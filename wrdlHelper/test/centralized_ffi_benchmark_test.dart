@@ -34,8 +34,6 @@ void main() {
     });
 
     test('500-game benchmark with centralized FFI', () async {
-      // TEMPORARILY DISABLED - Algorithm needs debugging
-      return;
       DebugLogger.debug('\n🎯 Wordle Solver Benchmark Tool');
       DebugLogger.debug('================================');
       DebugLogger.debug('📚 Loaded 2300 answer words from centralized FFI');

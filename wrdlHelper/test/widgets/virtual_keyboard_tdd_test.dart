@@ -195,8 +195,6 @@ void main() {
     testWidgets('should show disabled state visually', (
       tester,
     ) async {
-      // TEMPORARILY DISABLED - Testing if this fixes interference
-      return;
       final disabledKeys = {'Q', 'W'};
 
       await tester.pumpWidget(
