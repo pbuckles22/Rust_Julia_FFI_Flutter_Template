@@ -1,4 +1,4 @@
-import 'package:wrdlhelper/models/word.dart';
+import 'word.dart';
 
 /// Analysis of letter frequency patterns in a word list
 class LetterFrequencyAnalysis {

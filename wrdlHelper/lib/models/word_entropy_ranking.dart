@@ -1,4 +1,4 @@
-import 'package:wrdlhelper/models/word.dart';
+import 'word.dart';
 
 /// Represents a word with its entropy ranking for intelligent word selection
 class WordEntropyRanking {

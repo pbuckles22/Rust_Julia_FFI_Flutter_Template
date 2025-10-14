@@ -1,4 +1,4 @@
-import 'package:wrdlhelper/models/word.dart';
+import 'word.dart';
 
 /// Represents a branch in the game tree analysis
 class GameTreeBranch {
