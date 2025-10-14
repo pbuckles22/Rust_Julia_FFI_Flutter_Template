@@ -113,9 +113,9 @@ void main() {
 
       // Verify all words are valid 5-letter uppercase strings
       expect(answerWords, everyElement(predicate((word) => 
-        word.length == 5 && word == word.toUpperCase())));
+        (word as String).length == 5 && word == (word as String).toUpperCase())));
       expect(guessWords, everyElement(predicate((word) => 
-        word.length == 5 && word == word.toUpperCase())));
+        (word as String).length == 5 && word == (word as String).toUpperCase())));
     });
   });
 }

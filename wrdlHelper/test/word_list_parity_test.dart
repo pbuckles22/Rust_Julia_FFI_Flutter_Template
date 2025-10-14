@@ -13,8 +13,8 @@ void main() {
 
     test('counts match expected ranges and are uppercase/deduped', () async {
       // RED: Validate counts and normalization using centralized FFI
-      final answers = FfiService.getAnswerWords();
-      final guesses = FfiService.getGuessWords();
+      final answers = FfiService.getAnswerWords() as List<String>;
+      final guesses = FfiService.getGuessWords() as List<String>;
 
       // Expected ranges (loose to avoid flakiness if lists update)
       expect(answers.length, inInclusiveRange(2200, 2400));
@@ -24,13 +24,13 @@ void main() {
       expect(
         answers,
         everyElement(
-          predicate((w) => w.length == 5 && w == w.toUpperCase()),
+          predicate((w) => (w as String).length == 5 && w == (w as String).toUpperCase()),
         ),
       );
       expect(
         guesses,
         everyElement(
-          predicate((w) => w.length == 5 && w == w.toUpperCase()),
+          predicate((w) => (w as String).length == 5 && w == (w as String).toUpperCase()),
         ),
       );
       expect(answers.toSet().length, answers.length);
@@ -40,7 +40,7 @@ void main() {
     test(
       'FFI loads full lists to Rust WORD_MANAGER once without panic',
       () async {
-      final answers = FfiService.getAnswerWords();
+      final answers = FfiService.getAnswerWords() as List<String>;
 
       // Word lists are now loaded directly by Rust during FFI initialization
       // No need to manually load them - they're already available
@@ -57,8 +57,8 @@ void main() {
     });
 
     test('sanity: guesses contain SLATE and answers exclude it', () async {
-      final answers = FfiService.getAnswerWords();
-      final guesses = FfiService.getGuessWords();
+      final answers = FfiService.getAnswerWords() as List<String>;
+      final guesses = FfiService.getGuessWords() as List<String>;
 
       // Sanity checks based on Wordle canon
       expect(guesses, contains('SLATE'));

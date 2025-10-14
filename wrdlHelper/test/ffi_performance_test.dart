@@ -77,9 +77,7 @@ void main() {
         tag: 'Performance',
       );
       DebugLogger.info(
-        '📊 Performance ratio: '
-        '${secondGuessStopwatch.elapsedMicroseconds / '
-        'firstGuessStopwatch.elapsedMicroseconds}x slower',
+        '📊 Performance ratio: ${secondGuessStopwatch.elapsedMicroseconds / firstGuessStopwatch.elapsedMicroseconds}x slower',
         tag: 'Performance',
       );
       

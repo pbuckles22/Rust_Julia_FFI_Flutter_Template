@@ -215,4 +215,3 @@ class GameControls extends StatelessWidget {
       ),
     );
   }
-}

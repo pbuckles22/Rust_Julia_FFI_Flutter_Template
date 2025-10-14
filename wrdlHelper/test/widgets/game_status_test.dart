@@ -32,8 +32,8 @@ void main() {
               LetterState.gray,
             ],
           ),
-        )
-        ..addGuess(
+        );
+      mockGameState.addGuess(
           Word.fromString('CRICK'),
           GuessResult(
             word: Word.fromString('CRICK'),

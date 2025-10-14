@@ -32,9 +32,9 @@ void main() {
               LetterState.gray,
             ],
           ),
-        )
-        ..addGuess(
-          Word.fromString('CRICK'),
+        );
+      mockGameState.addGuess(
+        Word.fromString('CRICK'),
           GuessResult(
             word: Word.fromString('CRICK'),
             letterStates: [
@@ -45,9 +45,9 @@ void main() {
               LetterState.gray,
             ],
           ),
-        )
-        ..addGuess(
-          Word.fromString('CRATE'),
+        );
+      mockGameState.addGuess(
+        Word.fromString('CRATE'),
           GuessResult(
             word: Word.fromString('CRATE'),
             letterStates: [

@@ -342,7 +342,6 @@ class GameService {
               result.letterStates.length >
           0.5,
     );
-  }
 
   /// Suggests the next guess
   Word? suggestNextGuess(GameState gameState) {
