@@ -6,6 +6,7 @@ import 'package:wrdlhelper/services/ffi_service.dart';
 import 'package:wrdlhelper/services/game_service.dart';
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
 import 'package:wrdlhelper/utils/debug_logger.dart';
+import 'test_utils/ffi_test_helper.dart';
 
 /// Centralized FFI Benchmark Tests
 ///
@@ -17,7 +18,7 @@ void main() {
 
     setUpAll(() async {
       TestWidgetsFlutterBinding.ensureInitialized();
-      await RustLib.init();
+      await FfiTestHelper.initializeOnce();
       await FfiService.initialize();
       gameService = GameService();
       await gameService.initialize();

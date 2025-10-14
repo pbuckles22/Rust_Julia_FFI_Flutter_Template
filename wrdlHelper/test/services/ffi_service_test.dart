@@ -3,12 +3,24 @@ import 'package:wrdlhelper/services/ffi_service.dart';
 import 'package:wrdlhelper/services/game_service.dart';
 import 'package:wrdlhelper/models/word.dart';
 import 'package:wrdlhelper/service_locator.dart';
+import '../test_utils/ffi_test_helper.dart';
 
 void main() {
   group('FfiService Tests', () {
     setUpAll(() async {
+      // Initialize FFI once for all tests
+      await FfiTestHelper.initializeOnce();
       // Initialize services for testing
       await setupTestServices();
+    });
+
+    tearDownAll(() {
+      // Clean up FFI resources to prevent test interference
+      try {
+        resetAllServices();
+      } catch (e) {
+        // Ignore cleanup errors
+      }
     });
 
     group('isValidWord', () {

@@ -56,11 +56,13 @@ void main() {
       // Don't setup services - this should trigger fallback behavior
       expect(sl.isRegistered<AppService>(), isFalse);
 
-      // The screen should still build with fallback behavior
+      // The screen should handle the error gracefully and show fallback UI
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
+      
+      // Wait for the error to be handled and fallback UI to appear
       await tester.pumpAndSettle();
 
-      // Verify screen still builds
+      // Verify screen still builds (with fallback behavior)
       expect(find.byType(WordleGameScreen), findsOneWidget);
 
       // Restore services for subsequent tests

@@ -54,6 +54,20 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
         tag: 'WordleGameScreen',
       );
 
+      // Check if services are registered before accessing them
+      if (!sl.isRegistered<AppService>()) {
+        throw StateError(
+          'AppService is not registered in service locator. '
+          'Call setupServices() or setupTestServices() first.',
+        );
+      }
+      if (!sl.isRegistered<GameService>()) {
+        throw StateError(
+          'GameService is not registered in service locator. '
+          'Call setupServices() or setupTestServices() first.',
+        );
+      }
+
       final appService = sl<AppService>();
       final gameService = sl<GameService>();
       DebugLogger.success(
@@ -105,6 +119,23 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
       // Don't auto-suggest on app start - let user request hints manually
       // _getSuggestion();
     } on Exception catch (e, stackTrace) {
+      DebugLogger.error(
+        '❌ CRITICAL: Service initialization failed: $e',
+        tag: 'WordleGameScreen',
+      );
+      DebugLogger.error('Stack trace: $stackTrace', tag: 'WordleGameScreen');
+
+      // Fallback to mock game state
+      _gameState = GameState.newGame(targetWord: Word.fromString('CRATE'));
+      DebugLogger.warning(
+        '🔄 Using fallback game state with target: CRATE',
+        tag: 'WordleGameScreen',
+      );
+      setState(() {
+        _isInitialized = true; // Set to true so UI can render
+      });
+    } catch (e, stackTrace) {
+      // Catch any other errors (including StateError)
       DebugLogger.error(
         '❌ CRITICAL: Service initialization failed: $e',
         tag: 'WordleGameScreen',

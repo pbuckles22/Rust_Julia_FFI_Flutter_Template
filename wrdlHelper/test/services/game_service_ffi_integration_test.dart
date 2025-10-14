@@ -16,8 +16,8 @@ void main() {
     // Now works with centralized FFI word lists
     late GameService gameService;
 
-    setUp(() async {
-      // Initialize FFI first
+    setUpAll(() async {
+      // Initialize FFI once for all tests in this group
       try {
         await RustLib.init();
       } on Exception catch (e) {
@@ -28,6 +28,19 @@ void main() {
           tag: 'FFIIntegrationTest',
         );
       }
+    });
+
+    tearDownAll(() {
+      // Clean up FFI resources to prevent test interference
+      try {
+        RustLib.dispose();
+      } catch (e) {
+        // Ignore cleanup errors
+      }
+    });
+
+    setUp(() async {
+      // Initialize GameService for each test
 
       // Initialize FFI service first (word lists are loaded by centralized FFI
       // during initialization)

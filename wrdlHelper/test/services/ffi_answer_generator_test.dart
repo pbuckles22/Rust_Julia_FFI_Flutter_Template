@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/services/ffi_service.dart';
 import 'package:wrdlhelper/utils/debug_logger.dart';
+import 'package:wrdlhelper/src/rust/frb_generated.dart';
 
 void main() {
   group('FFI Answer Generator Tests', () {
@@ -19,6 +20,15 @@ void main() {
           tag: 'FFITest',
         );
         ffiAvailable = false;
+      }
+    });
+
+    tearDownAll(() {
+      // Clean up FFI resources to prevent test interference
+      try {
+        RustLib.dispose();
+      } catch (e) {
+        // Ignore cleanup errors
       }
     });
 

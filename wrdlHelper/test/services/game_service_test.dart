@@ -4,6 +4,7 @@ import 'package:wrdlhelper/models/game_state.dart';
 import 'package:wrdlhelper/models/word.dart';
 import 'package:wrdlhelper/services/app_service.dart';
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
+import '../test_utils/ffi_test_helper.dart';
 
 /// Comprehensive tests for GameService
 ///
@@ -15,8 +16,17 @@ void main() {
     late AppService appService;
 
     setUpAll(() async {
-      // Initialize FFI once for all tests in this group
-      await RustLib.init();
+      // Initialize FFI once for all tests
+      await FfiTestHelper.initializeOnce();
+    });
+
+    tearDownAll(() {
+      // Clean up FFI resources to prevent test interference
+      try {
+        RustLib.dispose();
+      } catch (e) {
+        // Ignore cleanup errors
+      }
     });
 
     setUp(() async {
