@@ -1,10 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:wrdlhelper/models/game_state.dart';
 import 'package:wrdlhelper/models/guess_result.dart';
 import 'package:wrdlhelper/models/word.dart';
-import 'package:wrdlhelper/services/game_service.dart';
 import 'package:wrdlhelper/services/ffi_service.dart';
+import 'package:wrdlhelper/services/game_service.dart';
 import 'package:wrdlhelper/service_locator.dart';
+
 import 'global_test_setup.dart';
 
 void main() {
