@@ -6,14 +6,14 @@ library;
 
 /// Base class for all game exceptions
 abstract class GameException implements Exception {
+  /// Creates a new game exception
+  const GameException(this.message, [this.details]);
+
   /// The main error message
   final String message;
   
   /// Optional additional details about the error
   final String? details;
-
-  /// Creates a new game exception
-  const GameException(this.message, [this.details]);
 
   @override
   String toString() => details != null ? '$message: $details' : message;

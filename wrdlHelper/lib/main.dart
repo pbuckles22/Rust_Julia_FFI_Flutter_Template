@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
-import 'screens/wordle_game_screen.dart';
-import 'service_locator.dart';
-import 'utils/debug_logger.dart';
+import 'package:wrdlhelper/screens/wordle_game_screen.dart';
+import 'package:wrdlhelper/service_locator.dart';
+import 'package:wrdlhelper/utils/debug_logger.dart';
 
 // REMOVED: No async, no try-catch. Just run the app.
 void main() {

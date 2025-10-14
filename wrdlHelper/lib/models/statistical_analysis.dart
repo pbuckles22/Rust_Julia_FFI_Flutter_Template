@@ -15,8 +15,6 @@ class LetterFrequencyAnalysis {
   final List<String> mostCommonLetters;
 
   /// Least common letters in order
-  final List<String> leastCommonLetters;
-
   /// Creates a new letter frequency analysis
   const LetterFrequencyAnalysis({
     required this.totalWords,
@@ -25,6 +23,9 @@ class LetterFrequencyAnalysis {
     required this.mostCommonLetters,
     required this.leastCommonLetters,
   });
+
+  /// Least common letters in order
+  final List<String> leastCommonLetters;
 
   @override
   String toString() => 'LetterFrequencyAnalysis(totalWords: $totalWords, '

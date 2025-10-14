@@ -48,7 +48,7 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
               itemBuilder: (context, index) => Card(
                   margin: const EdgeInsets.all(8.0),
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16),
                     child: Text(
                       testResults[index],
                       style: const TextStyle(fontFamily: 'monospace'),
@@ -59,7 +59,7 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
             ),
           ),
           Container(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16),
             child: ElevatedButton(
               onPressed: isRunning ? null : runPerformanceTests,
               child: const Text(
@@ -68,7 +68,7 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                padding: const EdgeInsets.symmetric(vertical: 16),
               ),
             ),
           ),

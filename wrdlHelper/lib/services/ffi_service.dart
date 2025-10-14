@@ -45,7 +45,7 @@ class FfiService {
     includeKillerWords: false,
     candidateCap: 200,
     earlyTerminationEnabled: true,
-    earlyTerminationThreshold: 5.0,
+    earlyTerminationThreshold: 5,
     entropyOnlyScoring: false,
   );
 
@@ -301,7 +301,7 @@ class FfiService {
       includeKillerWords: false,
       candidateCap: 200,
       earlyTerminationEnabled: true,
-      earlyTerminationThreshold: 5.0,
+      earlyTerminationThreshold: 5,
       entropyOnlyScoring: false,
     );
   }

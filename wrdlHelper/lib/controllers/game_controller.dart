@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-
-import '../models/game_state.dart';
-import '../models/guess_result.dart';
-import '../models/word.dart';
-import '../services/app_service.dart';
-import '../service_locator.dart';
+import 'package:wrdlhelper/models/game_state.dart';
+import 'package:wrdlhelper/models/guess_result.dart';
+import 'package:wrdlhelper/models/word.dart';
+import 'package:wrdlhelper/services/app_service.dart';
+import 'package:wrdlhelper/service_locator.dart';
 
 /// GameController manages the game state and user interactions
 class GameController {
   // Services are now accessed through AppService singleton
+
+  /// Creates a new game controller
+  GameController();
 
   /// The current game state
   GameState? _gameState;
@@ -21,12 +23,9 @@ class GameController {
   
   /// Any error message from operations
   String? _errorMessage;
-  
+
   /// List of listeners for state changes
   final List<VoidCallback> _listeners = [];
-
-  /// Creates a new game controller
-  GameController();
 
   // Getters
   /// The current game state
@@ -148,7 +147,9 @@ class GameController {
 
   /// Get key colors based on game state
   Map<String, Color> getKeyColors() {
-    if (_gameState == null) return {};
+    if (_gameState == null) {
+      return {};
+    }
 
     final keyColors = <String, Color>{};
 
@@ -179,9 +180,12 @@ class GameController {
   /// Check if newState is better than currentState
   bool _isBetterState(LetterState newState, LetterState currentState) {
     // Green is best, then yellow, then gray
-    if (newState == LetterState.green) return true;
-    if (newState == LetterState.yellow && currentState == LetterState.gray)
+    if (newState == LetterState.green) {
       return true;
+    }
+    if (newState == LetterState.yellow && currentState == LetterState.gray) {
+      return true;
+    }
     return false;
   }
 

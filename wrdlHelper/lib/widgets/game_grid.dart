@@ -67,7 +67,7 @@ class GameGrid extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: Colors.grey[50],
-              border: Border.all(color: Colors.grey[200]!, width: 1),
+              border: Border.all(color: Colors.grey[200]!),
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(

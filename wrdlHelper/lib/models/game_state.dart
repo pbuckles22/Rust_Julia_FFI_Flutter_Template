@@ -1,6 +1,6 @@
-import '../exceptions/game_exceptions.dart';
-import 'guess_result.dart';
-import 'word.dart';
+import 'package:wrdlhelper/exceptions/game_exceptions.dart';
+import 'package:wrdlhelper/models/guess_result.dart';
+import 'package:wrdlhelper/models/word.dart';
 
 /// Game status enum for Wordle game
 enum GameStatus {
@@ -16,20 +16,14 @@ enum GameStatus {
 
 /// Guess entry for tracking guesses and results
 class GuessEntry {
+  /// Creates a new guess entry
+  const GuessEntry({required this.word, required this.result});
+
   /// The word that was guessed
   final Word word;
   
   /// The result of the guess
   final GuessResult result;
-
-  /// Creates a new guess entry
-  const GuessEntry({required this.word, required this.result});
-
-  /// Converts the guess entry to JSON
-  Map<String, dynamic> toJson() => {
-    'word': word.toJson(),
-    'result': result.toJson(),
-  };
 
   /// Creates a guess entry from JSON
   factory GuessEntry.fromJson(Map<String, dynamic> json) => GuessEntry(
@@ -37,10 +31,20 @@ class GuessEntry {
       result: GuessResult.fromJson(json['result'] as Map<String, dynamic>),
     );
 
+  /// Converts the guess entry to JSON
+  Map<String, dynamic> toJson() => {
+    'word': word.toJson(),
+    'result': result.toJson(),
+  };
+
   @override
   bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    if (other is! GuessEntry) return false;
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! GuessEntry) {
+      return false;
+    }
     return word == other.word && result == other.result;
   }
 
@@ -281,8 +285,12 @@ class GameState {
   /// Checks if two game states are equal
   @override
   bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    if (other is! GameState) return false;
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! GameState) {
+      return false;
+    }
     return guesses == other.guesses &&
         maxGuesses == other.maxGuesses &&
         currentGuess == other.currentGuess &&

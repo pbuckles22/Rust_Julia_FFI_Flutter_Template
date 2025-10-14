@@ -18,8 +18,6 @@ class GameTreeBranch {
   final double expectedScore;
 
   /// Analysis metadata
-  final BranchMetadata metadata;
-
   /// Creates a new game tree branch
   const GameTreeBranch({
     required this.pattern,
@@ -29,6 +27,9 @@ class GameTreeBranch {
     required this.expectedScore,
     required this.metadata,
   });
+
+  /// Analysis metadata
+  final BranchMetadata metadata;
 
   @override
   String toString() => 'GameTreeBranch(pattern: $pattern, '

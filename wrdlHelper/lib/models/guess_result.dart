@@ -16,6 +16,22 @@ enum LetterState {
 /// Represents the result of a guess with letter states and analysis
 /// for the Wordle game following TDD principles.
 class GuessResult {
+  /// Constructor that validates inputs
+  GuessResult({
+    required Word? word,
+    required List<LetterState>? letterStates,
+  }) : word = word ?? (throw const InvalidGuessResultException(
+          'Word cannot be null',
+        )),
+       letterStates = letterStates ?? (throw const InvalidGuessResultException(
+          'Letter states cannot be null',
+        )) {
+    if (this.letterStates.length != this.word.length) {
+      throw const InvalidGuessResultException(
+      'Letter states length must match word length');
+    }
+  }
+
   /// The word that was guessed
   final Word word;
   
@@ -42,26 +58,10 @@ class GuessResult {
   /// Number of yellow letters
   int get yellowCount =>
       letterStates.where((state) => state == LetterState.yellow).length;
-  
+
   /// Number of gray letters
   int get grayCount =>
       letterStates.where((state) => state == LetterState.gray).length;
-  
-  /// Constructor that validates inputs
-  GuessResult({
-    required Word? word,
-    required List<LetterState>? letterStates,
-  }) : word = word ?? (throw const InvalidGuessResultException(
-          'Word cannot be null',
-        )),
-       letterStates = letterStates ?? (throw const InvalidGuessResultException(
-          'Letter states cannot be null',
-        )) {
-    if (this.letterStates.length != this.word.length) {
-      throw const InvalidGuessResultException(
-      'Letter states length must match word length');
-    }
-  }
   
   /// Creates a GuessResult from a word with all gray letters
   factory GuessResult.fromWord(Word word) {
@@ -75,7 +75,7 @@ class GuessResult {
       letterStates: letterStates,
     );
   }
-  
+
   /// Creates a validated GuessResult
   factory GuessResult.validated({
     required Word? word,
@@ -194,17 +194,25 @@ class GuessResult {
   /// Checks if two results are equal
   @override
   bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    if (other is! GuessResult) return false;
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! GuessResult) {
+      return false;
+    }
     return word == other.word && 
            _listEquals(letterStates, other.letterStates);
   }
   
   /// Helper method to compare lists
   bool _listEquals<T>(List<T> a, List<T> b) {
-    if (a.length != b.length) return false;
+    if (a.length != b.length) {
+      return false;
+    }
     for (var i = 0; i < a.length; i++) {
-      if (a[i] != b[i]) return false;
+      if (a[i] != b[i]) {
+        return false;
+      }
     }
     return true;
   }
@@ -225,7 +233,7 @@ class GuessResult {
         case LetterState.green:
           return 'G';
       }
-    }).join('');
+    }).join();
     
     return '${word.value}: $stateStrings';
   }

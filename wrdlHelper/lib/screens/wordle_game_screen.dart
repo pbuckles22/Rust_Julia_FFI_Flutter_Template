@@ -643,11 +643,11 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
 
               // Calculate responsive spacing based on available space
               final topSpacing = isSmallScreen ? 8.0 : 20.0;
-              final middleSpacing = isSmallScreen ? 8.0 : 16.0;
+              final middleSpacing = isSmallScreen ? 8.0 : 16;
               final bottomSpacing = isSmallScreen ? 8.0 : 20.0;
 
               return Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16),
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,

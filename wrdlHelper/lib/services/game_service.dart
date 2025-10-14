@@ -643,7 +643,7 @@ class GameService {
     DebugLogger.info('📝 PREVIOUS GUESSES HISTORY:', tag: 'GameService');
     for (var i = 0; i < guessResults.length; i++) {
       final gr = guessResults[i];
-      final resultString = gr.$2.join('');
+      final resultString = gr.$2.join();
       DebugLogger.info(
         '  Guess ${i + 1}: "${gr.$1}" → $resultString',
         tag: 'GameService',
