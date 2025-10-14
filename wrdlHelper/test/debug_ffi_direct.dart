@@ -28,8 +28,8 @@ void main() {
     test('should call getIntelligentGuess with minimal data', () {
       // Test with minimal data to see if it hangs
       final result = ffi.getIntelligentGuess(
-        allWords: ["CRANE", "SLATE", "CRATE"],
-        remainingWords: ["CRANE", "SLATE", "CRATE"],
+        allWords: ['CRANE', 'SLATE', 'CRATE'],
+        remainingWords: ['CRANE', 'SLATE', 'CRATE'],
         guessResults: [],
       );
       
@@ -41,9 +41,9 @@ void main() {
     test('should call getIntelligentGuess with one guess', () {
       // Test with one guess to see if it hangs
       final result = ffi.getIntelligentGuess(
-        allWords: ["CRANE", "SLATE", "CRATE", "PLATE", "GRATE"],
-        remainingWords: ["SLATE", "CRATE", "PLATE", "GRATE"],
-        guessResults: [("CRANE", ["X", "X", "X", "X", "X"])],
+        allWords: ['CRANE', 'SLATE', 'CRATE', 'PLATE', 'GRATE'],
+        remainingWords: ['SLATE', 'CRATE', 'PLATE', 'GRATE'],
+        guessResults: [('CRANE', ['X', 'X', 'X', 'X', 'X'])],
       );
       
       // If we get here, it didn't hang
