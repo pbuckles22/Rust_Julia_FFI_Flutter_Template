@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:wrdlhelper/models/game_state.dart';
-import 'package:wrdlhelper/models/guess_result.dart';
-import 'package:wrdlhelper/models/word.dart';
-import 'package:wrdlhelper/services/app_service.dart';
-import 'package:wrdlhelper/service_locator.dart';
+import '../models/game_state.dart';
+import '../models/guess_result.dart';
+import '../models/word.dart';
+import '../services/app_service.dart';
+import '../service_locator.dart';
 
 /// GameController manages the game state and user interactions
 class GameController {
