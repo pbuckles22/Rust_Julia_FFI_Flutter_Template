@@ -10,6 +10,15 @@ void main() {
       await FfiService.initialize();
     });
 
+    tearDownAll(() {
+      // Clean up FFI resources to prevent test interference
+      try {
+        RustLib.dispose();
+      } catch (e) {
+        // Ignore disposal errors
+      }
+    });
+
     test('isValidWord() should handle edge cases correctly', () {
       // RED: This test will verify comprehensive validation
       

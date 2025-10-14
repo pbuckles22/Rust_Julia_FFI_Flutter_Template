@@ -10,6 +10,15 @@ void main() {
       await FfiService.initialize();
     });
 
+    tearDownAll(() {
+      // Clean up FFI resources to prevent test interference
+      try {
+        RustLib.dispose();
+      } catch (e) {
+        // Ignore disposal errors
+      }
+    });
+
     test('getAnswerWords() should return list of answer words', () {
       // RED: This test will verify the basic FFI function works
       final answerWords = FfiService.getAnswerWords();

@@ -11,6 +11,15 @@ void main() {
       // Word lists are now loaded by centralized FFI during initialization
     });
 
+    tearDownAll(() {
+      // Clean up FFI resources to prevent test interference
+      try {
+        RustLib.dispose();
+      } catch (e) {
+        // Ignore disposal errors
+      }
+    });
+
     test('counts match expected ranges and are uppercase/deduped', () async {
       // RED: Validate counts and normalization using centralized FFI
       final answers = FfiService.getAnswerWords() as List<String>;

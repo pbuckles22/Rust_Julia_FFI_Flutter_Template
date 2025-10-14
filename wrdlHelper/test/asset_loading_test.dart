@@ -17,6 +17,15 @@ void main() {
       await FfiService.initialize();
     });
 
+    tearDownAll(() {
+      // Clean up FFI resources to prevent test interference
+      try {
+        RustLib.dispose();
+      } catch (e) {
+        // Ignore disposal errors
+      }
+    });
+
     test('word lists can be loaded via centralized FFI', () async {
       final answerWords = FfiService.getAnswerWords();
       final guessWords = FfiService.getGuessWords();

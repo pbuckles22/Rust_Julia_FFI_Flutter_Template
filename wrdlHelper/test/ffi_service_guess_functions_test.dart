@@ -10,6 +10,15 @@ void main() {
       await FfiService.initialize();
     });
 
+    tearDownAll(() {
+      // Clean up FFI resources to prevent test interference
+      try {
+        RustLib.dispose();
+      } catch (e) {
+        // Ignore disposal errors
+      }
+    });
+
     test('getIntelligentGuessFast() should return valid suggestions', () {
       // RED: This test will verify the fast guess function works
       

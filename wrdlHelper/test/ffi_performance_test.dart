@@ -11,6 +11,15 @@ void main() {
       await FfiService.initialize();
     });
 
+    tearDownAll(() {
+      // Clean up FFI resources to prevent test interference
+      try {
+        RustLib.dispose();
+      } catch (e) {
+        // Ignore disposal errors
+      }
+    });
+
     test('optimal first guess performance', () {
       final stopwatch = Stopwatch()..start();
       
