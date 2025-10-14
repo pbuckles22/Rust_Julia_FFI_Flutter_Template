@@ -253,7 +253,7 @@ class FfiService {
       // handled
       // by the game service when it processes guesses
       return true;
-    } catch (e) {
+    } on Exception catch (e) {
       return false;
     }
   }
@@ -340,7 +340,7 @@ class FfiService {
     _ensureInitialized();
     try {
       return ffi.isValidWord(word: word);
-    } catch (e) {
+    } on Exception catch (e) {
       return false; // Fail gracefully for validation
     }
   }

@@ -161,7 +161,7 @@ void main() {
       // Test error handling
       try {
         await FfiService.isValidWord('');
-      } catch (e) {
+      } on Exception catch (e) {
         // Should handle error gracefully
         expect(e, isA<Exception>());
       }

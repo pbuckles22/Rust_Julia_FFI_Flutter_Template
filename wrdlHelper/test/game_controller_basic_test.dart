@@ -34,7 +34,7 @@ void main() {
         // Test initialization handling
         try {
           await gameController.initialize();
-        } catch (e) {
+        } on Exception catch (e) {
           // May fail due to service dependencies
         }
         

@@ -104,7 +104,7 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
 
       // Don't auto-suggest on app start - let user request hints manually
       // _getSuggestion();
-    } catch (e, stackTrace) {
+    } on Exception catch (e, stackTrace) {
       DebugLogger.error(
         '❌ CRITICAL: Service initialization failed: $e',
         tag: 'WordleGameScreen',
@@ -411,7 +411,7 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
       setState(() {
         _currentInput = '';
       });
-    } catch (e) {
+    } on Exception catch (e) {
       _showErrorDialog(e.toString());
     }
   }
@@ -501,7 +501,7 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
           _showNoMoreSuggestionsDialog();
         }
       }
-    } catch (e, stackTrace) {
+    } on Exception catch (e, stackTrace) {
       DebugLogger.error(
         'Error getting suggestion: $e',
         tag: 'UI',
@@ -530,7 +530,7 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
         'FFI Connection Successful!\n\nRust loaded '
         '${answerWords.length} answer words',
       );
-    } catch (e, stackTrace) {
+    } on Exception catch (e, stackTrace) {
       DebugLogger.error(
         '❌ FFI FAILED: Could not call getAnswerWords.',
         tag: 'FFI_TEST',

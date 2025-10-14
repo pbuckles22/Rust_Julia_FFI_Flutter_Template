@@ -82,7 +82,7 @@ void main() {
         for (var i = 0; i < 20; i++) {
           try {
             FfiService.getOptimalFirstGuess();
-          } catch (e) {
+          } on Exception catch (e) {
             // Expected to fail
           }
         }
@@ -96,7 +96,7 @@ void main() {
         for (var i = 0; i < 30; i++) {
           try {
             FfiService.getBestGuessFast(['EXCEPTION$i'], []);
-          } catch (e) {
+          } on Exception catch (e) {
             // Expected to fail
           }
         }
@@ -153,14 +153,14 @@ void main() {
         try {
           final recoveryData = List.generate(50000, (i) => 'RECOVERY$i');
           FfiService.getBestGuessReference(recoveryData, []);
-        } catch (e) {
+        } on Exception catch (e) {
           // Expected to fail
         }
         
         // Should be able to attempt again
         try {
           FfiService.getBestGuessReference(['RECOVERY2'], []);
-        } catch (e) {
+        } on Exception catch (e) {
           // Expected to fail again
         }
         
@@ -176,7 +176,7 @@ void main() {
               (j) => 'CONCURRENT$i$j',
             );
             return FfiService.getBestGuessFast(concurrentData, []);
-          } catch (e) {
+          } on Exception catch (e) {
             return null;
           }
         });
@@ -196,7 +196,7 @@ void main() {
           
           try {
             FfiService.getOptimalFirstGuess();
-          } catch (e) {
+          } on Exception catch (e) {
             // Expected to fail
           }
           

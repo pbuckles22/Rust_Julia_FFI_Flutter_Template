@@ -11,7 +11,7 @@ void main() {
       try {
         await FfiService.initialize();
         ffiAvailable = true;
-      } catch (e) {
+      } on Exception catch (e) {
         // FFI initialization may fail in test environment, that's OK
         // The tests will be skipped or use fallback behavior
         DebugLogger.testPrint(

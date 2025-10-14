@@ -74,7 +74,7 @@ class _iPhone12PerformanceTestScreenState
           await Future.delayed(Duration.zero);
         }
       }
-    } catch (e) {
+    } on Exception catch (e) {
       results.add('❌ FFI test failed: $e');
     }
     
@@ -126,7 +126,7 @@ class _iPhone12PerformanceTestScreenState
           await Future.delayed(Duration.zero);
         }
       }
-    } catch (e) {
+    } on Exception catch (e) {
       results.add('❌ Memory test failed: $e');
     }
     
@@ -178,7 +178,7 @@ class _iPhone12PerformanceTestScreenState
           await Future.delayed(Duration.zero);
         }
       }
-    } catch (e) {
+    } on Exception catch (e) {
       results.add('❌ Real-time test failed: $e');
     }
     

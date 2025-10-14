@@ -138,7 +138,7 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
         }
         operations++;
       }
-    } catch (e) {
+    } on Exception catch (e) {
       addResult('❌ FFI test failed: $e');
       return;
     }
@@ -184,7 +184,7 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
           }
         }
       }
-    } catch (e) {
+    } on Exception catch (e) {
       addResult('❌ Memory test failed: $e');
       return;
     }
@@ -239,7 +239,7 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
           await Future.delayed(const Duration(milliseconds: 1));
         }
       }
-    } catch (e) {
+    } on Exception catch (e) {
       addResult('❌ Real-time test failed: $e');
       return;
     }
@@ -289,7 +289,7 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
           processedCount++;
         }
       }
-    } catch (e) {
+    } on Exception catch (e) {
       addResult('❌ Large data test failed: $e');
       return;
     }
@@ -366,7 +366,7 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
         
         totalOperations++;
       }
-    } catch (e) {
+    } on Exception catch (e) {
       addResult('❌ Stress test failed: $e');
       return;
     }

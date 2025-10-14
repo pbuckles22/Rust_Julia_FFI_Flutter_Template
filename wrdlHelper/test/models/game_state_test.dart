@@ -140,7 +140,7 @@ void main() {
         try {
           gameState.addGuess(guess, result);
           fail('Expected InvalidGuessException to be thrown');
-        } catch (e) {
+        } on Exception catch (e) {
           expect(e, isA<InvalidGuessException>());
           expect(e.toString(), contains('already been used'));
         }

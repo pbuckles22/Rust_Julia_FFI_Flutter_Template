@@ -255,7 +255,7 @@ class GameService {
 
     try {
       return word.isValidLength;
-    } catch (e) {
+    } on Exception catch (e) {
       return false;
     }
   }
@@ -270,7 +270,7 @@ class GameService {
 
     try {
       return word.isValidCharacters;
-    } catch (e) {
+    } on Exception catch (e) {
       return false;
     }
   }
@@ -285,7 +285,7 @@ class GameService {
 
     try {
       return word.isNotEmpty;
-    } catch (e) {
+    } on Exception catch (e) {
       return false;
     }
   }
@@ -375,7 +375,7 @@ class GameService {
         );
       }
       return suggestion;
-    } catch (e, stackTrace) {
+    } on Exception catch (e, stackTrace) {
       DebugLogger.error(
         'Error in suggestNextGuess: $e',
         tag: 'GameService',
@@ -725,7 +725,7 @@ class GameService {
           guessResults,
         );
       }
-    } catch (e) {
+    } on Exception catch (e) {
       DebugLogger.warning(
         'FFI solver failed, using fallback: $e',
         tag: 'GameService',
@@ -786,7 +786,7 @@ class GameService {
     try {
       // Validate against the guess words list using centralized FFI
       return FfiService.isValidWord(guessWord);
-    } catch (e) {
+    } on Exception catch (e) {
       return false;
     }
   }

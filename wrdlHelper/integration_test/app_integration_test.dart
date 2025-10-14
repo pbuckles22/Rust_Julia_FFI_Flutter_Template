@@ -216,7 +216,7 @@ void main() {
           ),
         ));
         await tester.pumpAndSettle();
-      } catch (e) {
+      } on Exception catch (e) {
         // If an error occurs, the app should recover
         app.main();
         await tester.pumpAndSettle();

@@ -67,7 +67,7 @@ void main() {
         // Test that error messages are meaningful
         try {
           FfiService.getOptimalFirstGuess();
-        } catch (e) {
+        } on Exception catch (e) {
           expect(e, isA<ServiceNotInitializedException>());
           expect(e.toString(), contains('FFI'));
         }

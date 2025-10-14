@@ -878,7 +878,7 @@ void main() {
       try {
         await tester.tap(find.text('🎯 Get Next Hint'), warnIfMissed: false);
         await tester.pumpAndSettle();
-      } catch (e) {
+      } on Exception catch (e) {
         // Skip if tap fails - widget might be off-screen or not rendered
       }
 

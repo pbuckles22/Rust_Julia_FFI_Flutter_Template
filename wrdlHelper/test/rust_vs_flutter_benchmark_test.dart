@@ -50,7 +50,7 @@ void main() {
           try {
             gameState.addGuess(suggestion, guessResult);
             guesses++;
-          } catch (e) {
+          } on Exception catch (e) {
             // Game over (max guesses reached)
             break;
           }

@@ -20,7 +20,7 @@ void main() {
       // Initialize FFI first
       try {
         await RustLib.init();
-      } catch (e) {
+      } on Exception catch (e) {
         // FFI initialization may fail in test environment, that's OK
         // The GameService will fallback to naive strategy
         DebugLogger.testPrint(

@@ -95,7 +95,7 @@ void main() {
           isTrue,
           reason: 'All existing functionality should work after rename',
         );
-      } catch (e) {
+      } on Exception catch (e) {
         expect(
           true,
           isFalse,

@@ -105,7 +105,6 @@ class GameState {
       gameStatus: GameStatus.playing,
       startTime: DateTime.now(),
     );
-  }
 
   /// Number of guesses made
   int get guessCount => guesses.length;

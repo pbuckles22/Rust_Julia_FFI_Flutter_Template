@@ -139,7 +139,7 @@ void main() {
             try {
               await tester.tap(letterKeys.at(j), warnIfMissed: false);
               await tester.pump();
-            } catch (e) {
+            } on Exception catch (e) {
               // Skip if tap fails - widget might be off-screen
               continue;
             }
@@ -153,7 +153,7 @@ void main() {
             try {
               await tester.tap(enterKey, warnIfMissed: false);
               await tester.pump();
-            } catch (e) {
+            } on Exception catch (e) {
               // Skip if tap fails - widget might be off-screen
             }
           }

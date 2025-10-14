@@ -85,7 +85,7 @@ void main() {
         
         try {
           FfiService.getOptimalFirstGuess();
-        } catch (e) {
+        } on Exception catch (e) {
           // Expected to fail due to initialization
         }
         
@@ -101,7 +101,7 @@ void main() {
         final futures = List.generate(10, (i) async {
           try {
             return FfiService.getBestGuessFast(['WORD$i'], []);
-          } catch (e) {
+          } on Exception catch (e) {
             return null;
           }
         });
@@ -117,7 +117,7 @@ void main() {
         for (var i = 0; i < 50; i++) {
           try {
             FfiService.getBestGuessReference(['LOAD$i'], []);
-          } catch (e) {
+          } on Exception catch (e) {
             // Expected to fail
           }
         }
@@ -169,7 +169,7 @@ void main() {
         for (var i = 0; i < 100; i++) {
           try {
             FfiService.getOptimalFirstGuess();
-          } catch (e) {
+          } on Exception catch (e) {
             // Expected to fail
           }
         }
@@ -184,7 +184,7 @@ void main() {
         // Test resource cleanup
         try {
           FfiService.getOptimalFirstGuess();
-        } catch (e) {
+        } on Exception catch (e) {
           // Expected to fail
         }
         
@@ -209,14 +209,14 @@ void main() {
         // Test recovery from resource errors
         try {
           FfiService.getBestGuessReference(['RECOVERY'], []);
-        } catch (e) {
+        } on Exception catch (e) {
           // Expected to fail
         }
         
         // Should be able to attempt again
         try {
           FfiService.getBestGuessReference(['RECOVERY2'], []);
-        } catch (e) {
+        } on Exception catch (e) {
           // Expected to fail again
         }
         
@@ -230,7 +230,7 @@ void main() {
         final futures = List.generate(20, (i) async {
           try {
             return FfiService.getOptimalFirstGuess();
-          } catch (e) {
+          } on Exception catch (e) {
             return null;
           }
         });
@@ -248,7 +248,7 @@ void main() {
           futures.add(Future(() async {
             try {
               return FfiService.getOptimalFirstGuess();
-            } catch (e) {
+            } on Exception catch (e) {
               return null;
             }
           }));
@@ -258,7 +258,7 @@ void main() {
           futures.add(Future(() async {
             try {
               return FfiService.getBestGuessFast(['CONCURRENT$i'], []);
-            } catch (e) {
+            } on Exception catch (e) {
               return null;
             }
           }));
@@ -279,7 +279,7 @@ void main() {
           
           try {
             FfiService.getOptimalFirstGuess();
-          } catch (e) {
+          } on Exception catch (e) {
             // Expected to fail
           }
           
@@ -301,7 +301,7 @@ void main() {
         
         try {
           FfiService.getOptimalFirstGuess();
-        } catch (e) {
+        } on Exception catch (e) {
           // Expected to fail
         }
         
@@ -316,7 +316,7 @@ void main() {
         
         try {
           FfiService.getOptimalFirstGuess();
-        } catch (e) {
+        } on Exception catch (e) {
           // Expected to fail
         }
         

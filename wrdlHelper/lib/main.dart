@@ -42,7 +42,7 @@ class _MyAppState extends State<MyApp> {
       setState(() {
         _status = '✅ All services initialized successfully!';
       });
-    } catch (e, stackTrace) {
+    } on Exception catch (e, stackTrace) {
       DebugLogger.error(
         '❌ CRITICAL: Failed to initialize app services: $e',
         tag: 'Main',

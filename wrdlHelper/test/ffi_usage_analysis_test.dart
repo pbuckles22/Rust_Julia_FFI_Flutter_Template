@@ -187,7 +187,7 @@ void main() {
         // The TODO in setConfiguration should be resolved
         // by implementing the Rust-side configuration
         DebugLogger.info('✅ Configuration system is working');
-      } catch (e) {
+      } on Exception catch (e) {
         DebugLogger.info('❌ Configuration system needs work: $e');
         // This is expected if the TODO hasn't been resolved yet
       }

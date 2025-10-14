@@ -56,7 +56,7 @@ class GameController {
       _gameState = appService.gameService.createNewGame();
       _isInitialized = true;
       _notifyListeners();
-    } catch (e) {
+    } on Exception catch (e) {
       _errorMessage = 'Failed to initialize: $e';
       _notifyListeners();
     }
@@ -112,7 +112,7 @@ class GameController {
       _currentInput = '';
       _errorMessage = null;
       _notifyListeners();
-    } catch (e) {
+    } on Exception catch (e) {
       _errorMessage = e.toString();
       _notifyListeners();
     }
@@ -139,7 +139,7 @@ class GameController {
     try {
       final appService = sl<AppService>();
       return appService.gameService.suggestNextGuess(_gameState!);
-    } catch (e) {
+    } on Exception catch (e) {
       _errorMessage = 'Failed to get suggestion: $e';
       _notifyListeners();
       return null;

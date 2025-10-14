@@ -149,7 +149,7 @@ class GameControls extends StatelessWidget {
   VoidCallback _safeCallback(VoidCallback callback) => () {
       try {
         callback();
-      } catch (e) {
+      } on Exception catch (e) {
         // Handle exception gracefully - widget continues to render
         // In a real app, you might want to log this error
       }
