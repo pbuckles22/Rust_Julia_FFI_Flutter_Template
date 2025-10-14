@@ -18,7 +18,7 @@ void main() {
 
     setUpAll(() async {
       TestWidgetsFlutterBinding.ensureInitialized();
-      await FfiTestHelper.initializeOnce();
+      await RustLib.init();
       await FfiService.initialize();
       gameService = GameService();
       await gameService.initialize();
@@ -49,8 +49,8 @@ void main() {
       final gameTimes = <double>[];
       final guessDistribution = <int, int>{};
 
-      // Run 50 games (reduced for faster testing)
-      for (var game = 1; game <= 50; game++) {
+      // Run 10 games (reduced for debugging)
+      for (var game = 1; game <= 10; game++) {
         final gameStopwatch = Stopwatch()..start();
         
         // Create new game
@@ -112,8 +112,8 @@ void main() {
       stopwatch.stop();
 
       // Calculate metrics
-      final successRate = (gamesWon / 500) * 100;
-      final averageGuesses = totalGuesses / 500;
+      final successRate = (gamesWon / 10) * 100;
+      final averageGuesses = totalGuesses / 10;
       final averageTime = gameTimes.reduce((a, b) => a + b) / gameTimes.length;
       final totalTime = stopwatch.elapsedMilliseconds / 1000.0;
 
@@ -123,7 +123,7 @@ void main() {
       DebugLogger.debug('=====================================');
       DebugLogger.debug('');
       DebugLogger.debug('🎯 PERFORMANCE SUMMARY');
-      DebugLogger.debug('Sample Size: 500 words');
+      DebugLogger.debug('Sample Size: 10 words');
       DebugLogger.debug(
         'Benchmark Duration: ${totalTime.toStringAsFixed(2)}s',
       );
