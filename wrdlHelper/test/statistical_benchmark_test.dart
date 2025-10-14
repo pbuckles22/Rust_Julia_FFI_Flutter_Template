@@ -1,19 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
-
+import 'package:wrdlhelper/models/game_state.dart';
 import 'package:wrdlhelper/models/guess_result.dart';
 import 'package:wrdlhelper/models/word.dart';
-import 'package:wrdlhelper/services/ffi_service.dart';
 import 'package:wrdlhelper/services/game_service.dart';
+import 'package:wrdlhelper/services/ffi_service.dart';
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
 import 'package:wrdlhelper/utils/debug_logger.dart';
-import 'test_utils/ffi_test_helper.dart';
 
-/// Centralized FFI Benchmark Tests
-///
-/// These tests verify that the centralized FFI architecture maintains
-/// the expected performance levels for the Wordle Helper app.
 void main() {
-  group('Centralized FFI Benchmark Tests', () {
+  group('Statistical Benchmark Tests', () {
     late GameService gameService;
 
     setUpAll(() async {
@@ -25,7 +20,6 @@ void main() {
     });
 
     tearDownAll(() {
-      // Clean up FFI resources to prevent test interference
       try {
         RustLib.dispose();
       } catch (e) {
@@ -33,15 +27,11 @@ void main() {
       }
     });
 
-    test('500-game benchmark with centralized FFI', () async {
-      print('\n🎯 Wordle Solver Benchmark Tool');
-      print('================================');
-      print('📚 Loaded 2300 answer words from centralized FFI');
-      print('📚 Loaded 14855 guess words from centralized FFI');
+    test('200-game statistical benchmark', () async {
+      print('\n🎯 STATISTICAL BENCHMARK TEST');
+      print('==============================');
+      print('📚 Running 200 games for statistical significance');
       print('');
-      print('🎯 Running 50-Game Wordle Benchmark...');
-      print('🎲 Running Random Wordle Answer Benchmark');
-      print('📊 Testing on 50 random Wordle answer words...');
       
       final stopwatch = Stopwatch()..start();
       var gamesWon = 0;
@@ -49,8 +39,8 @@ void main() {
       final gameTimes = <double>[];
       final guessDistribution = <int, int>{};
 
-      // Run 50 games for statistical significance
-      for (var game = 1; game <= 50; game++) {
+      // Run 200 games for high statistical significance
+      for (var game = 1; game <= 200; game++) {
         final gameStopwatch = Stopwatch()..start();
         
         // Create new game
@@ -64,7 +54,7 @@ void main() {
           final suggestion = gameService.getBestNextGuess(gameState);
           if (suggestion == null) break;
 
-          // Simulate guess result (random for benchmark)
+          // Simulate guess result
           final guessResult = _simulateGuessResult(
             suggestion,
             gameState.targetWord!,
@@ -97,8 +87,8 @@ void main() {
           guessDistribution[guesses] = (guessDistribution[guesses] ?? 0) + 1;
         }
 
-        // Progress updates every 10 games
-        if (game % 10 == 0) {
+        // Progress updates every 50 games
+        if (game % 50 == 0) {
           final currentSuccessRate = (gamesWon / game) * 100;
           final currentAvgGuesses = totalGuesses / game;
           print(
@@ -112,57 +102,53 @@ void main() {
       stopwatch.stop();
 
       // Calculate metrics
-      final successRate = (gamesWon / 50) * 100;
-      final averageGuesses = totalGuesses / 50;
+      final successRate = (gamesWon / 200) * 100;
+      final averageGuesses = totalGuesses / 200;
       final averageTime = gameTimes.reduce((a, b) => a + b) / gameTimes.length;
       final totalTime = stopwatch.elapsedMilliseconds / 1000.0;
 
-      // Print results in Rust benchmark format
+      // Print comprehensive results
       print('');
-      print('📈 WORDLE SOLVER BENCHMARK REPORT');
-      print('=====================================');
+      print('📈 STATISTICAL BENCHMARK REPORT');
+      print('================================');
       print('');
       print('🎯 PERFORMANCE SUMMARY');
-      print('Sample Size: 50 words');
+      print('Sample Size: 200 words');
       print(
         'Benchmark Duration: ${totalTime.toStringAsFixed(2)}s',
       );
-      DebugLogger.debug(
-        '📊 Note: For full statistical significance, consider running '
-        '857+ tests',
+      print(
+        'Success Rate: ${successRate.toStringAsFixed(1)}% '
+        '(Target: ≥98%)',
       );
-      DebugLogger.debug('');
-      DebugLogger.debug('📊 Win Distribution by Guess Count:');
-      for (var i = 2; i <= 6; i++) {
-        final wins = guessDistribution[i] ?? 0;
-        final percentage = wins > 0
-            ? (wins / gamesWon * 100).toStringAsFixed(1)
-            : '0.0';
-        DebugLogger.debug(
-          '  $i guesses: $wins wins ($percentage% of wins)',
-        );
-      }
-      DebugLogger.debug('');
-      DebugLogger.debug('📈 Performance Summary:');
-      DebugLogger.debug(
-        'Success Rate: ${successRate.toStringAsFixed(1)}% (Human: 89.0%)',
+      print(
+        'Average Guesses: ${averageGuesses.toStringAsFixed(2)} '
+        '(Target: ≤4.0)',
       );
-      DebugLogger.debug(
-        'Average Guesses: ${averageGuesses.toStringAsFixed(2)} (Human: 4.10)',
-      );
-      DebugLogger.debug(
+      print(
         'Average Speed: ${averageTime.toStringAsFixed(3)}s per game',
       );
-      DebugLogger.debug('Total Games: 500');
-      DebugLogger.debug('Total Time: ${totalTime.toStringAsFixed(2)}s');
+      print('');
+      print('📊 GUESS DISTRIBUTION');
+      for (var i = 1; i <= 6; i++) {
+        final count = guessDistribution[i] ?? 0;
+        final percentage = (count / 200) * 100;
+        print(
+          '  ${i} guess${i == 1 ? '' : 'es'}: $count games (${percentage.toStringAsFixed(1)}%)',
+        );
+      }
+      print('');
+      print('🎯 STATISTICAL SIGNIFICANCE');
+      print('Sample size of 200 provides high confidence');
+      print('in algorithm performance metrics.');
 
       // Assertions - Target 98%+ success rate
       expect(successRate, greaterThanOrEqualTo(98.0), 
-        reason: 'Success rate should be at least 98% with centralized FFI');
+        reason: 'Success rate should be at least 98% with statistical significance');
       expect(averageGuesses, lessThanOrEqualTo(4.0), 
-        reason: 'Average guesses should be ≤ 4.0 with centralized FFI');
+        reason: 'Average guesses should be ≤ 4.0 with statistical significance');
       expect(averageTime, lessThan(0.5), 
-        reason: 'Average time per game should be < 0.5s with centralized FFI');
+        reason: 'Average time per game should be < 0.5s with statistical significance');
     });
   });
 }
@@ -200,5 +186,8 @@ GuessResult _simulateGuessResult(Word guess, Word target) {
     }
   }
 
-  return GuessResult(word: guess, letterStates: result);
+  return GuessResult(
+    word: guess,
+    letterStates: result,
+  );
 }
