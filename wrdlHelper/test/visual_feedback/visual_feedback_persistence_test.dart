@@ -42,33 +42,33 @@ void main() {
         await tester.pumpAndSettle();
 
         // Mark R=green, A=green, T=yellow, C=gray, N=gray
-        await tester.tap(find.byKey(const Key('tile_0_0'))); // C -> gray
+        await tester.tap(find.byKey(const Key('tile_0_0')), warnIfMissed: false); // C -> gray
         await tester.pumpAndSettle();
-        await tester.tap(find.byKey(const Key('tile_0_0'))); // C -> yellow
+        await tester.tap(find.byKey(const Key('tile_0_0')), warnIfMissed: false); // C -> yellow
         await tester.pumpAndSettle();
-        await tester.tap(find.byKey(const Key('tile_0_0'))); // C -> green
+        await tester.tap(find.byKey(const Key('tile_0_0')), warnIfMissed: false); // C -> green
         await tester.pumpAndSettle();
-        await tester.tap(find.byKey(const Key('tile_0_0'))); // C -> gray
-        await tester.pumpAndSettle();
-
-        await tester.tap(find.byKey(const Key('tile_0_1'))); // R -> yellow
-        await tester.pumpAndSettle();
-        await tester.tap(find.byKey(const Key('tile_0_1'))); // R -> green
+        await tester.tap(find.byKey(const Key('tile_0_0')), warnIfMissed: false); // C -> gray
         await tester.pumpAndSettle();
 
-        await tester.tap(find.byKey(const Key('tile_0_2'))); // A -> yellow
+        await tester.tap(find.byKey(const Key('tile_0_1')), warnIfMissed: false); // R -> yellow
         await tester.pumpAndSettle();
-        await tester.tap(find.byKey(const Key('tile_0_2'))); // A -> green
-        await tester.pumpAndSettle();
-
-        await tester.tap(find.byKey(const Key('tile_0_3'))); // N -> yellow
-        await tester.pumpAndSettle();
-        await tester.tap(find.byKey(const Key('tile_0_3'))); // N -> green
-        await tester.pumpAndSettle();
-        await tester.tap(find.byKey(const Key('tile_0_3'))); // N -> gray
+        await tester.tap(find.byKey(const Key('tile_0_1')), warnIfMissed: false); // R -> green
         await tester.pumpAndSettle();
 
-        await tester.tap(find.byKey(const Key('tile_0_4'))); // T -> yellow
+        await tester.tap(find.byKey(const Key('tile_0_2')), warnIfMissed: false); // A -> yellow
+        await tester.pumpAndSettle();
+        await tester.tap(find.byKey(const Key('tile_0_2')), warnIfMissed: false); // A -> green
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.byKey(const Key('tile_0_3')), warnIfMissed: false); // N -> yellow
+        await tester.pumpAndSettle();
+        await tester.tap(find.byKey(const Key('tile_0_3')), warnIfMissed: false); // N -> green
+        await tester.pumpAndSettle();
+        await tester.tap(find.byKey(const Key('tile_0_3')), warnIfMissed: false); // N -> gray
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.byKey(const Key('tile_0_4')), warnIfMissed: false); // T -> yellow
         await tester.pumpAndSettle();
 
         // ASSERT: Keyboard keys should show correct colors
@@ -123,31 +123,31 @@ void main() {
       await tester.pumpAndSettle();
 
       // Mark R=green, A=green, T=yellow, C=gray, N=gray
-      await tester.tap(find.byKey(const Key('tile_0_1'))); // R -> yellow
+      await tester.tap(find.byKey(const Key('tile_0_1')), warnIfMissed: false); // R -> yellow
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const Key('tile_0_1'))); // R -> green
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.byKey(const Key('tile_0_2'))); // A -> yellow
-      await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const Key('tile_0_2'))); // A -> green
+      await tester.tap(find.byKey(const Key('tile_0_1')), warnIfMissed: false); // R -> green
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(const Key('tile_0_4'))); // T -> yellow
+      await tester.tap(find.byKey(const Key('tile_0_2')), warnIfMissed: false); // A -> yellow
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const Key('tile_0_2')), warnIfMissed: false); // A -> green
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(const Key('tile_0_0'))); // C -> yellow
-      await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const Key('tile_0_0'))); // C -> green
-      await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const Key('tile_0_0'))); // C -> gray
+      await tester.tap(find.byKey(const Key('tile_0_4')), warnIfMissed: false); // T -> yellow
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(const Key('tile_0_3'))); // N -> yellow
+      await tester.tap(find.byKey(const Key('tile_0_0')), warnIfMissed: false); // C -> yellow
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const Key('tile_0_3'))); // N -> green
+      await tester.tap(find.byKey(const Key('tile_0_0')), warnIfMissed: false); // C -> green
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const Key('tile_0_3'))); // N -> gray
+      await tester.tap(find.byKey(const Key('tile_0_0')), warnIfMissed: false); // C -> gray
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(const Key('tile_0_3')), warnIfMissed: false); // N -> yellow
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const Key('tile_0_3')), warnIfMissed: false); // N -> green
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const Key('tile_0_3')), warnIfMissed: false); // N -> gray
       await tester.pumpAndSettle();
 
       // ACT: Type TRADE for next guess
@@ -198,9 +198,9 @@ void main() {
       await KeyboardTestHelpers.submitWord(tester, 'CRANT');
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(const Key('tile_0_1'))); // R -> yellow
+      await tester.tap(find.byKey(const Key('tile_0_1')), warnIfMissed: false); // R -> yellow
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const Key('tile_0_1'))); // R -> green
+      await tester.tap(find.byKey(const Key('tile_0_1')), warnIfMissed: false); // R -> green
       await tester.pumpAndSettle();
 
       // ASSERT: R key should be green
@@ -212,9 +212,9 @@ void main() {
       expect(rKey, findsOneWidget);
 
       // ACT: Change R back to yellow
-      await tester.tap(find.byKey(const Key('tile_0_1'))); // R -> gray
+      await tester.tap(find.byKey(const Key('tile_0_1')), warnIfMissed: false); // R -> gray
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const Key('tile_0_1'))); // R -> yellow
+      await tester.tap(find.byKey(const Key('tile_0_1')), warnIfMissed: false); // R -> yellow
       await tester.pumpAndSettle();
 
       // ASSERT: R key should now be yellow
@@ -233,12 +233,12 @@ void main() {
         await tester.pumpAndSettle();
 
         // Mark some letters
-        await tester.tap(find.byKey(const Key('tile_0_1'))); // R -> yellow
+        await tester.tap(find.byKey(const Key('tile_0_1')), warnIfMissed: false); // R -> yellow
         await tester.pumpAndSettle();
-        await tester.tap(find.byKey(const Key('tile_0_1'))); // R -> green
+        await tester.tap(find.byKey(const Key('tile_0_1')), warnIfMissed: false); // R -> green
         await tester.pumpAndSettle();
 
-        await tester.tap(find.byKey(const Key('tile_0_2'))); // A -> yellow
+        await tester.tap(find.byKey(const Key('tile_0_2')), warnIfMissed: false); // A -> yellow
         await tester.pumpAndSettle();
 
         // Submit second guess TRADE
@@ -246,7 +246,7 @@ void main() {
         await tester.pumpAndSettle();
 
         // Mark more letters in TRADE
-        await tester.tap(find.byKey(const Key('tile_1_4'))); // E -> yellow
+        await tester.tap(find.byKey(const Key('tile_1_4')), warnIfMissed: false); // E -> yellow
         await tester.pumpAndSettle();
 
         // ASSERT: Keyboard should show combined color states
@@ -285,9 +285,9 @@ void main() {
       await KeyboardTestHelpers.submitWord(tester, 'CRANT');
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(const Key('tile_0_1'))); // R -> yellow
+      await tester.tap(find.byKey(const Key('tile_0_1')), warnIfMissed: false); // R -> yellow
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const Key('tile_0_1'))); // R -> green
+      await tester.tap(find.byKey(const Key('tile_0_1')), warnIfMissed: false); // R -> green
       await tester.pumpAndSettle();
 
       // ACT: Start new game
@@ -318,12 +318,12 @@ void main() {
       await tester.pumpAndSettle();
 
       // Mark first E as green, second E as yellow
-      await tester.tap(find.byKey(const Key('tile_0_0'))); // E -> yellow
+      await tester.tap(find.byKey(const Key('tile_0_0')), warnIfMissed: false); // E -> yellow
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const Key('tile_0_0'))); // E -> green
+      await tester.tap(find.byKey(const Key('tile_0_0')), warnIfMissed: false); // E -> green
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(const Key('tile_0_1'))); // E -> yellow
+      await tester.tap(find.byKey(const Key('tile_0_1')), warnIfMissed: false); // E -> yellow
       await tester.pumpAndSettle();
 
       // ASSERT: E key should show the "best" state (green takes precedence

@@ -21,10 +21,11 @@ void main() {
       await GlobalTestSetup.initializeOnce();
     });
 
-    setUp(() {
+    setUp(() async {
       // Reset services for individual test isolation
-      GlobalTestSetup.resetForTest();
+      await GlobalTestSetup.resetForTest();
       
+      // Get the game service (already set up by GlobalTestSetup)
       gameService = sl<GameService>();
     });
 

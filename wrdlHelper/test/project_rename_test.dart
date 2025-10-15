@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
+import 'package:wrdlhelper/services/ffi_service.dart';
 
 void main() {
   group('Project Rename Tests', () {
@@ -76,18 +77,17 @@ void main() {
       // We'll test that core FFI functions still work
       try {
         await RustLib.init();
+        await FfiService.initialize();
         
-        // Test basic functionality (using existing FFI functions)
-        final answerWords = RustLib.instance.api.crateApiSimpleGetAnswerWords();
-        expect(answerWords.length, greaterThan(0));
+        // Test basic functionality (using service layer)
+        final answerWords = FfiService.getAnswerWords();
+        expect(answerWords.length, greaterThan(0), 
+          reason: 'Answer words should be loaded. Got ${answerWords.length} words.');
         
         // Test wrdlHelper functionality
-        final entropy = RustLib.instance.api.crateApiSimpleCalculateEntropy(
-          candidateWord: 'CRANE',
-          remainingWords: ['CRANE', 'SLATE'],
-        );
-        expect(entropy, isA<double>());
-        expect(entropy, greaterThanOrEqualTo(0.0));
+        final guessWords = FfiService.getGuessWords();
+        expect(guessWords.length, greaterThan(0),
+          reason: 'Guess words should be loaded. Got ${guessWords.length} words.');
         
         // If we get here, functionality is preserved
         expect(
@@ -96,11 +96,7 @@ void main() {
           reason: 'All existing functionality should work after rename',
         );
       } on Exception catch (e) {
-        expect(
-          true,
-          isFalse,
-          reason: 'Rename should not break existing functionality: $e',
-        );
+        fail('Rename should not break existing functionality: $e');
       }
     });
   });

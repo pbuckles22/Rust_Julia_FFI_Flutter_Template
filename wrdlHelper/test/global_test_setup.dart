@@ -37,12 +37,12 @@ class GlobalTestSetup {
   /// Reset services for individual test isolation
   /// 
   /// This should be called in setUp() of individual tests
-  static void resetForTest() {
+  static Future<void> resetForTest() async {
     if (_isInitialized) {
       resetAllServices();
       
       // Re-initialize with algorithm-testing word list
-      setupTestServices();
+      await setupTestServices();
     }
   }
 

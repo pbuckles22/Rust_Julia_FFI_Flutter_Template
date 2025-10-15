@@ -19,9 +19,9 @@ void main() {
       await GlobalTestSetup.initializeOnce();
     });
 
-    setUp(() {
+    setUp(() async {
       // Reset services for individual test isolation
-      GlobalTestSetup.resetForTest();
+      await GlobalTestSetup.resetForTest();
       
       // GameController now uses AppService internally
       gameController = GameController();

@@ -16,6 +16,11 @@ void resetAllServices() {
   if (sl.isRegistered<GameService>()) {
     sl.unregister<GameService>();
   }
+  
+  // Reset cache variables to ensure fresh initialization
+  _cachedAppService = null;
+  _isTestCacheInitialized = false;
+  
   DebugLogger.info('🔄 All services reset for testing', tag: 'ServiceLocator');
 }
 

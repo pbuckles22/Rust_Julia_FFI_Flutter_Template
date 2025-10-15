@@ -14,7 +14,9 @@ void main() {
       await GlobalTestSetup.initializeOnce();
     });
 
-    setUp(GlobalTestSetup.resetForTest);
+    setUp(() async {
+      await GlobalTestSetup.resetForTest();
+    });
 
     tearDownAll(GlobalTestSetup.cleanup);
 
@@ -37,9 +39,7 @@ void main() {
     });
 
     test('GameService should create games', () async {
-      // Set up real services
-
-      // Get the real game service
+      // Get the real game service (already set up by GlobalTestSetup)
       final gameService = sl<GameService>();
 
       // Test that it can create a new game
@@ -55,7 +55,7 @@ void main() {
     });
 
     test('AppService should initialize with real services', () async {
-      // Get the real app service
+      // Get the real app service (already set up by GlobalTestSetup)
       final appService = sl<AppService>();
 
       // Test that it initializes with real services (WordService removed,

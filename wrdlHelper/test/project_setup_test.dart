@@ -104,7 +104,7 @@ void main() {
       expect(Directory('test/screens').existsSync(), isTrue);
       expect(Directory('test/integration').existsSync(), isTrue);
       expect(Directory('test/performance').existsSync(), isTrue);
-      expect(Directory('test/error_handling').existsSync(), isTrue);
+      expect(Directory('test/visual_feedback').existsSync(), isTrue);
     });
   });
 
