@@ -22,6 +22,14 @@ This document outlines the coding standards, best practices, and conventions use
 - **Security**: Follow security best practices for all languages
 - **Consistency**: Maintain consistent style across all languages
 
+### Architectural Vision
+- **Micro-services Architecture**: Each service should be independently testable and deployable
+- **Reusable Components**: Create shared widgets/services that can be reused across features
+- **Clean Interfaces**: Well-defined APIs between components with minimal coupling
+- **Dependency Injection**: Use proper service locator patterns for loose coupling
+- **Minimize Tech Debt**: When touching files, consider if they need architectural improvements
+- **Modular Design**: Each module should have a single responsibility and clear boundaries
+
 ### Documentation
 - **Comprehensive Comments**: Every public function must have detailed documentation
 - **API Documentation**: All public APIs must be documented
@@ -668,48 +676,157 @@ mod tests {
 
 ## Documentation Standards
 
-### Code Comments
+### **Documentation Hierarchy**
+1. **Project Documentation** (`/docs/`): High-level architecture, decisions, handoffs
+2. **Code Documentation** (inline): Function/class level documentation
+3. **API Documentation** (generated): Public interface documentation
+4. **Agent Handoff Documentation** (`/docs/agent-handoff/`): Agent transition context
+
+### **Documentation Types & Standards**
+
+#### **Project Documentation**
+- **Location**: `/docs/` directory
+- **Format**: Markdown (.md files)
+- **Naming**: `[TOPIC]_[PURPOSE].md` (e.g., `TEST_SUITE_STANDARDIZATION_PLAN.md`)
+- **Structure**: Clear sections with TOC, phases, micro-steps, verification criteria
+
+#### **Agent Handoff Documentation**
+- **Location**: `/docs/agent-handoff/`
+- **Purpose**: Enable seamless agent transitions
+- **Required Files**:
+  - `START_HERE_NEXT_AGENT.md` - Current status and immediate next steps
+  - `[DATE]_CURRENT_STATUS_[TOPIC].md` - Detailed current state
+  - `[DATE]_CHRONOLOGICAL_INDEX.md` - Timeline of all handoffs
+  - `[DATE]_QUICK_REFERENCE.md` - Quick access to key information
+
+#### **Methodology Documentation**
+- **Location**: `/docs/methodology/`
+- **Purpose**: Development processes and project plans
+- **Format**: `[PROJECT_NAME]_PLAN.md`
+- **Content**: Phases, micro-steps, verification criteria, success metrics
+
+#### **Code Documentation Standards**
+
+##### **Rust Documentation**
 ```rust
-// Single line comment for simple explanations
-
 /**
- * Multi-line comment for complex explanations
- * that span multiple lines
+ * Function documentation following Rust conventions
+ * 
+ * This function demonstrates proper Rust documentation style with:
+ * - Brief description
+ * - Detailed explanation
+ * - Parameter documentation
+ * - Return value documentation
+ * - Example usage
+ * - Performance characteristics
+ * 
+ * # Arguments
+ * - `param1`: Description of parameter 1
+ * - `param2`: Description of parameter 2
+ * 
+ * # Returns
+ * Description of return value
+ * 
+ * # Example
+ * ```rust
+ * let result = example_function("hello", 42);
+ * assert_eq!(result, "expected_output");
+ * ```
+ * 
+ * # Performance
+ * - Time complexity: O(n)
+ * - Space complexity: O(1)
  */
-
-/// Documentation comment for public APIs
-/// 
-/// This function does something important.
-/// 
-/// # Arguments
-/// - `param`: Description of parameter
-/// 
-/// # Returns
-/// Description of return value
-/// 
-/// # Example
-/// ```rust
-/// let result = example_function("hello");
-/// ```
-pub fn example_function(param: &str) -> String {
-    // Implementation
+pub fn example_function(param1: String, param2: i32) -> String {
+    // Implementation with clear variable names
+    let processed_data = param1.to_uppercase();
+    format!("{}_{}", processed_data, param2)
 }
 ```
 
-### API Documentation
-- Document all public functions
-- Include parameter descriptions
-- Include return value descriptions
-- Include usage examples
-- Include performance characteristics
-- Include error conditions
+##### **Dart Documentation**
+```dart
+/**
+ * Class documentation following Dart conventions
+ * 
+ * This class demonstrates proper Dart documentation style with:
+ * - Brief description
+ * - Detailed explanation
+ * - Usage examples
+ * - Performance characteristics
+ * 
+ * # Example
+ * ```dart
+ * final service = MyService();
+ * final result = await service.performOperation();
+ * ```
+ */
+class MyService {
+  /// Private field with clear naming
+  final String _baseUrl;
+  
+  /// Constructor with proper documentation
+  /// 
+  /// [baseUrl] The base URL for API calls
+  MyService({required String baseUrl}) : _baseUrl = baseUrl;
+  
+  /// Public method with comprehensive documentation
+  /// 
+  /// Performs a specific operation with the given parameters.
+  /// 
+  /// [param1] Description of parameter 1
+  /// [param2] Description of parameter 2
+  /// 
+  /// Returns a [Future] that completes with the operation result.
+  /// 
+  /// Throws [Exception] if the operation fails.
+  Future<String> performOperation({
+    required String param1,
+    int param2 = 0,
+  }) async {
+    try {
+      // Implementation with clear error handling
+      final result = await _internalOperation(param1, param2);
+      return result;
+    } catch (e) {
+      throw Exception('Operation failed: $e');
+    }
+  }
+}
+```
 
-### Architecture Documentation
-- Document system architecture
-- Document design decisions
-- Document integration points
-- Document performance considerations
-- Document security considerations
+### **Documentation Requirements**
+
+#### **Every Public Function Must Have**
+- **Brief description**: What the function does
+- **Detailed explanation**: How it works, why it exists
+- **Parameter documentation**: Each parameter with type and purpose
+- **Return value documentation**: What is returned and when
+- **Usage examples**: Practical code examples
+- **Performance characteristics**: Time/space complexity when relevant
+- **Error conditions**: What can go wrong and how to handle it
+
+#### **Every Public Class Must Have**
+- **Purpose**: What the class represents
+- **Responsibilities**: What it manages
+- **Usage patterns**: How to use it correctly
+- **Dependencies**: What it requires to function
+- **Examples**: Complete usage examples
+
+#### **Architecture Documentation Must Include**
+- **System overview**: High-level architecture
+- **Component relationships**: How parts interact
+- **Data flow**: How data moves through the system
+- **Design decisions**: Why choices were made
+- **Performance considerations**: Bottlenecks and optimizations
+- **Security considerations**: Security implications and mitigations
+
+### **Documentation Maintenance**
+- **Keep documentation current**: Update when code changes
+- **Review documentation**: Include in code review process
+- **Version documentation**: Track changes over time
+- **Validate examples**: Ensure all code examples work
+- **Test documentation**: Verify accuracy through testing
 
 ## Version Control Standards
 

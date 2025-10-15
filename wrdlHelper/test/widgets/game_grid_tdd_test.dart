@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/widgets/game_grid_tdd.dart';
 import 'package:wrdlhelper/widgets/letter_tile_tdd.dart';
+import 'package:wrdlhelper/service_locator.dart';
 
 void main() {
   group('GameGrid TDD Tests', () {
+    setUpAll(() async {
+      // Initialize services with algorithm-testing word list
+      await setupTestServices();
+    });
+    
+    tearDownAll(resetAllServices);
     testWidgets('should display empty grid with correct dimensions', (
       tester,
     ) async {

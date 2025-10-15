@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/widgets/virtual_keyboard.dart';
+import 'package:wrdlhelper/service_locator.dart';
 
 void main() {
   group('VirtualKeyboard', () {
+    setUpAll(() async {
+      // Initialize services with algorithm-testing word list
+      await setupTestServices();
+    });
+    
+    tearDownAll(resetAllServices);
     testWidgets('displays QWERTY layout', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
