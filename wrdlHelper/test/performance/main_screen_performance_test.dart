@@ -6,11 +6,12 @@ import 'package:wrdlhelper/widgets/virtual_keyboard.dart';
 
 void main() {
   group('Main Screen Performance TDD Tests', () {
-    setUp(() async {
-      // Reset services and setup real services for testing
-      resetAllServices();
+    setUpAll(() async {
+      // Initialize services with algorithm-testing word list
       await setupTestServices();
     });
+    
+    tearDownAll(resetAllServices);
     testWidgets('should initialize within performance limits', (
       tester,
     ) async {
