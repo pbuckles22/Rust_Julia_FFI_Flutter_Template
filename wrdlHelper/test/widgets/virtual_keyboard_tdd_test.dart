@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/widgets/virtual_keyboard_tdd.dart';
+import 'package:wrdlhelper/service_locator.dart';
 
 void main() {
   group('VirtualKeyboard TDD Tests', () {
+    setUpAll(() async {
+      // Initialize services with algorithm-testing word list
+      await setupTestServices();
+    });
+    
+    tearDownAll(resetAllServices);
     testWidgets('should display QWERTY layout correctly', (
       tester,
     ) async {
