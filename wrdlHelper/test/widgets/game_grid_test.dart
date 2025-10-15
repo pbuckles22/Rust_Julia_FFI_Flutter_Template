@@ -5,9 +5,16 @@ import 'package:wrdlhelper/models/guess_result.dart';
 import 'package:wrdlhelper/models/word.dart';
 import 'package:wrdlhelper/widgets/game_grid.dart';
 import 'package:wrdlhelper/widgets/letter_tile.dart';
+import 'package:wrdlhelper/service_locator.dart';
 
 void main() {
   group('GameGrid', () {
+    setUpAll(() async {
+      // Initialize services with algorithm-testing word list
+      await setupTestServices();
+    });
+    
+    tearDownAll(resetAllServices);
     testWidgets('displays empty grid with correct dimensions', (
       tester,
     ) async {
