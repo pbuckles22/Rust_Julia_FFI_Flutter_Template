@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/widgets/letter_tile.dart';
+import 'package:wrdlhelper/service_locator.dart';
 
 /// Simple Widget Tests
 /// 
@@ -15,6 +16,12 @@ import 'package:wrdlhelper/widgets/letter_tile.dart';
 
 void main() {
   group('Simple Widget Tests', () {
+    setUpAll(() async {
+      // Initialize services with algorithm-testing word list
+      await setupTestServices();
+    });
+    
+    tearDownAll(resetAllServices);
     testWidgets(
       'should render letter tile correctly',
       (tester) async {
