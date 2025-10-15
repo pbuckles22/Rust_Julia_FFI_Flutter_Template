@@ -5,6 +5,7 @@ import 'package:wrdlhelper/models/game_state.dart';
 import 'package:wrdlhelper/models/guess_result.dart';
 import 'package:wrdlhelper/models/word.dart';
 import 'package:wrdlhelper/widgets/game_status.dart' as game_status;
+import 'package:wrdlhelper/service_locator.dart';
 
 void main() {
   group('GameStatus Widget Tests', () {
@@ -12,6 +13,13 @@ void main() {
     late int mockTotalWords;
     late int mockRemainingWords;
     late String? mockSuggestion;
+
+    setUpAll(() async {
+      // Initialize services with algorithm-testing word list
+      await setupTestServices();
+    });
+    
+    tearDownAll(resetAllServices);
 
     setUp(() {
       // Test data chosen to verify game status functionality
