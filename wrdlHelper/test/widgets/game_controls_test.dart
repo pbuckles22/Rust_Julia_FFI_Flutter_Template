@@ -5,6 +5,7 @@ import 'package:wrdlhelper/models/game_state.dart';
 import 'package:wrdlhelper/models/guess_result.dart';
 import 'package:wrdlhelper/models/word.dart';
 import 'package:wrdlhelper/widgets/game_controls.dart';
+import 'package:wrdlhelper/service_locator.dart';
 
 void main() {
   group('GameControls Widget Tests', () {
@@ -12,6 +13,13 @@ void main() {
     late VoidCallback mockOnNewGame;
     late VoidCallback mockOnGetSuggestion;
     late bool mockIsLoading;
+
+    setUpAll(() async {
+      // Initialize services with algorithm-testing word list
+      await setupTestServices();
+    });
+    
+    tearDownAll(resetAllServices);
 
     setUp(() {
       // Test data chosen to verify game controls functionality
