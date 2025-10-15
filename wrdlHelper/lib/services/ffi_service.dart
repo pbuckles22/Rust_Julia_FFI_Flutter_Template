@@ -1,16 +1,29 @@
-import 'package:wrdlhelper/src/rust/frb_generated.dart';
-import 'package:wrdlhelper/src/rust/api/simple.dart' as ffi;
-import 'package:wrdlhelper/exceptions/service_exceptions.dart';
+import '../exceptions/service_exceptions.dart';
+import '../src/rust/api/simple.dart' as ffi;
+import '../src/rust/frb_generated.dart';
+import '../utils/debug_logger.dart';
 
 /// Configuration class for FFI settings
 class FfiConfiguration {
+  /// Whether to use reference mode for optimal performance
   final bool referenceMode;
+  
+  /// Whether to include killer words in analysis
   final bool includeKillerWords;
+  
+  /// Maximum number of candidates to consider
   final int candidateCap;
+  
+  /// Whether early termination is enabled
   final bool earlyTerminationEnabled;
+  
+  /// Threshold for early termination
   final double earlyTerminationThreshold;
+  
+  /// Whether to use entropy-only scoring
   final bool entropyOnlyScoring;
 
+  /// Creates a new FFI configuration
   const FfiConfiguration({
     required this.referenceMode,
     required this.includeKillerWords,
@@ -32,7 +45,7 @@ class FfiService {
     includeKillerWords: false,
     candidateCap: 200,
     earlyTerminationEnabled: true,
-    earlyTerminationThreshold: 5.0,
+    earlyTerminationThreshold: 5,
     entropyOnlyScoring: false,
   );
 
@@ -52,7 +65,9 @@ class FfiService {
         await RustLib.init();
       } catch (e) {
         // If FFI is already initialized, that's fine - continue
-        if (e.toString().contains('Should not initialize flutter_rust_bridge twice')) {
+        if (e.toString().contains(
+          'Should not initialize flutter_rust_bridge twice',
+        )) {
           // FFI bridge already initialized, continue
         } else {
           rethrow;
@@ -126,7 +141,8 @@ class FfiService {
   /// Get best guess using the REFERENCE algorithm (99.8% success rate)
   /// 
   /// This uses the exact same algorithm that achieved 99.8% success rate
-  /// in the Rust benchmark. This is the high-performance reference implementation.
+  /// in the Rust benchmark. This is the high-performance reference
+  /// implementation.
   static String? getBestGuessReference(
     List<String> remainingWords,
     List<(String, List<String>)> guessResults,
@@ -192,22 +208,6 @@ class FfiService {
     }
   }
 
-  /// Load word lists from JSON file
-  /// Returns all words from the JSON file
-  static Future<List<String>> loadWordListsFromJsonFile(String jsonPath) async {
-    _ensureInitialized();
-
-    try {
-      // For now, return a simple hardcoded list
-      // TODO: Implement actual JSON loading
-      return [
-        'CRANE', 'SLATE', 'CRATE', 'PLATE', 'GRATE', 'TRACE', 'CHASE', 'CLOTH', 'CLOUD',
-        'SLOTH', 'BLIMP', 'WORLD', 'HELLO', 'FLUTE', 'PRIDE', 'SHINE', 'BRAVE', 'QUICK'
-      ];
-    } catch (e) {
-      throw AssetLoadException('Failed to load word lists from JSON: $e');
-    }
-  }
 
   /// Load word lists from Dart to Rust (CRITICAL for performance)
   /// 
@@ -225,7 +225,11 @@ class FfiService {
         answerWords: answerWords,
         guessWords: guessWords,
       );
-      print('✅ Successfully loaded ${answerWords.length} answer words and ${guessWords.length} guess words to Rust');
+      DebugLogger.success(
+        '✅ Successfully loaded ${answerWords.length} answer words and '
+        '${guessWords.length} guess words to Rust',
+        tag: 'FfiService',
+      );
     } catch (e) {
       throw AssetLoadException('Failed to load word lists to Rust: $e');
     }
@@ -239,14 +243,17 @@ class FfiService {
 
     try {
       // First check basic format - 5 letters, all uppercase
-      if (word.length != 5 || word != word.toUpperCase() || !word.contains(RegExp(r'^[A-Z]+$'))) {
+      if (word.length != 5 ||
+          word != word.toUpperCase() ||
+          !word.contains(RegExp(r'^[A-Z]+$'))) {
         return false;
       }
       
-      // For now, just check basic format - the word list validation will be handled
+      // For now, just check basic format - the word list validation will be
+      // handled
       // by the game service when it processes guesses
       return true;
-    } catch (e) {
+    } on Exception catch (e) {
       return false;
     }
   }
@@ -254,34 +261,25 @@ class FfiService {
   /// Ensure the service is initialized
   static void _ensureInitialized() {
     if (!_isInitialized) {
-      throw ServiceNotInitializedException(
+      throw const ServiceNotInitializedException(
         'FFI service not initialized. Call FfiService.initialize() first.',
       );
     }
   }
 
-  // ============================================================================
+  // ===========================================================================
   // Configuration Methods
-  // ============================================================================
+  // ===========================================================================
 
   /// Get the current configuration
-  static FfiConfiguration getConfiguration() {
-    return _currentConfig;
-  }
+  static FfiConfiguration getConfiguration() => _currentConfig;
 
   /// Set the configuration
   static void setConfiguration(FfiConfiguration config) {
     _currentConfig = config;
     
-    // TODO: Also set the configuration in Rust once FFI bindings are regenerated
-    // ffi.setSolverConfig(
-    //   config.referenceMode,
-    //   config.includeKillerWords,
-    //   config.candidateCap,
-    //   config.earlyTerminationEnabled,
-    //   config.earlyTerminationThreshold,
-    //   config.entropyOnlyScoring,
-    // );
+    // Configuration is now handled entirely in Dart
+    // The Rust solver uses its own internal configuration
   }
 
   /// Apply reference mode preset configuration
@@ -303,7 +301,7 @@ class FfiService {
       includeKillerWords: false,
       candidateCap: 200,
       earlyTerminationEnabled: true,
-      earlyTerminationThreshold: 5.0,
+      earlyTerminationThreshold: 5,
       entropyOnlyScoring: false,
     );
   }
@@ -342,7 +340,7 @@ class FfiService {
     _ensureInitialized();
     try {
       return ffi.isValidWord(word: word);
-    } catch (e) {
+    } on Exception catch (e) {
       return false; // Fail gracefully for validation
     }
   }

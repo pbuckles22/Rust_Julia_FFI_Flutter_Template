@@ -1,17 +1,18 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/services/ffi_service.dart';
 import 'package:wrdlhelper/utils/debug_logger.dart';
+import 'package:wrdlhelper/src/rust/frb_generated.dart';
 
 void main() {
   group('FFI Answer Generator Tests', () {
-    bool ffiAvailable = false;
+    var ffiAvailable = false;
 
     setUpAll(() async {
       // Initialize FFI service before running tests
       try {
         await FfiService.initialize();
         ffiAvailable = true;
-      } catch (e) {
+      } on Exception catch (e) {
         // FFI initialization may fail in test environment, that's OK
         // The tests will be skipped or use fallback behavior
         DebugLogger.testPrint(
@@ -19,6 +20,15 @@ void main() {
           tag: 'FFITest',
         );
         ffiAvailable = false;
+      }
+    });
+
+    tearDownAll(() {
+      // Clean up FFI resources to prevent test interference
+      try {
+        RustLib.dispose();
+      } catch (e) {
+        // Ignore cleanup errors
       }
     });
 
@@ -200,7 +210,7 @@ void main() {
 
         // Act - Test consistency of intelligent solver
         final results = <String>[];
-        for (int i = 0; i < 10; i++) {
+        for (var i = 0; i < 10; i++) {
           final guess = FfiService.getBestGuessFast(answerWords, []);
           if (guess != null) {
             results.add(guess);

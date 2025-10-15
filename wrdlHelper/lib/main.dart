@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:wrdlhelper/screens/wordle_game_screen.dart';
-import 'package:wrdlhelper/service_locator.dart';
-import 'package:wrdlhelper/utils/debug_logger.dart';
+
+import 'screens/wordle_game_screen.dart';
+import 'service_locator.dart';
+import 'utils/debug_logger.dart';
 
 // REMOVED: No async, no try-catch. Just run the app.
 void main() {
   runApp(const MyApp());
 }
 
+/// Main application widget
 class MyApp extends StatefulWidget {
+  /// Creates the main application widget
   const MyApp({super.key});
 
   @override
@@ -39,7 +42,7 @@ class _MyAppState extends State<MyApp> {
       setState(() {
         _status = '✅ All services initialized successfully!';
       });
-    } catch (e, stackTrace) {
+    } on Exception catch (e, stackTrace) {
       DebugLogger.error(
         '❌ CRITICAL: Failed to initialize app services: $e',
         tag: 'Main',

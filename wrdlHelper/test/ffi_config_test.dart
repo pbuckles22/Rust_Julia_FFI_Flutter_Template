@@ -15,16 +15,36 @@ void main() {
       final config = FfiService.getConfiguration();
       
       expect(config.referenceMode, false, reason: 'Default should be false');
-      expect(config.includeKillerWords, false, reason: 'Default should be false');
-      expect(config.candidateCap, 200, reason: 'Default should be 200');
-      expect(config.earlyTerminationEnabled, true, reason: 'Default should be true');
-      expect(config.earlyTerminationThreshold, 5.0, reason: 'Default should be 5.0');
-      expect(config.entropyOnlyScoring, false, reason: 'Default should be false');
+      expect(
+        config.includeKillerWords,
+        false,
+        reason: 'Default should be false',
+      );
+      expect(
+        config.candidateCap,
+        200,
+        reason: 'Default should be 200',
+      );
+      expect(
+        config.earlyTerminationEnabled,
+        true,
+        reason: 'Default should be true',
+      );
+      expect(
+        config.earlyTerminationThreshold,
+        5.0,
+        reason: 'Default should be 5.0',
+      );
+      expect(
+        config.entropyOnlyScoring,
+        false,
+        reason: 'Default should be false',
+      );
     });
 
     test('should allow setting configuration values', () {
       // RED: This test will fail until we implement the config system
-      final newConfig = FfiConfiguration(
+      final newConfig = const FfiConfiguration(
         referenceMode: true,
         includeKillerWords: true,
         candidateCap: 1000,
@@ -72,7 +92,7 @@ void main() {
 
     test('should maintain configuration across FFI calls', () {
       // RED: This test will fail until we implement persistent config
-      FfiService.setConfiguration(FfiConfiguration(
+      FfiService.setConfiguration(const FfiConfiguration(
         referenceMode: true,
         includeKillerWords: true,
         candidateCap: 500,
@@ -82,7 +102,6 @@ void main() {
       ));
       
       // Make a dummy FFI call to ensure config persists
-      final result = FfiService.getBestGuessFast(['CRANE', 'SLATE'], []);
       
       final config = FfiService.getConfiguration();
       expect(config.referenceMode, true);
@@ -94,4 +113,5 @@ void main() {
     });
   });
 }
+
 

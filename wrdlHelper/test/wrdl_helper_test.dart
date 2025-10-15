@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:wrdlhelper/src/rust/frb_generated.dart';
+import 'package:wrdlhelper/services/ffi_service.dart';
 
 void main() {
   group('wrdlHelper Intelligent Solver Tests', () {
-    setUpAll(() {
-      // Initialize the FFI bridge
-      RustLib.init();
+    setUpAll(() async {
+      // Initialize the FFI service
+      await FfiService.initialize();
     });
 
     group('Basic FFI Functions', () {
@@ -13,9 +13,9 @@ void main() {
         final candidate = 'CRANE';
         final remaining = ['CRANE', 'SLATE'];
         
-        final entropy = RustLib.instance.api.crateApiSimpleCalculateEntropy(
-          candidateWord: candidate,
-          remainingWords: remaining,
+        final entropy = FfiService.calculateEntropy(
+          candidate,
+          remaining,
         );
         
         expect(entropy, isA<double>());
@@ -23,15 +23,16 @@ void main() {
       });
 
       test('should simulate guess patterns correctly', () async {
-        final pattern1 = RustLib.instance.api.crateApiSimpleSimulateGuessPattern(
-          guess: 'CRANE',
-          target: 'CRATE',
+        final pattern1 = FfiService.simulateGuessPattern(
+          'CRANE',
+          'CRATE',
         );
-        expect(pattern1, equals('GGGXG')); // C, R, A match, N doesn't, E matches
+        expect(pattern1, equals('GGGXG')); // C, R, A match, N doesn't, E
+        // matches
         
-        final pattern2 = RustLib.instance.api.crateApiSimpleSimulateGuessPattern(
-          guess: 'CRANE',
-          target: 'SLATE',
+        final pattern2 = FfiService.simulateGuessPattern(
+          'CRANE',
+          'SLATE',
         );
         expect(pattern2, equals('XXGXG')); // Only A and E match
       });
@@ -39,12 +40,13 @@ void main() {
       test('should filter words based on guess results', () async {
         final words = ['CRANE', 'SLATE', 'CRATE'];
         final guessResults = [
-          ('CRANE', ['G', 'Y', 'X', 'X', 'G']), // C=Green, R=Yellow, A=Gray, N=Gray, E=Green
+          ('CRANE', ['G', 'Y', 'X', 'X', 'G']), // C=Green, R=Yellow, A=Gray,
+          // N=Gray, E=Green
         ];
         
-        final filtered = RustLib.instance.api.crateApiSimpleFilterWords(
-          words: words,
-          guessResults: guessResults,
+        final filtered = FfiService.filterWords(
+          words,
+          guessResults,
         );
         
         expect(filtered, isA<List<String>>());
@@ -56,10 +58,10 @@ void main() {
         final remaining = ['CRANE', 'SLATE'];
         final guessResults = <(String, List<String>)>[];
         
-        final bestGuess = RustLib.instance.api.crateApiSimpleGetIntelligentGuess(
-          allWords: allWords,
-          remainingWords: remaining,
-          guessResults: guessResults,
+        final bestGuess = FfiService.getBestGuess(
+          allWords,
+          remaining,
+          guessResults,
         );
         
         expect(bestGuess, isA<String?>());
@@ -74,10 +76,10 @@ void main() {
         final remaining = <String>[];
         final guessResults = <(String, List<String>)>[];
         
-        final bestGuess = RustLib.instance.api.crateApiSimpleGetIntelligentGuess(
-          allWords: allWords,
-          remainingWords: remaining,
-          guessResults: guessResults,
+        final bestGuess = FfiService.getBestGuess(
+          allWords,
+          remaining,
+          guessResults,
         );
         
         expect(bestGuess, isNull);
@@ -88,10 +90,10 @@ void main() {
         final remaining = ['CRANE'];
         final guessResults = <(String, List<String>)>[];
         
-        final bestGuess = RustLib.instance.api.crateApiSimpleGetIntelligentGuess(
-          allWords: allWords,
-          remainingWords: remaining,
-          guessResults: guessResults,
+        final bestGuess = FfiService.getBestGuess(
+          allWords,
+          remaining,
+          guessResults,
         );
         
         expect(bestGuess, equals('CRANE'));
@@ -100,13 +102,15 @@ void main() {
       test('should handle complex guess results', () async {
         final words = ['CRANE', 'SLATE', 'CRATE', 'PLATE', 'GRATE'];
         final guessResults = [
-          ('CRANE', ['G', 'Y', 'X', 'X', 'G']), // C=Green, R=Yellow, A=Gray, N=Gray, E=Green
-          ('SLATE', ['X', 'X', 'G', 'X', 'G']), // S=Gray, L=Gray, A=Green, T=Gray, E=Green
+          ('CRANE', ['G', 'Y', 'X', 'X', 'G']), // C=Green, R=Yellow, A=Gray,
+          // N=Gray, E=Green
+          ('SLATE', ['X', 'X', 'G', 'X', 'G']), // S=Gray, L=Gray, A=Green,
+          // T=Gray, E=Green
         ];
         
-        final filtered = RustLib.instance.api.crateApiSimpleFilterWords(
-          words: words,
-          guessResults: guessResults,
+        final filtered = FfiService.filterWords(
+          words,
+          guessResults,
         );
         
         expect(filtered, isA<List<String>>());
@@ -121,9 +125,9 @@ void main() {
         final remaining = List.generate(100, (i) => 'WORD$i');
         
         final stopwatch = Stopwatch()..start();
-        final entropy = RustLib.instance.api.crateApiSimpleCalculateEntropy(
-          candidateWord: candidate,
-          remainingWords: remaining,
+        final entropy = FfiService.calculateEntropy(
+          candidate,
+          remaining,
         );
         stopwatch.stop();
         
@@ -137,10 +141,10 @@ void main() {
         final guessResults = <(String, List<String>)>[];
         
         final stopwatch = Stopwatch()..start();
-        final bestGuess = RustLib.instance.api.crateApiSimpleGetIntelligentGuess(
-          allWords: allWords,
-          remainingWords: remaining,
-          guessResults: guessResults,
+        final bestGuess = FfiService.getBestGuess(
+          allWords,
+          remaining,
+          guessResults,
         );
         stopwatch.stop();
         
@@ -153,12 +157,13 @@ void main() {
       test('should handle invalid patterns gracefully', () async {
         final words = ['CRANE', 'SLATE', 'CRATE'];
         final guessResults = [
-          ('CRANE', ['INVALID', 'Y', 'X', 'X', 'G']), // Invalid pattern should default to Gray
+          ('CRANE', ['INVALID', 'Y', 'X', 'X', 'G']), // Invalid pattern should
+          // default to Gray
         ];
         
-        final filtered = RustLib.instance.api.crateApiSimpleFilterWords(
-          words: words,
-          guessResults: guessResults,
+        final filtered = FfiService.filterWords(
+          words,
+          guessResults,
         );
         
         expect(filtered, isA<List<String>>());
@@ -169,9 +174,9 @@ void main() {
         final words = <String>[];
         final guessResults = <(String, List<String>)>[];
         
-        final filtered = RustLib.instance.api.crateApiSimpleFilterWords(
-          words: words,
-          guessResults: guessResults,
+        final filtered = FfiService.filterWords(
+          words,
+          guessResults,
         );
         
         expect(filtered, isEmpty);
@@ -183,13 +188,14 @@ void main() {
         // Test basic word filtering with a simple pattern
         final allWords = ['CRANE', 'SLATE', 'CRATE', 'PLATE', 'GRATE', 'TRACE'];
         final guessResults = [
-          ('CRANE', ['G', 'G', 'G', 'G', 'G']), // All green - should match CRANE exactly
+          ('CRANE', ['G', 'G', 'G', 'G', 'G']), // All green - should match
+          // CRANE exactly
         ];
         
         // Filter remaining words
-        final filtered = RustLib.instance.api.crateApiSimpleFilterWords(
-          words: allWords,
-          guessResults: guessResults,
+        final filtered = FfiService.filterWords(
+          allWords,
+          guessResults,
         );
         
         // Should return only CRANE

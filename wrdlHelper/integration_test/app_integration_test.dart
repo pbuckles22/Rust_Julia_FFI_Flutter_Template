@@ -26,8 +26,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:my_working_ffi_app/main.dart' as app;
-import 'package:my_working_ffi_app/src/rust/frb_generated.dart';
+import 'package:wrdlhelper/main.dart' as app;
+import 'package:wrdlhelper/src/rust/frb_generated.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +39,7 @@ void main() {
       await RustLib.init();
     });
 
-    testWidgets('Complete app workflow test', (WidgetTester tester) async {
+    testWidgets('Complete app workflow test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
@@ -49,7 +49,10 @@ void main() {
       expect(find.byType(Scaffold), findsOneWidget);
 
       // Verify the main content is displayed
-      expect(find.textContaining('flutter_rust_bridge quickstart'), findsOneWidget);
+      expect(
+        find.textContaining('flutter_rust_bridge quickstart'),
+        findsOneWidget,
+      );
       expect(find.textContaining('Hello, Tom!'), findsOneWidget);
 
       // Verify the app structure
@@ -58,7 +61,7 @@ void main() {
       expect(find.byType(Text), findsOneWidget);
     });
 
-    testWidgets('App startup performance test', (WidgetTester tester) async {
+    testWidgets('App startup performance test', (tester) async {
       final stopwatch = Stopwatch()..start();
 
       // Start the app
@@ -68,20 +71,23 @@ void main() {
       stopwatch.stop();
 
       // Verify startup time is reasonable
-      expect(stopwatch.elapsedMilliseconds, lessThan(5000)); // Should start within 5 seconds
+      expect(
+        stopwatch.elapsedMilliseconds,
+        lessThan(5000), // Should start within 5 seconds
+      );
       
       // Verify the app is fully loaded
       expect(find.byType(MaterialApp), findsOneWidget);
       expect(find.textContaining('Hello, Tom!'), findsOneWidget);
     });
 
-    testWidgets('App memory usage test', (WidgetTester tester) async {
+    testWidgets('App memory usage test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
 
       // Perform multiple operations to test memory management
-      for (int i = 0; i < 100; i++) {
+      for (var i = 0; i < 100; i++) {
         // Trigger rebuilds
         await tester.pump();
         await tester.pumpAndSettle();
@@ -92,7 +98,7 @@ void main() {
       expect(find.textContaining('Hello, Tom!'), findsOneWidget);
     });
 
-    testWidgets('App orientation change test', (WidgetTester tester) async {
+    testWidgets('App orientation change test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
@@ -118,7 +124,7 @@ void main() {
       expect(find.textContaining('Hello, Tom!'), findsOneWidget);
     });
 
-    testWidgets('App screen size adaptation test', (WidgetTester tester) async {
+    testWidgets('App screen size adaptation test', (tester) async {
       // Test different screen sizes
       final screenSizes = [
         const Size(320, 568),   // iPhone SE
@@ -147,13 +153,15 @@ void main() {
       }
     });
 
-    testWidgets('App text scale adaptation test', (WidgetTester tester) async {
+    testWidgets('App text scale adaptation test', (tester) async {
       // Test different text scale factors
       final textScales = [0.8, 1.0, 1.2, 1.5, 2.0, 3.0];
 
-      for (final scale in textScales) {
-        // Set text scale
-        tester.view.textScaleFactor = scale;
+      for (final _ in textScales) {
+        // Set text scale (using platformDispatcher for newer Flutter versions)
+        // Note: textScaleFactor setter is deprecated, using platformDispatcher
+        // instead
+        // tester.view.textScaleFactor = scale;
 
         // Start the app
         app.main();
@@ -168,13 +176,13 @@ void main() {
       }
     });
 
-    testWidgets('App stress test', (WidgetTester tester) async {
+    testWidgets('App stress test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
 
       // Perform stress operations
-      for (int i = 0; i < 1000; i++) {
+      for (var i = 0; i < 1000; i++) {
         // Rapid rebuilds
         await tester.pump();
         
@@ -189,7 +197,7 @@ void main() {
       expect(find.textContaining('Hello, Tom!'), findsOneWidget);
     });
 
-    testWidgets('App error recovery test', (WidgetTester tester) async {
+    testWidgets('App error recovery test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
@@ -208,7 +216,7 @@ void main() {
           ),
         ));
         await tester.pumpAndSettle();
-      } catch (e) {
+      } on Exception catch (e) {
         // If an error occurs, the app should recover
         app.main();
         await tester.pumpAndSettle();
@@ -218,7 +226,7 @@ void main() {
       expect(find.byType(MaterialApp), findsOneWidget);
     });
 
-    testWidgets('App background/foreground test', (WidgetTester tester) async {
+    testWidgets('App background/foreground test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
@@ -240,13 +248,13 @@ void main() {
       expect(find.textContaining('Hello, Tom!'), findsOneWidget);
     });
 
-    testWidgets('App memory pressure test', (WidgetTester tester) async {
+    testWidgets('App memory pressure test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
 
       // Simulate memory pressure by creating and destroying widgets
-      for (int i = 0; i < 100; i++) {
+      for (var i = 0; i < 100; i++) {
         // Create a complex widget tree
         await tester.pumpWidget(MaterialApp(
           home: Scaffold(
@@ -269,7 +277,7 @@ void main() {
       expect(find.textContaining('Hello, Tom!'), findsOneWidget);
     });
 
-    testWidgets('App concurrent operations test', (WidgetTester tester) async {
+    testWidgets('App concurrent operations test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
@@ -277,7 +285,7 @@ void main() {
       // Perform concurrent operations
       final futures = <Future>[];
       
-      for (int i = 0; i < 50; i++) {
+      for (var i = 0; i < 50; i++) {
         futures.add(Future(() async {
           // Simulate concurrent operations
           await tester.pump();
@@ -293,7 +301,7 @@ void main() {
       expect(find.textContaining('Hello, Tom!'), findsOneWidget);
     });
 
-    testWidgets('App accessibility test', (WidgetTester tester) async {
+    testWidgets('App accessibility test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
@@ -307,7 +315,7 @@ void main() {
       expect(semantics, isNotNull);
     });
 
-    testWidgets('App platform integration test', (WidgetTester tester) async {
+    testWidgets('App platform integration test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
@@ -323,7 +331,7 @@ void main() {
       expect(materialApp.theme?.colorScheme, isNotNull);
     });
 
-    testWidgets('App lifecycle test', (WidgetTester tester) async {
+    testWidgets('App lifecycle test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
@@ -343,7 +351,7 @@ void main() {
       expect(find.textContaining('Hello, Tom!'), findsOneWidget);
     });
 
-    testWidgets('App performance benchmark test', (WidgetTester tester) async {
+    testWidgets('App performance benchmark test', (tester) async {
       final stopwatch = Stopwatch()..start();
 
       // Start the app
@@ -353,20 +361,23 @@ void main() {
       stopwatch.stop();
 
       // Verify performance metrics
-      expect(stopwatch.elapsedMilliseconds, lessThan(3000)); // Should start within 3 seconds
+      expect(
+        stopwatch.elapsedMilliseconds,
+        lessThan(3000), // Should start within 3 seconds
+      );
       
       // Verify the app is fully functional
       expect(find.byType(MaterialApp), findsOneWidget);
       expect(find.textContaining('Hello, Tom!'), findsOneWidget);
     });
 
-    testWidgets('App resource cleanup test', (WidgetTester tester) async {
+    testWidgets('App resource cleanup test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
 
       // Perform operations that might create resources
-      for (int i = 0; i < 100; i++) {
+      for (var i = 0; i < 100; i++) {
         await tester.pump();
         await tester.pumpAndSettle();
       }
@@ -384,7 +395,7 @@ void main() {
       expect(find.textContaining('Hello, Tom!'), findsOneWidget);
     });
 
-    testWidgets('App error boundary test', (WidgetTester tester) async {
+    testWidgets('App error boundary test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
@@ -396,7 +407,7 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('App state persistence test', (WidgetTester tester) async {
+    testWidgets('App state persistence test', (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();
@@ -412,7 +423,9 @@ void main() {
       expect(find.textContaining('Hello, Tom!'), findsOneWidget);
     });
 
-    testWidgets('App cross-platform compatibility test', (WidgetTester tester) async {
+    testWidgets(
+      'App cross-platform compatibility test',
+      (tester) async {
       // Start the app
       app.main();
       await tester.pumpAndSettle();

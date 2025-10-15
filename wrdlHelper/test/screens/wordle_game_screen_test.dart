@@ -15,15 +15,13 @@ void main() {
       await setupTestServices();
     });
     
-    tearDownAll(() {
-      // Clean up after all tests
-      resetAllServices();
-    });
+    tearDownAll(resetAllServices);
     testWidgets('should display game screen when initialized', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test verifies the game screen loads properly after AppService initialization
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test verifies the game screen loads properly after AppService
+      // initialization
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Should show game screen with title
@@ -33,10 +31,10 @@ void main() {
     });
 
     testWidgets('should display error message when initialization fails', (
-      WidgetTester tester,
+      tester,
     ) async {
       // Our implementation is now resilient and provides mock data on failure
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
 
       // Wait for initialization to complete (should succeed with mock data)
       await tester.pumpAndSettle();
@@ -48,10 +46,11 @@ void main() {
     });
 
     testWidgets('should display game interface when successfully initialized', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement proper initialization
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test should fail initially - we need to implement proper
+      // initialization
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
 
       // Wait for initialization to complete
       await tester.pumpAndSettle();
@@ -65,10 +64,10 @@ void main() {
     });
 
     testWidgets('should display app bar with title (no refresh button)', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement app bar
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
 
       await tester.pumpAndSettle();
 
@@ -79,10 +78,10 @@ void main() {
     });
 
     testWidgets('should handle letter key presses correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement key handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
 
       await tester.pumpAndSettle();
 
@@ -95,10 +94,11 @@ void main() {
     });
 
     testWidgets('should handle backspace key press correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement backspace handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test should fail initially - we need to implement backspace
+      // handling
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
 
       await tester.pumpAndSettle();
 
@@ -113,10 +113,10 @@ void main() {
     });
 
     testWidgets('should handle enter key press with valid word', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement enter handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
 
       await tester.pumpAndSettle();
 
@@ -171,10 +171,10 @@ void main() {
     });
 
     testWidgets('should show error message for invalid word length', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement validation
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
 
       await tester.pumpAndSettle();
 
@@ -201,10 +201,11 @@ void main() {
     });
 
     testWidgets('should handle new game button press', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement new game functionality
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test should fail initially - we need to implement new game
+      // functionality
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
 
       await tester.pumpAndSettle();
 
@@ -216,10 +217,11 @@ void main() {
     });
 
     testWidgets('should handle get suggestion button press', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement suggestion functionality
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test should fail initially - we need to implement suggestion
+      // functionality
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
 
       await tester.pumpAndSettle();
 
@@ -235,10 +237,10 @@ void main() {
     });
 
     testWidgets('should display error message when guess submission fails', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement error handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
 
       await tester.pumpAndSettle();
 
@@ -254,10 +256,11 @@ void main() {
     });
 
     testWidgets('should update game grid when guess is submitted', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement game state updates
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test should fail initially - we need to implement game state
+      // updates
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
 
       await tester.pumpAndSettle();
 
@@ -270,10 +273,10 @@ void main() {
     });
 
     testWidgets('should update keyboard colors based on game state', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement key color logic
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
 
       await tester.pumpAndSettle();
 
@@ -291,10 +294,11 @@ void main() {
     });
 
     testWidgets('should handle rapid key presses correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement rapid input handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test should fail initially - we need to implement rapid input
+      // handling
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
 
       await tester.pumpAndSettle();
 
@@ -313,10 +317,11 @@ void main() {
     });
 
     testWidgets('should maintain state across widget rebuilds', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement state persistence
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test should fail initially - we need to implement state
+      // persistence
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
 
       await tester.pumpAndSettle();
 
@@ -333,10 +338,10 @@ void main() {
     });
 
     testWidgets('should have proper accessibility support', (
-      WidgetTester tester,
+      tester,
     ) async {
       // This test should fail initially - we need to implement accessibility
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
 
       await tester.pumpAndSettle();
 
@@ -347,15 +352,16 @@ void main() {
     });
 
     testWidgets('should handle game over state correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement game over handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test should fail initially - we need to implement game over
+      // handling
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
 
       await tester.pumpAndSettle();
 
       // Submit 5 guesses to trigger game over (max for helper app)
-      for (int i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         // Use proper keyboard interaction
         await KeyboardTestHelpers.submitWord(tester, 'CRATE');
         await tester.pump();
@@ -365,10 +371,11 @@ void main() {
     });
 
     testWidgets('should handle game won state correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement game won handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test should fail initially - we need to implement game won
+      // handling
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
 
       await tester.pumpAndSettle();
 
@@ -381,13 +388,14 @@ void main() {
     });
 
     testWidgets(
-      'should not auto-evaluate guesses - user must input letter states manually',
-      (WidgetTester tester) async {
-        await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      'should not auto-evaluate guesses - user must input letter states '
+      'manually',
+      (tester) async {
+        await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
 
         // Clear any pre-filled input
-        for (int i = 0; i < 5; i++) {
+        for (var i = 0; i < 5; i++) {
           await KeyboardTestHelpers.tapDeleteKey(tester);
         }
 
@@ -409,10 +417,12 @@ void main() {
 
         // The guess should be added to the game state
         // But it should NOT be auto-evaluated against a target word
-        // Instead, it should start with default gray states that user can modify
+        // Instead, it should start with default gray states that user can
+        // modify
 
         // Verify the word appears in the game grid as individual letter tiles
-        // The letters should appear in the game grid (not just the virtual keyboard)
+        // The letters should appear in the game grid (not just the virtual
+        // keyboard)
         // We expect to find multiple instances of each letter (keyboard + grid)
         expect(find.text('C'), findsAtLeastNWidgets(1));
         expect(find.text('R'), findsAtLeastNWidgets(1));
@@ -428,12 +438,12 @@ void main() {
 
     testWidgets(
       'should allow user to click on letters to change their states (G/G/Y)',
-      (WidgetTester tester) async {
-        await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      (tester) async {
+        await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
 
         // Clear any pre-filled input
-        for (int i = 0; i < 5; i++) {
+        for (var i = 0; i < 5; i++) {
           await KeyboardTestHelpers.tapDeleteKey(tester);
         }
 
@@ -467,8 +477,10 @@ void main() {
         await tester.tap(letterTiles.first);
         await tester.pumpAndSettle();
 
-        // The letter should now be yellow (or green, depending on implementation)
-        // This test will fail initially because we haven't implemented letter state cycling
+        // The letter should now be yellow (or green, depending on
+        // implementation)
+        // This test will fail initially because we haven't implemented letter
+        // state cycling
 
         // After clicking, the letter tile should have a different state
         // We need to check that the tile's state actually changed
@@ -481,13 +493,13 @@ void main() {
     );
 
     testWidgets('should provide visual feedback when letters are clicked', (
-      WidgetTester tester,
+      tester,
     ) async {
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Clear any pre-filled input
-      for (int i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         await KeyboardTestHelpers.tapDeleteKey(tester);
       }
 
@@ -518,18 +530,19 @@ void main() {
       await tester.pumpAndSettle();
 
       // The tile should have changed color/appearance
-      // This test will fail initially because we haven't implemented visual feedback
+      // This test will fail initially because we haven't implemented visual
+      // feedback
       expect(letterTile, findsOneWidget);
     });
 
     testWidgets('should use user-provided letter states for word suggestions', (
-      WidgetTester tester,
+      tester,
     ) async {
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Clear any pre-filled input
-      for (int i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         await KeyboardTestHelpers.tapDeleteKey(tester);
       }
 
@@ -548,7 +561,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Set letter states manually (this will fail initially)
-      // User clicks on letters to set: C=Gray, R=Yellow, A=Green, T=Gray, E=Gray
+      // User clicks on letters to set: C=Gray, R=Yellow, A=Green, T=Gray,
+      // E=Gray
 
       // Click on R to make it yellow
       final rTile = find
@@ -575,18 +589,19 @@ void main() {
       await tester.pumpAndSettle();
 
       // The suggestion should be based on the letter states we set
-      // This test will fail initially because we haven't implemented the suggestion logic
+      // This test will fail initially because we haven't implemented the
+      // suggestion logic
       expect(find.text('🎯 Get Next Hint'), findsOneWidget);
     });
 
     testWidgets('should show modal error instead of full screen error', (
-      WidgetTester tester,
+      tester,
     ) async {
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Clear any pre-filled input
-      for (int i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         await KeyboardTestHelpers.tapDeleteKey(tester);
       }
 
@@ -616,12 +631,12 @@ void main() {
 
     testWidgets(
       'should flash red and restore state when error occurs during GGY changes',
-      (WidgetTester tester) async {
-        await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      (tester) async {
+        await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
 
         // Clear any pre-filled input
-        for (int i = 0; i < 5; i++) {
+        for (var i = 0; i < 5; i++) {
           await KeyboardTestHelpers.tapDeleteKey(tester);
         }
 
@@ -652,19 +667,20 @@ void main() {
         // Simulate an error (this will need to be implemented)
         // The letters should flash red and then return to their previous states
 
-        // This test will fail initially because we haven't implemented the error flash animation
+        // This test will fail initially because we haven't implemented the
+        // error flash animation
         expect(cTile, findsOneWidget);
       },
     );
 
     testWidgets(
       'should provide suggestions even with restrictive letter states',
-      (WidgetTester tester) async {
-        await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      (tester) async {
+        await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
 
         // Clear any pre-filled input
-        for (int i = 0; i < 5; i++) {
+        for (var i = 0; i < 5; i++) {
           await KeyboardTestHelpers.tapDeleteKey(tester);
         }
 
@@ -683,7 +699,7 @@ void main() {
         await tester.pumpAndSettle();
 
         // Set some letters to yellow (not all green, so no correct answer)
-        for (int i = 0; i < 3; i++) {
+        for (var i = 0; i < 3; i++) {
           final tile = find
               .byWidgetPredicate(
                 (widget) => widget is LetterTile && widget.letter == 'CRATE'[i],
@@ -709,13 +725,13 @@ void main() {
     );
 
     testWidgets('should require ENTER press to submit user-typed words', (
-      WidgetTester tester,
+      tester,
     ) async {
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Clear any pre-filled input
-      for (int i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         await KeyboardTestHelpers.tapDeleteKey(tester);
       }
 
@@ -744,19 +760,20 @@ void main() {
     });
 
     testWidgets('should flash red and show modal for invalid words', (
-      WidgetTester tester,
+      tester,
     ) async {
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Clear any pre-filled input
-      for (int i = 0; i < 10; i++) {
+      for (var i = 0; i < 10; i++) {
         // Clear more aggressively
         await KeyboardTestHelpers.tapDeleteKey(tester);
         await tester.pump();
       }
 
-      // Type an invalid word (not in word list) - ensure we have exactly 5 letters
+      // Type an invalid word (not in word list) - ensure we have exactly 5
+      // letters
       await KeyboardTestHelpers.tapLetterKey(tester, 'X');
       await tester.pump();
       await KeyboardTestHelpers.tapLetterKey(tester, 'X');
@@ -781,13 +798,13 @@ void main() {
     });
 
     testWidgets('should handle word submission correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Clear any pre-filled input
-      for (int i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         await KeyboardTestHelpers.tapDeleteKey(tester);
       }
 
@@ -817,13 +834,13 @@ void main() {
     });
 
     testWidgets('should handle letter state changes correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Clear any pre-filled input
-      for (int i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         await KeyboardTestHelpers.tapDeleteKey(tester);
       }
 
@@ -842,7 +859,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Set all letters to green (correct answer)
-      for (int i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         final tile = find
             .byWidgetPredicate(
               (widget) => widget is LetterTile && widget.letter == 'CRATE'[i],
@@ -861,7 +878,7 @@ void main() {
       try {
         await tester.tap(find.text('🎯 Get Next Hint'), warnIfMissed: false);
         await tester.pumpAndSettle();
-      } catch (e) {
+      } on Exception catch (e) {
         // Skip if tap fails - widget might be off-screen or not rendered
       }
 
@@ -870,9 +887,9 @@ void main() {
     });
 
     testWidgets('should show undo button when there are guesses', (
-      WidgetTester tester,
+      tester,
     ) async {
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Initially no undo button should be visible
@@ -897,9 +914,9 @@ void main() {
     });
 
     testWidgets('should remove last guess when undo button is pressed', (
-      WidgetTester tester,
+      tester,
     ) async {
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Type and submit a word
@@ -928,9 +945,9 @@ void main() {
     });
 
     testWidgets('should auto-suggest and auto-submit on new game', (
-      WidgetTester tester,
+      tester,
     ) async {
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Wait for initial auto-suggestion and auto-submit
@@ -950,9 +967,9 @@ void main() {
     });
 
     testWidgets('should not have duplicate new game buttons', (
-      WidgetTester tester,
+      tester,
     ) async {
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Should only have one "New Game" button (in the main controls)

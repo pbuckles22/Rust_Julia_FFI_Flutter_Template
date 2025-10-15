@@ -31,7 +31,7 @@ class Word {
       frequency[char] = (frequency[char] ?? 0) + 1;
     }
     // Ensure all letters A-Z have a frequency (0 if not present)
-    for (int i = 65; i <= 90; i++) {
+    for (var i = 65; i <= 90; i++) {
       final letter = String.fromCharCode(i);
       frequency[letter] ??= 0;
     }
@@ -83,10 +83,8 @@ class Word {
   }
   
   /// Validates that the word contains only letters
-  static bool _isValidWordFormat(String word) {
-    return word.split('').every((char) => 
+  static bool _isValidWordFormat(String word) => word.split('').every((char) => 
       char.codeUnitAt(0) >= 65 && char.codeUnitAt(0) <= 90);
-  }
   
   /// Gets the character at the specified index
   String charAt(int index) {
@@ -105,9 +103,7 @@ class Word {
   }
   
   /// Checks if the word contains a specific letter
-  bool containsLetter(String letter) {
-    return value.contains(letter.toUpperCase());
-  }
+  bool containsLetter(String letter) => value.contains(letter.toUpperCase());
   
   /// Checks if the word contains a specific letter at a specific position
   bool containsLetterAt(String letter, int position) {
@@ -128,7 +124,7 @@ class Word {
     final upperLetter = letter.toUpperCase();
     final positions = <int>[];
     
-    for (int i = 0; i < value.length; i++) {
+    for (var i = 0; i < value.length; i++) {
       if (value[i] == upperLetter) {
         positions.add(i);
       }
@@ -163,7 +159,7 @@ class Word {
   /// Creates from JSON
   factory Word.fromJson(Map<String, dynamic> json) {
     if (json['value'] == null) {
-      throw FormatException('Invalid JSON: missing value field');
+      throw const FormatException('Invalid JSON: missing value field');
     }
     return Word.fromString(json['value'] as String);
   }

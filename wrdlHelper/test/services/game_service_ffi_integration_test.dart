@@ -7,8 +7,8 @@ import 'package:wrdlhelper/utils/debug_logger.dart';
 
 /// TDD Tests for GameService FFI Intelligent Solver Integration
 ///
-/// These tests verify that the GameService properly integrates with the Rust FFI
-/// intelligent solver to provide world-class Wordle solving performance.
+/// These tests verify that the GameService properly integrates with the Rust
+/// FFI intelligent solver to provide world-class Wordle solving performance.
 void main() {
   // Initialize Flutter binding for tests
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -16,11 +16,11 @@ void main() {
     // Now works with centralized FFI word lists
     late GameService gameService;
 
-    setUp(() async {
-      // Initialize FFI first
+    setUpAll(() async {
+      // Initialize FFI once for all tests in this group
       try {
         await RustLib.init();
-      } catch (e) {
+      } on Exception catch (e) {
         // FFI initialization may fail in test environment, that's OK
         // The GameService will fallback to naive strategy
         DebugLogger.testPrint(
@@ -28,8 +28,22 @@ void main() {
           tag: 'FFIIntegrationTest',
         );
       }
+    });
 
-      // Initialize FFI service first (word lists are loaded by centralized FFI during initialization)
+    tearDownAll(() {
+      // Clean up FFI resources to prevent test interference
+      try {
+        RustLib.dispose();
+      } catch (e) {
+        // Ignore cleanup errors
+      }
+    });
+
+    setUp(() async {
+      // Initialize GameService for each test
+
+      // Initialize FFI service first (word lists are loaded by centralized FFI
+      // during initialization)
       await FfiService.initialize();
 
       // Create GameService (no longer needs WordService parameter)
@@ -56,16 +70,25 @@ void main() {
         // Act: Get suggestion for first guess
         final suggestion = gameService.suggestNextGuess(gameState);
 
-        // Assert: Should get a high-quality starting word from intelligent solver
+        // Assert: Should get a high-quality starting word from intelligent
+        // solver
         expect(suggestion, isNotNull);
         expect(suggestion!.value, hasLength(5));
         expect(suggestion.value, matches(RegExp(r'^[A-Z]+$')));
 
         // Should be one of the known high-entropy starting words
-        final highEntropyWords = ['CRANE', 'SLATE', 'RAISE', 'SOARE', 'ADIEU', 'TARES'];
+        final highEntropyWords = [
+          'CRANE',
+          'SLATE',
+          'RAISE',
+          'SOARE',
+          'ADIEU',
+          'TARES'
+        ];
         expect(highEntropyWords, contains(suggestion.value));
 
-        // TODO: Once FFI integration is implemented, verify it's actually using FFI
+        // TODO: Once FFI integration is implemented, verify it's actually
+        // using FFI
         // For now, this test verifies the interface works
       });
 
@@ -109,7 +132,8 @@ void main() {
       );
 
       test('should provide better suggestions than naive strategy', () async {
-        // Arrange: Create game with specific target word for predictable testing
+        // Arrange: Create game with specific target word for predictable
+        // testing
         final targetWord = Word.fromString('CRANE');
         final gameState = gameService.createNewGameWithTarget(targetWord);
 
@@ -119,7 +143,8 @@ void main() {
         // Assert: Should suggest a high-entropy word
         expect(intelligentSuggestion, isNotNull);
 
-        // The intelligent solver should suggest words that maximize information gain
+        // The intelligent solver should suggest words that maximize information
+        // gain
         final highInformationWords = [
           'CRANE',
           'SLATE',
@@ -131,7 +156,9 @@ void main() {
         expect(highInformationWords, contains(intelligentSuggestion!.value));
       });
 
-      test('should consider previous guesses in subsequent suggestions', () async {
+      test(
+        'should consider previous guesses in subsequent suggestions',
+        () async {
         // Arrange: Create game and make a guess with specific pattern
         final gameState = gameService.createNewGame();
         final firstGuess = Word.fromString('CRANE');
@@ -141,11 +168,13 @@ void main() {
         // Act: Get second suggestion
         final secondSuggestion = gameService.suggestNextGuess(gameState);
 
-        // Assert: Second suggestion should be different and consider first guess results
+        // Assert: Second suggestion should be different and consider first
+        // guess results
         expect(secondSuggestion, isNotNull);
         expect(secondSuggestion!.value, isNot(equals('CRANE')));
 
-        // Should be a valid word that could logically follow from CRANE results
+        // Should be a valid word that could logically follow from CRANE
+        // results
         expect(secondSuggestion.value, hasLength(5));
         expect(secondSuggestion.value, matches(RegExp(r'^[A-Z]+$')));
       });

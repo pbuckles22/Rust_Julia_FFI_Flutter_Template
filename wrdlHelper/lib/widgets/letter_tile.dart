@@ -9,11 +9,19 @@ import 'package:flutter/material.dart';
 /// - Present: Yellow background
 /// - Absent: Gray background
 class LetterTile extends StatelessWidget {
+  /// The letter to display
   final String letter;
+  
+  /// The state of the letter tile
   final LetterTileState state;
+  
+  /// Whether the tile is revealed
   final bool isRevealed;
+  
+  /// Callback when the tile is tapped
   final VoidCallback? onTap;
 
+  /// Creates a new letter tile widget
   const LetterTile({
     super.key,
     required this.letter,
@@ -53,14 +61,12 @@ class LetterTile extends StatelessWidget {
                   color: Colors.black.withValues(alpha: 0.12),
                   blurRadius: 8,
                   offset: const Offset(0, 4),
-                  spreadRadius: 0,
                 ),
                 // Input focus glow (Apple Calculator style)
                 if (state == LetterTileState.input)
                   BoxShadow(
                     color: const Color(0xFF007AFF).withValues(alpha: 0.3),
                     blurRadius: 12,
-                    offset: const Offset(0, 0),
                     spreadRadius: 4,
                   ),
                 // Subtle inner shadow for depth
@@ -68,7 +74,6 @@ class LetterTile extends StatelessWidget {
                   color: Colors.white.withValues(alpha: 0.1),
                   blurRadius: 1,
                   offset: const Offset(0, -1),
-                  spreadRadius: 0,
                 ),
               ],
             ),

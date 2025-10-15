@@ -13,18 +13,16 @@ void main() {
       await setupTestServices();
     });
 
-    tearDownAll(() {
-      // Clean up after all tests
-      resetAllServices();
-    });
+    tearDownAll(resetAllServices);
 
     testWidgets(
       'should use service locator instead of direct AppService creation',
-      (WidgetTester tester) async {
+      (tester) async {
         // TDD: Test that WordleGameScreen uses service locator
         // Services are already initialized in setUpAll()
 
-        // Verify services are available (WordService removed, using centralized FFI)
+        // Verify services are available (WordService removed, using
+        // centralized FFI)
         expect(sl.isRegistered<AppService>(), isTrue);
         expect(sl.isRegistered<GameService>(), isTrue);
 
@@ -41,12 +39,13 @@ void main() {
 
         expect(appService.isInitialized, isTrue);
         expect(gameService.isInitialized, isTrue);
-        expect(FfiService.isInitialized, isTrue); // FFI service provides word lists
+        expect(FfiService.isInitialized, isTrue); // FFI service provides word
+        // lists
       },
     );
 
     testWidgets('should handle service locator errors gracefully', (
-      WidgetTester tester,
+      tester,
     ) async {
       // TDD: Test that WordleGameScreen handles missing services gracefully
       // This test needs to run in isolation with no services registered
@@ -57,11 +56,13 @@ void main() {
       // Don't setup services - this should trigger fallback behavior
       expect(sl.isRegistered<AppService>(), isFalse);
 
-      // The screen should still build with fallback behavior
+      // The screen should handle the error gracefully and show fallback UI
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
+      
+      // Wait for the error to be handled and fallback UI to appear
       await tester.pumpAndSettle();
 
-      // Verify screen still builds
+      // Verify screen still builds (with fallback behavior)
       expect(find.byType(WordleGameScreen), findsOneWidget);
 
       // Restore services for subsequent tests
@@ -69,7 +70,7 @@ void main() {
     });
 
     testWidgets('should maintain service consistency during screen lifecycle', (
-      WidgetTester tester,
+      tester,
     ) async {
       // TDD: Test that services remain consistent during screen lifecycle
       // Services are already initialized in setUpAll()
@@ -78,7 +79,8 @@ void main() {
       await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
-      // Get services at different points (WordService removed, using centralized FFI)
+      // Get services at different points (WordService removed, using
+      // centralized FFI)
       final appService1 = sl<AppService>();
       final gameService1 = sl<GameService>();
 
@@ -96,7 +98,7 @@ void main() {
     });
 
     testWidgets('should work with both real and mock services', (
-      WidgetTester tester,
+      tester,
     ) async {
       // TDD: Test that screen works with both real and mock services
 
@@ -108,7 +110,8 @@ void main() {
 
       // Reset and test with real services
       sl.reset();
-      // Note: We can't easily test real services in unit tests due to asset loading
+      // Note: We can't easily test real services in unit tests due to asset
+      // loading
       // This would be tested in integration tests with actual device
       
       // Restore services for other tests

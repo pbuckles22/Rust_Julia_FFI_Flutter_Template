@@ -9,11 +9,19 @@ import 'package:flutter/material.dart';
 /// - Present: Yellow background
 /// - Absent: Gray background
 class LetterTile extends StatelessWidget {
+  /// The letter to display (null for empty)
   final String? letter;
+  
+  /// The state of the letter (correct, present, absent)
   final LetterState? state;
+  
+  /// Whether the tile is disabled
   final bool? isDisabled;
+  
+  /// Callback when the tile is tapped
   final VoidCallback? onTap;
 
+  /// Creates a new letter tile widget
   const LetterTile({
     super.key,
     required this.letter,

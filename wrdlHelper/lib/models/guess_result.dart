@@ -1,5 +1,5 @@
-import 'package:wrdlhelper/models/word.dart';
-import 'package:wrdlhelper/exceptions/game_exceptions.dart';
+import '../exceptions/game_exceptions.dart';
+import 'word.dart';
 
 /// Letter state for Wordle game
 enum LetterState {
@@ -16,6 +16,22 @@ enum LetterState {
 /// Represents the result of a guess with letter states and analysis
 /// for the Wordle game following TDD principles.
 class GuessResult {
+  /// Constructor that validates inputs
+  GuessResult({
+    required Word? word,
+    required List<LetterState>? letterStates,
+  }) : word = word ?? (throw const InvalidGuessResultException(
+          'Word cannot be null',
+        )),
+       letterStates = letterStates ?? (throw const InvalidGuessResultException(
+          'Letter states cannot be null',
+        )) {
+    if (this.letterStates.length != this.word.length) {
+      throw const InvalidGuessResultException(
+      'Letter states length must match word length');
+    }
+  }
+
   /// The word that was guessed
   final Word word;
   
@@ -24,34 +40,28 @@ class GuessResult {
   
   /// Whether this result is complete (has been properly evaluated)
   bool get isComplete => letterStates.length == word.length && 
-                        letterStates.any((state) => state != LetterState.gray);
+      letterStates.any((state) => state != LetterState.gray);
   
   /// Whether this guess is correct (all letters are green)
-  bool get isCorrect => letterStates.every((state) => state == LetterState.green);
+  bool get isCorrect =>
+      letterStates.every((state) => state == LetterState.green);
   
   /// Whether this result has any correct letters (green or yellow)
-  bool get hasCorrectLetters => letterStates.any((state) => 
-      state == LetterState.green || state == LetterState.yellow);
+  bool get hasCorrectLetters => letterStates.any(
+    (state) => state == LetterState.green || state == LetterState.yellow,
+  );
   
   /// Number of green letters
-  int get greenCount => letterStates.where((state) => state == LetterState.green).length;
+  int get greenCount =>
+      letterStates.where((state) => state == LetterState.green).length;
   
   /// Number of yellow letters
-  int get yellowCount => letterStates.where((state) => state == LetterState.yellow).length;
-  
+  int get yellowCount =>
+      letterStates.where((state) => state == LetterState.yellow).length;
+
   /// Number of gray letters
-  int get grayCount => letterStates.where((state) => state == LetterState.gray).length;
-  
-  /// Constructor that validates inputs
-  GuessResult({
-    required Word? word,
-    required List<LetterState>? letterStates,
-  }) : word = word ?? (throw InvalidGuessResultException('Word cannot be null')),
-       letterStates = letterStates ?? (throw InvalidGuessResultException('Letter states cannot be null')) {
-    if (this.letterStates.length != this.word.length) {
-      throw InvalidGuessResultException('Letter states length must match word length');
-    }
-  }
+  int get grayCount =>
+      letterStates.where((state) => state == LetterState.gray).length;
   
   /// Creates a GuessResult from a word with all gray letters
   factory GuessResult.fromWord(Word word) {
@@ -65,20 +75,21 @@ class GuessResult {
       letterStates: letterStates,
     );
   }
-  
+
   /// Creates a validated GuessResult
   factory GuessResult.validated({
     required Word? word,
     required List<LetterState>? letterStates,
   }) {
     if (word == null) {
-      throw InvalidGuessResultException('Word cannot be null');
+      throw const InvalidGuessResultException('Word cannot be null');
     }
     if (letterStates == null) {
-      throw InvalidGuessResultException('Letter states cannot be null');
+      throw const InvalidGuessResultException('Letter states cannot be null');
     }
     if (letterStates.length != word.length) {
-      throw InvalidGuessResultException('Letter states length must match word length');
+      throw const InvalidGuessResultException(
+      'Letter states length must match word length');
     }
     
     return GuessResult(
@@ -91,12 +102,10 @@ class GuessResult {
   factory GuessResult.withStates({
     required Word word,
     required List<LetterState> letterStates,
-  }) {
-    return GuessResult(
+  }) => GuessResult(
       word: word,
       letterStates: List.from(letterStates),
     );
-  }
   
   /// Gets the letter state at the specified position
   LetterState getLetterState(int position) {
@@ -142,7 +151,7 @@ class GuessResult {
     if (newStates.length != letterStates.length) {
       throw ArgumentError('New states length must match current states length');
     }
-    for (int i = 0; i < newStates.length; i++) {
+    for (var i = 0; i < newStates.length; i++) {
       letterStates[i] = newStates[i];
     }
   }
@@ -151,7 +160,7 @@ class GuessResult {
   List<int> getPositionsOfState(LetterState state) {
     final positions = <int>[];
     
-    for (int i = 0; i < letterStates.length; i++) {
+    for (var i = 0; i < letterStates.length; i++) {
       if (letterStates[i] == state) {
         positions.add(i);
       }
@@ -161,25 +170,19 @@ class GuessResult {
   }
   
   /// Gets all positions with green letters
-  List<int> getGreenPositions() {
-    return getPositionsOfState(LetterState.green);
-  }
+  List<int> getGreenPositions() => getPositionsOfState(LetterState.green);
   
   /// Gets all positions with yellow letters
-  List<int> getYellowPositions() {
-    return getPositionsOfState(LetterState.yellow);
-  }
+  List<int> getYellowPositions() => getPositionsOfState(LetterState.yellow);
   
   /// Gets all positions with gray letters
-  List<int> getGrayPositions() {
-    return getPositionsOfState(LetterState.gray);
-  }
+  List<int> getGrayPositions() => getPositionsOfState(LetterState.gray);
   
   /// Gets all letters with a specific state
   List<String> getLettersByState(LetterState state) {
     final letters = <String>[];
     
-    for (int i = 0; i < letterStates.length; i++) {
+    for (var i = 0; i < letterStates.length; i++) {
       if (letterStates[i] == state) {
         letters.add(word.charAt(i));
       }
@@ -191,17 +194,25 @@ class GuessResult {
   /// Checks if two results are equal
   @override
   bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    if (other is! GuessResult) return false;
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! GuessResult) {
+      return false;
+    }
     return word == other.word && 
            _listEquals(letterStates, other.letterStates);
   }
   
   /// Helper method to compare lists
   bool _listEquals<T>(List<T> a, List<T> b) {
-    if (a.length != b.length) return false;
-    for (int i = 0; i < a.length; i++) {
-      if (a[i] != b[i]) return false;
+    if (a.length != b.length) {
+      return false;
+    }
+    for (var i = 0; i < a.length; i++) {
+      if (a[i] != b[i]) {
+        return false;
+      }
     }
     return true;
   }
@@ -222,7 +233,7 @@ class GuessResult {
         case LetterState.green:
           return 'G';
       }
-    }).join('');
+    }).join();
     
     return '${word.value}: $stateStrings';
   }
@@ -236,13 +247,13 @@ class GuessResult {
   /// Creates from JSON
   factory GuessResult.fromJson(Map<String, dynamic>? json) {
     if (json == null) {
-      throw FormatException('Invalid JSON: null provided');
+      throw const FormatException('Invalid JSON: null provided');
     }
     if (json['word'] == null) {
-      throw FormatException('Invalid JSON: missing word field');
+      throw const FormatException('Invalid JSON: missing word field');
     }
     if (json['letterStates'] == null) {
-      throw FormatException('Invalid JSON: missing letterStates field');
+      throw const FormatException('Invalid JSON: missing letterStates field');
     }
     
     final word = Word.fromJson(json['word'] as Map<String, dynamic>);

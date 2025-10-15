@@ -247,41 +247,6 @@ impl IntelligentSolver {
         score
     }
 
-    /// Calculates a "look-ahead" score for a candidate word.
-    /// 
-    /// STRATEGY 3: The best word is the one that, on average, leaves the fewest possibilities for the *next* turn.
-    /// This is the most advanced strategy and will make the biggest impact in tricky endgame situations.
-    fn calculate_minimax_score(&self, candidate: &str, remaining_words: &[String]) -> f64 {
-        let mut total_next_remaining_count = 0;
-
-        // Simulate this guess against every possible answer.
-        for target_word in remaining_words.iter() {
-            let pattern = self.simulate_guess_pattern(candidate, target_word);
-            
-            let pattern_vec = pattern.chars().map(|c| {
-                match c {
-                    'G' => LetterResult::Green,
-                    'Y' => LetterResult::Yellow,
-                    _ => LetterResult::Gray,
-                }
-            }).collect::<Vec<_>>();
-            let temp_guess_result = GuessResult {
-                word: candidate.to_string(),
-                results: pattern_vec,
-            };
-
-            // For this simulated outcome, how many words would be left?
-            let next_remaining_count = remaining_words.iter()
-                .filter(|word| self.word_matches_pattern(word, &temp_guess_result))
-                .count();
-                
-            total_next_remaining_count += next_remaining_count;
-        }
-
-        // Return the average number of words that would be left. A lower score is better.
-        // We negate it so that a higher score (less negative) is better in the main loop.
-        -(total_next_remaining_count as f64 / remaining_words.len() as f64)
-    }
 
     /// Simulate the guess pattern that would result from guessing against a target word
     pub fn simulate_guess_pattern(&self, guess: &str, target: &str) -> String {
@@ -339,52 +304,6 @@ impl IntelligentSolver {
         candidates
     }
 
-    /// Dynamically selects a small list of the best candidate words to analyze.
-    /// 
-    /// STRATEGY 2: Focus performance budget on high-potential words only
-    fn get_dynamic_candidates(&self, remaining_words: &[String], guess_results: &[GuessResult]) -> Vec<String> {
-        // 1. Identify letters we already know about (green, yellow, or gray).
-        let mut known_letters = std::collections::HashSet::new();
-        for result in guess_results {
-            for (i, _letter_result) in result.results.iter().enumerate() {
-                let letter = result.word.chars().nth(i).unwrap();
-                known_letters.insert(letter);
-            }
-        }
-
-        // 2. Score every word in the full guess list based on letter frequency and uniqueness.
-        let mut scored_candidates = self.words.iter().map(|word| {
-            let mut score = 0.0;
-            let mut unique_chars = std::collections::HashSet::new();
-            for ch in word.chars() {
-                // Give a bonus for letters we haven't tried yet.
-                if !known_letters.contains(&ch) {
-                    score += 1.0;
-                }
-                // Give a bonus for unique letters within the word itself.
-                if unique_chars.insert(ch) {
-                    score += 1.0; 
-                }
-            }
-            (word, score)
-        }).collect::<Vec<_>>();
-
-        // 3. Sort by the score and take the top N candidates.
-        scored_candidates.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
-        
-        // 4. Always include the remaining possible answers in our candidate list.
-        let mut final_candidates: Vec<String> = remaining_words.to_vec();
-        final_candidates.extend(
-            scored_candidates.iter()
-                .take(150) // Spend our performance budget on the top 150 strategic words
-                .map(|(word, _)| word.to_string())
-        );
-
-        // Remove duplicates and return
-        final_candidates.sort();
-        final_candidates.dedup();
-        final_candidates
-    }
     
     
     

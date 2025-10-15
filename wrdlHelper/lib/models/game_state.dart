@@ -1,6 +1,6 @@
-import 'package:wrdlhelper/exceptions/game_exceptions.dart';
-import 'package:wrdlhelper/models/guess_result.dart';
-import 'package:wrdlhelper/models/word.dart';
+import '../exceptions/game_exceptions.dart';
+import 'guess_result.dart';
+import 'word.dart';
 
 /// Game status enum for Wordle game
 enum GameStatus {
@@ -16,27 +16,35 @@ enum GameStatus {
 
 /// Guess entry for tracking guesses and results
 class GuessEntry {
-  final Word word;
-  final GuessResult result;
-
+  /// Creates a new guess entry
   const GuessEntry({required this.word, required this.result});
 
+  /// The word that was guessed
+  final Word word;
+  
+  /// The result of the guess
+  final GuessResult result;
+
+  /// Creates a guess entry from JSON
+  factory GuessEntry.fromJson(Map<String, dynamic> json) => GuessEntry(
+      word: Word.fromJson(json['word'] as Map<String, dynamic>),
+      result: GuessResult.fromJson(json['result'] as Map<String, dynamic>),
+    );
+
+  /// Converts the guess entry to JSON
   Map<String, dynamic> toJson() => {
     'word': word.toJson(),
     'result': result.toJson(),
   };
 
-  factory GuessEntry.fromJson(Map<String, dynamic> json) {
-    return GuessEntry(
-      word: Word.fromJson(json['word'] as Map<String, dynamic>),
-      result: GuessResult.fromJson(json['result'] as Map<String, dynamic>),
-    );
-  }
-
   @override
   bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    if (other is! GuessEntry) return false;
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! GuessEntry) {
+      return false;
+    }
     return word == other.word && result == other.result;
   }
 
@@ -90,8 +98,7 @@ class GameState {
   });
 
   /// Creates a new game with default settings
-  factory GameState.newGame({Word? targetWord, int maxGuesses = 5}) {
-    return GameState._(
+  factory GameState.newGame({Word? targetWord, int maxGuesses = 5}) => GameState._(
       guesses: [],
       maxGuesses: maxGuesses,
       currentGuess: 0,
@@ -102,7 +109,6 @@ class GameState {
       gameStatus: GameStatus.playing,
       startTime: DateTime.now(),
     );
-  }
 
   /// Number of guesses made
   int get guessCount => guesses.length;
@@ -117,11 +123,11 @@ class GameState {
   void addGuess(Word? guess, GuessResult? result) {
     // Validate inputs are not null
     if (guess == null) {
-      throw InvalidGuessException('Guess cannot be null');
+      throw const InvalidGuessException('Guess cannot be null');
     }
 
     if (result == null) {
-      throw InvalidGuessResultException('Guess result cannot be null');
+      throw const InvalidGuessResultException('Guess result cannot be null');
     }
 
     // Validate guess
@@ -130,11 +136,11 @@ class GameState {
     }
 
     if (guess.length != 5) {
-      throw InvalidGuessException('Guess must be 5 letters long');
+      throw const InvalidGuessException('Guess must be 5 letters long');
     }
 
     if (guess.value.isEmpty) {
-      throw InvalidGuessException('Guess cannot be empty');
+      throw const InvalidGuessException('Guess cannot be empty');
     }
 
     // Check if this guess has already been used in this game
@@ -148,12 +154,12 @@ class GameState {
 
     // Check if max guesses reached
     if (currentGuess >= maxGuesses) {
-      throw MaxGuessesReachedException('Maximum guesses reached');
+      throw const MaxGuessesReachedException('Maximum guesses reached');
     }
 
     // Check if game is over
     if (isGameOver) {
-      throw GameOverException('Cannot add guess to finished game');
+      throw const GameOverException('Cannot add guess to finished game');
     }
 
     // Add the guess
@@ -245,7 +251,7 @@ class GameState {
   /// Creates from JSON
   factory GameState.fromJson(Map<String, dynamic> json) {
     if (json['guesses'] == null) {
-      throw FormatException('Invalid JSON: missing guesses field');
+      throw const FormatException('Invalid JSON: missing guesses field');
     }
 
     final guesses = (json['guesses'] as List<dynamic>)
@@ -279,8 +285,12 @@ class GameState {
   /// Checks if two game states are equal
   @override
   bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    if (other is! GameState) return false;
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! GameState) {
+      return false;
+    }
     return guesses == other.guesses &&
         maxGuesses == other.maxGuesses &&
         currentGuess == other.currentGuess &&
@@ -315,8 +325,7 @@ class GameState {
     Word? targetWord,
     GameStatus? gameStatus,
     DateTime? startTime,
-  }) {
-    return GameState._(
+  }) => GameState._(
       guesses: guesses ?? this.guesses,
       maxGuesses: maxGuesses ?? this.maxGuesses,
       currentGuess: currentGuess ?? this.currentGuess,
@@ -327,13 +336,10 @@ class GameState {
       gameStatus: gameStatus ?? this.gameStatus,
       startTime: startTime ?? this.startTime,
     );
-  }
 
   /// String representation of the game state
   @override
-  String toString() {
-    return 'GameState(guesses: ${guesses.length}, maxGuesses: $maxGuesses, '
-        'currentGuess: $currentGuess, isGameOver: $isGameOver, '
-        'isWon: $isWon, isLost: $isLost, gameStatus: $gameStatus)';
-  }
+  String toString() => 'GameState(guesses: ${guesses.length}, maxGuesses: $maxGuesses, '
+      'currentGuess: $currentGuess, isGameOver: $isGameOver, '
+      'isWon: $isWon, isLost: $isLost, gameStatus: $gameStatus)';
 }

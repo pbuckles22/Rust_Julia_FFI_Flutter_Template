@@ -5,7 +5,7 @@ import 'package:wrdlhelper/widgets/virtual_keyboard_tdd.dart';
 void main() {
   group('VirtualKeyboard TDD Tests', () {
     testWidgets('should display QWERTY layout correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -51,7 +51,7 @@ void main() {
     });
 
     testWidgets('should call onKeyPress when letter key is tapped', (
-      WidgetTester tester,
+      tester,
     ) async {
       String? pressedKey;
 
@@ -77,7 +77,7 @@ void main() {
     });
 
     testWidgets('should call onKeyPress when action key is tapped', (
-      WidgetTester tester,
+      tester,
     ) async {
       String? pressedKey;
 
@@ -103,7 +103,7 @@ void main() {
     });
 
     testWidgets('should show correct color states for keys', (
-      WidgetTester tester,
+      tester,
     ) async {
       final keyColors = {
         'Q': Colors.green,
@@ -157,7 +157,7 @@ void main() {
     });
 
     testWidgets('should disable keys when in disabledKeys set', (
-      WidgetTester tester,
+      tester,
     ) async {
       String? pressedKey;
       final disabledKeys = {'Q', 'W', 'ENTER'};
@@ -193,7 +193,7 @@ void main() {
     });
 
     testWidgets('should show disabled state visually', (
-      WidgetTester tester,
+      tester,
     ) async {
       final disabledKeys = {'Q', 'W'};
 
@@ -233,7 +233,7 @@ void main() {
     });
 
     testWidgets('should have proper key sizing and spacing', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -253,14 +253,14 @@ void main() {
     });
 
     testWidgets('should handle rapid key tapping correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
-      List<String> pressedKeys = [];
+      final pressedKeys = <String>[];
 
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: VirtualKeyboard(onKeyPress: (key) => pressedKeys.add(key)),
+            body: VirtualKeyboard(onKeyPress: pressedKeys.add),
           ),
         ),
       );
@@ -275,14 +275,14 @@ void main() {
     });
 
     testWidgets('should handle all letter keys correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
-      List<String> pressedKeys = [];
+      final pressedKeys = <String>[];
 
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: VirtualKeyboard(onKeyPress: (key) => pressedKeys.add(key)),
+            body: VirtualKeyboard(onKeyPress: pressedKeys.add),
           ),
         ),
       );
@@ -326,14 +326,14 @@ void main() {
     });
 
     testWidgets('should handle action keys correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
-      List<String> pressedKeys = [];
+      final pressedKeys = <String>[];
 
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: VirtualKeyboard(onKeyPress: (key) => pressedKeys.add(key)),
+            body: VirtualKeyboard(onKeyPress: pressedKeys.add),
           ),
         ),
       );
@@ -349,14 +349,14 @@ void main() {
     });
 
     testWidgets('should maintain state across rebuilds', (
-      WidgetTester tester,
+      tester,
     ) async {
-      List<String> pressedKeys = [];
+      final pressedKeys = <String>[];
 
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: VirtualKeyboard(onKeyPress: (key) => pressedKeys.add(key)),
+            body: VirtualKeyboard(onKeyPress: pressedKeys.add),
           ),
         ),
       );
@@ -365,7 +365,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: VirtualKeyboard(onKeyPress: (key) => pressedKeys.add(key)),
+            body: VirtualKeyboard(onKeyPress: pressedKeys.add),
           ),
         ),
       );
@@ -377,15 +377,15 @@ void main() {
     });
 
     testWidgets('should handle empty disabledKeys set', (
-      WidgetTester tester,
+      tester,
     ) async {
-      List<String> pressedKeys = [];
+      final pressedKeys = <String>[];
 
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: VirtualKeyboard(
-              onKeyPress: (key) => pressedKeys.add(key),
+              onKeyPress: pressedKeys.add,
               disabledKeys: {},
             ),
           ),
@@ -401,7 +401,7 @@ void main() {
     });
 
     testWidgets('should handle empty keyColors set', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -420,10 +420,12 @@ void main() {
     });
 
     testWidgets('should handle null onKeyPress callback', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
-        MaterialApp(home: Scaffold(body: VirtualKeyboard(onKeyPress: null))),
+        const MaterialApp(
+          home: Scaffold(body: VirtualKeyboard(onKeyPress: null)),
+        ),
       );
 
       // Should not crash when tapping keys
@@ -434,7 +436,7 @@ void main() {
     });
 
     testWidgets('should have proper accessibility support', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -447,7 +449,7 @@ void main() {
     });
 
     testWidgets('should handle special characters in key colors', (
-      WidgetTester tester,
+      tester,
     ) async {
       final keyColors = {'É': Colors.green, 'Ñ': Colors.yellow};
 
@@ -464,7 +466,7 @@ void main() {
     });
 
     testWidgets('should handle large disabledKeys set', (
-      WidgetTester tester,
+      tester,
     ) async {
       final disabledKeys = {
         'Q',
@@ -513,7 +515,7 @@ void main() {
     });
 
     testWidgets('should handle mixed key states correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       final keyColors = {
         'Q': Colors.green,
@@ -539,7 +541,7 @@ void main() {
     });
 
     testWidgets('should maintain keyboard layout consistency', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         MaterialApp(

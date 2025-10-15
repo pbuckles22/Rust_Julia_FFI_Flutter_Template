@@ -4,6 +4,7 @@ import 'package:wrdlhelper/models/game_state.dart';
 import 'package:wrdlhelper/models/word.dart';
 import 'package:wrdlhelper/services/app_service.dart';
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
+import '../test_utils/ffi_test_helper.dart';
 
 /// Comprehensive tests for GameService
 ///
@@ -15,8 +16,17 @@ void main() {
     late AppService appService;
 
     setUpAll(() async {
-      // Initialize FFI once for all tests in this group
-      await RustLib.init();
+      // Initialize FFI once for all tests
+      await FfiTestHelper.initializeOnce();
+    });
+
+    tearDownAll(() {
+      // Clean up FFI resources to prevent test interference
+      try {
+        RustLib.dispose();
+      } catch (e) {
+        // Ignore cleanup errors
+      }
     });
 
     setUp(() async {
@@ -80,7 +90,7 @@ void main() {
 
         // Assert
         expect(gameState.targetWord, isNotNull);
-        expect(wordList.contains(gameState.targetWord!), isTrue);
+        expect(wordList.contains(gameState.targetWord), isTrue);
       });
     });
 
@@ -493,7 +503,8 @@ void main() {
         // Arrange - create a new AppService without initializing
         final uninitializedAppService = AppService();
 
-        // Act & Assert - should throw error when accessing uninitialized service
+        // Act & Assert - should throw error when accessing uninitialized
+        // service
         expect(
           () => uninitializedAppService.gameService.createNewGame(),
           throwsA(isA<StateError>()),

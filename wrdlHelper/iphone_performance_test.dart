@@ -4,9 +4,11 @@
 
 import 'dart:async';
 import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:my_working_ffi_app/src/rust/frb_generated.dart';
-import 'package:my_working_ffi_app/src/rust/api/simple.dart';
+
+import 'package:wrdlhelper/src/rust/api/simple.dart';
+import 'package:wrdlhelper/src/rust/frb_generated.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,13 +18,11 @@ void main() async {
 
 class IPhonePerformanceTestApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context) => MaterialApp(
       title: 'iPhone Performance Test',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: PerformanceTestScreen(),
     );
-  }
 }
 
 class PerformanceTestScreen extends StatefulWidget {
@@ -35,10 +35,9 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
   bool isRunning = false;
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
-        title: Text('iPhone Performance Test'),
+        title: const Text('iPhone Performance Test'),
         backgroundColor: Colors.blue,
       ),
       body: Column(
@@ -46,14 +45,13 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
           Expanded(
             child: ListView.builder(
               itemCount: testResults.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  margin: EdgeInsets.all(8.0),
+              itemBuilder: (context, index) => Card(
+                  margin: const EdgeInsets.all(8.0),
                   child: Padding(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16),
                     child: Text(
                       testResults[index],
-                      style: TextStyle(fontFamily: 'monospace'),
+                      style: const TextStyle(fontFamily: 'monospace'),
                     ),
                   ),
                 );
@@ -61,14 +59,16 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
             ),
           ),
           Container(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16),
             child: ElevatedButton(
               onPressed: isRunning ? null : runPerformanceTests,
-              child: Text(isRunning ? 'Running Tests...' : 'Run Performance Tests'),
+              child: const Text(
+                isRunning ? 'Running Tests...' : 'Run Performance Tests',
+              ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(vertical: 16.0),
+                padding: const EdgeInsets.symmetric(vertical: 16),
               ),
             ),
           ),
@@ -124,20 +124,21 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
     addResult('-' * 40);
     
     final stopwatch = Stopwatch()..start();
-    int operations = 0;
+    var operations = 0;
     const maxOperations = 10000;
     
     try {
       // Test actual RustLib calls
-      for (int i = 0; i < maxOperations; i++) {
-        final result = addNumbers(a: i, b: 1);
-        if (result != i + 1) {
+      for (var i = 0; i < maxOperations; i++) {
+        // Use existing FFI function for performance testing
+        final result = getAnswerWords();
+        if (result.isEmpty) {
           addResult('❌ FFI operation failed at iteration $i');
           return;
         }
         operations++;
       }
-    } catch (e) {
+    } on Exception catch (e) {
       addResult('❌ FFI test failed: $e');
       return;
     }
@@ -165,24 +166,25 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
     addResult('-' * 40);
     
     final stopwatch = Stopwatch()..start();
-    final List<List<int>> memoryTest = [];
+    final memoryTest = <List<int>>[];
     
     try {
       // Allocate memory in chunks
-      for (int chunk = 0; chunk < 100; chunk++) {
+      for (var chunk = 0; chunk < 100; chunk++) {
         final chunkData = List.generate(1000, (index) => chunk * 1000 + index);
         memoryTest.add(chunkData);
         
         // Process through Rust FFI
-        for (int value in chunkData) {
-          final processed = addNumbers(a: value, b: 0);
-          if (processed != value) {
+        for (final _ in chunkData) {
+          // Use existing FFI function for memory testing
+          final processed = getGuessWords();
+          if (processed.isEmpty) {
             addResult('❌ Memory processing failed at chunk $chunk');
             return;
           }
         }
       }
-    } catch (e) {
+    } on Exception catch (e) {
       addResult('❌ Memory test failed: $e');
       return;
     }
@@ -215,18 +217,17 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
     addResult('-' * 40);
     
     final stopwatch = Stopwatch()..start();
-    int processedItems = 0;
+    var processedItems = 0;
     const targetItems = 5000;
     
     try {
       // Simulate real-time data processing
-      for (int i = 0; i < targetItems; i++) {
-        // Process through Rust FFI
-        final result = multiplyFloats(a: i * 1.5, b: 2.0);
-        final expected = (i * 1.5) * 2.0;
+      for (var i = 0; i < targetItems; i++) {
+        // Use existing FFI function for real-time testing
+        final result = getAnswerWords();
         
         // Validate processing
-        if ((result - expected).abs() > 0.001) {
+        if (result.isEmpty) {
           addResult('❌ Real-time processing failed at item $i');
           return;
         }
@@ -235,10 +236,10 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
         
         // Simulate real-time delay (1ms)
         if (i % 100 == 0) {
-          await Future.delayed(Duration(milliseconds: 1));
+          await Future.delayed(const Duration(milliseconds: 1));
         }
       }
-    } catch (e) {
+    } on Exception catch (e) {
       addResult('❌ Real-time test failed: $e');
       return;
     }
@@ -268,27 +269,27 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
     final stopwatch = Stopwatch()..start();
     const dataSize = 50000;
     final largeData = List.generate(dataSize, (index) => index);
+    var processedCount = 0;
     
     try {
       // Process large dataset
-      // int processedCount = 0;
-      for (int i = 0; i < largeData.length; i += 100) {
+      for (var i = 0; i < largeData.length; i += 100) {
         final chunkEnd = (i + 100).clamp(0, largeData.length);
         final chunk = largeData.sublist(i, chunkEnd);
         
         // Process chunk through Rust FFI
-        for (int value in chunk) {
-          final processed = multiplyFloats(a: value * 1.5, b: 1.0);
-          final expected = (value * 1.5) * 1.0;
+        for (final _ in chunk) {
+          // Use existing FFI function for processing
+          final processed = getGuessWords();
           
-          if ((processed - expected).abs() > 0.001) {
+          if (processed.isEmpty) {
             addResult('❌ Large data processing failed at index $i');
             return;
           }
           processedCount++;
         }
       }
-    } catch (e) {
+    } on Exception catch (e) {
       addResult('❌ Large data test failed: $e');
       return;
     }
@@ -298,7 +299,7 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
     final itemsPerSecond = (dataSize * 1000) / duration;
     
     addResult('✅ Data size: $dataSize items');
-    addResult('✅ Processed: $dataSize items');
+    addResult('✅ Processed: $processedCount items');
     addResult('✅ Duration: ${duration}ms');
     addResult('✅ Throughput: ${itemsPerSecond.toStringAsFixed(0)} items/s');
     
@@ -317,7 +318,7 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
     addResult('-' * 40);
     
     final stopwatch = Stopwatch()..start();
-    int totalOperations = 0;
+    var totalOperations = 0;
     const stressDuration = 5000; // 5 seconds
     
     try {
@@ -327,44 +328,37 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
         
         switch (operationType) {
           case 0:
-            // Basic arithmetic
-            final a = Random().nextInt(1000);
-            final b = Random().nextInt(1000);
-                final result = addNumbers(a: a, b: b);
-            if (result != a + b) {
-              addResult('❌ Stress test failed: arithmetic');
+            // Basic FFI test
+            final result = getAnswerWords();
+            if (result.isEmpty) {
+              addResult('❌ Stress test failed: FFI operations');
               return;
             }
             break;
             
           case 1:
-            // Float operations
-            final value = Random().nextDouble() * 100;
-                final result = multiplyFloats(a: value, b: 2.0);
-            final expected = value * 2.0;
-            if ((result - expected).abs() > 0.001) {
-              addResult('❌ Stress test failed: float operations');
+            // FFI operations
+            final result = getGuessWords();
+            if (result.isEmpty) {
+              addResult('❌ Stress test failed: FFI operations');
               return;
             }
             break;
             
           case 2:
-            // String operations
-            final str = 'test_${Random().nextInt(1000)}';
-                final result = greet(name: str);
-            if (!result.contains(str)) {
-              addResult('❌ Stress test failed: string operations');
+            // FFI operations
+            final result = getAnswerWords();
+            if (result.isEmpty) {
+              addResult('❌ Stress test failed: FFI operations');
               return;
             }
             break;
             
           case 3:
-            // Complex computation
-            final value = Random().nextDouble() * 100;
-                final result = multiplyFloats(a: value, b: value / 2.0);
-            final expected = value * (value / 2.0);
-            if ((result - expected).abs() > 0.001) {
-              addResult('❌ Stress test failed: complex computation');
+            // FFI operations
+            final result = getGuessWords();
+            if (result.isEmpty) {
+              addResult('❌ Stress test failed: FFI operations');
               return;
             }
             break;
@@ -372,7 +366,7 @@ class _PerformanceTestScreenState extends State<PerformanceTestScreen> {
         
         totalOperations++;
       }
-    } catch (e) {
+    } on Exception catch (e) {
       addResult('❌ Stress test failed: $e');
       return;
     }

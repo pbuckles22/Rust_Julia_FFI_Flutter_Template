@@ -53,7 +53,8 @@ void main() {
       expect(
         pubspecContent,
         contains(
-          'description: "wrdlHelper: AI-powered Wordle solver with 99.8% success rate"',
+          'description: "wrdlHelper: AI-powered Wordle solver with 99.8% '
+          'success rate"',
         ),
       );
 

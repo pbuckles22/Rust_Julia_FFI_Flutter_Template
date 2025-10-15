@@ -1,4 +1,4 @@
-import 'package:wrdlhelper/models/word.dart';
+import 'word.dart';
 
 /// Analysis of letter frequency patterns in a word list
 class LetterFrequencyAnalysis {
@@ -15,8 +15,7 @@ class LetterFrequencyAnalysis {
   final List<String> mostCommonLetters;
 
   /// Least common letters in order
-  final List<String> leastCommonLetters;
-
+  /// Creates a new letter frequency analysis
   const LetterFrequencyAnalysis({
     required this.totalWords,
     required this.letterCounts,
@@ -25,10 +24,12 @@ class LetterFrequencyAnalysis {
     required this.leastCommonLetters,
   });
 
+  /// Least common letters in order
+  final List<String> leastCommonLetters;
+
   @override
-  String toString() {
-    return 'LetterFrequencyAnalysis(totalWords: $totalWords, mostCommon: ${mostCommonLetters.take(5).toList()})';
-  }
+  String toString() => 'LetterFrequencyAnalysis(totalWords: $totalWords, '
+      'mostCommon: ${mostCommonLetters.take(5).toList()})';
 
   @override
   bool operator ==(Object other) {
@@ -42,13 +43,11 @@ class LetterFrequencyAnalysis {
   }
 
   @override
-  int get hashCode {
-    return totalWords.hashCode ^
-        letterCounts.hashCode ^
-        letterProbabilities.hashCode ^
-        mostCommonLetters.hashCode ^
-        leastCommonLetters.hashCode;
-  }
+  int get hashCode => totalWords.hashCode ^
+      letterCounts.hashCode ^
+      letterProbabilities.hashCode ^
+      mostCommonLetters.hashCode ^
+      leastCommonLetters.hashCode;
 }
 
 /// Analysis of position-specific letter probabilities
@@ -66,6 +65,7 @@ class PositionProbabilityAnalysis {
   /// Least likely letters for each position
   final Map<int, List<String>> leastLikelyLetters;
 
+  /// Creates a new position probability analysis
   const PositionProbabilityAnalysis({
     required this.totalWords,
     required this.positionProbabilities,
@@ -74,9 +74,8 @@ class PositionProbabilityAnalysis {
   });
 
   @override
-  String toString() {
-    return 'PositionProbabilityAnalysis(totalWords: $totalWords, positions: ${positionProbabilities.length})';
-  }
+  String toString() => 'PositionProbabilityAnalysis(totalWords: $totalWords, '
+      'positions: ${positionProbabilities.length})';
 
   @override
   bool operator ==(Object other) {
@@ -89,12 +88,10 @@ class PositionProbabilityAnalysis {
   }
 
   @override
-  int get hashCode {
-    return totalWords.hashCode ^
-        positionProbabilities.hashCode ^
-        mostLikelyLetters.hashCode ^
-        leastLikelyLetters.hashCode;
-  }
+  int get hashCode => totalWords.hashCode ^
+      positionProbabilities.hashCode ^
+      mostLikelyLetters.hashCode ^
+      leastLikelyLetters.hashCode;
 }
 
 /// Combined statistical analysis for word scoring
@@ -117,6 +114,7 @@ class WordStatisticalScore {
   /// Analysis metadata
   final StatisticalScoreMetadata metadata;
 
+  /// Creates a new word statistical score
   const WordStatisticalScore({
     required this.word,
     required this.score,
@@ -127,9 +125,8 @@ class WordStatisticalScore {
   });
 
   @override
-  String toString() {
-    return 'WordStatisticalScore(word: ${word.value}, score: ${score.toStringAsFixed(3)})';
-  }
+  String toString() => 'WordStatisticalScore(word: ${word.value}, '
+      'score: ${score.toStringAsFixed(3)})';
 
   @override
   bool operator ==(Object other) {
@@ -144,14 +141,12 @@ class WordStatisticalScore {
   }
 
   @override
-  int get hashCode {
-    return word.hashCode ^
-        score.hashCode ^
-        letterFrequencyScore.hashCode ^
-        positionProbabilityScore.hashCode ^
-        primeSuspectBonus.hashCode ^
-        metadata.hashCode;
-  }
+  int get hashCode => word.hashCode ^
+      score.hashCode ^
+      letterFrequencyScore.hashCode ^
+      positionProbabilityScore.hashCode ^
+      primeSuspectBonus.hashCode ^
+      metadata.hashCode;
 }
 
 /// Metadata for statistical score calculation
@@ -171,6 +166,7 @@ class StatisticalScoreMetadata {
   /// Combined rank
   final int combinedRank;
 
+  /// Creates new statistical score metadata
   const StatisticalScoreMetadata({
     required this.analysisWordCount,
     required this.isPrimeSuspect,
@@ -180,9 +176,8 @@ class StatisticalScoreMetadata {
   });
 
   @override
-  String toString() {
-    return 'StatisticalScoreMetadata(primeSuspect: $isPrimeSuspect, combinedRank: $combinedRank)';
-  }
+  String toString() => 'StatisticalScoreMetadata(primeSuspect: $isPrimeSuspect, '
+      'combinedRank: $combinedRank)';
 
   @override
   bool operator ==(Object other) {
@@ -196,11 +191,9 @@ class StatisticalScoreMetadata {
   }
 
   @override
-  int get hashCode {
-    return analysisWordCount.hashCode ^
-        isPrimeSuspect.hashCode ^
-        letterFrequencyRank.hashCode ^
-        positionProbabilityRank.hashCode ^
-        combinedRank.hashCode;
-  }
+  int get hashCode => analysisWordCount.hashCode ^
+      isPrimeSuspect.hashCode ^
+      letterFrequencyRank.hashCode ^
+      positionProbabilityRank.hashCode ^
+      combinedRank.hashCode;
 }

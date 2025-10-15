@@ -6,8 +6,8 @@ import 'package:wrdlhelper/models/word.dart';
 
 /// Comprehensive tests for GameState model
 ///
-/// These tests validate game state management, guess tracking, and game progression
-/// for the Wordle game following TDD principles.
+/// These tests validate game state management, guess tracking, and game
+/// progression for the Wordle game following TDD principles.
 void main() {
   group('GameState Model Tests', () {
     group('Game Initialization', () {
@@ -79,8 +79,9 @@ void main() {
         final result2 = GuessResult.fromWord(guess2);
 
         // Act
-        gameState.addGuess(guess1, result1);
-        gameState.addGuess(guess2, result2);
+        gameState
+          ..addGuess(guess1, result1)
+          ..addGuess(guess2, result2);
 
         // Assert
         expect(gameState.guesses.length, equals(2));
@@ -91,8 +92,7 @@ void main() {
 
       test('prevents adding guess when game is over', () {
         // Arrange
-        final gameState = GameState.newGame();
-        gameState.setGameOver(); // Simulate game over
+        final gameState = GameState.newGame()..setGameOver(); // Simulate game over
         final guess = Word.fromString('CRANE');
         final result = GuessResult.fromWord(guess);
 
@@ -140,7 +140,7 @@ void main() {
         try {
           gameState.addGuess(guess, result);
           fail('Expected InvalidGuessException to be thrown');
-        } catch (e) {
+        } on Exception catch (e) {
           expect(e, isA<InvalidGuessException>());
           expect(e.toString(), contains('already been used'));
         }
@@ -259,8 +259,9 @@ void main() {
         final result2 = GuessResult.fromWord(guess2);
 
         // Act
-        gameState.addGuess(guess1, result1);
-        gameState.addGuess(guess2, result2);
+        gameState
+          ..addGuess(guess1, result1)
+          ..addGuess(guess2, result2);
 
         // Assert
         expect(gameState.guessCount, equals(2));
@@ -365,7 +366,7 @@ void main() {
 
         // Act
         final words = ['CRANE', 'CRATE', 'SLATE', 'BLADE', 'GRADE', 'SHADE'];
-        for (int i = 0; i < 6; i++) {
+        for (var i = 0; i < 6; i++) {
           final guess = Word.fromString(words[i]);
           final result = GuessResult.fromWord(guess);
           gameState.addGuess(guess, result);

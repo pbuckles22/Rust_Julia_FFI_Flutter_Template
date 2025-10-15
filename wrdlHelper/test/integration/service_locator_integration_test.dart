@@ -11,27 +11,25 @@ void main() {
       // Initialize services with algorithm-testing word list
       await setupTestServices();
     });
-    setUp(() {
-      // Reset service locator before each test
-      sl.reset();
-    });
+    setUp(sl.reset);
 
-    tearDown(() {
-      // Clean up after each test
-      sl.reset();
-    });
+    tearDown(sl.reset);
 
-    test('should register real services with setupServices(fastTestMode: true)', () async {
-      // TDD: Test that setupServices registers real services
-      await setupTestServices();
+    test(
+      'should register real services with setupServices(fastTestMode: true)',
+      () async {
+        // TDD: Test that setupServices registers real services
+        await setupTestServices();
 
-      // Verify AppService is registered
-      expect(sl.isRegistered<AppService>(), isTrue);
-      final appService = sl<AppService>();
-      expect(appService, isA<AppService>());
-      expect(appService.isInitialized, isTrue);
+        // Verify AppService is registered
+        expect(sl.isRegistered<AppService>(), isTrue);
+        final appService = sl<AppService>();
+        expect(appService, isA<AppService>());
+        expect(appService.isInitialized, isTrue);
 
-      // Verify individual services are registered (WordService removed, using centralized FFI)
+        // Verify individual services are registered (WordService removed, using
+        // centralized FFI)
+      // centralized FFI)
       expect(sl.isRegistered<GameService>(), isTrue);
 
       final gameService = sl<GameService>();
@@ -42,18 +40,21 @@ void main() {
       expect(gameService.isInitialized, isTrue);
     });
 
-    test('should register real services with setupServices(fastTestMode: true)', () async {
-      // TDD: Test that setupServices registers real services
-      await setupTestServices();
+    test(
+      'should register real services with setupServices(fastTestMode: true)',
+      () async {
+        // TDD: Test that setupServices registers real services
+        await setupTestServices();
 
-      // Verify AppService is registered
-      expect(sl.isRegistered<AppService>(), isTrue);
-      final appService = sl<AppService>();
-      expect(appService, isA<AppService>());
-      // Mock services are initialized by default
+        // Verify AppService is registered
+        expect(sl.isRegistered<AppService>(), isTrue);
+        final appService = sl<AppService>();
+        expect(appService, isA<AppService>());
+        // Mock services are initialized by default
       expect(appService.isInitialized, isTrue);
 
-      // Verify individual services are registered (WordService removed, using centralized FFI)
+      // Verify individual services are registered (WordService removed, using
+      // centralized FFI)
       expect(sl.isRegistered<GameService>(), isTrue);
 
       final gameService = sl<GameService>();
@@ -86,7 +87,8 @@ void main() {
       expect(sl.isRegistered<AppService>(), isTrue);
 
       sl.reset();
-      // Note: GetIt reset behavior may vary, so let's test the core functionality
+      // Note: GetIt reset behavior may vary, so let's test the core
+      // functionality
       // The important thing is that we can register services after reset
       await setupTestServices();
       expect(sl.isRegistered<AppService>(), isTrue);
@@ -96,8 +98,8 @@ void main() {
 
     test('should handle service locator access before registration', () {
       // TDD: Test that accessing unregistered services throws appropriate error
-      expect(() => sl<AppService>(), throwsA(isA<StateError>()));
-      expect(() => sl<GameService>(), throwsA(isA<StateError>()));
+      expect(sl<AppService>, throwsA(isA<StateError>()));
+      expect(sl<GameService>, throwsA(isA<StateError>()));
     });
 
     test('should allow switching between real and mock services', () async {

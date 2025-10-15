@@ -33,6 +33,11 @@ import 'package:wrdlhelper/src/rust/frb_generated.dart';
 void main() {
   group('Widget Tests', () {
     
+    setUpAll(() async {
+      // Initialize the Rust library before running widget tests
+      await RustLib.init();
+    });
+
     setUp(() {
       // Reset all services before each test to ensure clean state
       resetAllServices();
@@ -61,35 +66,25 @@ void main() {
       await tester.pumpWidget(const MyApp());
 
       // Wait for the FutureBuilder to complete (services initialization)
-      await tester.pump(const Duration(seconds: 2));
+      await tester.pumpAndSettle();
       
-      // Should show either loading screen or main game screen
-      final hasGameGrid = find.byKey(const Key('game_grid')).evaluate().isNotEmpty;
-      final hasLoadingIndicator = find.byType(CircularProgressIndicator).evaluate().isNotEmpty;
-      
-      expect(hasGameGrid || hasLoadingIndicator, isTrue);
-      
-      // If we have the game screen, check for key elements
-      if (hasGameGrid) {
-        expect(find.byKey(const Key('virtual_keyboard')), findsOneWidget);
-        expect(find.text('New Game'), findsOneWidget);
-      }
+      // Should show the Wordle game screen with key elements
+      expect(find.byKey(const Key('game_grid')), findsOneWidget);
+      expect(find.byKey(const Key('virtual_keyboard')), findsOneWidget);
+      expect(find.text('New Game'), findsOneWidget);
     });
 
     testWidgets('App should have proper layout structure', (WidgetTester tester) async {
       await tester.pumpWidget(const MyApp());
 
       // Wait for FutureBuilder to complete
-      await tester.pump(const Duration(seconds: 2));
+      await tester.pumpAndSettle();
 
       // Verify the app has proper layout structure
       expect(find.byType(Scaffold), findsOneWidget);
       expect(find.byType(AppBar), findsOneWidget);
       expect(find.byType(Column), findsWidgets); // Multiple columns: loading state + main UI
-      
-      // SingleChildScrollView might be in the main game screen or not present in loading screen
-      final hasScrollView = find.byType(SingleChildScrollView).evaluate().isNotEmpty;
-      expect(hasScrollView, anyOf(isTrue, isFalse)); // Either present or not
+      expect(find.byType(SingleChildScrollView), findsOneWidget);
       
       // Find text widgets
       final textWidget = find.byType(Text);
@@ -123,14 +118,14 @@ void main() {
         await tester.pumpWidget(const MyApp());
 
         // Wait for FutureBuilder to complete
-        await tester.pump(const Duration(seconds: 2));
+        await tester.pumpAndSettle();
 
         // Verify the app renders without errors
         expect(find.byType(MaterialApp), findsOneWidget);
         expect(find.byType(Scaffold), findsOneWidget);
 
-        // Verify some text is visible (app is rendering)
-        expect(find.byType(Text), findsWidgets);
+        // Verify the text is still visible
+        expect(find.textContaining('✅ All services initialized successfully!'), findsOneWidget);
       }
     });
 
@@ -138,33 +133,30 @@ void main() {
       // Start in portrait
       tester.view.physicalSize = const Size(400, 800);
       await tester.pumpWidget(const MyApp());
-      await tester.pump(const Duration(seconds: 2));
+      await tester.pumpAndSettle();
       expect(find.byType(MaterialApp), findsOneWidget);
 
       // Change to landscape
       tester.view.physicalSize = const Size(800, 400);
       await tester.pumpWidget(const MyApp());
-      await tester.pump(const Duration(seconds: 2));
+      await tester.pumpAndSettle();
       expect(find.byType(MaterialApp), findsOneWidget);
-      // Check that some text is visible (app is rendering)
-      expect(find.byType(Text), findsWidgets);
+      expect(find.textContaining('✅ All services initialized successfully!'), findsOneWidget);
     });
 
     testWidgets('App should maintain state during rebuilds', (WidgetTester tester) async {
       await tester.pumpWidget(const MyApp());
-      await tester.pump(const Duration(seconds: 2));
+      await tester.pumpAndSettle();
 
       // Verify initial state
-      // Check that some text is visible (app is rendering)
-      expect(find.byType(Text), findsWidgets);
+      expect(find.textContaining('✅ All services initialized successfully!'), findsOneWidget);
 
       // Rebuild the app
       await tester.pumpWidget(const MyApp());
-      await tester.pump(const Duration(seconds: 2));
+      await tester.pumpAndSettle();
 
       // Verify state is maintained
-      // Check that some text is visible (app is rendering)
-      expect(find.byType(Text), findsWidgets);
+      expect(find.textContaining('✅ All services initialized successfully!'), findsOneWidget);
     });
 
     testWidgets('App should handle accessibility', (WidgetTester tester) async {
@@ -188,12 +180,11 @@ void main() {
         // Note: textScaleFactor setter is deprecated, using view.physicalSize instead
         // tester.view.textScaleFactor = scale;
         await tester.pumpWidget(const MyApp());
-        await tester.pump(const Duration(seconds: 2));
+        await tester.pumpAndSettle();
 
         // Verify the app renders without errors
         expect(find.byType(MaterialApp), findsOneWidget);
-        // Check that some text is visible (app is rendering)
-      expect(find.byType(Text), findsWidgets);
+        expect(find.textContaining('✅ All services initialized successfully!'), findsOneWidget);
       }
     });
 
@@ -207,40 +198,38 @@ void main() {
 
     testWidgets('App should handle memory pressure', (WidgetTester tester) async {
       await tester.pumpWidget(const MyApp());
-      await tester.pump(const Duration(seconds: 2));
+      await tester.pumpAndSettle();
 
       // Simulate memory pressure by rebuilding multiple times
       for (int i = 0; i < 100; i++) {
         await tester.pumpWidget(const MyApp());
-        await tester.pump(const Duration(seconds: 2));
+        await tester.pumpAndSettle();
       }
 
       // Verify the app still works
       expect(find.byType(MaterialApp), findsOneWidget);
-      // Check that some text is visible (app is rendering)
-      expect(find.byType(Text), findsWidgets);
+      expect(find.textContaining('✅ All services initialized successfully!'), findsOneWidget);
     });
 
     testWidgets('App should handle rapid rebuilds', (WidgetTester tester) async {
       await tester.pumpWidget(const MyApp());
-      await tester.pump(const Duration(seconds: 2));
+      await tester.pumpAndSettle();
 
       // Perform rapid rebuilds
       for (int i = 0; i < 50; i++) {
         await tester.pumpWidget(const MyApp());
-        await tester.pump(const Duration(seconds: 2)); // Ensure frame is processed
+        await tester.pumpAndSettle(); // Ensure frame is processed
       }
 
       // Verify the app still works
       expect(find.byType(MaterialApp), findsOneWidget);
-      // Check that some text is visible (app is rendering)
-      expect(find.byType(Text), findsWidgets);
+      expect(find.textContaining('✅ All services initialized successfully!'), findsOneWidget);
     });
 
     testWidgets('App should handle widget tree changes', (WidgetTester tester) async {
       // Start with the main app
       await tester.pumpWidget(const MyApp());
-      await tester.pump(const Duration(seconds: 2));
+      await tester.pumpAndSettle();
       expect(find.byType(MaterialApp), findsOneWidget);
 
       // Replace with a different widget temporarily
@@ -255,9 +244,8 @@ void main() {
 
       // Restore the original app
       await tester.pumpWidget(const MyApp());
-      await tester.pump(const Duration(seconds: 2));
-      // Check that some text is visible (app is rendering)
-      expect(find.byType(Text), findsWidgets);
+      await tester.pumpAndSettle();
+      expect(find.textContaining('✅ All services initialized successfully!'), findsOneWidget);
     });
 
     testWidgets('App should handle focus changes', (WidgetTester tester) async {
@@ -271,15 +259,12 @@ void main() {
 
     testWidgets('App should handle gesture recognition', (WidgetTester tester) async {
       await tester.pumpWidget(const MyApp());
-      await tester.pump(const Duration(seconds: 2));
+      await tester.pumpAndSettle();
 
       // Verify buttons are present (they handle gestures)
-      // ElevatedButton might be in main game screen or not present in loading screen
-      final hasElevatedButton = find.byType(ElevatedButton).evaluate().isNotEmpty;
-      expect(hasElevatedButton, anyOf(isTrue, isFalse)); // Either present or not
-      // InkWell might be present in buttons or not (depending on loading state)
-      final hasInkWell = find.byType(InkWell).evaluate().isNotEmpty;
-      expect(hasInkWell, anyOf(isTrue, isFalse)); // Either present or not
+      expect(find.byType(ElevatedButton), findsWidgets);
+      // InkWell is present in buttons
+      expect(find.byType(InkWell), findsWidgets);
     });
 
     testWidgets('App should handle animation', (WidgetTester tester) async {
@@ -350,7 +335,7 @@ void main() {
       final stopwatch = Stopwatch()..start();
 
       await tester.pumpWidget(const MyApp());
-      await tester.pump(const Duration(seconds: 2));
+      await tester.pumpAndSettle();
 
       stopwatch.stop();
 
@@ -362,13 +347,12 @@ void main() {
       // Build the app multiple times to check for memory leaks
       for (int i = 0; i < 100; i++) {
         await tester.pumpWidget(const MyApp());
-        await tester.pump(const Duration(seconds: 2));
+        await tester.pumpAndSettle();
       }
 
       // Verify the app still works
       expect(find.byType(MaterialApp), findsOneWidget);
-      // Check that some text is visible (app is rendering)
-      expect(find.byType(Text), findsWidgets);
+      expect(find.textContaining('✅ All services initialized successfully!'), findsOneWidget);
     });
   });
 

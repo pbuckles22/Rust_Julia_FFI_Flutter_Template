@@ -7,8 +7,8 @@ import 'package:wrdlhelper/services/ffi_service.dart';
 
 /// Comprehensive performance and edge case tests
 ///
-/// These tests validate performance characteristics, memory usage, and edge cases
-/// for the Wordle game following TDD principles.
+/// These tests validate performance characteristics, memory usage, and edge
+/// cases for the Wordle game following TDD principles.
 void main() {
   // Initialize Flutter binding for asset loading tests
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -22,15 +22,11 @@ void main() {
       appService = sl<AppService>();
     });
 
-    tearDown(() {
-      // Clean up service locator after each test
-      sl.reset();
-    });
+    tearDown(sl.reset);
 
     group('Asset Loading Performance', () {
       test('loads word list within time limit', () async {
         // Arrange
-        const assetPath = 'assets/word_lists/official_wordle_words.json';
 
         // Act
         final stopwatch = Stopwatch()..start();
@@ -47,7 +43,6 @@ void main() {
 
       test('loads guess words within time limit', () async {
         // Arrange
-        const assetPath = 'assets/word_lists/official_guess_words.txt';
 
         // Act
         final stopwatch = Stopwatch()..start();
@@ -68,7 +63,8 @@ void main() {
         // Arrange
         // Act
         final stopwatch = Stopwatch()..start();
-        await FfiService.initialize(); // Load both answer and guess words via FFI
+        await FfiService.initialize(); // Load both answer and guess words via
+        // FFI
         stopwatch.stop();
 
         // Assert
@@ -83,7 +79,6 @@ void main() {
 
       test('handles large word list efficiently', () async {
         // Arrange
-        const assetPath = 'assets/word_lists/official_wordle_words.json';
 
         // Act
         final stopwatch = Stopwatch()..start();
@@ -178,7 +173,6 @@ void main() {
     group('Word Filtering Performance', () {
       test('filters words by pattern quickly', () {
         // Arrange
-        const pattern = 'C????';
 
         // Act
         final stopwatch = Stopwatch()..start();
@@ -196,11 +190,11 @@ void main() {
 
       test('filters words by letter quickly', () {
         // Arrange
-        const letter = 'A';
 
         // Act
         final stopwatch = Stopwatch()..start();
-        final isValid = FfiService.isValidWord('SLATE'); // Test FFI validation performance
+        final isValid = FfiService.isValidWord('SLATE'); // Test FFI validation
+        // performance
         stopwatch.stop();
 
         // Assert
@@ -213,12 +207,11 @@ void main() {
 
       test('filters words by multiple criteria quickly', () {
         // Arrange
-        const pattern = 'C????';
-        const letter = 'A';
 
         // Act
         final stopwatch = Stopwatch()..start();
-        final isValid = FfiService.isValidWord('SLATE'); // Test FFI validation performance
+        final isValid = FfiService.isValidWord('SLATE'); // Test FFI validation
+        // performance
         stopwatch.stop();
 
         // Assert
@@ -285,7 +278,8 @@ void main() {
         if (suggestion != null) {
           expect(suggestion.isValid, isTrue);
         } else {
-          // If no suggestion is available, that's also acceptable for performance test
+          // If no suggestion is available, that's also acceptable for
+          // performance test
           expect(suggestion, isNull);
         }
         expect(
@@ -320,8 +314,6 @@ void main() {
     group('Memory Usage Performance', () {
       test('handles large word list without memory issues', () async {
         // Arrange
-        final service = FfiService;
-        const assetPath = 'assets/word_lists/official_wordle_words.json';
 
         // Act
         await FfiService.initialize();
@@ -331,8 +323,12 @@ void main() {
           FfiService.getAnswerWords().length,
           greaterThan(1000),
         ); // Should have large word list (actual: 2300 words in production)
-        expect(FfiService.getAnswerWords().every((word) => word.length == 5), isTrue);
-        // Memory usage should be reasonable (no explicit memory check in Flutter test)
+        expect(
+          FfiService.getAnswerWords().every((word) => word.length == 5),
+          isTrue,
+        );
+        // Memory usage should be reasonable (no explicit memory check in
+        // Flutter test)
       });
 
       test('handles multiple game instances efficiently', () {
@@ -426,9 +422,8 @@ void main() {
         // Act
         final stopwatch = Stopwatch()..start();
 
-        final futures = patterns.map((pattern) async {
-          return FfiService.isValidWord('SLATE'); // Test FFI validation performance
-        });
+        final futures = patterns.map((pattern) async => FfiService.isValidWord('SLATE')); // Test FFI validation
+        // performance
 
         final results = await Future.wait(futures);
         stopwatch.stop();
@@ -443,16 +438,14 @@ void main() {
       });
 
       test('handles concurrent asset loading', () async {
-        // Arrange - with centralized system, we test concurrent access to the same service
+        // Arrange - with centralized system, we test concurrent access to the
+        // same service
         final services = List.generate(5, (index) => FfiService);
 
         // Act
         final stopwatch = Stopwatch()..start();
 
-        final futures = services.map((service) async {
-          // Test concurrent access to the same pre-loaded service
-          return FfiService.getAnswerWords().length;
-        });
+        final futures = services.map((service) async => FfiService.getAnswerWords().length); // Test concurrent access to the same pre-loaded service
 
         await Future.wait(futures);
         stopwatch.stop();
@@ -558,8 +551,9 @@ void main() {
         // Act
         final stopwatch = Stopwatch()..start();
 
-        // Create multiple games and make one guess each (stress test with multiple games)
-        for (int i = 0; i < operations; i++) {
+        // Create multiple games and make one guess each (stress test with
+        // multiple games)
+        for (var i = 0; i < operations; i++) {
           final gameState = appService.gameService.createNewGameWithTarget(
             Word.fromString('WORDS'),
           );
@@ -585,16 +579,12 @@ void main() {
 
       test('handles stress test with word filtering', () {
         // Arrange
-        const patterns = ['C????', 'S????', 'T????', 'B????', 'G????'];
         const operations = 1000;
-
-        // Act
         final stopwatch = Stopwatch()..start();
 
-        for (int i = 0; i < operations; i++) {
-          for (final pattern in patterns) {
-            FfiService.isValidWord('SLATE'); // Test FFI validation performance
-          }
+        // Act
+        for (var i = 0; i < operations; i++) {
+          FfiService.isValidWord('SLATE'); // Test FFI validation performance
         }
 
         stopwatch.stop();
@@ -614,9 +604,10 @@ void main() {
         // Act
         final stopwatch = Stopwatch()..start();
 
-        for (int i = 0; i < operations; i++) {
+        for (var i = 0; i < operations; i++) {
           for (final searchWord in searchWords) {
-            FfiService.isValidWord(searchWord); // Test FFI validation performance
+            FfiService.isValidWord(searchWord); // Test FFI validation
+            // performance
           }
         }
 

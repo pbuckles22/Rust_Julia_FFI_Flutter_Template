@@ -1,4 +1,4 @@
-import 'package:wrdlhelper/models/word.dart';
+import 'word.dart';
 
 /// Represents a word with its entropy ranking for intelligent word selection
 class WordEntropyRanking {
@@ -11,6 +11,7 @@ class WordEntropyRanking {
   /// Additional metadata about the ranking
   final EntropyMetadata metadata;
 
+  /// Creates a new word entropy ranking
   const WordEntropyRanking({
     required this.word,
     required this.entropy,
@@ -18,9 +19,8 @@ class WordEntropyRanking {
   });
 
   @override
-  String toString() {
-    return 'WordEntropyRanking(word: ${word.value}, entropy: ${entropy.toStringAsFixed(4)}, metadata: $metadata)';
-  }
+  String toString() => 'WordEntropyRanking(word: ${word.value}, '
+      'entropy: ${entropy.toStringAsFixed(4)}, metadata: $metadata)';
 
   @override
   bool operator ==(Object other) {
@@ -32,9 +32,7 @@ class WordEntropyRanking {
   }
 
   @override
-  int get hashCode {
-    return word.hashCode ^ entropy.hashCode ^ metadata.hashCode;
-  }
+  int get hashCode => word.hashCode ^ entropy.hashCode ^ metadata.hashCode;
 }
 
 /// Metadata about the entropy calculation
@@ -51,6 +49,7 @@ class EntropyMetadata {
   /// Whether this word is in the answer list (prime suspect)
   final bool isPrimeSuspect;
 
+  /// Creates new entropy metadata
   const EntropyMetadata({
     required this.remainingWordCount,
     required this.patternCount,
@@ -59,9 +58,10 @@ class EntropyMetadata {
   });
 
   @override
-  String toString() {
-    return 'EntropyMetadata(remaining: $remainingWordCount, patterns: $patternCount, avgElimination: ${averageElimination.toStringAsFixed(2)}, primeSuspect: $isPrimeSuspect)';
-  }
+  String toString() => 'EntropyMetadata(remaining: $remainingWordCount, '
+      'patterns: $patternCount, '
+      'avgElimination: ${averageElimination.toStringAsFixed(2)}, '
+      'primeSuspect: $isPrimeSuspect)';
 
   @override
   bool operator ==(Object other) {
@@ -74,10 +74,8 @@ class EntropyMetadata {
   }
 
   @override
-  int get hashCode {
-    return remainingWordCount.hashCode ^
-        patternCount.hashCode ^
-        averageElimination.hashCode ^
-        isPrimeSuspect.hashCode;
-  }
+  int get hashCode => remainingWordCount.hashCode ^
+      patternCount.hashCode ^
+      averageElimination.hashCode ^
+      isPrimeSuspect.hashCode;
 }

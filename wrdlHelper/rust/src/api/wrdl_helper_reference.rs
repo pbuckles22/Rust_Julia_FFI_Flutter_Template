@@ -5,7 +5,7 @@
 //! 
 //! COPIED FROM REFERENCE IMPLEMENTATION THAT ACHIEVED 99.8% SUCCESS RATE
 
-use crate::api::wrdl_helper::{GuessResult, LetterResult};
+use crate::api::wrdl_helper::GuessResult;
 use std::collections::HashMap;
 use std::f64::consts::LN_2;
 

@@ -1,15 +1,14 @@
 import 'package:get_it/get_it.dart';
-import 'package:wrdlhelper/models/game_state.dart';
-import 'package:wrdlhelper/models/word.dart';
-import 'package:wrdlhelper/services/app_service.dart';
-import 'package:wrdlhelper/services/ffi_service.dart';
-import 'package:wrdlhelper/services/game_service.dart';
-import 'package:wrdlhelper/utils/debug_logger.dart';
 
-// This is our global service locator
+import 'services/app_service.dart';
+import 'services/ffi_service.dart';
+import 'services/game_service.dart';
+import 'utils/debug_logger.dart';
+
+/// Global service locator instance
 final sl = GetIt.instance;
 
-// Function to reset all services (for testing)
+/// Resets all services (for testing)
 void resetAllServices() {
   if (sl.isRegistered<AppService>()) {
     sl.unregister<AppService>();
@@ -25,24 +24,34 @@ void resetAllServices() {
 AppService? _cachedAppService;
 bool _isTestCacheInitialized = false;
 
-// This function will register your services with full production word lists
+/// Registers all services with the service locator
 Future<void> setupServices({bool useMocks = false}) async {
   try {
     // Check if services are already registered
     if (sl.isRegistered<AppService>()) {
-      DebugLogger.info('🔧 Services already registered, skipping setup', tag: 'ServiceLocator');
+      DebugLogger.info(
+        '🔧 Services already registered, skipping setup',
+        tag: 'ServiceLocator',
+      );
       return;
     }
 
     // For tests, try to reuse cached service for performance
     if (_isTestCacheInitialized && _cachedAppService != null) {
-      DebugLogger.info('🚀 Using cached AppService for fast testing...', tag: 'ServiceLocator');
+      DebugLogger.info(
+        '🚀 Using cached AppService for fast testing...',
+        tag: 'ServiceLocator',
+      );
       
       // Register the cached service
-      sl.registerSingleton<AppService>(_cachedAppService!);
-      sl.registerSingleton<GameService>(_cachedAppService!.gameService);
+      sl
+        ..registerSingleton<AppService>(_cachedAppService!)
+        ..registerSingleton<GameService>(_cachedAppService!.gameService);
       
-      DebugLogger.success('✅ Cached services registered successfully!', tag: 'ServiceLocator');
+      DebugLogger.success(
+        '✅ Cached services registered successfully!',
+        tag: 'ServiceLocator',
+      );
       return;
     }
 
@@ -60,16 +69,19 @@ Future<void> setupServices({bool useMocks = false}) async {
     );
 
     // Register it as a singleton in the service locator
-    sl.registerSingleton<AppService>(appService);
-
-    // Register individual services for easier access
-    sl.registerSingleton<GameService>(appService.gameService);
+    sl
+      ..registerSingleton<AppService>(appService)
+      // Register individual services for easier access
+      ..registerSingleton<GameService>(appService.gameService);
 
     // Cache for future tests
     if (!_isTestCacheInitialized) {
       _cachedAppService = appService;
       _isTestCacheInitialized = true;
-      DebugLogger.info('💾 Cached AppService for future tests', tag: 'ServiceLocator');
+      DebugLogger.info(
+        '💾 Cached AppService for future tests',
+        tag: 'ServiceLocator',
+      );
     }
 
     DebugLogger.success(
@@ -95,33 +107,47 @@ Future<void> setupServices({bool useMocks = false}) async {
   }
 }
 
-// This function will register your services with algorithm-testing word list for tests
+/// Registers all services for testing with algorithm-testing word list
 Future<void> setupTestServices({bool useMocks = false}) async {
   try {
     // Check if services are already registered
     if (sl.isRegistered<AppService>()) {
-      DebugLogger.info('🔧 Test services already registered, skipping setup', tag: 'ServiceLocator');
+      DebugLogger.info(
+        '🔧 Test services already registered, skipping setup',
+        tag: 'ServiceLocator',
+      );
       return;
     }
 
     // For tests, try to reuse cached service for performance
     if (_isTestCacheInitialized && _cachedAppService != null) {
-      DebugLogger.info('🚀 Using cached test AppService for fast testing...', tag: 'ServiceLocator');
+      DebugLogger.info(
+        '🚀 Using cached test AppService for fast testing...',
+        tag: 'ServiceLocator',
+      );
       
       // Register the cached service
-      sl.registerSingleton<AppService>(_cachedAppService!);
-      sl.registerSingleton<GameService>(_cachedAppService!.gameService);
+      sl
+        ..registerSingleton<AppService>(_cachedAppService!)
+        ..registerSingleton<GameService>(_cachedAppService!.gameService);
       
-      DebugLogger.success('✅ Cached test services registered successfully!', tag: 'ServiceLocator');
+      DebugLogger.success(
+        '✅ Cached test services registered successfully!',
+        tag: 'ServiceLocator',
+      );
       return;
     }
 
-    DebugLogger.info('🔧 Creating TEST AppService with algorithm-testing word list...', tag: 'ServiceLocator');
+    DebugLogger.info(
+      '🔧 Creating TEST AppService with algorithm-testing word list...',
+      tag: 'ServiceLocator',
+    );
 
     // Initialize FFI service first
     await FfiService.initialize();
     
-    // Word lists are now loaded by centralized FFI during initialization
+    // Word lists are now loaded by centralized FFI during
+    // initialization
     
     // Create GameService
     final gameService = GameService();
@@ -131,31 +157,53 @@ Future<void> setupTestServices({bool useMocks = false}) async {
     final appService = AppService();
     await appService.initializeForTesting(gameService);
 
-    DebugLogger.info('🔧 Registering test services in GetIt...', tag: 'ServiceLocator');
+    DebugLogger.info(
+      '🔧 Registering test services in GetIt...',
+      tag: 'ServiceLocator',
+    );
 
     // Register it as a singleton in the service locator
-    sl.registerSingleton<AppService>(appService);
-
-    // Register individual services for easier access
-    sl.registerSingleton<GameService>(gameService);
+    sl
+      ..registerSingleton<AppService>(appService)
+      // Register individual services for easier access
+      ..registerSingleton<GameService>(gameService);
 
     // Cache for future tests
     if (!_isTestCacheInitialized) {
       _cachedAppService = appService;
       _isTestCacheInitialized = true;
-      DebugLogger.info('💾 Cached test AppService for future tests', tag: 'ServiceLocator');
+      DebugLogger.info(
+        '💾 Cached test AppService for future tests',
+        tag: 'ServiceLocator',
+      );
     }
 
-    DebugLogger.success('✅ All test services registered successfully!', tag: 'ServiceLocator');
-    DebugLogger.info('📊 Registered test services:', tag: 'ServiceLocator');
-    DebugLogger.info('  • AppService: ${sl.isRegistered<AppService>()}', tag: 'ServiceLocator');
-    DebugLogger.info('  • GameService: ${sl.isRegistered<GameService>()}', tag: 'ServiceLocator');
+    DebugLogger.success(
+      '✅ All test services registered successfully!',
+      tag: 'ServiceLocator',
+    );
+    DebugLogger.info(
+      '📊 Registered test services:',
+      tag: 'ServiceLocator',
+    );
+    DebugLogger.info(
+      '  • AppService: ${sl.isRegistered<AppService>()}',
+      tag: 'ServiceLocator',
+    );
+    DebugLogger.info(
+      '  • GameService: ${sl.isRegistered<GameService>()}',
+      tag: 'ServiceLocator',
+    );
   } catch (e, stackTrace) {
-    DebugLogger.error('❌ CRITICAL: Test service initialization failed: $e', tag: 'ServiceLocator');
+    DebugLogger.error(
+      '❌ CRITICAL: Test service initialization failed: $e',
+      tag: 'ServiceLocator',
+    );
     DebugLogger.error('Stack trace: $stackTrace', tag: 'ServiceLocator');
     rethrow;
   }
 }
 
 // Mock services have been removed - all tests now use real services
-// This provides better integration testing and validates actual system performance
+// This provides better integration testing and validates actual system
+// performance

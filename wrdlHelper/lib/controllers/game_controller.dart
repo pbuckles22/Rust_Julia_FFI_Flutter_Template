@@ -1,29 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:wrdlhelper/models/game_state.dart';
-import 'package:wrdlhelper/models/guess_result.dart';
-import 'package:wrdlhelper/models/word.dart';
-import 'package:wrdlhelper/services/app_service.dart';
-import 'package:wrdlhelper/service_locator.dart';
+
+import '../models/game_state.dart';
+import '../models/guess_result.dart';
+import '../models/word.dart';
+import '../services/app_service.dart';
+import '../service_locator.dart';
 
 /// GameController manages the game state and user interactions
 class GameController {
   // Services are now accessed through AppService singleton
 
-  GameState? _gameState;
-  bool _isInitialized = false;
-  String _currentInput = '';
-  String? _errorMessage;
-  final List<VoidCallback> _listeners = [];
-
+  /// Creates a new game controller
   GameController();
 
+  /// The current game state
+  GameState? _gameState;
+  
+  /// Whether the controller is initialized
+  bool _isInitialized = false;
+  
+  /// The current user input
+  String _currentInput = '';
+  
+  /// Any error message from operations
+  String? _errorMessage;
+
+  /// List of listeners for state changes
+  final List<VoidCallback> _listeners = [];
+
   // Getters
+  /// The current game state
   GameState? get gameState => _gameState;
+  
+  /// Whether the controller is initialized
   bool get isInitialized => _isInitialized;
+  
+  /// The current user input
   String get currentInput => _currentInput;
+  
+  /// Any error message from operations
   String? get errorMessage => _errorMessage;
 
   // Setter for testing
+  /// Sets the game state (for testing purposes)
   set gameState(GameState? state) => _gameState = state;
 
   /// Initialize the game controller
@@ -37,7 +56,7 @@ class GameController {
       _gameState = appService.gameService.createNewGame();
       _isInitialized = true;
       _notifyListeners();
-    } catch (e) {
+    } on Exception catch (e) {
       _errorMessage = 'Failed to initialize: $e';
       _notifyListeners();
     }
@@ -93,17 +112,14 @@ class GameController {
       _currentInput = '';
       _errorMessage = null;
       _notifyListeners();
-    } catch (e) {
+    } on Exception catch (e) {
       _errorMessage = e.toString();
       _notifyListeners();
     }
   }
 
   /// Basic word validation
-  bool _isValidWord(String word) {
-    // For testing purposes, reject words with 'X' as invalid
-    return !word.contains('X');
-  }
+  bool _isValidWord(String word) => !word.contains('X'); // For testing purposes, reject words with 'X' as invalid
 
   /// Start a new game
   Future<void> newGame() async {
@@ -123,7 +139,7 @@ class GameController {
     try {
       final appService = sl<AppService>();
       return appService.gameService.suggestNextGuess(_gameState!);
-    } catch (e) {
+    } on Exception catch (e) {
       _errorMessage = 'Failed to get suggestion: $e';
       _notifyListeners();
       return null;
@@ -132,7 +148,9 @@ class GameController {
 
   /// Get key colors based on game state
   Map<String, Color> getKeyColors() {
-    if (_gameState == null) return {};
+    if (_gameState == null) {
+      return {};
+    }
 
     final keyColors = <String, Color>{};
 
@@ -140,7 +158,7 @@ class GameController {
     final letterStates = <String, LetterState>{};
 
     for (final guess in _gameState!.guesses) {
-      for (int i = 0; i < guess.word.value.length; i++) {
+      for (var i = 0; i < guess.word.value.length; i++) {
         final letter = guess.word.value[i].toUpperCase();
         final state = guess.result.letterStates[i];
 
@@ -163,9 +181,12 @@ class GameController {
   /// Check if newState is better than currentState
   bool _isBetterState(LetterState newState, LetterState currentState) {
     // Green is best, then yellow, then gray
-    if (newState == LetterState.green) return true;
-    if (newState == LetterState.yellow && currentState == LetterState.gray)
+    if (newState == LetterState.green) {
       return true;
+    }
+    if (newState == LetterState.yellow && currentState == LetterState.gray) {
+      return true;
+    }
     return false;
   }
 
@@ -181,11 +202,6 @@ class GameController {
     }
   }
 
-  /// Get disabled keys based on game state
-  Set<String> getDisabledKeys() {
-    // TODO: Implement disabled keys logic
-    return {};
-  }
 
   /// Add listener for state changes
   void addListener(VoidCallback listener) {

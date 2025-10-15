@@ -106,6 +106,29 @@ debug_words.dart
 *.debug
 debug_*
 
-# Agent handoff temporary files
-docs/agent-handoff/temp/
-docs/agent-handoff/*.tmp
+# Agent handoff documentation (temporary working files)
+docs/agent-handoff/
+
+# Cursor IDE files
+.cursor
+.cursorignore
+
+# Additional temporary files found in project
+**/*.backup
+**/temp_file
+**/test_output.txt
+**/test_output.log
+**/test_results.json
+
+# Specific temporary files found in project
+wrdlHelper/test/*.backup
+wrdlHelper/temp_file
+wrdlHelper/test_output.txt
+
+# Rust build artifacts (additional)
+**/target/release/
+**/target/debug/
+**/*.dylib
+**/*.so
+**/*.dll
+**/*.framework

@@ -5,18 +5,38 @@ import 'package:wrdlhelper/models/word.dart';
 
 /// GameStateManager handles game state management and notifications
 class GameStateManager {
+  /// The current game state
   GameState? _gameState;
+  
+  /// Whether the manager is initialized
   final bool _isInitialized = false;
+  
+  /// The current user input
   String _currentInput = '';
+  
+  /// Any error message from operations
   String? _errorMessage;
+  
+  /// Whether the manager is in loading state
   bool _isLoading = false;
+  
+  /// List of listeners for state changes
   final List<VoidCallback> _listeners = [];
 
   // Getters
+  /// The current game state
   GameState? get gameState => _gameState;
+  
+  /// Whether the manager is initialized
   bool get isInitialized => _isInitialized;
+  
+  /// The current user input
   String get currentInput => _currentInput;
+  
+  /// Any error message from operations
   String? get errorMessage => _errorMessage;
+  
+  /// Whether the manager is in loading state
   bool get isLoading => _isLoading;
 
   /// Create a new game with target word
@@ -90,19 +110,13 @@ class GameStateManager {
   }
 
   /// Check if word length is valid
-  bool isValidWordLength(String word) {
-    return word.length == 5;
-  }
+  bool isValidWordLength(String word) => word.length == 5;
 
   /// Get remaining guesses count
-  int getRemainingGuesses(GameState gameState) {
-    return 6 - gameState.guesses.length;
-  }
+  int getRemainingGuesses(GameState gameState) => 6 - gameState.guesses.length;
 
   /// Check if game is in progress
-  bool isGameInProgress(GameState gameState) {
-    return !gameState.isGameOver;
-  }
+  bool isGameInProgress(GameState gameState) => !gameState.isGameOver;
 
   /// Add listener for state changes
   void addListener(VoidCallback listener) {

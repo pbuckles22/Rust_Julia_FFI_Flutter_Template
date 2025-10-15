@@ -6,11 +6,19 @@ import 'package:wrdlhelper/models/game_state.dart';
 /// Displays game statistics, current state, and word suggestions
 /// with proper formatting and accessibility support.
 class GameStatusWidget extends StatelessWidget {
+  /// The current game state
   final GameState gameState;
+  
+  /// Total number of words in the word list
   final int totalWords;
+  
+  /// Number of words remaining to guess
   final int remainingWords;
+  
+  /// Current word suggestion
   final String? suggestion;
 
+  /// Creates a new game status widget
   const GameStatusWidget({
     super.key,
     required this.gameState,
@@ -20,8 +28,7 @@ class GameStatusWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Card(
+  Widget build(BuildContext context) => Card(
       margin: const EdgeInsets.all(8),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -44,11 +51,9 @@ class GameStatusWidget extends StatelessWidget {
         ),
       ),
     );
-  }
 
   /// Builds the header section
-  Widget _buildHeader() {
-    return Semantics(
+  Widget _buildHeader() => Semantics(
       label: 'Word Statistics',
       textDirection: TextDirection.ltr,
       child: const Text(
@@ -56,11 +61,9 @@ class GameStatusWidget extends StatelessWidget {
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       ),
     );
-  }
 
   /// Builds the word statistics section
-  Widget _buildWordStatistics() {
-    return Column(
+  Widget _buildWordStatistics() => Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Semantics(
@@ -82,7 +85,6 @@ class GameStatusWidget extends StatelessWidget {
         ),
       ],
     );
-  }
 
   /// Builds the game state section
   Widget _buildGameState() {
@@ -118,8 +120,7 @@ class GameStatusWidget extends StatelessWidget {
   }
 
   /// Builds the suggestion section
-  Widget _buildSuggestion() {
-    return Semantics(
+  Widget _buildSuggestion() => Semantics(
       label: 'Current suggestion: $suggestion',
       textDirection: TextDirection.ltr,
       child: Text(
@@ -127,7 +128,6 @@ class GameStatusWidget extends StatelessWidget {
         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       ),
     );
-  }
 
   /// Gets the status text based on game state
   String _getStatusText() {
@@ -154,10 +154,8 @@ class GameStatusWidget extends StatelessWidget {
   }
 
   /// Formats numbers with commas for better readability
-  String _formatNumber(int number) {
-    return number.toString().replaceAllMapped(
+  String _formatNumber(int number) => number.toString().replaceAllMapped(
       RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-      (Match match) => '${match[1]},',
+      (match) => '${match[1]},',
     );
-  }
 }

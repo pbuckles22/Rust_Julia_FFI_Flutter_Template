@@ -26,39 +26,39 @@ void main() {
           word: Word.fromString('SLATE'),
           letterStates: [
             LetterState.gray,
-            LetterState.gray,
-            LetterState.gray,
-            LetterState.gray,
-            LetterState.gray,
-          ],
-        ),
-      );
+              LetterState.gray,
+              LetterState.gray,
+              LetterState.gray,
+              LetterState.gray,
+            ],
+          ),
+        );
       mockGameState.addGuess(
         Word.fromString('CRICK'),
-        GuessResult(
-          word: Word.fromString('CRICK'),
-          letterStates: [
-            LetterState.green,
-            LetterState.green,
-            LetterState.gray,
-            LetterState.gray,
-            LetterState.gray,
-          ],
-        ),
-      );
+          GuessResult(
+            word: Word.fromString('CRICK'),
+            letterStates: [
+              LetterState.green,
+              LetterState.green,
+              LetterState.gray,
+              LetterState.gray,
+              LetterState.gray,
+            ],
+          ),
+        );
       mockGameState.addGuess(
         Word.fromString('CRATE'),
-        GuessResult(
-          word: Word.fromString('CRATE'),
-          letterStates: [
-            LetterState.green,
-            LetterState.green,
-            LetterState.gray,
-            LetterState.gray,
-            LetterState.gray,
-          ],
-        ),
-      );
+          GuessResult(
+            word: Word.fromString('CRATE'),
+            letterStates: [
+              LetterState.green,
+              LetterState.green,
+              LetterState.gray,
+              LetterState.gray,
+              LetterState.gray,
+            ],
+          ),
+        );
       mockOnNewGame = () {};
       mockOnGetSuggestion = () {};
       mockIsLoading = false;
@@ -66,7 +66,7 @@ void main() {
 
     group('Widget Rendering', () {
       testWidgets('displays new game button and get suggestion button', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -82,7 +82,8 @@ void main() {
           ),
         );
 
-        // Assert - Verify all buttons are present (New Game, Get Suggestion, Undo)
+        // Assert - Verify all buttons are present (New Game, Get Suggestion,
+        // Undo)
         expect(find.text('New Game'), findsOneWidget);
         expect(find.text('🎯 Get Next Hint'), findsOneWidget);
         expect(find.text('↶ Undo'), findsOneWidget);
@@ -90,7 +91,7 @@ void main() {
       });
 
       testWidgets('displays buttons with correct styling', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -131,10 +132,10 @@ void main() {
 
     group('New Game Button Functionality', () {
       testWidgets('calls onNewGame when new game button is tapped', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
-        bool newGameCalled = false;
+        var newGameCalled = false;
         void onNewGameCallback() {
           newGameCalled = true;
         }
@@ -161,7 +162,7 @@ void main() {
       });
 
       testWidgets('new game button is enabled when game is not loading', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -184,7 +185,7 @@ void main() {
       });
 
       testWidgets('new game button is disabled when loading', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -207,7 +208,7 @@ void main() {
       });
 
       testWidgets('new game button shows loading state when loading', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -238,9 +239,9 @@ void main() {
     group('Get Suggestion Button Functionality', () {
       testWidgets(
         'calls onGetSuggestion when get suggestion button is tapped',
-        (WidgetTester tester) async {
+        (tester) async {
           // Arrange
-          bool suggestionCalled = false;
+          var suggestionCalled = false;
           void onSuggestionCallback() {
             suggestionCalled = true;
           }
@@ -268,7 +269,7 @@ void main() {
       );
 
       testWidgets('get suggestion button is enabled when game is playing', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -294,7 +295,7 @@ void main() {
       });
 
       testWidgets('get suggestion button is disabled when game is over', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange - Game state with game over
         final gameOverState = mockGameState.copyWith(
@@ -325,7 +326,7 @@ void main() {
       });
 
       testWidgets('get suggestion button is disabled when loading', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -351,7 +352,7 @@ void main() {
       });
 
       testWidgets('get suggestion button shows loading state when loading', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -381,7 +382,7 @@ void main() {
 
     group('Button States Based on Game State', () {
       testWidgets('both buttons are enabled when game is playing', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -415,7 +416,7 @@ void main() {
       });
 
       testWidgets('get suggestion button is disabled when game is won', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange - Game state with won status
         final wonGameState = mockGameState.copyWith(
@@ -456,7 +457,7 @@ void main() {
       });
 
       testWidgets('get suggestion button is disabled when game is lost', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange - Game state with lost status
         final lostGameState = mockGameState.copyWith(
@@ -497,7 +498,7 @@ void main() {
       });
 
       testWidgets('both buttons are disabled when loading', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -530,7 +531,7 @@ void main() {
 
     group('Visual Feedback', () {
       testWidgets('shows success feedback when suggestion is received', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -553,7 +554,7 @@ void main() {
       });
 
       testWidgets('shows error feedback when suggestion fails', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -577,7 +578,7 @@ void main() {
       });
 
       testWidgets('shows retry button when suggestion fails', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -603,10 +604,10 @@ void main() {
       });
 
       testWidgets('retry button calls onGetSuggestion when tapped', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
-        bool suggestionCalled = false;
+        var suggestionCalled = false;
         void onSuggestionCallback() {
           suggestionCalled = true;
         }
@@ -636,7 +637,7 @@ void main() {
 
     group('Accessibility', () {
       testWidgets('provides proper semantic labels for screen readers', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -661,7 +662,7 @@ void main() {
       });
 
       testWidgets('provides proper semantic labels for disabled buttons', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange - Game state with game over
         final gameOverState = mockGameState.copyWith(
@@ -691,7 +692,7 @@ void main() {
       });
 
       testWidgets('provides proper semantic labels for loading state', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -719,7 +720,7 @@ void main() {
         );
       });
 
-      testWidgets('supports keyboard navigation', (WidgetTester tester) async {
+      testWidgets('supports keyboard navigation', (tester) async {
         // Arrange
         await tester.pumpWidget(
           MaterialApp(
@@ -752,7 +753,7 @@ void main() {
 
     group('Error Handling', () {
       testWidgets('handles null callbacks gracefully', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -783,7 +784,7 @@ void main() {
       });
 
       testWidgets('handles callback exceptions gracefully', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         Never throwingCallback() {
@@ -818,7 +819,7 @@ void main() {
 
     group('Edge Cases and Boundary Conditions', () {
       testWidgets('handles empty game state gracefully', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange - Empty game state
         final emptyGameState = GameState.newGame(
@@ -859,7 +860,7 @@ void main() {
       });
 
       testWidgets('handles maximum game state complexity', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange - Game state with maximum guesses (5 for helper app)
         final maxGameState = GameState.newGame(
@@ -868,7 +869,7 @@ void main() {
         );
         final words = ['SLATE', 'CRICK', 'CRATE', 'CRAMP', 'CRANE'];
 
-        for (int i = 0; i < 5; i++) {
+        for (var i = 0; i < 5; i++) {
           maxGameState.addGuess(
             Word.fromString(words[i]),
             GuessResult(
@@ -897,7 +898,7 @@ void main() {
       });
 
       testWidgets('handles simultaneous success and error states', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange - Both success and error states (edge case)
         await tester.pumpWidget(
@@ -921,7 +922,7 @@ void main() {
       });
 
       testWidgets('handles rapid loading state changes', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -938,7 +939,7 @@ void main() {
         );
 
         // Act - Rapid loading state changes
-        for (int i = 0; i < 10; i++) {
+        for (var i = 0; i < 10; i++) {
           await tester.pumpWidget(
             MaterialApp(
               home: Scaffold(
@@ -962,7 +963,7 @@ void main() {
 
     group('Performance', () {
       testWidgets('renders quickly with complex game state', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange - Complex game state with many guesses
         final complexGameState = GameState.newGame(
@@ -970,7 +971,7 @@ void main() {
         );
         // Add 3 mock guesses (not 5 to avoid game over)
         final words = ['SLATE', 'CRICK', 'CRATE'];
-        for (int i = 0; i < 3; i++) {
+        for (var i = 0; i < 3; i++) {
           complexGameState.addGuess(
             Word.fromString(words[i]),
             GuessResult(
@@ -1012,7 +1013,7 @@ void main() {
       });
 
       testWidgets('handles rapid state changes efficiently', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -1029,7 +1030,7 @@ void main() {
         );
 
         // Act - Rapid state changes
-        for (int i = 0; i < 20; i++) {
+        for (var i = 0; i < 20; i++) {
           final updatedState = mockGameState.copyWith(
             currentGuess: (i % 6) + 1,
           );

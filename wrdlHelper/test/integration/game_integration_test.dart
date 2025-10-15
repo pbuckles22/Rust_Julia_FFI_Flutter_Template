@@ -32,10 +32,7 @@ void main() {
       appService = sl<AppService>();
     });
     
-    tearDownAll(() {
-      // Clean up after all tests
-      resetAllServices();
-    });
+    tearDownAll(resetAllServices);
 
     group('Complete Game Workflow', () {
       test('plays complete game from start to win', () async {
@@ -171,22 +168,35 @@ void main() {
         appService.gameService.addGuessToGame(gameState, guess, result);
 
         // Act - Use the gameService for word filtering
-        final filteredWords = appService.gameService.getFilteredWords(gameState)
-            .where((word) => word.containsLetter('A') && word.containsLetter('E'))
+        final filteredWords = appService.gameService
+            .getFilteredWords(gameState)
+            .where(
+              (word) => word.containsLetter('A') && word.containsLetter('E'),
+            )
             .toList();
 
         // Assert
         expect(filteredWords.isNotEmpty, isTrue);
-        expect(filteredWords.every((word) => word.containsLetter('A')), isTrue);
-        expect(filteredWords.every((word) => word.containsLetter('E')), isTrue);
+        expect(
+          filteredWords.every((word) => word.containsLetter('A')),
+          isTrue,
+        );
+        expect(
+          filteredWords.every((word) => word.containsLetter('E')),
+          isTrue,
+        );
       });
     });
 
     group('Asset Integration', () {
       test('loads and validates word list assets', () async {
         // Arrange & Act
-        final wordList = FfiService.getAnswerWords().map((word) => Word.fromString(word)).toList();
-        final guessWords = FfiService.getGuessWords().map((word) => Word.fromString(word)).toList();
+        final wordList = FfiService.getAnswerWords()
+            .map(Word.fromString)
+            .toList();
+        final guessWords = FfiService.getGuessWords()
+            .map(Word.fromString)
+            .toList();
 
         // Debug output
         DebugLogger.testPrint(
@@ -202,23 +212,38 @@ void main() {
           tag: 'GameIntegrationTest',
         );
         DebugLogger.testPrint(
-          'FFI Service word lists loaded: ${FfiService.getAnswerWords().length} answer words, ${FfiService.getGuessWords().length} guess words',
+          'FFI Service word lists loaded: '
+          '${FfiService.getAnswerWords().length} answer words, '
+          '${FfiService.getGuessWords().length} guess words',
           tag: 'GameIntegrationTest',
         );
 
-        // Assert - wordList should be loaded, guessWords might be empty due to test environment
+        // Assert - wordList should be loaded, guessWords might be empty due to
+        // test environment
         expect(wordList.isNotEmpty, isTrue);
-        // Note: Some words in the official Wordle list may not pass strict Word validation
-        // (e.g., "HELLO" is considered invalid by Word model but is a legitimate Wordle word)
-        // So we check that words are properly formatted instead of strictly valid
+        // Note: Some words in the official Wordle list may not pass strict Word
+        // validation (e.g., "HELLO" is considered invalid by Word model but is
+        // a legitimate Wordle word)
+        // So we check that words are properly formatted instead of strictly
+        // valid
         expect(wordList.every((word) => word.value.length == 5), isTrue);
-        expect(wordList.every((word) => word.value == word.value.toUpperCase()), isTrue);
+        expect(
+          wordList.every((word) => word.value == word.value.toUpperCase()),
+          isTrue,
+        );
         // Note: guessWords are now loaded by centralized FFI
-        // Guess words include many words that may not pass strict Word validation
-        // (like proper nouns, abbreviations, etc.) so we only check they're properly formatted
+        // Guess words include many words that may not pass strict Word
+        // validation (like proper nouns, abbreviations, etc.) so we only check
+        // they're properly formatted
         if (guessWords.isNotEmpty) {
-          expect(guessWords.every((word) => word.value.length == 5), isTrue);
-          expect(guessWords.every((word) => word.value == word.value.toUpperCase()), isTrue);
+          expect(
+            guessWords.every((word) => word.value.length == 5),
+            isTrue,
+          );
+          expect(
+            guessWords.every((word) => word.value == word.value.toUpperCase()),
+            isTrue,
+          );
         }
       });
 
@@ -442,9 +467,10 @@ void main() {
           maxGuesses: 5,
         );
 
-        // Act - use different words for each guess to avoid duplicate validation and winning
+        // Act - use different words for each guess to avoid duplicate
+        // validation and winning
         final words = ['SLATE', 'TRACE', 'BLAME', 'GRADE', 'SHARE'];
-        for (int i = 0; i < 5; i++) {
+        for (var i = 0; i < 5; i++) {
           final guess = Word.fromString(words[i]);
           final result = appService.gameService.processGuess(gameState, guess);
           appService.gameService.addGuessToGame(gameState, guess, result);

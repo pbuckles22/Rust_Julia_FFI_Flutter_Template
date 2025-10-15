@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/services/ffi_service.dart';
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
+import 'package:wrdlhelper/utils/debug_logger.dart';
 
 void main() {
   group('FFI Performance Tests', () {
@@ -8,6 +9,15 @@ void main() {
       // Initialize FFI once
       await RustLib.init();
       await FfiService.initialize();
+    });
+
+    tearDownAll(() {
+      // Clean up FFI resources to prevent test interference
+      try {
+        RustLib.dispose();
+      } catch (e) {
+        // Ignore disposal errors
+      }
     });
 
     test('optimal first guess performance', () {
@@ -18,8 +28,12 @@ void main() {
       
       stopwatch.stop();
       
-      print('🎯 Optimal first guess: $result');
-      print('⏱️  FFI call time: ${stopwatch.elapsedMicroseconds}μs (${stopwatch.elapsedMilliseconds}ms)');
+      DebugLogger.info('🎯 Optimal first guess: $result', tag: 'Performance');
+      DebugLogger.info(
+        '⏱️  FFI call time: ${stopwatch.elapsedMicroseconds}μs '
+        '(${stopwatch.elapsedMilliseconds}ms)',
+        tag: 'Performance',
+      );
       
       expect(result, isNotNull);
       expect(stopwatch.elapsedMilliseconds, lessThan(10)); // Should be < 10ms
@@ -36,8 +50,12 @@ void main() {
       
       stopwatch.stop();
       
-      print('🧠 Full algorithm result: $result');
-      print('⏱️  FFI call time: ${stopwatch.elapsedMicroseconds}μs (${stopwatch.elapsedMilliseconds}ms)');
+      DebugLogger.info('🧠 Full algorithm result: $result', tag: 'Performance');
+      DebugLogger.info(
+        '⏱️  FFI call time: ${stopwatch.elapsedMicroseconds}μs '
+        '(${stopwatch.elapsedMilliseconds}ms)',
+        tag: 'Performance',
+      );
       
       expect(result, isNotNull);
       expect(stopwatch.elapsedMilliseconds, lessThan(200)); // Should be < 200ms
@@ -57,9 +75,20 @@ void main() {
       );
       secondGuessStopwatch.stop();
       
-      print('🎯 First guess (optimized): $firstGuess - ${firstGuessStopwatch.elapsedMicroseconds}μs');
-      print('🧠 Second guess (full algo): $secondGuess - ${secondGuessStopwatch.elapsedMicroseconds}μs');
-      print('📊 Performance ratio: ${secondGuessStopwatch.elapsedMicroseconds / firstGuessStopwatch.elapsedMicroseconds}x slower');
+      DebugLogger.info(
+        '🎯 First guess (optimized): $firstGuess - '
+        '${firstGuessStopwatch.elapsedMicroseconds}μs',
+        tag: 'Performance',
+      );
+      DebugLogger.info(
+        '🧠 Second guess (full algo): $secondGuess - '
+        '${secondGuessStopwatch.elapsedMicroseconds}μs',
+        tag: 'Performance',
+      );
+      DebugLogger.info(
+        '📊 Performance ratio: ${secondGuessStopwatch.elapsedMicroseconds / firstGuessStopwatch.elapsedMicroseconds}x slower',
+        tag: 'Performance',
+      );
       
       expect(firstGuess, isNotNull);
       expect(secondGuess, isNotNull);

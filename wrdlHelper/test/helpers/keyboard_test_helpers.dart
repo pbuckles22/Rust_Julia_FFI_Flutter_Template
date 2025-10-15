@@ -9,9 +9,10 @@ import 'package:wrdlhelper/widgets/virtual_keyboard.dart';
 /// text widgets or generic widget types.
 ///
 /// NOTE: The hit test warnings are false positives caused by Flutter's testing
-/// framework limitations with complex widget hierarchies. The tests are actually
-/// working correctly - the widgets are found and the functionality is tested.
-/// Using warnIfMissed: false is a strategic workaround for this known limitation.
+/// framework limitations with complex widget hierarchies. The tests are
+/// actually working correctly - the widgets are found and the functionality is
+/// tested. Using warnIfMissed: false is a strategic workaround for this known
+/// limitation.
 class KeyboardTestHelpers {
   /// Tap a specific letter key by letter
   static Future<void> tapLetterKey(WidgetTester tester, String letter) async {
@@ -23,7 +24,8 @@ class KeyboardTestHelpers {
       // Use ensureVisible to ensure the widget is properly positioned
       await tester.ensureVisible(key);
       await tester.pumpAndSettle();
-      // Strategic use of warnIfMissed: false for known Flutter testing limitation
+      // Strategic use of warnIfMissed: false for known Flutter testing
+      // limitation
       await tester.tap(key, warnIfMissed: false);
     }
   }
@@ -35,7 +37,8 @@ class KeyboardTestHelpers {
       await tester.pumpAndSettle();
       await tester.ensureVisible(enterKey);
       await tester.pumpAndSettle();
-      // Strategic use of warnIfMissed: false for known Flutter testing limitation
+      // Strategic use of warnIfMissed: false for known Flutter testing
+      // limitation
       await tester.tap(enterKey, warnIfMissed: false);
     }
   }
@@ -47,14 +50,15 @@ class KeyboardTestHelpers {
       await tester.pumpAndSettle();
       await tester.ensureVisible(deleteKey);
       await tester.pumpAndSettle();
-      // Strategic use of warnIfMissed: false for known Flutter testing limitation
+      // Strategic use of warnIfMissed: false for known Flutter testing
+      // limitation
       await tester.tap(deleteKey, warnIfMissed: false);
     }
   }
 
   /// Type a word by tapping letter keys
   static Future<void> typeWord(WidgetTester tester, String word) async {
-    for (int i = 0; i < word.length; i++) {
+    for (var i = 0; i < word.length; i++) {
       await tapLetterKey(tester, word[i].toUpperCase());
       await tester.pump();
     }
@@ -62,7 +66,7 @@ class KeyboardTestHelpers {
 
   /// Clear the current input by tapping DELETE multiple times
   static Future<void> clearInput(WidgetTester tester, {int times = 5}) async {
-    for (int i = 0; i < times; i++) {
+    for (var i = 0; i < times; i++) {
       await tapDeleteKey(tester);
       await tester.pump();
     }
@@ -76,28 +80,22 @@ class KeyboardTestHelpers {
   }
 
   /// Get a specific letter key finder
-  static Finder getLetterKeyFinder(String letter) {
-    return find.descendant(
+  static Finder getLetterKeyFinder(String letter) => find.descendant(
       of: find.byType(VirtualKeyboard),
       matching: find.byKey(Key('key_$letter')),
     );
-  }
 
   /// Get the ENTER key finder
-  static Finder getEnterKeyFinder() {
-    return find.descendant(
+  static Finder getEnterKeyFinder() => find.descendant(
       of: find.byType(VirtualKeyboard),
       matching: find.byKey(const Key('key_ENTER')),
     );
-  }
 
   /// Get the DELETE key finder
-  static Finder getDeleteKeyFinder() {
-    return find.descendant(
+  static Finder getDeleteKeyFinder() => find.descendant(
       of: find.byType(VirtualKeyboard),
       matching: find.byKey(const Key('key_DELETE')),
     );
-  }
 
   /// Verify that all keyboard keys are present and accessible
   static void verifyKeyboardAccessibility(WidgetTester tester) {

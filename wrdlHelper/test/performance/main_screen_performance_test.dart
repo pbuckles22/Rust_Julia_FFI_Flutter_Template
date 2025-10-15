@@ -12,12 +12,13 @@ void main() {
       await setupTestServices();
     });
     testWidgets('should initialize within performance limits', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement performance optimization
+      // This test should fail initially - we need to implement performance
+      // optimization
       final stopwatch = Stopwatch()..start();
 
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       stopwatch.stop();
@@ -27,16 +28,17 @@ void main() {
     });
 
     testWidgets('should handle rapid key presses efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement rapid input optimization
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test should fail initially - we need to implement rapid input
+      // optimization
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       final stopwatch = Stopwatch()..start();
 
       // Rapidly tap keys
-      for (int i = 0; i < 20; i++) {
+      for (var i = 0; i < 20; i++) {
         await tester.tap(
           find.descendant(
             of: find.byType(VirtualKeyboard),
@@ -53,10 +55,11 @@ void main() {
     });
 
     testWidgets('should maintain smooth animations', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement smooth animations
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test should fail initially - we need to implement smooth
+      // animations
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Test animation performance
@@ -75,14 +78,15 @@ void main() {
     });
 
     testWidgets('should handle memory efficiently with multiple games', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement memory management
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test should fail initially - we need to implement memory
+      // management
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Play multiple games
-      for (int i = 0; i < 10; i++) {
+      for (var i = 0; i < 10; i++) {
         await tester.tap(find.text('New Game'));
         await tester.pump();
       }
@@ -92,10 +96,11 @@ void main() {
     });
 
     testWidgets('should handle large word lists efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement efficient word list handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test should fail initially - we need to implement efficient word
+      // list handling
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       final stopwatch = Stopwatch()..start();
@@ -111,16 +116,17 @@ void main() {
     });
 
     testWidgets('should handle complex game states efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement efficient state management
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test should fail initially - we need to implement efficient state
+      // management
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       final stopwatch = Stopwatch()..start();
 
       // Submit multiple guesses
-      for (int i = 0; i < 6; i++) {
+      for (var i = 0; i < 6; i++) {
         // Use keyboard interaction instead of ambiguous text search
         final keyboard = find.byType(VirtualKeyboard);
         if (keyboard.evaluate().isNotEmpty) {
@@ -129,11 +135,11 @@ void main() {
             of: keyboard,
             matching: find.byType(InkWell),
           );
-          for (int j = 0; j < 5 && j < letterKeys.evaluate().length; j++) {
+          for (var j = 0; j < 5 && j < letterKeys.evaluate().length; j++) {
             try {
               await tester.tap(letterKeys.at(j), warnIfMissed: false);
               await tester.pump();
-            } catch (e) {
+            } on Exception catch (e) {
               // Skip if tap fails - widget might be off-screen
               continue;
             }
@@ -147,7 +153,7 @@ void main() {
             try {
               await tester.tap(enterKey, warnIfMissed: false);
               await tester.pump();
-            } catch (e) {
+            } on Exception catch (e) {
               // Skip if tap fails - widget might be off-screen
             }
           }
@@ -161,16 +167,17 @@ void main() {
     });
 
     testWidgets('should handle widget rebuilds efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement efficient rebuilds
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test should fail initially - we need to implement efficient
+      // rebuilds
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       final stopwatch = Stopwatch()..start();
 
       // Force multiple rebuilds
-      for (int i = 0; i < 50; i++) {
+      for (var i = 0; i < 50; i++) {
         await tester.pump();
       }
 
@@ -181,10 +188,11 @@ void main() {
     });
 
     testWidgets('should handle keyboard color updates efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement efficient color updates
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test should fail initially - we need to implement efficient color
+      // updates
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       final stopwatch = Stopwatch()..start();
@@ -240,10 +248,11 @@ void main() {
     });
 
     testWidgets('should handle error states efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement efficient error handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test should fail initially - we need to implement efficient error
+      // handling
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Clear the current input first (it starts with the suggested word)
@@ -283,10 +292,11 @@ void main() {
     });
 
     testWidgets('should handle state changes efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement efficient state changes
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test should fail initially - we need to implement efficient state
+      // changes
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       final stopwatch = Stopwatch()..start();
@@ -342,10 +352,11 @@ void main() {
     });
 
     testWidgets('should handle concurrent operations efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement concurrent operation handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test should fail initially - we need to implement concurrent
+      // operation handling
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       final stopwatch = Stopwatch()..start();
@@ -380,10 +391,11 @@ void main() {
     });
 
     testWidgets('should handle large game grids efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement efficient grid rendering
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test should fail initially - we need to implement efficient grid
+      // rendering
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       final stopwatch = Stopwatch()..start();
@@ -406,16 +418,17 @@ void main() {
     });
 
     testWidgets('should handle rapid state transitions efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement efficient state transitions
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test should fail initially - we need to implement efficient state
+      // transitions
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       final stopwatch = Stopwatch()..start();
 
       // Rapid state transitions
-      for (int i = 0; i < 20; i++) {
+      for (var i = 0; i < 20; i++) {
         await tester.tap(find.text('New Game'));
         await tester.pump();
       }
@@ -427,14 +440,15 @@ void main() {
     });
 
     testWidgets('should handle memory pressure efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement memory pressure handling
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test should fail initially - we need to implement memory pressure
+      // handling
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // Simulate memory pressure with realistic user behavior
-      for (int i = 0; i < 20; i++) {
+      for (var i = 0; i < 20; i++) {
         // Use specific finders within VirtualKeyboard to avoid ambiguity
         await tester.tap(
           find.descendant(
@@ -456,10 +470,11 @@ void main() {
     });
 
     testWidgets('should handle background processing efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement efficient background processing
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test should fail initially - we need to implement efficient
+      // background processing
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       final stopwatch = Stopwatch()..start();
@@ -475,10 +490,11 @@ void main() {
     });
 
     testWidgets('should handle UI updates efficiently', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // This test should fail initially - we need to implement efficient UI updates
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      // This test should fail initially - we need to implement efficient UI
+      // updates
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       final stopwatch = Stopwatch()..start();

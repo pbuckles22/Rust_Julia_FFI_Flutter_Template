@@ -3,12 +3,24 @@ import 'package:wrdlhelper/services/ffi_service.dart';
 import 'package:wrdlhelper/services/game_service.dart';
 import 'package:wrdlhelper/models/word.dart';
 import 'package:wrdlhelper/service_locator.dart';
+import '../test_utils/ffi_test_helper.dart';
 
 void main() {
   group('FfiService Tests', () {
     setUpAll(() async {
+      // Initialize FFI once for all tests
+      await FfiTestHelper.initializeOnce();
       // Initialize services for testing
       await setupTestServices();
+    });
+
+    tearDownAll(() {
+      // Clean up FFI resources to prevent test interference
+      try {
+        resetAllServices();
+      } catch (e) {
+        // Ignore cleanup errors
+      }
     });
 
     group('isValidWord', () {
@@ -40,10 +52,26 @@ void main() {
         
         final answerWords = FfiService.getAnswerWords();
         
-        expect(answerWords, isNotEmpty, reason: 'Answer words should not be empty');
-        expect(answerWords.length, equals(2300), reason: 'Should have 2300 answer words (full production list)');
-        expect(answerWords.first, isA<String>(), reason: 'Answer words should be strings');
-        expect(answerWords.first.length, equals(5), reason: 'Answer words should be 5 letters');
+        expect(
+          answerWords,
+          isNotEmpty,
+          reason: 'Answer words should not be empty',
+        );
+        expect(
+          answerWords.length,
+          equals(2300),
+          reason: 'Should have 2300 answer words (full production list)',
+        );
+        expect(
+          answerWords.first,
+          isA<String>(),
+          reason: 'Answer words should be strings',
+        );
+        expect(
+          answerWords.first.length,
+          equals(5),
+          reason: 'Answer words should be 5 letters',
+        );
       });
     });
 
@@ -54,18 +82,38 @@ void main() {
         
         final guessWords = FfiService.getGuessWords();
         
-        expect(guessWords, isNotEmpty, reason: 'Guess words should not be empty');
-        expect(guessWords.length, equals(14855), reason: 'Should have 14855 guess words (full production list)');
-        expect(guessWords.first, isA<String>(), reason: 'Guess words should be strings');
-        expect(guessWords.first.length, equals(5), reason: 'Guess words should be 5 letters');
+        expect(
+          guessWords,
+          isNotEmpty,
+          reason: 'Guess words should not be empty',
+        );
+        expect(
+          guessWords.length,
+          equals(14855),
+          reason: 'Should have 14855 guess words (full production list)',
+        );
+        expect(
+          guessWords.first,
+          isA<String>(),
+          reason: 'Guess words should be strings',
+        );
+        expect(
+          guessWords.first.length,
+          equals(5),
+          reason: 'Guess words should be 5 letters',
+        );
       });
     });
 
     group('GameService Integration', () {
-      test('GameService.isValidWord() should call FfiService.isValidWord()', () async {
-        // MICRO-STEP 6: Test GameService.isValidWord() calls FfiService.isValidWord()
-        // This test will initially fail because GameService still uses WordService
-        // We'll refactor GameService to use FfiService.isValidWord() later
+      test(
+        'GameService.isValidWord() should call FfiService.isValidWord()',
+        () async {
+          // MICRO-STEP 6: Test GameService.isValidWord() calls
+          // FfiService.isValidWord()
+          // This test will initially fail because GameService still uses
+          // WordService
+          // We'll refactor GameService to use FfiService.isValidWord() later
         
         // Import GameService for testing
         final gameService = GameService();
@@ -75,43 +123,81 @@ void main() {
         final word = Word.fromString('SLATE');
         final result = gameService.isValidWord(word);
         
-        expect(result, isTrue, reason: 'GameService.isValidWord() should return true for valid words');
+        expect(
+          result,
+          isTrue,
+          reason: 'GameService.isValidWord() should return true for valid '
+              'words',
+        );
         
         // Test that GameService.isValidWord() works with an invalid word
         final invalidWord = Word.fromString('XXXXX');
         final invalidResult = gameService.isValidWord(invalidWord);
         
-        expect(invalidResult, isFalse, reason: 'GameService.isValidWord() should return false for invalid words');
+        expect(
+          invalidResult,
+          isFalse,
+          reason: 'GameService.isValidWord() should return false for invalid '
+              'words',
+        );
       });
 
-      test('GameService.getFilteredWords() should use Rust filtering', () async {
-        // MICRO-STEP 8: Test GameService word filtering uses Rust
-        // This test will initially fail because GameService still uses WordService for initial word list
-        // We'll refactor GameService to use FfiService.getGuessWords() later
+      test(
+        'GameService.getFilteredWords() should use Rust filtering',
+        () async {
+          // MICRO-STEP 8: Test GameService word filtering uses Rust
+          // This test will initially fail because GameService still uses
+          // WordService for initial word list
+          // We'll refactor GameService to use FfiService.getGuessWords() later
         
         // Import GameService for testing
         final gameService = GameService();
         await gameService.initialize();
         
-        // Test that getFilteredWords() works with no game state (should return all words)
+        // Test that getFilteredWords() works with no game state (should return
+        // all words)
         final allWords = gameService.getFilteredWords();
         
-        expect(allWords, isNotEmpty, reason: 'getFilteredWords() should return words when no game state provided');
-        expect(allWords.length, greaterThan(1000), reason: 'Should have many words available');
-        expect(allWords.first, isA<Word>(), reason: 'Should return Word objects');
+        expect(
+          allWords,
+          isNotEmpty,
+          reason: 'getFilteredWords() should return words when no game state '
+              'provided',
+        );
+        expect(
+          allWords.length,
+          greaterThan(1000),
+          reason: 'Should have many words available',
+        );
+        expect(
+          allWords.first,
+          isA<Word>(),
+          reason: 'Should return Word objects',
+        );
         
         // Test that getFilteredWords() works with empty game state
         final gameState = gameService.createNewGame();
         final filteredWords = gameService.getFilteredWords(gameState);
         
-        expect(filteredWords, isNotEmpty, reason: 'getFilteredWords() should return words for empty game state');
-        expect(filteredWords.length, equals(allWords.length), reason: 'Empty game state should return all words');
+        expect(
+          filteredWords,
+          isNotEmpty,
+          reason: 'getFilteredWords() should return words for empty game state',
+        );
+        expect(
+          filteredWords.length,
+          equals(allWords.length),
+          reason: 'Empty game state should return all words',
+        );
       });
 
-      test('GameService.getBestNextGuess() should use Rust algorithm', () async {
-        // MICRO-STEP 10: Test GameService word selection uses Rust
-        // This test will initially fail because GameService still uses WordService for allWords
-        // We'll refactor GameService to use FfiService.getGuessWords() later
+      test(
+        'GameService.getBestNextGuess() should use Rust algorithm',
+        () async {
+          // MICRO-STEP 10: Test GameService word selection uses Rust
+          // This test will initially fail because GameService still uses
+          // WordService for allWords
+          // We'll refactor GameService to use FfiService.getGuessWords() later
         
         // Import GameService for testing
         final gameService = GameService();
@@ -123,10 +209,26 @@ void main() {
         // Test that getBestNextGuess() works and returns a valid word
         final suggestion = gameService.getBestNextGuess(gameState);
         
-        expect(suggestion, isNotNull, reason: 'getBestNextGuess() should return a suggestion');
-        expect(suggestion, isA<Word>(), reason: 'Should return a Word object');
-        expect(suggestion!.value.length, equals(5), reason: 'Suggestion should be 5 letters');
-        expect(suggestion.value, matches(RegExp(r'^[A-Z]+$')), reason: 'Suggestion should be uppercase letters only');
+        expect(
+          suggestion,
+          isNotNull,
+          reason: 'getBestNextGuess() should return a suggestion',
+        );
+        expect(
+          suggestion,
+          isA<Word>(),
+          reason: 'Should return a Word object',
+        );
+        expect(
+          suggestion!.value.length,
+          equals(5),
+          reason: 'Suggestion should be 5 letters',
+        );
+        expect(
+          suggestion.value,
+          matches(RegExp(r'^[A-Z]+$')),
+          reason: 'Suggestion should be uppercase letters only',
+        );
         
         // Test that the suggestion is a valid word
         final isValid = gameService.isValidWord(suggestion);

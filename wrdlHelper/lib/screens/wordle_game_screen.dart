@@ -1,17 +1,18 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:wrdlhelper/models/game_state.dart';
-import 'package:wrdlhelper/models/guess_result.dart';
-import 'package:wrdlhelper/models/word.dart';
-import 'package:wrdlhelper/service_locator.dart';
-import 'package:wrdlhelper/services/app_service.dart';
-import 'package:wrdlhelper/services/game_service.dart';
-import 'package:wrdlhelper/utils/debug_logger.dart';
-import 'package:wrdlhelper/widgets/game_grid.dart';
-import 'package:wrdlhelper/widgets/letter_tile.dart';
-import 'package:wrdlhelper/widgets/virtual_keyboard.dart';
-import 'package:wrdlhelper/src/rust/api/simple.dart' as ffi;
+
+import '../models/game_state.dart';
+import '../models/guess_result.dart';
+import '../models/word.dart';
+import '../service_locator.dart';
+import '../services/app_service.dart';
+import '../services/game_service.dart';
+import '../src/rust/api/simple.dart' as ffi;
+import '../utils/debug_logger.dart';
+import '../widgets/game_grid.dart';
+import '../widgets/letter_tile.dart';
+import '../widgets/virtual_keyboard.dart';
 
 /// Main Wordle helper screen
 ///
@@ -21,6 +22,7 @@ import 'package:wrdlhelper/src/rust/api/simple.dart' as ffi;
 /// - Analysis and suggestions for next moves
 /// - New game button to start helping with a new puzzle
 class WordleGameScreen extends StatefulWidget {
+  /// Creates a new Wordle game screen
   const WordleGameScreen({super.key});
 
   @override
@@ -52,6 +54,20 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
         tag: 'WordleGameScreen',
       );
 
+      // Check if services are registered before accessing them
+      if (!sl.isRegistered<AppService>()) {
+        throw StateError(
+          'AppService is not registered in service locator. '
+          'Call setupServices() or setupTestServices() first.',
+        );
+      }
+      if (!sl.isRegistered<GameService>()) {
+        throw StateError(
+          'GameService is not registered in service locator. '
+          'Call setupServices() or setupTestServices() first.',
+        );
+      }
+
       final appService = sl<AppService>();
       final gameService = sl<GameService>();
       DebugLogger.success(
@@ -66,7 +82,8 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
       );
       if (!appService.isInitialized) {
         DebugLogger.info(
-          '🔧 WordleGameScreen: AppService not initialized, initializing now...',
+          '🔧 WordleGameScreen: AppService not initialized, '
+          'initializing now...',
           tag: 'WordleGameScreen',
         );
         await appService.initialize();
@@ -101,7 +118,24 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
 
       // Don't auto-suggest on app start - let user request hints manually
       // _getSuggestion();
+    } on Exception catch (e, stackTrace) {
+      DebugLogger.error(
+        '❌ CRITICAL: Service initialization failed: $e',
+        tag: 'WordleGameScreen',
+      );
+      DebugLogger.error('Stack trace: $stackTrace', tag: 'WordleGameScreen');
+
+      // Fallback to mock game state
+      _gameState = GameState.newGame(targetWord: Word.fromString('CRATE'));
+      DebugLogger.warning(
+        '🔄 Using fallback game state with target: CRATE',
+        tag: 'WordleGameScreen',
+      );
+      setState(() {
+        _isInitialized = true; // Set to true so UI can render
+      });
     } catch (e, stackTrace) {
+      // Catch any other errors (including StateError)
       DebugLogger.error(
         '❌ CRITICAL: Service initialization failed: $e',
         tag: 'WordleGameScreen',
@@ -140,33 +174,37 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
     final knownStates = <int, LetterTileState>{};
 
     // For each position in the current word
-    for (int i = 0; i < word.length; i++) {
+    for (var i = 0; i < word.length; i++) {
       final letter = word[i].toUpperCase();
 
       // Check all previous guesses for this letter
       for (final guess in _gameState!.guesses) {
-        for (int j = 0; j < guess.word.value.length; j++) {
+        for (var j = 0; j < guess.word.value.length; j++) {
           if (guess.word.value[j].toUpperCase() == letter) {
             final state = guess.result.letterStates[j];
 
-            // If this is the same position and it's green, use it (green takes precedence)
+            // If this is the same position and it's green, use it
+            // (green takes precedence)
             if (j == i && state == LetterState.green) {
               knownStates[i] = LetterTileState.correct;
             }
-            // If this is the same position and it's yellow, use it if we don't have green
+            // If this is the same position and it's yellow, use it if we
+            // don't have green
             else if (j == i &&
                 state == LetterState.yellow &&
                 knownStates[i] != LetterTileState.correct) {
               knownStates[i] = LetterTileState.present;
             }
-            // If this is a different position but the letter was marked as present (yellow)
-            // and we haven't found a green state for this position yet
+            // If this is a different position but the letter was marked as
+            // present (yellow) and we haven't found a green state for this
+            // position yet
             else if (j != i &&
                 state == LetterState.yellow &&
                 knownStates[i] != LetterTileState.correct) {
               knownStates[i] = LetterTileState.present;
             }
-            // If this is the same position and it's gray, use it if we don't have anything better
+            // If this is the same position and it's gray, use it if we don't
+            // have anything better
             else if (j == i &&
                 state == LetterState.gray &&
                 !knownStates.containsKey(i)) {
@@ -186,9 +224,9 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
   List<Widget> _buildLetterStateButtons() {
     final buttons = <Widget>[];
 
-    for (int row = 0; row < _gameState!.guesses.length; row++) {
+    for (var row = 0; row < _gameState!.guesses.length; row++) {
       final guess = _gameState!.guesses[row];
-      for (int col = 0; col < guess.word.value.length; col++) {
+      for (var col = 0; col < guess.word.value.length; col++) {
         final letter = guess.word.value[col];
         final state = guess.result.letterStates[col];
 
@@ -310,14 +348,14 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
     } else if (_currentInput.isNotEmpty) {
       _showErrorDialog('Word must be 5 letters long');
     }
-    // If input is empty, do nothing (user might be changing colors on completed guesses)
+    // If input is empty, do nothing (user might be changing colors on
+    // completed guesses)
   }
 
   void _showErrorDialog(String message) {
     showDialog(
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
+      builder: (context) => AlertDialog(
           title: const Text('Error'),
           content: Text(message),
           actions: [
@@ -328,19 +366,18 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
               child: const Text('OK'),
             ),
           ],
-        );
-      },
+        ),
     );
   }
 
   void _showNoMoreSuggestionsDialog() {
     showDialog(
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
+      builder: (context) => AlertDialog(
           title: const Text('No More Suggestions'),
           content: const Text(
-            'No more suggestions available. You may have already found the correct word!',
+            'No more suggestions available. You may have already found the '
+            'correct word!',
           ),
           actions: [
             TextButton(
@@ -350,16 +387,14 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
               child: const Text('OK'),
             ),
           ],
-        );
-      },
+        ),
     );
   }
 
   void _showCorrectAnswerDialog() {
     showDialog(
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
+      builder: (context) => AlertDialog(
           title: const Text('Correct Answer Found!'),
           content: const Text(
             'Congratulations! You have found the correct word.',
@@ -372,8 +407,7 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
               child: const Text('OK'),
             ),
           ],
-        );
-      },
+        ),
     );
   }
 
@@ -408,7 +442,7 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
       setState(() {
         _currentInput = '';
       });
-    } catch (e) {
+    } on Exception catch (e) {
       _showErrorDialog(e.toString());
     }
   }
@@ -447,7 +481,8 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
     }
 
     DebugLogger.debug(
-      'GameState: guesses=${_gameState!.guesses.length}, isGameOver=${_gameState!.isGameOver}',
+      'GameState: guesses=${_gameState!.guesses.length}, '
+      'isGameOver=${_gameState!.isGameOver}',
       tag: 'UI',
     );
 
@@ -481,7 +516,7 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
         DebugLogger.warning('GameService returned null suggestion', tag: 'UI');
 
         // Check if we have a correct answer (all green letters in any guess)
-        bool hasCorrectAnswer = false;
+        var hasCorrectAnswer = false;
         for (final guess in _gameState!.guesses) {
           if (guess.result.letterStates.every(
             (state) => state == LetterState.green,
@@ -497,7 +532,7 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
           _showNoMoreSuggestionsDialog();
         }
       }
-    } catch (e, stackTrace) {
+    } on Exception catch (e, stackTrace) {
       DebugLogger.error(
         'Error getting suggestion: $e',
         tag: 'UI',
@@ -510,22 +545,25 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
   /// A new method to test the FFI connection
   void _testFfiConnection() {
     DebugLogger.info(
-      '🔍 FLUTTER DEBUG: Calling hello_rust...',
+      '🔍 FLUTTER DEBUG: Testing FFI connection...',
       tag: 'FFI_TEST',
     );
     try {
-      // Note: 'greet' is the Dart function generated by the codegen
-      final response = ffi.greet(name: "World");
+      // Test FFI connection with a simple function call
+      final answerWords = ffi.getAnswerWords();
       DebugLogger.success(
-        '✅ FFI SUCCESS: Rust responded with: "$response"',
+        '✅ FFI SUCCESS: Rust loaded ${answerWords.length} answer words',
         tag: 'FFI_TEST',
       );
 
       // Show a success dialog
-      _showErrorDialog('FFI Connection Successful!\n\nRust says: "$response"');
-    } catch (e, stackTrace) {
+      _showErrorDialog(
+        'FFI Connection Successful!\n\nRust loaded '
+        '${answerWords.length} answer words',
+      );
+    } on Exception catch (e, stackTrace) {
       DebugLogger.error(
-        '❌ FFI FAILED: Could not call hello_rust.',
+        '❌ FFI FAILED: Could not call getAnswerWords.',
         tag: 'FFI_TEST',
         error: e,
         stackTrace: stackTrace,
@@ -553,7 +591,7 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
     final letterStates = <String, LetterState>{};
 
     for (final guess in _gameState!.guesses) {
-      for (int i = 0; i < guess.word.value.length; i++) {
+      for (var i = 0; i < guess.word.value.length; i++) {
         final letter = guess.word.value[i].toUpperCase();
         final state = guess.result.letterStates[i];
 
@@ -612,16 +650,16 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
         actions: [],
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              const Color(0xFFF8F9FA),
-              const Color(0xFFE9ECEF),
-              const Color(0xFFDEE2E6),
+              Color(0xFFF8F9FA),
+              Color(0xFFE9ECEF),
+              Color(0xFFDEE2E6),
             ],
-            stops: const [0.0, 0.5, 1.0],
+            stops: [0.0, 0.5, 1.0],
           ),
         ),
         child: SafeArea(
@@ -640,7 +678,7 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
               final bottomSpacing = isSmallScreen ? 8.0 : 20.0;
 
               return Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16),
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -655,7 +693,8 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
                         currentInput: _currentInput,
                         availableHeight:
                             availableHeight *
-                            0.35, // Use 35% of available height (reduced from 40%)
+                            0.35, // Use 35% of available height
+                            // (reduced from 40%)
                         onTileTap: _onTileTap,
                         knownLetterStates: _getKnownLetterStates(_currentInput),
                       ),
@@ -679,7 +718,7 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
                       availableWidth: constraints.maxWidth,
                       isSmallScreen: isSmallScreen,
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
 
                     // Action Buttons Row
                     Row(
@@ -797,13 +836,16 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.8),
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Colors.grey.shade300),
+                          border: Border.all(
+                            color: Colors.grey.shade300,
+                          ),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              'Mark Letters (tap to cycle: Gray → Yellow → Green):',
+                              'Mark Letters (tap to cycle: '
+                              'Gray → Yellow → Green):',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12,

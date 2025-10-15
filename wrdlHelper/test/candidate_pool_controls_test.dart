@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:wrdlhelper/services/ffi_service.dart';
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
+import 'package:wrdlhelper/utils/debug_logger.dart';
 
 void main() {
   group('Candidate Pool Controls Tests', () {
@@ -12,7 +14,7 @@ void main() {
 
     test('should respect candidate cap configuration', () {
       // RED: This test will fail until we implement configurable candidate caps
-      FfiService.setConfiguration(FfiConfiguration(
+      FfiService.setConfiguration(const FfiConfiguration(
         referenceMode: false,
         includeKillerWords: true,
         candidateCap: 50, // Small cap
@@ -25,7 +27,10 @@ void main() {
       final remainingWords = List.generate(100, (i) => 'WORD$i');
       final guessResults = <(String, List<String>)>[];
       
-      final bestGuess = FfiService.getBestGuessFast(remainingWords, guessResults);
+      final bestGuess = FfiService.getBestGuessFast(
+        remainingWords,
+        guessResults,
+      );
       
       // Should still work with small candidate cap
       expect(bestGuess, isNotNull);
@@ -36,7 +41,7 @@ void main() {
 
     test('should respect early termination configuration', () {
       // RED: This test will fail until we implement early termination controls
-      FfiService.setConfiguration(FfiConfiguration(
+      FfiService.setConfiguration(const FfiConfiguration(
         referenceMode: false,
         includeKillerWords: true,
         candidateCap: 500,
@@ -49,13 +54,17 @@ void main() {
       final guessResults = <(String, List<String>)>[];
       
       final stopwatch = Stopwatch()..start();
-      final bestGuess = FfiService.getBestGuessFast(remainingWords, guessResults);
+      final bestGuess = FfiService.getBestGuessFast(
+        remainingWords,
+        guessResults,
+      );
       stopwatch.stop();
       
       expect(bestGuess, isNotNull);
       
       // With early termination disabled, should process more candidates
-      // (This is hard to test without exposing internal state, but we can test it doesn't crash)
+      // (This is hard to test without exposing internal state, but we can test
+      // it doesn't crash)
       expect(stopwatch.elapsedMilliseconds, lessThan(1000));
     });
 
@@ -95,13 +104,22 @@ void main() {
         final guessResults = <(String, List<String>)>[];
         
         final stopwatch = Stopwatch()..start();
-        final bestGuess = FfiService.getBestGuessFast(remainingWords, guessResults);
+        final bestGuess = FfiService.getBestGuessFast(
+          remainingWords,
+          guessResults,
+        );
         stopwatch.stop();
         
         expect(bestGuess, isNotNull);
-        expect(stopwatch.elapsedMilliseconds, lessThan(testCase['expectedMaxTime'] as int));
+        expect(
+          stopwatch.elapsedMilliseconds,
+          lessThan(testCase['expectedMaxTime'] as int),
+        );
         
-        print('Candidate cap ${testCase['cap']}: ${stopwatch.elapsedMilliseconds}ms');
+        DebugLogger.debug(
+          'Candidate cap ${testCase['cap']}: '
+          '${stopwatch.elapsedMilliseconds}ms',
+        );
       }
     });
 
@@ -109,7 +127,7 @@ void main() {
       // RED: This test will fail until we implement proper edge case handling
       
       // Test with very small candidate cap
-      FfiService.setConfiguration(FfiConfiguration(
+      FfiService.setConfiguration(const FfiConfiguration(
         referenceMode: false,
         includeKillerWords: true,
         candidateCap: 5, // Very small
@@ -121,13 +139,16 @@ void main() {
       final remainingWords = ['CRANE', 'SLATE', 'TRACE'];
       final guessResults = <(String, List<String>)>[];
       
-      final bestGuess = FfiService.getBestGuessFast(remainingWords, guessResults);
+      final bestGuess = FfiService.getBestGuessFast(
+        remainingWords,
+        guessResults,
+      );
       
       // Should still work with very small cap
       expect(bestGuess, isNotNull);
       
       // Test with very large candidate cap
-      FfiService.setConfiguration(FfiConfiguration(
+      FfiService.setConfiguration(const FfiConfiguration(
         referenceMode: false,
         includeKillerWords: true,
         candidateCap: 10000, // Very large
@@ -136,7 +157,10 @@ void main() {
         entropyOnlyScoring: false,
       ));
 
-      final bestGuess2 = FfiService.getBestGuessFast(remainingWords, guessResults);
+      final bestGuess2 = FfiService.getBestGuessFast(
+        remainingWords,
+        guessResults,
+      );
       expect(bestGuess2, isNotNull);
     });
 

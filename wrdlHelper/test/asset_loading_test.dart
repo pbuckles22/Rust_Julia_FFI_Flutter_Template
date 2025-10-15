@@ -5,7 +5,8 @@ import 'package:wrdlhelper/src/rust/frb_generated.dart';
 /// Tests for centralized FFI asset loading functionality
 ///
 /// These tests verify that the word list assets are properly loaded
-/// via centralized FFI and contain the expected data structure for the Wordle Helper app.
+/// via centralized FFI and contain the expected data structure for the Wordle
+/// Helper app.
 void main() {
   // Initialize Flutter binding for asset loading tests
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +15,15 @@ void main() {
     setUpAll(() async {
       await RustLib.init();
       await FfiService.initialize();
+    });
+
+    tearDownAll(() {
+      // Clean up FFI resources to prevent test interference
+      try {
+        RustLib.dispose();
+      } catch (e) {
+        // Ignore disposal errors
+      }
     });
 
     test('word lists can be loaded via centralized FFI', () async {
@@ -39,10 +49,9 @@ void main() {
 
     test('word lists contain 5-letter words via centralized FFI', () async {
       final answerWords = FfiService.getAnswerWords();
-      final guessWords = FfiService.getGuessWords();
 
       // Check first 10 words to verify they are 5 letters
-      for (int i = 0; i < answerWords.length && i < 10; i++) {
+      for (var i = 0; i < answerWords.length && i < 10; i++) {
         final word = answerWords[i];
         expect(
           word.length,
@@ -54,10 +63,9 @@ void main() {
 
     test('word lists contain uppercase words via centralized FFI', () async {
       final answerWords = FfiService.getAnswerWords();
-      final guessWords = FfiService.getGuessWords();
 
       // Check first 10 words to verify they are uppercase
-      for (int i = 0; i < answerWords.length && i < 10; i++) {
+      for (var i = 0; i < answerWords.length && i < 10; i++) {
         final word = answerWords[i];
         expect(
           word,
@@ -94,11 +102,14 @@ void main() {
       expect(guessWords.length, lessThan(50000));
     });
 
-    test('word lists contain expected number of words via centralized FFI', () async {
+    test(
+      'word lists contain expected number of words via centralized FFI',
+      () async {
       final answerWords = FfiService.getAnswerWords();
       final guessWords = FfiService.getGuessWords();
 
-      // Should have a reasonable number of words (typical Wordle lists have 100+ words)
+      // Should have a reasonable number of words (typical Wordle lists have
+      // 100+ words)
       expect(answerWords.length, greaterThan(10));
       expect(guessWords.length, greaterThan(10));
       expect(answerWords.length, lessThan(50000)); // Reasonable upper bound
@@ -110,10 +121,10 @@ void main() {
       final guessWords = FfiService.getGuessWords();
 
       // Verify all words are valid 5-letter uppercase strings
-      expect(answerWords, everyElement(predicate((String word) => 
-        word.length == 5 && word == word.toUpperCase())));
-      expect(guessWords, everyElement(predicate((String word) => 
-        word.length == 5 && word == word.toUpperCase())));
+      expect(answerWords, everyElement(predicate((word) => 
+        (word as String).length == 5 && word == (word as String).toUpperCase())));
+      expect(guessWords, everyElement(predicate((word) => 
+        (word as String).length == 5 && word == (word as String).toUpperCase())));
     });
   });
 }

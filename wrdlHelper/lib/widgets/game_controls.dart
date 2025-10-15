@@ -6,14 +6,28 @@ import 'package:wrdlhelper/models/game_state.dart';
 /// Provides buttons for starting a new game and getting suggestions
 /// with proper state management and visual feedback.
 class GameControls extends StatelessWidget {
+  /// The current game state
   final GameState gameState;
+  
+  /// Callback when new game button is pressed
   final VoidCallback? onNewGame;
+  
+  /// Callback when get suggestion button is pressed
   final VoidCallback? onGetSuggestion;
+  
+  /// Callback when undo button is pressed
   final VoidCallback? onUndo;
+  
+  /// Whether the controls are in loading state
   final bool isLoading;
+  
+  /// Whether a suggestion has been received
   final bool suggestionReceived;
+  
+  /// Error message if suggestion failed
   final String? suggestionError;
 
+  /// Creates a new game controls widget
   const GameControls({
     super.key,
     required this.gameState,
@@ -40,8 +54,7 @@ class GameControls extends StatelessWidget {
   }
 
   /// Builds the main control buttons row
-  Widget _buildControlButtons() {
-    return Wrap(
+  Widget _buildControlButtons() => Wrap(
       alignment: WrapAlignment.center,
       spacing: 8,
       runSpacing: 8,
@@ -51,7 +64,6 @@ class GameControls extends StatelessWidget {
         if (gameState.guesses.isNotEmpty) _buildUndoButton(),
       ],
     );
-  }
 
   /// Builds the appropriate feedback message based on state
   /// Error takes precedence over success message
@@ -64,8 +76,7 @@ class GameControls extends StatelessWidget {
     return null;
   }
 
-  Widget _buildLoadingIndicator() {
-    return Container(
+  Widget _buildLoadingIndicator() => Container(
       margin: const EdgeInsets.only(top: 8),
       padding: const EdgeInsets.all(8),
       child: const Row(
@@ -81,15 +92,12 @@ class GameControls extends StatelessWidget {
         ],
       ),
     );
-  }
 
-  Widget _buildNewGameButton() {
-    return _buildButton(
+  Widget _buildNewGameButton() => _buildButton(
       text: 'New Game',
       onPressed: onNewGame,
       isDisabled: isLoading,
     );
-  }
 
   Widget _buildSuggestionButton() {
     final isDisabled = isLoading || gameState.isGameOver;
@@ -101,9 +109,7 @@ class GameControls extends StatelessWidget {
     );
   }
 
-  Widget _buildUndoButton() {
-    return _buildButton(text: '↶ Undo', onPressed: onUndo, isDisabled: false);
-  }
+  Widget _buildUndoButton() => _buildButton(text: '↶ Undo', onPressed: onUndo, isDisabled: false);
 
   /// Builds a button with consistent styling and error handling
   Widget _buildButton({
@@ -140,44 +146,38 @@ class GameControls extends StatelessWidget {
   }
 
   /// Safely executes a callback with exception handling
-  VoidCallback _safeCallback(VoidCallback callback) {
-    return () {
+  VoidCallback _safeCallback(VoidCallback callback) => () {
       try {
         callback();
-      } catch (e) {
+      } on Exception catch (e) {
         // Handle exception gracefully - widget continues to render
         // In a real app, you might want to log this error
       }
     };
-  }
 
-  Widget _buildSuccessMessage() {
-    return _buildFeedbackContainer(
+  Widget _buildSuccessMessage() => _buildFeedbackContainer(
       color: Colors.green,
       icon: Icons.check_circle,
       message: 'Suggestion received!',
     );
-  }
 
-  Widget _buildErrorMessage() {
-    return _buildFeedbackContainer(
+  Widget _buildErrorMessage() => _buildFeedbackContainer(
       color: Colors.red,
       icon: Icons.error,
       message: 'Error getting suggestion',
       details: suggestionError,
       showRetryButton: true,
     );
-  }
 
-  /// Builds a consistent feedback container with optional details and retry button
+  /// Builds a consistent feedback container with optional details and retry
+  /// button
   Widget _buildFeedbackContainer({
     required MaterialColor color,
     required IconData icon,
     required String message,
     String? details,
     bool showRetryButton = false,
-  }) {
-    return Container(
+  }) => Container(
       margin: const EdgeInsets.only(top: 8),
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
@@ -215,4 +215,3 @@ class GameControls extends StatelessWidget {
       ),
     );
   }
-}

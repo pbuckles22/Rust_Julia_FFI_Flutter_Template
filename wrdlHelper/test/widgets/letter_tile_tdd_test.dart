@@ -4,7 +4,7 @@ import 'package:wrdlhelper/widgets/letter_tile_tdd.dart';
 
 void main() {
   group('LetterTile TDD Tests', () {
-    testWidgets('should display letter correctly', (WidgetTester tester) async {
+    testWidgets('should display letter correctly', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -17,7 +17,7 @@ void main() {
     });
 
     testWidgets('should display empty tile when letter is null', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -29,8 +29,8 @@ void main() {
       expect(find.text('A'), findsNothing);
     });
 
-    testWidgets('should call onTap when tapped', (WidgetTester tester) async {
-      bool wasTapped = false;
+    testWidgets('should call onTap when tapped', (tester) async {
+      var wasTapped = false;
 
       await tester.pumpWidget(
         MaterialApp(
@@ -47,7 +47,7 @@ void main() {
     });
 
     testWidgets('should show correct color for gray state', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -74,7 +74,7 @@ void main() {
     });
 
     testWidgets('should show correct color for yellow state', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -101,7 +101,7 @@ void main() {
     });
 
     testWidgets('should show correct color for green state', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -128,7 +128,7 @@ void main() {
     });
 
     testWidgets('should show default color when state is not specified', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -151,7 +151,7 @@ void main() {
     });
 
     testWidgets('should show disabled state when disabled', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -174,9 +174,9 @@ void main() {
     });
 
     testWidgets('should not call onTap when disabled', (
-      WidgetTester tester,
+      tester,
     ) async {
-      bool wasTapped = false;
+      var wasTapped = false;
 
       await tester.pumpWidget(
         MaterialApp(
@@ -197,7 +197,7 @@ void main() {
     });
 
     testWidgets('should show correct text color for different states', (
-      WidgetTester tester,
+      tester,
     ) async {
       // Test gray state text color
       await tester.pumpWidget(
@@ -249,7 +249,7 @@ void main() {
     });
 
     testWidgets('should have proper sizing constraints', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -271,7 +271,7 @@ void main() {
     });
 
     testWidgets('should have proper border radius', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -293,7 +293,7 @@ void main() {
       expect(decoration.borderRadius, equals(BorderRadius.circular(4)));
     });
 
-    testWidgets('should show letter in uppercase', (WidgetTester tester) async {
+    testWidgets('should show letter in uppercase', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -306,7 +306,7 @@ void main() {
     });
 
     testWidgets('should handle special characters correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -320,7 +320,7 @@ void main() {
     });
 
     testWidgets('should have proper accessibility support', (
-      WidgetTester tester,
+      tester,
     ) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -340,9 +340,9 @@ void main() {
     });
 
     testWidgets('should handle rapid tapping correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
-      int tapCount = 0;
+      var tapCount = 0;
 
       await tester.pumpWidget(
         MaterialApp(
@@ -362,9 +362,9 @@ void main() {
     });
 
     testWidgets('should maintain state across rebuilds', (
-      WidgetTester tester,
+      tester,
     ) async {
-      bool wasTapped = false;
+      var wasTapped = false;
 
       await tester.pumpWidget(
         MaterialApp(

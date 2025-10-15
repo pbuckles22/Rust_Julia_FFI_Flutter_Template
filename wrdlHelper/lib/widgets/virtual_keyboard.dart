@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
 
+/// Virtual keyboard widget for Wordle game input
 class VirtualKeyboard extends StatelessWidget {
+  /// Callback when a key is pressed
   final Function(String) onKeyPress;
+  
+  /// Colors for specific keys based on guess results
   final Map<String, Color> keyColors;
+  
+  /// Set of keys that are disabled
   final Set<String> disabledKeys;
+  
+  /// Available width for the keyboard
   final double? availableWidth;
+  
+  /// Whether this is a small screen device
   final bool? isSmallScreen;
 
+  /// Creates a new virtual keyboard widget
   const VirtualKeyboard({
     super.key,
     required this.onKeyPress,
@@ -64,17 +75,14 @@ class VirtualKeyboard extends StatelessWidget {
     );
   }
 
-  Widget _buildKeyboardRow(List<String> keys, bool isSmall) {
-    return Wrap(
+  Widget _buildKeyboardRow(List<String> keys, bool isSmall) => Wrap(
       alignment: WrapAlignment.center,
       spacing: isSmall ? 1 : 2,
       runSpacing: isSmall ? 1 : 2,
       children: keys.map((key) => _buildKey(key, isSmall)).toList(),
     );
-  }
 
-  Widget _buildActionRow(bool isSmall) {
-    return Row(
+  Widget _buildActionRow(bool isSmall) => Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _buildActionKey('ENTER', isEnter: true, isSmall: isSmall),
@@ -82,7 +90,6 @@ class VirtualKeyboard extends StatelessWidget {
         _buildActionKey('DELETE', isDelete: true, isSmall: isSmall),
       ],
     );
-  }
 
   Widget _buildKey(String letter, bool isSmall) {
     final isDisabled = disabledKeys.contains(letter);

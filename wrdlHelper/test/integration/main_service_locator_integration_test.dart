@@ -11,17 +11,16 @@ void main() {
       await setupTestServices();
     });
 
-    tearDownAll(() {
-      // Clean up after all tests
-      resetAllServices();
-    });
+    tearDownAll(resetAllServices);
 
     testWidgets('should initialize services through service locator', (
-      WidgetTester tester,
+      tester,
     ) async {
-      // TDD: Test that main.dart uses service locator instead of direct AppService creation
+      // TDD: Test that main.dart uses service locator instead of direct
+      // AppService creation
 
-      // This test will fail initially because main.dart doesn't use service locator yet
+      // This test will fail initially because main.dart doesn't use service
+      // locator yet
       // We'll implement the service locator integration to make this pass
 
       // Verify services are available before app starts
@@ -43,7 +42,8 @@ void main() {
       // This test verifies that if service locator setup fails,
       // the app still starts with fallback behavior
 
-      // Services are already set up in setUpAll(), so we expect them to be available
+      // Services are already set up in setUpAll(), so we expect them to be
+      // available
       expect(sl.isRegistered<AppService>(), isTrue);
       
       // Verify the service is properly initialized

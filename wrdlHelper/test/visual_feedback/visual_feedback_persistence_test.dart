@@ -23,10 +23,7 @@ void main() {
       await setupTestServices();
     });
     
-    tearDownAll(() {
-      // Clean up after all tests
-      resetAllServices();
-    });
+    tearDownAll(resetAllServices);
 
     tearDown(() async {
       // Clean up services
@@ -35,9 +32,9 @@ void main() {
 
     testWidgets(
       'should show keyboard keys with correct colors after marking letters',
-      (WidgetTester tester) async {
+      (tester) async {
         // ARRANGE: Load the game screen
-        await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+        await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
 
         // ACT: Type CRANT and mark letters
@@ -116,10 +113,10 @@ void main() {
     );
 
     testWidgets('should pre-populate next guess with known letter states', (
-      WidgetTester tester,
+      tester,
     ) async {
       // ARRANGE: Load the game screen and submit CRANT with marked letters
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       await KeyboardTestHelpers.submitWord(tester, 'CRANT');
@@ -191,10 +188,10 @@ void main() {
     });
 
     testWidgets('should update keyboard colors when letter states change', (
-      WidgetTester tester,
+      tester,
     ) async {
       // ARRANGE: Load the game screen
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // ACT: Submit CRANT and mark R as green
@@ -226,9 +223,9 @@ void main() {
 
     testWidgets(
       'should handle multiple guesses with persistent keyboard colors',
-      (WidgetTester tester) async {
+      (tester) async {
         // ARRANGE: Load the game screen
-        await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+        await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
         await tester.pumpAndSettle();
 
         // ACT: Submit first guess CRANT
@@ -279,10 +276,10 @@ void main() {
     );
 
     testWidgets('should reset keyboard colors when starting new game', (
-      WidgetTester tester,
+      tester,
     ) async {
       // ARRANGE: Load the game screen and mark some letters
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       await KeyboardTestHelpers.submitWord(tester, 'CRANT');
@@ -310,10 +307,10 @@ void main() {
     });
 
     testWidgets('should handle edge case with duplicate letters correctly', (
-      WidgetTester tester,
+      tester,
     ) async {
       // ARRANGE: Load the game screen
-      await tester.pumpWidget(MaterialApp(home: WordleGameScreen()));
+      await tester.pumpWidget(const MaterialApp(home: WordleGameScreen()));
       await tester.pumpAndSettle();
 
       // ACT: Submit word with duplicate letters (e.g., "EERIE")
@@ -329,7 +326,8 @@ void main() {
       await tester.tap(find.byKey(const Key('tile_0_1'))); // E -> yellow
       await tester.pumpAndSettle();
 
-      // ASSERT: E key should show the "best" state (green takes precedence over yellow)
+      // ASSERT: E key should show the "best" state (green takes precedence
+      // over yellow)
       final keyboard = find.byType(VirtualKeyboard);
       final eKey = find.descendant(
         of: keyboard,

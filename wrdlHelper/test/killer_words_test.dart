@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wrdlhelper/src/rust/frb_generated.dart';
 import 'package:wrdlhelper/services/ffi_service.dart';
+import 'package:wrdlhelper/utils/debug_logger.dart';
 
 void main() {
   group('Killer Words Tests', () {
@@ -12,7 +13,7 @@ void main() {
 
     test('should include killer words when flag is enabled', () {
       // RED: This test will fail until we implement killer words in Rust
-      FfiService.setConfiguration(FfiConfiguration(
+      FfiService.setConfiguration(const FfiConfiguration(
         referenceMode: false,
         includeKillerWords: true,
         candidateCap: 500,
@@ -25,24 +26,37 @@ void main() {
       final remainingWords = ['MATCH', 'PATCH', 'LATCH', 'HATCH'];
       final guessResults = <(String, List<String>)>[];
       
-      final bestGuess = FfiService.getBestGuessFast(remainingWords, guessResults);
+      final bestGuess = FfiService.getBestGuessFast(
+        remainingWords,
+        guessResults,
+      );
       
       // Should suggest a killer word that tests multiple letters
       expect(bestGuess, isNotNull);
-      expect(bestGuess, isNot(anyOf(equals('MATCH'), equals('PATCH'), equals('LATCH'), equals('HATCH'))));
+      expect(
+        bestGuess,
+        isNot(anyOf(
+          equals('MATCH'),
+          equals('PATCH'),
+          equals('LATCH'),
+          equals('HATCH'),
+        )),
+      );
       
       // Should be one of the known killer words or any valid strategic word
-      final killerWords = ['VOMIT', 'PSYCH', 'GLYPH', 'JUMBO', 'ZEBRA', 'SLATE', 'CRANE', 'TRACE', 'STOMP'];
-      // The algorithm may suggest different strategic words, so we check it's a valid 5-letter word
+      // The algorithm may suggest different strategic words, so we check it's a
+      // valid 5-letter word
       expect(bestGuess, isNotNull);
       expect(bestGuess!.length, equals(5));
       expect(bestGuess, matches(RegExp(r'^[A-Z]{5}$')));
     });
 
     test('should not include killer words when flag is disabled', () {
-      // This test verifies that when killer words are disabled, we get original strategic words
-      // Since FFI bindings aren't connected yet, this tests the default Rust behavior
-      FfiService.setConfiguration(FfiConfiguration(
+      // This test verifies that when killer words are disabled, we get original
+      // strategic words
+      // Since FFI bindings aren't connected yet, this tests the default Rust
+      // behavior
+      FfiService.setConfiguration(const FfiConfiguration(
         referenceMode: false,
         includeKillerWords: false,
         candidateCap: 200,
@@ -54,29 +68,36 @@ void main() {
       final remainingWords = ['MATCH', 'PATCH', 'LATCH', 'HATCH'];
       final guessResults = <(String, List<String>)>[];
       
-      final bestGuess = FfiService.getBestGuessFast(remainingWords, guessResults);
+      final bestGuess = FfiService.getBestGuessFast(
+        remainingWords,
+        guessResults,
+      );
       
-      // With killer words disabled (default), should get original strategic words
+      // With killer words disabled (default), should get original strategic
+      // words
       expect(bestGuess, isNotNull);
-      // Should be a valid 5-letter word (algorithm may suggest different strategic words)
+      // Should be a valid 5-letter word (algorithm may suggest different
+      // strategic words)
       expect(bestGuess!.length, equals(5));
       expect(bestGuess, matches(RegExp(r'^[A-Z]{5}$')));
     });
 
-    test('should have higher entropy for killer words in classic trap scenario', () {
-      // RED: This test will fail until we implement entropy calculation with killer words
-      FfiService.setConfiguration(FfiConfiguration(
+    test(
+      'should have higher entropy for killer words in classic trap scenario',
+      () {
+      // RED: This test will fail until we implement entropy calculation with
+      // killer words
+      FfiService.setConfiguration(const FfiConfiguration(
         referenceMode: false,
         includeKillerWords: true,
         candidateCap: 500,
-        earlyTerminationEnabled: false, // Disable early termination for full analysis
+        earlyTerminationEnabled: false, // Disable early termination for full
+        // analysis
         earlyTerminationThreshold: 10.0,
         entropyOnlyScoring: true,
       ));
 
       final remainingWords = ['MATCH', 'PATCH', 'LATCH', 'HATCH'];
-      final guessResults = <(String, List<String>)>[];
-      
       // Calculate entropy for different candidate words
       final vomitEntropy = FfiService.calculateEntropy('VOMIT', remainingWords);
       final matchEntropy = FfiService.calculateEntropy('MATCH', remainingWords);
@@ -89,12 +110,16 @@ void main() {
       expect(matchEntropy, greaterThan(0.0));
       expect(slateEntropy, greaterThan(0.0));
       
-      print('Entropy values: VOMIT=$vomitEntropy, MATCH=$matchEntropy, SLATE=$slateEntropy');
+      DebugLogger.info(
+        'Entropy values: VOMIT=$vomitEntropy, MATCH=$matchEntropy, '
+        'SLATE=$slateEntropy',
+        tag: 'KillerWords',
+      );
     });
 
     test('should include all curated killer words in candidate pool', () {
       // RED: This test will fail until we implement the curated list
-      FfiService.setConfiguration(FfiConfiguration(
+      FfiService.setConfiguration(const FfiConfiguration(
         referenceMode: false,
         includeKillerWords: true,
         candidateCap: 1000,
@@ -111,11 +136,15 @@ void main() {
         'PSYCH', 'GLYPH', 'VOMIT', 'JUMBO', 'ZEBRA'
       ];
 
-      // Test with a small set of remaining words to see killer words in action
+      // Test with a small set of remaining words to see killer words in
+      // action
       final remainingWords = ['CRANE'];
       final guessResults = <(String, List<String>)>[];
       
-      final bestGuess = FfiService.getBestGuessFast(remainingWords, guessResults);
+      final bestGuess = FfiService.getBestGuessFast(
+        remainingWords,
+        guessResults,
+      );
       
       // Should return one of the killer words or the remaining word
       expect(bestGuess, isNotNull);
@@ -125,7 +154,7 @@ void main() {
 
     test('should maintain performance with killer words enabled', () {
       // RED: This test will fail until we implement performance optimization
-      FfiService.setConfiguration(FfiConfiguration(
+      FfiService.setConfiguration(const FfiConfiguration(
         referenceMode: false,
         includeKillerWords: true,
         candidateCap: 500,
@@ -138,13 +167,23 @@ void main() {
       final guessResults = <(String, List<String>)>[];
       
       final stopwatch = Stopwatch()..start();
-      final bestGuess = FfiService.getBestGuessFast(remainingWords, guessResults);
+      final bestGuess = FfiService.getBestGuessFast(
+        remainingWords,
+        guessResults,
+      );
       stopwatch.stop();
       
       expect(bestGuess, isNotNull);
-      expect(stopwatch.elapsedMilliseconds, lessThan(1000), reason: 'Should complete within 1 second');
+      expect(
+        stopwatch.elapsedMilliseconds,
+        lessThan(1000),
+        reason: 'Should complete within 1 second',
+      );
       
-      print('Performance with killer words: ${stopwatch.elapsedMilliseconds}ms');
+      DebugLogger.info(
+        'Performance with killer words: ${stopwatch.elapsedMilliseconds}ms',
+        tag: 'KillerWords',
+      );
     });
   });
 }

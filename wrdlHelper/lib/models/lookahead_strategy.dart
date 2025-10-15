@@ -1,4 +1,4 @@
-import 'package:wrdlhelper/models/word.dart';
+import 'word.dart';
 
 /// Represents a branch in the game tree analysis
 class GameTreeBranch {
@@ -18,8 +18,7 @@ class GameTreeBranch {
   final double expectedScore;
 
   /// Analysis metadata
-  final BranchMetadata metadata;
-
+  /// Creates a new game tree branch
   const GameTreeBranch({
     required this.pattern,
     required this.probability,
@@ -29,10 +28,13 @@ class GameTreeBranch {
     required this.metadata,
   });
 
+  /// Analysis metadata
+  final BranchMetadata metadata;
+
   @override
-  String toString() {
-    return 'GameTreeBranch(pattern: $pattern, probability: ${probability.toStringAsFixed(3)}, remaining: ${remainingWords.length})';
-  }
+  String toString() => 'GameTreeBranch(pattern: $pattern, '
+      'probability: ${probability.toStringAsFixed(3)}, '
+      'remaining: ${remainingWords.length})';
 
   @override
   bool operator ==(Object other) {
@@ -47,14 +49,12 @@ class GameTreeBranch {
   }
 
   @override
-  int get hashCode {
-    return pattern.hashCode ^
-        probability.hashCode ^
-        remainingWords.hashCode ^
-        subBranches.hashCode ^
-        expectedScore.hashCode ^
-        metadata.hashCode;
-  }
+  int get hashCode => pattern.hashCode ^
+      probability.hashCode ^
+      remainingWords.hashCode ^
+      subBranches.hashCode ^
+      expectedScore.hashCode ^
+      metadata.hashCode;
 }
 
 /// Metadata for game tree branch analysis
@@ -74,6 +74,7 @@ class BranchMetadata {
   /// Confidence in this branch's analysis
   final double confidence;
 
+  /// Creates new branch metadata
   const BranchMetadata({
     required this.depth,
     required this.wordsEliminated,
@@ -83,9 +84,8 @@ class BranchMetadata {
   });
 
   @override
-  String toString() {
-    return 'BranchMetadata(depth: $depth, eliminated: $wordsEliminated, infoGain: ${informationGain.toStringAsFixed(3)})';
-  }
+  String toString() => 'BranchMetadata(depth: $depth, eliminated: $wordsEliminated, '
+      'infoGain: ${informationGain.toStringAsFixed(3)})';
 
   @override
   bool operator ==(Object other) {
@@ -99,13 +99,11 @@ class BranchMetadata {
   }
 
   @override
-  int get hashCode {
-    return depth.hashCode ^
-        wordsEliminated.hashCode ^
-        informationGain.hashCode ^
-        leadsToCompletion.hashCode ^
-        confidence.hashCode;
-  }
+  int get hashCode => depth.hashCode ^
+      wordsEliminated.hashCode ^
+      informationGain.hashCode ^
+      leadsToCompletion.hashCode ^
+      confidence.hashCode;
 }
 
 /// Complete look-ahead analysis for a candidate word
@@ -128,6 +126,7 @@ class LookAheadAnalysis {
   /// Analysis metadata
   final LookAheadMetadata metadata;
 
+  /// Creates a new lookahead analysis
   const LookAheadAnalysis({
     required this.candidateWord,
     required this.maxDepth,
@@ -138,9 +137,9 @@ class LookAheadAnalysis {
   });
 
   @override
-  String toString() {
-    return 'LookAheadAnalysis(word: ${candidateWord.value}, depth: $maxDepth, branches: ${branches.length}, expectedRemaining: ${expectedRemainingWords.toStringAsFixed(1)})';
-  }
+  String toString() => 'LookAheadAnalysis(word: ${candidateWord.value}, depth: $maxDepth, '
+      'branches: ${branches.length}, '
+      'expectedRemaining: ${expectedRemainingWords.toStringAsFixed(1)})';
 
   @override
   bool operator ==(Object other) {
@@ -155,14 +154,12 @@ class LookAheadAnalysis {
   }
 
   @override
-  int get hashCode {
-    return candidateWord.hashCode ^
-        maxDepth.hashCode ^
-        branches.hashCode ^
-        expectedRemainingWords.hashCode ^
-        expectedScore.hashCode ^
-        metadata.hashCode;
-  }
+  int get hashCode => candidateWord.hashCode ^
+      maxDepth.hashCode ^
+      branches.hashCode ^
+      expectedRemainingWords.hashCode ^
+      expectedScore.hashCode ^
+      metadata.hashCode;
 }
 
 /// Metadata for look-ahead analysis
@@ -182,6 +179,7 @@ class LookAheadMetadata {
   /// Confidence in the analysis
   final double confidence;
 
+  /// Creates new lookahead metadata
   const LookAheadMetadata({
     required this.totalWordsAnalyzed,
     required this.uniquePatterns,
@@ -191,9 +189,8 @@ class LookAheadMetadata {
   });
 
   @override
-  String toString() {
-    return 'LookAheadMetadata(words: $totalWordsAnalyzed, patterns: $uniquePatterns, time: ${computationTimeMs}ms)';
-  }
+  String toString() => 'LookAheadMetadata(words: $totalWordsAnalyzed, '
+      'patterns: $uniquePatterns, time: ${computationTimeMs}ms)';
 
   @override
   bool operator ==(Object other) {
@@ -207,13 +204,11 @@ class LookAheadMetadata {
   }
 
   @override
-  int get hashCode {
-    return totalWordsAnalyzed.hashCode ^
-        uniquePatterns.hashCode ^
-        computationTimeMs.hashCode ^
-        memoryUsageBytes.hashCode ^
-        confidence.hashCode;
-  }
+  int get hashCode => totalWordsAnalyzed.hashCode ^
+      uniquePatterns.hashCode ^
+      computationTimeMs.hashCode ^
+      memoryUsageBytes.hashCode ^
+      confidence.hashCode;
 }
 
 /// Optimal strategy recommendation from look-ahead analysis
@@ -236,6 +231,7 @@ class OptimalStrategy {
   /// Strategy metadata
   final StrategyMetadata metadata;
 
+  /// Creates a new optimal strategy
   const OptimalStrategy({
     required this.recommendedWord,
     required this.expectedScore,
@@ -246,9 +242,9 @@ class OptimalStrategy {
   });
 
   @override
-  String toString() {
-    return 'OptimalStrategy(word: ${recommendedWord.value}, score: ${expectedScore.toStringAsFixed(3)}, confidence: ${confidence.toStringAsFixed(3)})';
-  }
+  String toString() => 'OptimalStrategy(word: ${recommendedWord.value}, '
+      'score: ${expectedScore.toStringAsFixed(3)}, '
+      'confidence: ${confidence.toStringAsFixed(3)})';
 
   @override
   bool operator ==(Object other) {
@@ -263,14 +259,12 @@ class OptimalStrategy {
   }
 
   @override
-  int get hashCode {
-    return recommendedWord.hashCode ^
-        expectedScore.hashCode ^
-        confidence.hashCode ^
-        reasoning.hashCode ^
-        alternatives.hashCode ^
-        metadata.hashCode;
-  }
+  int get hashCode => recommendedWord.hashCode ^
+      expectedScore.hashCode ^
+      confidence.hashCode ^
+      reasoning.hashCode ^
+      alternatives.hashCode ^
+      metadata.hashCode;
 }
 
 /// Metadata for strategy recommendations
@@ -290,6 +284,7 @@ class StrategyMetadata {
   /// Expected number of remaining guesses
   final double expectedRemainingGuesses;
 
+  /// Creates new strategy metadata
   const StrategyMetadata({
     required this.wordsAnalyzed,
     required this.analysisDepth,
@@ -299,9 +294,8 @@ class StrategyMetadata {
   });
 
   @override
-  String toString() {
-    return 'StrategyMetadata(words: $wordsAnalyzed, depth: $analysisDepth, endgame: $isEndgameStrategy)';
-  }
+  String toString() => 'StrategyMetadata(words: $wordsAnalyzed, depth: $analysisDepth, '
+      'endgame: $isEndgameStrategy)';
 
   @override
   bool operator ==(Object other) {
@@ -315,11 +309,9 @@ class StrategyMetadata {
   }
 
   @override
-  int get hashCode {
-    return wordsAnalyzed.hashCode ^
-        analysisDepth.hashCode ^
-        alternativesConsidered.hashCode ^
-        isEndgameStrategy.hashCode ^
-        expectedRemainingGuesses.hashCode;
-  }
+  int get hashCode => wordsAnalyzed.hashCode ^
+      analysisDepth.hashCode ^
+      alternativesConsidered.hashCode ^
+      isEndgameStrategy.hashCode ^
+      expectedRemainingGuesses.hashCode;
 }

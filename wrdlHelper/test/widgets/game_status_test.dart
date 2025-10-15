@@ -26,26 +26,26 @@ void main() {
           word: Word.fromString('SLATE'),
           letterStates: [
             LetterState.gray,
-            LetterState.gray,
-            LetterState.gray,
-            LetterState.gray,
-            LetterState.gray,
-          ],
-        ),
-      );
+              LetterState.gray,
+              LetterState.gray,
+              LetterState.gray,
+              LetterState.gray,
+            ],
+          ),
+        );
       mockGameState.addGuess(
-        Word.fromString('CRICK'),
-        GuessResult(
-          word: Word.fromString('CRICK'),
-          letterStates: [
-            LetterState.green,
-            LetterState.green,
-            LetterState.gray,
-            LetterState.gray,
-            LetterState.gray,
-          ],
-        ),
-      );
+          Word.fromString('CRICK'),
+          GuessResult(
+            word: Word.fromString('CRICK'),
+            letterStates: [
+              LetterState.green,
+              LetterState.green,
+              LetterState.gray,
+              LetterState.gray,
+              LetterState.gray,
+            ],
+          ),
+        );
       mockTotalWords = 12973;
       mockRemainingWords = 1247;
       mockSuggestion = 'CRATE';
@@ -53,7 +53,7 @@ void main() {
 
     group('Widget Rendering', () {
       testWidgets('displays all status information', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -78,7 +78,7 @@ void main() {
       });
 
       testWidgets('displays with correct styling and layout', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -103,7 +103,7 @@ void main() {
 
     group('Game State Display', () {
       testWidgets('shows playing state when game is in progress', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -125,7 +125,7 @@ void main() {
       });
 
       testWidgets('shows won state when game is won', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange - Game state with won status
         final wonGameState = mockGameState.copyWith(
@@ -153,7 +153,7 @@ void main() {
       });
 
       testWidgets('shows lost state when game is lost', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange - Game state with lost status
         final lostGameState = mockGameState.copyWith(
@@ -183,7 +183,7 @@ void main() {
 
     group('Word Statistics Display', () {
       testWidgets('displays correct total word count', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -204,7 +204,7 @@ void main() {
       });
 
       testWidgets('displays correct remaining word count', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -225,7 +225,7 @@ void main() {
       });
 
       testWidgets('formats large numbers with commas', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -249,7 +249,7 @@ void main() {
 
     group('Guess Count Display', () {
       testWidgets('shows current guess number correctly', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange - Game with 2 guesses made
         await tester.pumpWidget(
@@ -269,7 +269,7 @@ void main() {
         expect(find.text('Guess 2 of 5'), findsOneWidget);
       });
 
-      testWidgets('shows first guess correctly', (WidgetTester tester) async {
+      testWidgets('shows first guess correctly', (tester) async {
         // Arrange - Game with no guesses made
         final newGameState = GameState.newGame(
           targetWord: Word.fromString('CRANE'),
@@ -292,7 +292,7 @@ void main() {
         expect(find.text('Guess 0 of 5'), findsOneWidget);
       });
 
-      testWidgets('shows final guess correctly', (WidgetTester tester) async {
+      testWidgets('shows final guess correctly', (tester) async {
         // Arrange - Game with 5 guesses made (max for helper app)
         final finalGameState = GameState.newGame(
           targetWord: Word.fromString('CRANE'),
@@ -300,7 +300,7 @@ void main() {
         );
         final words = ['SLATE', 'CRICK', 'CRATE', 'CRAMP', 'CRANE'];
 
-        for (int i = 0; i < 5; i++) {
+        for (var i = 0; i < 5; i++) {
           finalGameState.addGuess(
             Word.fromString(words[i]),
             GuessResult(
@@ -330,7 +330,7 @@ void main() {
 
     group('Suggestion Display', () {
       testWidgets('displays suggestion when provided', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -350,7 +350,7 @@ void main() {
         expect(find.text('Suggestion: CRATE'), findsOneWidget);
       });
 
-      testWidgets('hides suggestion when null', (WidgetTester tester) async {
+      testWidgets('hides suggestion when null', (tester) async {
         // Arrange
         await tester.pumpWidget(
           MaterialApp(
@@ -370,7 +370,7 @@ void main() {
       });
 
       testWidgets('displays different suggestions correctly', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -393,7 +393,7 @@ void main() {
 
     group('Edge Cases and Boundary Conditions', () {
       testWidgets('handles zero word counts gracefully', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -415,7 +415,7 @@ void main() {
       });
 
       testWidgets('handles very large word counts', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -437,7 +437,7 @@ void main() {
       });
 
       testWidgets('handles empty suggestion string', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -458,7 +458,7 @@ void main() {
       });
 
       testWidgets('handles rapid state changes efficiently', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -475,7 +475,7 @@ void main() {
         );
 
         // Act - Rapid state changes
-        for (int i = 0; i < 10; i++) {
+        for (var i = 0; i < 10; i++) {
           final updatedState = mockGameState.copyWith(
             currentGuess: (i % 6) + 1,
           );
@@ -500,7 +500,7 @@ void main() {
 
     group('Accessibility', () {
       testWidgets('provides proper semantic labels for screen readers', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -525,7 +525,7 @@ void main() {
       });
 
       testWidgets('provides proper semantic labels for different game states', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange - Won game state
         final wonGameState = mockGameState.copyWith(
@@ -551,7 +551,7 @@ void main() {
         expect(find.text('Status: Won!'), findsOneWidget);
       });
 
-      testWidgets('supports keyboard navigation', (WidgetTester tester) async {
+      testWidgets('supports keyboard navigation', (tester) async {
         // Arrange
         await tester.pumpWidget(
           MaterialApp(
@@ -578,7 +578,7 @@ void main() {
 
     group('Performance', () {
       testWidgets('renders quickly with complex game state', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange - Complex game state with many guesses
         final complexGameState = GameState.newGame(
@@ -586,7 +586,7 @@ void main() {
         );
         final words = ['SLATE', 'CRICK', 'CRATE', 'CRAMP', 'CRASH'];
 
-        for (int i = 0; i < 5; i++) {
+        for (var i = 0; i < 5; i++) {
           complexGameState.addGuess(
             Word.fromString(words[i]),
             GuessResult(
@@ -621,7 +621,7 @@ void main() {
       });
 
       testWidgets('handles rapid state changes efficiently', (
-        WidgetTester tester,
+        tester,
       ) async {
         // Arrange
         await tester.pumpWidget(
@@ -638,7 +638,7 @@ void main() {
         );
 
         // Act - Rapid state changes
-        for (int i = 0; i < 20; i++) {
+        for (var i = 0; i < 20; i++) {
           final updatedState = mockGameState.copyWith(
             currentGuess: (i % 6) + 1,
           );

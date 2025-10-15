@@ -17,7 +17,6 @@ void main() {
 
       // Baseline: default config
       FfiService.resetToDefaultConfiguration();
-      final baseline = FfiService.getBestGuessFast(remainingWords, guessResults);
 
       // Enable entropy-only mode
       FfiService.setConfiguration(const FfiConfiguration(
@@ -28,7 +27,10 @@ void main() {
         earlyTerminationThreshold: 10.0,
         entropyOnlyScoring: true,
       ));
-      final entropyOnly = FfiService.getBestGuessFast(remainingWords, guessResults);
+      final entropyOnly = FfiService.getBestGuessFast(
+        remainingWords,
+        guessResults,
+      );
 
       // Expect potentially different choice under entropy-only
       // If same, still acceptable; assert it returns valid candidate
@@ -43,7 +45,10 @@ void main() {
 
     test('early termination reduces processing time when enabled', () {
       // RED: Check relative performance with early termination
-      final remainingWords = ['SLATE', 'CRANE', 'TRACE', 'STARE', 'AROSE', 'RAISE', 'CRATE', 'SLANT', 'TARES', 'STALE'];
+      final remainingWords = [
+        'SLATE', 'CRANE', 'TRACE', 'STARE', 'AROSE', 'RAISE', 'CRATE',
+        'SLANT', 'TARES', 'STALE'
+      ];
       final guessResults = <(String, List<String>)>[];
 
       // Early termination disabled
@@ -75,17 +80,20 @@ void main() {
       expect(guess2, isNotNull);
 
       // Both configurations should work and return valid guesses
-      // Early termination may not always be faster due to FFI overhead and test scenario
+      // Early termination may not always be faster due to FFI overhead and
+      // test scenario
       expect(guess1, isNotNull);
       expect(guess2, isNotNull);
       expect(guess1!.length, equals(5));
       expect(guess2!.length, equals(5));
       
-      // Performance should be reasonable for both (within 10x variance due to FFI overhead)
+      // Performance should be reasonable for both (within 10x variance due to
+      // FFI overhead)
       expect(t1.elapsedMicroseconds, lessThan(1000000)); // < 1 second
       expect(t2.elapsedMicroseconds, lessThan(1000000)); // < 1 second
     });
   });
 }
+
 
 

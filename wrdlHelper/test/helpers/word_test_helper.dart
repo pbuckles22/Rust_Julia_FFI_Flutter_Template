@@ -685,18 +685,17 @@ class WordTestHelper {
     final selectedWords = <String>[];
     final availableWords = List<String>.from(sourceWords);
 
-    for (int i = 0; i < count && availableWords.isNotEmpty; i++) {
+    for (var i = 0; i < count && availableWords.isNotEmpty; i++) {
       final randomIndex = random.nextInt(availableWords.length);
       final word = availableWords.removeAt(randomIndex);
       selectedWords.add(word);
     }
 
-    return selectedWords.map((word) => Word.fromString(word)).toList();
+    return selectedWords.map(Word.fromString).toList();
   }
 
   /// Get a specific set of words for consistent testing
-  static List<Word> getTestWords() {
-    return [
+  static List<Word> getTestWords() => [
       Word.fromString('CRANE'),
       Word.fromString('SLATE'),
       Word.fromString('TRACE'),
@@ -718,5 +717,4 @@ class WordTestHelper {
       Word.fromString('GAMES'),
       Word.fromString('NAMES'),
     ];
-  }
 }
