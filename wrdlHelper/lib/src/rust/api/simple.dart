@@ -41,14 +41,6 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 String? getBestGuess({required List<(String, List<String>)> guessResults}) =>
     RustLib.instance.api.crateApiSimpleGetBestGuess(guessResults: guessResults);
 
-/// * Check if a word is valid (centralized validation)
-/// *
-/// * This function checks if a word exists in the Rust-managed word lists,
-/// * eliminating the need for Flutter to manage word validation.
-///
-bool isValidWord({required String word}) =>
-    RustLib.instance.api.crateApiSimpleIsValidWord(word: word);
-
 /// * Get intelligent guess using advanced algorithms (optimized version)
 /// *
 /// * This function uses the wrdlHelper intelligent solver with Rust-managed word lists
@@ -99,22 +91,6 @@ String? getIntelligentGuessReference({
   remainingWords: remainingWords,
   guessResults: guessResults,
 );
-
-/// * Get the optimal first guess (pre-computed at startup)
-/// *
-/// * This function returns the optimal first guess that was computed once at startup.
-/// * This avoids the expensive computation of analyzing all 14,854 words for the first guess.
-/// *
-/// * # Returns
-/// * The optimal first guess word, or None if not computed yet
-/// *
-/// * # Performance
-/// * - Time complexity: O(1) - just a lookup
-/// * - Space complexity: O(1) - cached value
-/// * - Target response time: < 1ms
-///
-String? getOptimalFirstGuess() =>
-    RustLib.instance.api.crateApiSimpleGetOptimalFirstGuess();
 
 /// * Get intelligent word suggestion using advanced algorithms
 /// *

@@ -184,8 +184,8 @@
 - [x] **3.3**: Remove `load_word_lists_from_dart()`
 - [x] **3.4**: Remove `get_answer_words()`
 - [x] **3.5**: Remove `get_guess_words()`
-- [ ] **3.6**: Remove `is_valid_word()`
-- [ ] **3.7**: Remove `get_optimal_first_guess()`
+- [x] **3.6**: Remove `is_valid_word()`
+- [x] **3.7**: Remove `get_optimal_first_guess()`
 - [ ] **3.8**: Remove `filter_words()`
 - [ ] **3.9**: Test after each removal
 - [ ] **3.10**: Verify only `get_best_guess()` remains public
