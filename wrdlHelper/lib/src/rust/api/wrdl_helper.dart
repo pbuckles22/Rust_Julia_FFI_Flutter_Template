@@ -7,7 +7,7 @@ import '../frb_generated.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-// These functions are ignored because they are not marked as `pub`: `get_top_strategic_words`
+// These functions are ignored because they are not marked as `pub`: `get_candidate_words`, `get_top_strategic_words`
 // These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `SolverConfig`
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_receiver_is_total_eq`, `clone`, `clone`, `clone`, `eq`, `fmt`, `fmt`, `fmt`
 
@@ -128,20 +128,6 @@ class IntelligentSolver {
     remainingWords: remainingWords,
     guessResults: guessResults,
   );
-
-  /// Get candidate words for analysis - OPTIMIZED for performance
-  ///
-  /// CRITICAL OPTIMIZATION: Limit to 50-100 strategic words instead of thousands
-  /// This is the key fix for the 1293ms -> <200ms performance improvement
-  Future<List<String>> getCandidateWords({
-    required List<String> remainingWords,
-    required List<GuessResult> guessResults,
-  }) =>
-      RustLib.instance.api.crateApiWrdlHelperIntelligentSolverGetCandidateWords(
-        that: this,
-        remainingWords: remainingWords,
-        guessResults: guessResults,
-      );
 
   // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
   /// Create a new intelligent solver

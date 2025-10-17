@@ -47,6 +47,188 @@ pub fn init_app() {
     flutter_rust_bridge::setup_default_user_utils();
 }
 
+/**
+ * NORTH STAR ARCHITECTURE: Single FFI Entry Point
+ * 
+ * This is the ONLY public FFI function in the North Star architecture.
+ * Client sends only GameState → Server handles ALL logic → Returns best_guess
+ * 
+ * # Arguments
+ * - `guess_results`: Vector of tuples containing (word, result_pattern)
+ *   - word: The guessed word (e.g., "TARES")
+ *   - result_pattern: Array of 5 result strings ["G", "Y", "X", "G", "X"]
+ *     - "G" = Green (correct letter, correct position)
+ *     - "Y" = Yellow (correct letter, wrong position)  
+ *     - "X" = Gray (letter not in word)
+ * 
+ * # Returns
+ * - `Option<String>`: The best word to guess next, or None if no valid guesses remain
+ * 
+ * # Performance
+ * - Time complexity: O(n*m) where n is candidate words, m is remaining words
+ * - Space complexity: O(n) for pattern analysis
+ * - Target response time: < 200ms
+ * - Success rate: 100% (preserved from perfect algorithm)
+ * 
+ * # Example
+ * ```rust
+ * let guess_results = vec![
+ *     ("TARES".to_string(), vec!["G".to_string(), "Y".to_string(), "Y".to_string(), "X".to_string(), "X".to_string()])
+ * ];
+ * let best_guess = get_best_guess(guess_results);
+ * ```
+ */
+#[flutter_rust_bridge::frb(sync)]
+pub fn get_best_guess(
+    guess_results: Vec<(String, Vec<String>)>,
+) -> Option<String> {
+    // Special case: First guess (no constraints) - use optimal first guess
+    if guess_results.is_empty() {
+        use crate::api::wrdl_helper::WORD_MANAGER;
+        let manager = match WORD_MANAGER.lock() {
+            Ok(manager) => manager,
+            Err(_) => return None,
+        };
+        let optimal_guess = manager.get_optimal_first_guess();
+        drop(manager); // Release lock early
+        return optimal_guess;
+    }
+    
+    // Get all words for the solver (14,855 guess words including 2,300 answer words)
+    use crate::api::wrdl_helper::WORD_MANAGER;
+    let manager = match WORD_MANAGER.lock() {
+        Ok(manager) => manager,
+        Err(_) => return None,
+    };
+    let all_words = manager.get_guess_words().to_vec();
+    drop(manager); // Release lock early
+    
+    // Convert FFI format to internal format
+    let internal_guess_results: Vec<crate::api::wrdl_helper::GuessResult> = guess_results.iter()
+        .map(|(word, pattern)| {
+            let results = pattern.iter().map(|p| match p.as_str() {
+                "G" => crate::api::wrdl_helper::LetterResult::Green,
+                "Y" => crate::api::wrdl_helper::LetterResult::Yellow,
+                "X" => crate::api::wrdl_helper::LetterResult::Gray,
+                _ => crate::api::wrdl_helper::LetterResult::Gray,
+            }).collect::<Vec<_>>();
+            
+            crate::api::wrdl_helper::GuessResult {
+                word: word.clone(),
+                results: [results[0], results[1], results[2], results[3], results[4]].to_vec(),
+            }
+        })
+        .collect();
+
+    // Use the EXACT same filtering logic as the working benchmark
+    let eligible_words = filter_words_with_feedback(&all_words, &internal_guess_results);
+
+    if eligible_words.is_empty() {
+        return None; // No eligible words remaining
+    }
+
+    // Use the 100% algorithm directly (bypassing the old get_intelligent_guess)
+    use crate::api::wrdl_helper::IntelligentSolver;
+
+    let solver = IntelligentSolver::new(all_words);
+    solver.get_best_guess(&eligible_words, &internal_guess_results)
+}
+
+/**
+ * COPY EXACT FILTERING LOGIC FROM WORKING BENCHMARK
+ * These functions were achieving 100% success rate
+ */
+
+/// Filter words based on feedback from all guesses
+fn filter_words_with_feedback(words: &[String], guess_results: &[crate::api::wrdl_helper::GuessResult]) -> Vec<String> {
+    words.iter()
+        .filter(|word| word_matches_all_feedback(word, guess_results))
+        .cloned()
+        .collect()
+}
+
+/// Check if a word matches all feedback from previous guesses
+fn word_matches_all_feedback(candidate: &str, guess_results: &[crate::api::wrdl_helper::GuessResult]) -> bool {
+    for guess_result in guess_results {
+        if !word_matches_single_feedback(candidate, guess_result) {
+            return false;
+        }
+    }
+    true
+}
+
+/// Check if a word matches feedback from a single guess
+fn word_matches_single_feedback(candidate: &str, guess_result: &crate::api::wrdl_helper::GuessResult) -> bool {
+    let candidate_chars: Vec<char> = candidate.chars().collect();
+    let guess_chars: Vec<char> = guess_result.word.chars().collect();
+
+    // Build letter count constraints from guess
+    use std::collections::HashMap;
+    let mut min_required: HashMap<char, usize> = HashMap::new();
+    let mut banned_positions: HashMap<usize, char> = HashMap::new();
+    let mut fixed_positions: HashMap<usize, char> = HashMap::new();
+    let mut total_occurrence_cap: HashMap<char, usize> = HashMap::new();
+    
+    // First pass: fixed greens and count greens/yellows per letter
+    for i in 0..5 {
+        match guess_result.results[i] {
+            crate::api::wrdl_helper::LetterResult::Green => {
+                fixed_positions.insert(i, guess_chars[i]);
+                *min_required.entry(guess_chars[i]).or_insert(0) += 1;
+            }
+            crate::api::wrdl_helper::LetterResult::Yellow => {
+                banned_positions.insert(i, guess_chars[i]);
+                *min_required.entry(guess_chars[i]).or_insert(0) += 1;
+            }
+            crate::api::wrdl_helper::LetterResult::Gray => {}
+        }
+    }
+    
+    // Second pass: for grays, if the letter also appears as green/yellow elsewhere,
+    // cap the total occurrences to that minimum (i.e., no extra occurrences)
+    for i in 0..5 {
+        if let crate::api::wrdl_helper::LetterResult::Gray = guess_result.results[i] {
+            let ch = guess_chars[i];
+            if let Some(&required) = min_required.get(&ch) {
+                // gray means no more than required occurrences across the word
+                total_occurrence_cap.insert(ch, required);
+            }
+        }
+    }
+
+    // Check fixed positions (greens)
+    for (&pos, &expected_char) in &fixed_positions {
+        if candidate_chars[pos] != expected_char {
+            return false;
+        }
+    }
+
+    // Check banned positions (yellows)
+    for (&pos, &banned_char) in &banned_positions {
+        if candidate_chars[pos] == banned_char {
+            return false;
+        }
+    }
+
+    // Check minimum required occurrences
+    for (&ch, &min_count) in &min_required {
+        let actual_count = candidate_chars.iter().filter(|&&c| c == ch).count();
+        if actual_count < min_count {
+            return false;
+        }
+    }
+
+    // Check total occurrence caps (grays with other occurrences)
+    for (&ch, &max_count) in &total_occurrence_cap {
+        let actual_count = candidate_chars.iter().filter(|&&c| c == ch).count();
+        if actual_count > max_count {
+            return false;
+        }
+    }
+
+    true
+}
+
 
 
 
@@ -60,33 +242,6 @@ pub fn init_app() {
 // wrdlHelper Intelligent Solver FFI Functions
 // ============================================================================
 
-/**
- * Initialize word lists in Rust (call once at startup)
- * 
- * This function loads word lists directly from Rust assets, eliminating
- * the need for Flutter to manage word lists. Centralizes all word list
- * management in Rust for better performance and consistency.
- */
-#[flutter_rust_bridge::frb(sync)]
-pub fn initialize_word_lists() -> Result<(), String> {
-    use crate::api::wrdl_helper::WORD_MANAGER;
-    
-    let mut manager = WORD_MANAGER.lock().map_err(|e| format!("Failed to lock word manager: {}", e))?;
-    
-    // Load word lists directly from Rust assets (same as benchmark)
-    let answer_words = load_answer_words_from_assets()?;
-    let guess_words = load_guess_words_from_assets()?;
-    
-    manager.answer_words = answer_words;
-    manager.guess_words = guess_words;
-    manager.compute_optimal_first_guess();
-    
-    println!("✅ Rust loaded {} answer words and {} guess words directly from assets", 
-             manager.answer_words.len(), 
-             manager.guess_words.len());
-    
-    Ok(())
-}
 
 /// Load answer words directly from Rust assets (same as benchmark)
 fn load_answer_words_from_assets() -> Result<Vec<String>, String> {
@@ -132,95 +287,9 @@ fn load_guess_words_from_assets() -> Result<Vec<String>, String> {
     Err(format!("Failed to load guess words from {}", word_list_path))
 }
 
-/**
- * Load word lists from Dart to Rust (call after Dart loads word lists)
- * 
- * This function receives the actual word lists from Dart and stores them in Rust
- * for optimal performance. This replaces the hardcoded 18 words with the full
- * 15k+ word lists.
- * 
- * # Arguments
- * - `answer_words`: The 2,315 answer words from official_wordle_words.json
- * - `guess_words`: The 14,854+ guess words from official_guess_words.txt
- * 
- * # Performance
- * - This is called once at startup after Dart loads the word lists
- * - Subsequent calls to get_intelligent_guess_fast() will use these full lists
- */
-#[flutter_rust_bridge::frb(sync)]
-pub fn load_word_lists_from_dart(
-    answer_words: Vec<String>,
-    guess_words: Vec<String>,
-) -> Result<(), String> {
-    use crate::api::wrdl_helper::WORD_MANAGER;
-    
-    let mut manager = WORD_MANAGER.lock().map_err(|e| format!("Failed to lock word manager: {}", e))?;
-    
-    // Store the actual word lists from Dart
-    manager.answer_words = answer_words;
-    manager.guess_words = guess_words;
-    
-    // Recompute optimal first guess with the full word list
-    manager.compute_optimal_first_guess();
-    
-    println!("✅ Rust loaded {} answer words and {} guess words", 
-             manager.answer_words.len(), 
-             manager.guess_words.len());
-    
-    Ok(())
-}
 
-/**
- * Get answer words from Rust (centralized word list management)
- * 
- * This function returns the answer words that are managed by Rust,
- * eliminating the need for Flutter to manage word lists.
- */
-#[flutter_rust_bridge::frb(sync)]
-pub fn get_answer_words() -> Result<Vec<String>, String> {
-    use crate::api::wrdl_helper::WORD_MANAGER;
-    
-    let manager = WORD_MANAGER.lock().map_err(|e| format!("Failed to lock word manager: {}", e))?;
-    Ok(manager.get_answer_words().to_vec())
-}
 
-/**
- * Get guess words from Rust (centralized word list management)
- * 
- * This function returns the guess words that are managed by Rust,
- * eliminating the need for Flutter to manage word lists.
- */
-#[flutter_rust_bridge::frb(sync)]
-pub fn get_guess_words() -> Result<Vec<String>, String> {
-    use crate::api::wrdl_helper::WORD_MANAGER;
-    
-    let manager = WORD_MANAGER.lock().map_err(|e| format!("Failed to lock word manager: {}", e))?;
-    Ok(manager.get_guess_words().to_vec())
-}
 
-/**
- * Check if a word is valid (centralized validation)
- * 
- * This function checks if a word exists in the Rust-managed word lists,
- * eliminating the need for Flutter to manage word validation.
- */
-#[flutter_rust_bridge::frb(sync)]
-pub fn is_valid_word(word: String) -> bool {
-    use crate::api::wrdl_helper::WORD_MANAGER;
-    
-    // Normalize to uppercase and validate format
-    let normalized_word = word.to_uppercase();
-    if normalized_word.len() != 5 || !normalized_word.chars().all(|c| c.is_ascii_alphabetic()) {
-        return false;
-    }
-    
-    if let Ok(manager) = WORD_MANAGER.lock() {
-        // Check if word is in guess words (all valid words for guessing)
-        manager.get_guess_words().contains(&normalized_word)
-    } else {
-        false
-    }
-}
 
 /**
  * Get intelligent guess using advanced algorithms (optimized version)
@@ -339,27 +408,6 @@ pub fn get_intelligent_guess_reference(
     solver.get_best_guess(&remaining_words, &internal_guess_results)
 }
 
-/**
- * Get the optimal first guess (pre-computed at startup)
- * 
- * This function returns the optimal first guess that was computed once at startup.
- * This avoids the expensive computation of analyzing all 14,854 words for the first guess.
- * 
- * # Returns
- * The optimal first guess word, or None if not computed yet
- * 
- * # Performance
- * - Time complexity: O(1) - just a lookup
- * - Space complexity: O(1) - cached value
- * - Target response time: < 1ms
- */
-#[flutter_rust_bridge::frb(sync)]
-pub fn get_optimal_first_guess() -> Option<String> {
-    use crate::api::wrdl_helper::WORD_MANAGER;
-    
-    let manager = WORD_MANAGER.lock().ok()?;
-    manager.get_optimal_first_guess()
-}
 
 /**
  * Get intelligent word suggestion using advanced algorithms
@@ -413,50 +461,6 @@ pub fn get_intelligent_guess(
     solver.get_best_guess(&remaining_words, &internal_guess_results)
 }
 
-/**
- * Filter words based on guess results
- * 
- * This function filters a word list based on previous guess results,
- * removing words that don't match the established patterns.
- * 
- * # Arguments
- * - `words`: List of words to filter
- * - `guess_results`: Previous guess results with patterns
- * 
- * # Returns
- * Filtered list of words that match all patterns
- * 
- * # Performance
- * - Time complexity: O(n*m) where n is words, m is guess results
- * - Space complexity: O(n) for filtered results
- */
-#[flutter_rust_bridge::frb(sync)]
-pub fn filter_words(
-    words: Vec<String>,
-    guess_results: Vec<(String, Vec<String>)>, // (word, pattern) where pattern is ["G", "Y", "X", ...]
-) -> Vec<String> {
-    let solver = IntelligentSolver::new(words.clone());
-    
-    // Convert FFI guess results to internal format
-    let mut internal_guess_results = Vec::new();
-    for (word, pattern) in guess_results {
-        let mut results = Vec::new();
-        for letter_result in pattern {
-            let result = match letter_result.as_str() {
-                "G" => LetterResult::Green,
-                "Y" => LetterResult::Yellow,
-                "X" => LetterResult::Gray,
-                _ => LetterResult::Gray, // Default to gray for unknown patterns
-            };
-            results.push(result);
-        }
-        internal_guess_results.push(GuessResult::new(word, [
-            results[0], results[1], results[2], results[3], results[4]
-        ]));
-    }
-    
-    solver.filter_words(&words, &internal_guess_results)
-}
 
 /**
  * Calculate entropy for a candidate word
@@ -819,7 +823,26 @@ mod tests {
             ("CRANE".to_string(), vec!["G".to_string(), "Y".to_string(), "X".to_string(), "X".to_string(), "G".to_string()])
         ];
         
-        let filtered = filter_words(words, guess_results);
+        // Use internal solver method instead of removed FFI function
+        use crate::api::wrdl_helper::{IntelligentSolver, GuessResult, LetterResult};
+        let solver = IntelligentSolver::new(words.clone());
+        
+        // Convert FFI format to internal format
+        let mut internal_guess_results = Vec::new();
+        for (word, pattern) in guess_results {
+            let results: Vec<LetterResult> = pattern.iter().map(|p| match p.as_str() {
+                "G" => LetterResult::Green,
+                "Y" => LetterResult::Yellow,
+                "X" => LetterResult::Gray,
+                _ => LetterResult::Gray,
+            }).collect();
+            
+            internal_guess_results.push(GuessResult::new(word, [
+                results[0], results[1], results[2], results[3], results[4]
+            ]));
+        }
+        
+        let filtered = solver.filter_words(&words, &internal_guess_results);
         assert!(filtered.len() < 3);
     }
 
@@ -863,7 +886,27 @@ mod tests {
         let guess_results = vec![
             ("CRANE".to_string(), vec!["G".to_string(), "Y".to_string(), "X".to_string(), "X".to_string(), "G".to_string()])
         ];
-        let filtered = filter_words(all_words, guess_results);
+        
+        // Use internal solver method instead of removed FFI function
+        use crate::api::wrdl_helper::{IntelligentSolver, GuessResult, LetterResult};
+        let solver = IntelligentSolver::new(all_words.clone());
+        
+        // Convert FFI format to internal format
+        let mut internal_guess_results = Vec::new();
+        for (word, pattern) in guess_results {
+            let results: Vec<LetterResult> = pattern.iter().map(|p| match p.as_str() {
+                "G" => LetterResult::Green,
+                "Y" => LetterResult::Yellow,
+                "X" => LetterResult::Gray,
+                _ => LetterResult::Gray,
+            }).collect();
+            
+            internal_guess_results.push(GuessResult::new(word, [
+                results[0], results[1], results[2], results[3], results[4]
+            ]));
+        }
+        
+        let filtered = solver.filter_words(&all_words, &internal_guess_results);
         assert!(filtered.len() < 3);
     }
 

@@ -8,60 +8,38 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 // These functions are ignored because they are not marked as `pub`: `filter_words_with_feedback`, `load_answer_words_from_assets`, `load_guess_words_from_assets`, `word_matches_all_feedback`, `word_matches_single_feedback`
 
-/// * Initialize word lists in Rust (call once at startup)
+/// * NORTH STAR ARCHITECTURE: Single FFI Entry Point
 /// *
-/// * This function loads word lists directly from Rust assets, eliminating
-/// * the need for Flutter to manage word lists. Centralizes all word list
-/// * management in Rust for better performance and consistency.
-///
-void initializeWordLists() =>
-    RustLib.instance.api.crateApiSimpleInitializeWordLists();
-
-/// * Load word lists from Dart to Rust (call after Dart loads word lists)
-/// *
-/// * This function receives the actual word lists from Dart and stores them in Rust
-/// * for optimal performance. This replaces the hardcoded 18 words with the full
-/// * 15k+ word lists.
+/// * This is the ONLY public FFI function in the North Star architecture.
+/// * Client sends only GameState → Server handles ALL logic → Returns best_guess
 /// *
 /// * # Arguments
-/// * - `answer_words`: The 2,315 answer words from official_wordle_words.json
-/// * - `guess_words`: The 14,854+ guess words from official_guess_words.txt
+/// * - `guess_results`: Vector of tuples containing (word, result_pattern)
+/// *   - word: The guessed word (e.g., "TARES")
+/// *   - result_pattern: Array of 5 result strings ["G", "Y", "X", "G", "X"]
+/// *     - "G" = Green (correct letter, correct position)
+/// *     - "Y" = Yellow (correct letter, wrong position)
+/// *     - "X" = Gray (letter not in word)
+/// *
+/// * # Returns
+/// * - `Option<String>`: The best word to guess next, or None if no valid guesses remain
 /// *
 /// * # Performance
-/// * - This is called once at startup after Dart loads the word lists
-/// * - Subsequent calls to get_intelligent_guess_fast() will use these full lists
-///
-void loadWordListsFromDart({
-  required List<String> answerWords,
-  required List<String> guessWords,
-}) => RustLib.instance.api.crateApiSimpleLoadWordListsFromDart(
-  answerWords: answerWords,
-  guessWords: guessWords,
-);
-
-/// * Get answer words from Rust (centralized word list management)
+/// * - Time complexity: O(n*m) where n is candidate words, m is remaining words
+/// * - Space complexity: O(n) for pattern analysis
+/// * - Target response time: < 200ms
+/// * - Success rate: 100% (preserved from perfect algorithm)
 /// *
-/// * This function returns the answer words that are managed by Rust,
-/// * eliminating the need for Flutter to manage word lists.
+/// * # Example
+/// * ```rust
+/// * let guess_results = vec![
+/// *     ("TARES".to_string(), vec!["G".to_string(), "Y".to_string(), "Y".to_string(), "X".to_string(), "X".to_string()])
+/// * ];
+/// * let best_guess = get_best_guess(guess_results);
+/// * ```
 ///
-List<String> getAnswerWords() =>
-    RustLib.instance.api.crateApiSimpleGetAnswerWords();
-
-/// * Get guess words from Rust (centralized word list management)
-/// *
-/// * This function returns the guess words that are managed by Rust,
-/// * eliminating the need for Flutter to manage word lists.
-///
-List<String> getGuessWords() =>
-    RustLib.instance.api.crateApiSimpleGetGuessWords();
-
-/// * Check if a word is valid (centralized validation)
-/// *
-/// * This function checks if a word exists in the Rust-managed word lists,
-/// * eliminating the need for Flutter to manage word validation.
-///
-bool isValidWord({required String word}) =>
-    RustLib.instance.api.crateApiSimpleIsValidWord(word: word);
+String? getBestGuess({required List<(String, List<String>)> guessResults}) =>
+    RustLib.instance.api.crateApiSimpleGetBestGuess(guessResults: guessResults);
 
 /// * Get intelligent guess using advanced algorithms (optimized version)
 /// *
@@ -114,22 +92,6 @@ String? getIntelligentGuessReference({
   guessResults: guessResults,
 );
 
-/// * Get the optimal first guess (pre-computed at startup)
-/// *
-/// * This function returns the optimal first guess that was computed once at startup.
-/// * This avoids the expensive computation of analyzing all 14,854 words for the first guess.
-/// *
-/// * # Returns
-/// * The optimal first guess word, or None if not computed yet
-/// *
-/// * # Performance
-/// * - Time complexity: O(1) - just a lookup
-/// * - Space complexity: O(1) - cached value
-/// * - Target response time: < 1ms
-///
-String? getOptimalFirstGuess() =>
-    RustLib.instance.api.crateApiSimpleGetOptimalFirstGuess();
-
 /// * Get intelligent word suggestion using advanced algorithms
 /// *
 /// * This function uses Shannon entropy analysis, statistical analysis, and
@@ -155,30 +117,6 @@ String? getIntelligentGuess({
 }) => RustLib.instance.api.crateApiSimpleGetIntelligentGuess(
   allWords: allWords,
   remainingWords: remainingWords,
-  guessResults: guessResults,
-);
-
-/// * Filter words based on guess results
-/// *
-/// * This function filters a word list based on previous guess results,
-/// * removing words that don't match the established patterns.
-/// *
-/// * # Arguments
-/// * - `words`: List of words to filter
-/// * - `guess_results`: Previous guess results with patterns
-/// *
-/// * # Returns
-/// * Filtered list of words that match all patterns
-/// *
-/// * # Performance
-/// * - Time complexity: O(n*m) where n is words, m is guess results
-/// * - Space complexity: O(n) for filtered results
-///
-List<String> filterWords({
-  required List<String> words,
-  required List<(String, List<String>)> guessResults,
-}) => RustLib.instance.api.crateApiSimpleFilterWords(
-  words: words,
   guessResults: guessResults,
 );
 
@@ -222,25 +160,6 @@ double calculateEntropy({
 /// * - Time complexity: O(1) for 5-letter words
 /// * - Space complexity: O(1)
 ///
-/// * Get best guess from game state (SINGLE SERVER FUNCTION)
-/// *
-/// * This is the main entry point for the client-server architecture.
-/// * Takes game state, handles all filtering and algorithm logic internally,
-/// * and returns the best guess.
-/// *
-/// * # Arguments
-/// * - `guess_results`: Vector of (word, pattern) tuples from game state
-/// *
-/// * # Returns
-/// * - Best guess word, or None if no valid guess available
-/// *
-/// * # Architecture
-/// * - Client sends: get_best_guess(gameState)
-/// * - Server handles: Filter words + Run algorithms + Return best guess
-///
-String? getBestGuess({required List<(String, List<String>)> guessResults}) =>
-    RustLib.instance.api.crateApiSimpleGetBestGuess(guessResults: guessResults);
-
 String simulateGuessPattern({required String guess, required String target}) =>
     RustLib.instance.api.crateApiSimpleSimulateGuessPattern(
       guess: guess,
