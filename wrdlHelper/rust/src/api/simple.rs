@@ -587,7 +587,26 @@ mod tests {
             ("CRANE".to_string(), vec!["G".to_string(), "Y".to_string(), "X".to_string(), "X".to_string(), "G".to_string()])
         ];
         
-        let filtered = filter_words(words, guess_results);
+        // Use internal solver method instead of removed FFI function
+        use crate::api::wrdl_helper::{IntelligentSolver, GuessResult, LetterResult};
+        let solver = IntelligentSolver::new(words.clone());
+        
+        // Convert FFI format to internal format
+        let mut internal_guess_results = Vec::new();
+        for (word, pattern) in guess_results {
+            let results: Vec<LetterResult> = pattern.iter().map(|p| match p.as_str() {
+                "G" => LetterResult::Green,
+                "Y" => LetterResult::Yellow,
+                "X" => LetterResult::Gray,
+                _ => LetterResult::Gray,
+            }).collect();
+            
+            internal_guess_results.push(GuessResult::new(word, [
+                results[0], results[1], results[2], results[3], results[4]
+            ]));
+        }
+        
+        let filtered = solver.filter_words(&words, &internal_guess_results);
         assert!(filtered.len() < 3);
     }
 
@@ -631,7 +650,27 @@ mod tests {
         let guess_results = vec![
             ("CRANE".to_string(), vec!["G".to_string(), "Y".to_string(), "X".to_string(), "X".to_string(), "G".to_string()])
         ];
-        let filtered = filter_words(all_words, guess_results);
+        
+        // Use internal solver method instead of removed FFI function
+        use crate::api::wrdl_helper::{IntelligentSolver, GuessResult, LetterResult};
+        let solver = IntelligentSolver::new(all_words.clone());
+        
+        // Convert FFI format to internal format
+        let mut internal_guess_results = Vec::new();
+        for (word, pattern) in guess_results {
+            let results: Vec<LetterResult> = pattern.iter().map(|p| match p.as_str() {
+                "G" => LetterResult::Green,
+                "Y" => LetterResult::Yellow,
+                "X" => LetterResult::Gray,
+                _ => LetterResult::Gray,
+            }).collect();
+            
+            internal_guess_results.push(GuessResult::new(word, [
+                results[0], results[1], results[2], results[3], results[4]
+            ]));
+        }
+        
+        let filtered = solver.filter_words(&all_words, &internal_guess_results);
         assert!(filtered.len() < 3);
     }
 
