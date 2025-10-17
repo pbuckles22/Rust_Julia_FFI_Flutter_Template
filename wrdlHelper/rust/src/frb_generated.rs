@@ -38,7 +38,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -198859590;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1928349304;
 
 // Section: executor
 
@@ -725,6 +725,37 @@ fn wire__crate__api__simple__get_answer_words_impl(
         },
     )
 }
+fn wire__crate__api__simple__get_best_guess_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "get_best_guess",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_guess_results = <Vec<(String, Vec<String>)>>::sse_decode(&mut deserializer);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok =
+                    Result::<_, ()>::Ok(crate::api::simple::get_best_guess(api_guess_results))?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
 fn wire__crate__api__simple__get_guess_words_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -957,35 +988,6 @@ fn wire__crate__api__simple__init_app_impl(
                     Ok(output_ok)
                 })())
             }
-        },
-    )
-}
-fn wire__crate__api__simple__initialize_word_lists_impl(
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "initialize_word_lists",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            deserializer.end();
-            transform_result_sse::<_, String>((move || {
-                let output_ok = crate::api::simple::initialize_word_lists()?;
-                Ok(output_ok)
-            })())
         },
     )
 }
@@ -1304,40 +1306,6 @@ fn wire__crate__api__simple__is_valid_word_impl(
             deserializer.end();
             transform_result_sse::<_, ()>((move || {
                 let output_ok = Result::<_, ()>::Ok(crate::api::simple::is_valid_word(api_word))?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__crate__api__simple__load_word_lists_from_dart_impl(
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "load_word_lists_from_dart",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_answer_words = <Vec<String>>::sse_decode(&mut deserializer);
-            let api_guess_words = <Vec<String>>::sse_decode(&mut deserializer);
-            deserializer.end();
-            transform_result_sse::<_, String>((move || {
-                let output_ok = crate::api::simple::load_word_lists_from_dart(
-                    api_answer_words,
-                    api_guess_words,
-                )?;
                 Ok(output_ok)
             })())
         },
@@ -1665,10 +1633,10 @@ fn pde_ffi_dispatcher_primary_impl(
         12 => {
             wire__crate__api__wrdl_helper__WordManager_new_impl(port, ptr, rust_vec_len, data_len)
         }
-        21 => {
+        22 => {
             wire__crate__api__wrdl_helper__guess_result_new_impl(port, ptr, rust_vec_len, data_len)
         }
-        22 => wire__crate__api__simple__init_app_impl(port, ptr, rust_vec_len, data_len),
+        23 => wire__crate__api__simple__init_app_impl(port, ptr, rust_vec_len, data_len),
         24 => wire__crate__api__wrdl_helper__intelligent_solver_calculate_entropy_impl(
             port,
             ptr,
@@ -1756,22 +1724,21 @@ fn pde_ffi_dispatcher_sync_impl(
         13 => wire__crate__api__simple__calculate_entropy_impl(ptr, rust_vec_len, data_len),
         14 => wire__crate__api__simple__filter_words_impl(ptr, rust_vec_len, data_len),
         15 => wire__crate__api__simple__get_answer_words_impl(ptr, rust_vec_len, data_len),
-        16 => wire__crate__api__simple__get_guess_words_impl(ptr, rust_vec_len, data_len),
-        17 => wire__crate__api__simple__get_intelligent_guess_impl(ptr, rust_vec_len, data_len),
-        18 => {
+        16 => wire__crate__api__simple__get_best_guess_impl(ptr, rust_vec_len, data_len),
+        17 => wire__crate__api__simple__get_guess_words_impl(ptr, rust_vec_len, data_len),
+        18 => wire__crate__api__simple__get_intelligent_guess_impl(ptr, rust_vec_len, data_len),
+        19 => {
             wire__crate__api__simple__get_intelligent_guess_fast_impl(ptr, rust_vec_len, data_len)
         }
-        19 => wire__crate__api__simple__get_intelligent_guess_reference_impl(
+        20 => wire__crate__api__simple__get_intelligent_guess_reference_impl(
             ptr,
             rust_vec_len,
             data_len,
         ),
-        20 => wire__crate__api__simple__get_optimal_first_guess_impl(ptr, rust_vec_len, data_len),
-        23 => wire__crate__api__simple__initialize_word_lists_impl(ptr, rust_vec_len, data_len),
+        21 => wire__crate__api__simple__get_optimal_first_guess_impl(ptr, rust_vec_len, data_len),
         31 => wire__crate__api__simple__is_valid_word_impl(ptr, rust_vec_len, data_len),
-        32 => wire__crate__api__simple__load_word_lists_from_dart_impl(ptr, rust_vec_len, data_len),
-        33 => wire__crate__api__simple__set_solver_config_impl(ptr, rust_vec_len, data_len),
-        34 => wire__crate__api__simple__simulate_guess_pattern_impl(ptr, rust_vec_len, data_len),
+        32 => wire__crate__api__simple__set_solver_config_impl(ptr, rust_vec_len, data_len),
+        33 => wire__crate__api__simple__simulate_guess_pattern_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
