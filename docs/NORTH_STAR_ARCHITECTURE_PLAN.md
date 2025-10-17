@@ -182,7 +182,7 @@
 - [x] **3.1**: Identify all violating FFI functions
 - [x] **3.2**: Remove `initialize_word_lists()`
 - [x] **3.3**: Remove `load_word_lists_from_dart()`
-- [ ] **3.4**: Remove `get_answer_words()`
+- [x] **3.4**: Remove `get_answer_words()`
 - [ ] **3.5**: Remove `get_guess_words()`
 - [ ] **3.6**: Remove `is_valid_word()`
 - [ ] **3.7**: Remove `get_optimal_first_guess()`

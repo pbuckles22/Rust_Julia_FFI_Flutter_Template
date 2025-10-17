@@ -278,19 +278,6 @@ fn load_guess_words_from_assets() -> Result<Vec<String>, String> {
 }
 
 
-/**
- * Get answer words from Rust (centralized word list management)
- * 
- * This function returns the answer words that are managed by Rust,
- * eliminating the need for Flutter to manage word lists.
- */
-#[flutter_rust_bridge::frb(sync)]
-pub fn get_answer_words() -> Result<Vec<String>, String> {
-    use crate::api::wrdl_helper::WORD_MANAGER;
-    
-    let manager = WORD_MANAGER.lock().map_err(|e| format!("Failed to lock word manager: {}", e))?;
-    Ok(manager.get_answer_words().to_vec())
-}
 
 /**
  * Get guess words from Rust (centralized word list management)
