@@ -7,6 +7,7 @@ import '../models/guess_result.dart';
 import '../models/word.dart';
 import '../service_locator.dart';
 import '../services/app_service.dart';
+import '../services/ffi_service.dart';
 import '../services/game_service.dart';
 import '../src/rust/api/simple.dart' as ffi;
 import '../utils/debug_logger.dart';
@@ -102,7 +103,7 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
         '🔧 WordleGameScreen: Creating new game...',
         tag: 'WordleGameScreen',
       );
-      _gameState = gameService.createNewGame();
+      _gameState = GameState.helperMode();
       DebugLogger.success(
         '✅ WordleGameScreen: New game created successfully',
         tag: 'WordleGameScreen',
@@ -450,7 +451,7 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
   void _newGame() {
     setState(() {
       final gameService = sl<GameService>();
-      _gameState = gameService.createNewGame();
+      _gameState = GameState.helperMode();
       _currentInput = '';
     });
     // Don't auto-suggest on new game - let user request hints manually
@@ -467,10 +468,52 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
 
   Timer? _suggestionTimer;
 
+  /// Capture manual markings from the current row and store them in game state
+  /// This ensures the algorithm knows about the constraints
+  void _captureManualMarkings() {
+    print('🔍 DEBUG: _captureManualMarkings called');
+    
+    if (_gameState == null) {
+      print('❌ GameState is null in _captureManualMarkings');
+      return;
+    }
+    
+    print('  • GameState guesses: ${_gameState!.guesses.length}');
+    print('  • Current guess: ${_gameState!.currentGuess}');
+    
+    // Get the current row's word and letter states
+    final currentRow = _gameState!.currentGuess - 1;
+    if (currentRow < 0 || currentRow >= _gameState!.guesses.length) {
+      print('❌ Invalid currentRow: $currentRow, guesses.length: ${_gameState!.guesses.length}');
+      print('❌ Cannot capture manual markings - no guess at this row');
+      return;
+    }
+    
+    final guessEntry = _gameState!.guesses[currentRow];
+    final word = guessEntry.word.value;
+    
+    print('  • Word: $word');
+    print('  • Letter states: ${guessEntry.result.letterStates.map((s) => s.toString()).join("")}');
+    
+    // Get the manual letter states from the existing guess
+    final letterStates = guessEntry.result.letterStates;
+    
+    // Create a new GuessEntry with the manual markings
+    final manualResult = GuessResult(word: Word.fromString(word), letterStates: letterStates);
+    final manualGuessEntry = GuessEntry(word: Word.fromString(word), result: manualResult);
+    
+    // Replace the existing guess entry with the manual one
+    _gameState!.guesses[currentRow] = manualGuessEntry;
+    
+    print('✅ Captured manual markings: $word -> ${letterStates.map((s) => s.toString()).join("")}');
+  }
+
   void _getSuggestion() {
+    print('🔍 DEBUG: _getSuggestion called');
     DebugLogger.debug('Get suggestion button pressed', tag: 'UI');
 
     if (_gameState == null) {
+      print('❌ GameState is null in _getSuggestion');
       DebugLogger.error('GameState is null when getting suggestion', tag: 'UI');
       return;
     }
@@ -487,6 +530,10 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
     );
 
     try {
+      // CRITICAL: Capture manual markings before getting suggestion
+      // This ensures the algorithm knows about the constraints
+      _captureManualMarkings();
+      
       DebugLogger.debug('Getting suggestion from GameService', tag: 'UI');
 
       final gameService = sl<GameService>();
@@ -542,15 +589,209 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
     }
   }
 
+  /// Run benchmark test on the phone
+  void _runBenchmark() async {
+    DebugLogger.info('🎯 Starting Phone Benchmark - 50 games', tag: 'BENCHMARK');
+    
+    try {
+      // Ensure FFI service is initialized (safe to call multiple times)
+      await FfiService.initialize();
+      
+      // Initialize benchmark solver
+      FfiService.initializeBenchmarkSolver();
+      
+      final testWords = [
+        'TRAIN', 'CRANE', 'SLATE', 'TRACE', 'CRATE', 'SLANT', 'LEAST', 'STARE', 'TARES',
+        'RAISE', 'ARISE', 'SOARE', 'ROATE', 'ADIEU', 'AUDIO', 'ALIEN', 'STONE', 'STORE',
+        'STORM', 'STOMP', 'PLATE', 'GRATE', 'CHASE', 'CLOTH', 'CLOUD', 'BREAD', 'BRAIN',
+        'BRAND', 'BRASS', 'BRAVE', 'BREAK', 'BREED', 'BRICK', 'BRIDE', 'BRING', 'BRINK',
+        'BRISK', 'BROAD', 'BROKE', 'BROWN', 'BUILD', 'BUILT', 'BURST', 'BUSED', 'BUSES',
+        'BUSHY', 'BUTCH', 'BUYER', 'BUZZY', 'CABLE', 'CACHE'
+      ];
+      
+      final results = <Map<String, dynamic>>[];
+      final stopwatch = Stopwatch()..start();
+      
+      for (int i = 0; i < testWords.length; i++) {
+        final targetWord = testWords[i];
+        final gameResult = _simulateGame(targetWord, 6);
+        results.add(gameResult);
+        
+        DebugLogger.info(
+          'Game ${i + 1}/${testWords.length}: ${targetWord} - ${gameResult['solved'] ? "✅ SOLVED" : "❌ FAILED"} in ${gameResult['guessCount']} guesses',
+          tag: 'BENCHMARK'
+        );
+        if (gameResult['guesses'].isNotEmpty) {
+          DebugLogger.info('  Guesses: ${gameResult['guesses'].join(" → ")}', tag: 'BENCHMARK');
+        }
+      }
+      
+      stopwatch.stop();
+      
+      // Calculate statistics
+      final totalGames = results.length;
+      final solvedGames = results.where((r) => r['solved']).length;
+      final successRate = solvedGames / totalGames;
+      final totalGuesses = results.fold(0, (sum, r) => sum + (r['guessCount'] as int));
+      final averageGuesses = totalGuesses / totalGames;
+      
+      DebugLogger.info('📊 PHONE BENCHMARK RESULTS', tag: 'BENCHMARK');
+      DebugLogger.info('==========================', tag: 'BENCHMARK');
+      DebugLogger.info('Total games: $totalGames', tag: 'BENCHMARK');
+      DebugLogger.info('Solved games: $solvedGames', tag: 'BENCHMARK');
+      DebugLogger.info('Success rate: ${(successRate * 100).toStringAsFixed(1)}%', tag: 'BENCHMARK');
+      DebugLogger.info('Average guesses: ${averageGuesses.toStringAsFixed(2)}', tag: 'BENCHMARK');
+      DebugLogger.info('Total time: ${stopwatch.elapsedMilliseconds}ms', tag: 'BENCHMARK');
+      DebugLogger.info('Time per game: ${(stopwatch.elapsedMilliseconds / totalGames).toStringAsFixed(0)}ms', tag: 'BENCHMARK');
+      
+      // Show results in a dialog
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('📊 Benchmark Results'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Total games: $totalGames'),
+                Text('Solved games: $solvedGames'),
+                Text('Success rate: ${(successRate * 100).toStringAsFixed(1)}%'),
+                Text('Average guesses: ${averageGuesses.toStringAsFixed(2)}'),
+                Text('Total time: ${stopwatch.elapsedMilliseconds}ms'),
+                Text('Time per game: ${(stopwatch.elapsedMilliseconds / totalGames).toStringAsFixed(0)}ms'),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
+      
+      DebugLogger.info('🎉 Phone benchmark completed successfully!', tag: 'BENCHMARK');
+      DebugLogger.info('✅ Success rate: ${(successRate * 100).toStringAsFixed(1)}% (target: ≥95%)', tag: 'BENCHMARK');
+      DebugLogger.info('✅ Average guesses: ${averageGuesses.toStringAsFixed(2)} (target: ≤4.0)', tag: 'BENCHMARK');
+      
+    } catch (e, stackTrace) {
+      DebugLogger.error('Benchmark failed: $e', tag: 'BENCHMARK', error: e, stackTrace: stackTrace);
+      
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('❌ Benchmark Failed'),
+            content: Text('Error: $e'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
+    }
+  }
+
+  /// Simulate a single game exactly like Cargo benchmark
+  Map<String, dynamic> _simulateGame(String targetWord, int maxGuesses) {
+    final guesses = <String>[];
+    final guessResults = <(String, List<String>)>[];
+    
+    // Get answer words (like Cargo benchmark)
+    final answerWords = FfiService.getAnswerWords();
+    var remainingWords = List<String>.from(answerWords);
+    
+    for (int attempt = 1; attempt <= maxGuesses; attempt++) {
+      // Get the best guess from our intelligent solver (exactly like Cargo benchmark)
+      final candidateWords = remainingWords.isEmpty ? answerWords : remainingWords;
+      final bestGuess = FfiService.getBestGuessReference(candidateWords, guessResults);
+      
+      if (bestGuess == null) {
+        break; // No valid guess available
+      }
+      
+      guesses.add(bestGuess);
+      
+      // Check if we solved it (like Cargo benchmark)
+      if (bestGuess == targetWord) {
+        return {
+          'targetWord': targetWord,
+          'guesses': guesses,
+          'guessCount': attempt,
+          'solved': true,
+          'maxGuesses': maxGuesses,
+        };
+      }
+      
+      // Generate feedback for this guess (like Cargo benchmark)
+      final feedback = _generateFeedback(bestGuess, targetWord);
+      guessResults.add((bestGuess, feedback));
+      
+      // Filter remaining words based on feedback (exactly like Cargo benchmark)
+      remainingWords = FfiService.filterWords(remainingWords, guessResults);
+    }
+    
+    return {
+      'targetWord': targetWord,
+      'guesses': guesses,
+      'guessCount': guesses.length,
+      'solved': false,
+      'maxGuesses': maxGuesses,
+    };
+  }
+
+  /// Generate feedback for a guess against a target word (like Cargo benchmark)
+  List<String> _generateFeedback(String guess, String target) {
+    final guessChars = guess.split('');
+    final targetChars = target.split('');
+    final results = List<String>.filled(5, 'X'); // Start with all gray
+    
+    // First pass: mark exact matches (green) - like Cargo benchmark
+    for (int i = 0; i < 5; i++) {
+      if (guessChars[i] == targetChars[i]) {
+        results[i] = 'G';
+        targetChars[i] = ' '; // Mark as used
+      }
+    }
+    
+    // Second pass: mark partial matches (yellow) - like Cargo benchmark
+    for (int i = 0; i < 5; i++) {
+      if (results[i] == 'X') {
+        final letter = guessChars[i];
+        final pos = targetChars.indexOf(letter);
+        if (pos != -1) {
+          results[i] = 'Y';
+          targetChars[pos] = ' '; // Mark as used
+        }
+      }
+    }
+    
+    return results;
+  }
+
   /// A new method to test the FFI connection
-  void _testFfiConnection() {
+  void _testFfiConnection() async {
     DebugLogger.info(
       '🔍 FLUTTER DEBUG: Testing FFI connection...',
       tag: 'FFI_TEST',
     );
     try {
+      print('🔍 DEBUG: Starting FFI test...');
+      
+      // Ensure FFI service is initialized first
+      print('🔍 DEBUG: Initializing FFI service...');
+      await FfiService.initialize();
+      print('🔍 DEBUG: FFI service initialized successfully');
+      
       // Test FFI connection with a simple function call
+      print('🔍 DEBUG: Calling ffi.getAnswerWords()...');
       final answerWords = ffi.getAnswerWords();
+      print('🔍 DEBUG: getAnswerWords() returned ${answerWords.length} words');
       DebugLogger.success(
         '✅ FFI SUCCESS: Rust loaded ${answerWords.length} answer words',
         tag: 'FFI_TEST',
@@ -569,9 +810,9 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
         stackTrace: stackTrace,
       );
 
-      // Show an error dialog
+      // Show detailed error dialog
       _showErrorDialog(
-        'FFI Connection FAILED!\n\nCheck the console for the full error.',
+        'FFI Connection FAILED!\n\nError: ${e.toString()}\n\nStack: ${stackTrace.toString()}',
       );
     }
   }
@@ -827,6 +1068,21 @@ class _WordleGameScreenState extends State<WordleGameScreen> {
                         ),
                       ],
                     ),
+                    
+                    // Benchmark Button
+                    Container(
+                      margin: const EdgeInsets.only(top: 8),
+                      child: ElevatedButton(
+                        onPressed: _runBenchmark,
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          backgroundColor: Colors.purple[100],
+                          foregroundColor: Colors.purple[800],
+                        ),
+                        child: const Text('📊 Run Benchmark (50 games)'),
+                      ),
+                    ),
+                    
                     SizedBox(height: middleSpacing),
 
                     // Letter State Buttons (for marking letters)

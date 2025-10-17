@@ -110,6 +110,19 @@ class GameState {
       startTime: DateTime.now(),
     );
 
+  /// Creates a helper mode game (no target word, for helping with external Wordle)
+  factory GameState.helperMode({int maxGuesses = 5}) => GameState._(
+      guesses: [],
+      maxGuesses: maxGuesses,
+      currentGuess: 0,
+      isGameOver: false,
+      isWon: false,
+      isLost: false,
+      targetWord: null, // No target word in helper mode
+      gameStatus: GameStatus.playing,
+      startTime: DateTime.now(),
+    );
+
   /// Number of guesses made
   int get guessCount => guesses.length;
 

@@ -68,21 +68,43 @@ impl WordleBenchmark {
     /// the feedback from each guess (green, yellow, gray letters).
     pub fn simulate_game(&self, target_word: &str, max_guesses: usize) -> GameResult {
         let mut guesses = Vec::new();
-        let mut remaining_words = self.answer_words.clone();
-        let mut guess_results = Vec::new();
+        let mut guess_results: Vec<GuessResult> = Vec::new();
 
         for attempt in 1..=max_guesses {
-            // Get the best guess from our intelligent solver
-            // If remaining_words is empty, fall back to all answer words
-            let candidate_words = if remaining_words.is_empty() {
-                &self.answer_words
-            } else {
-                &remaining_words
-            };
+            // NEW ARCHITECTURE: Use server-side filtering
+            // Convert guess_results to FFI format
+            let ffi_guess_results: Vec<(String, Vec<String>)> = guess_results.iter().map(|gr| {
+                let pattern: Vec<String> = gr.results.iter().map(|lr| {
+                    match lr {
+                        LetterResult::Green => "G".to_string(),
+                        LetterResult::Yellow => "Y".to_string(),
+                        LetterResult::Gray => "X".to_string(),
+                    }
+                }).collect();
+                (gr.word.clone(), pattern)
+            }).collect();
             
-            let best_guess = self.solver.get_best_guess(candidate_words, &guess_results);
+            // DEBUG: Show complete game state payload for Dart replication
+            println!("🔍 BENCHMARK GAME STATE PAYLOAD - Attempt {}", attempt);
+            println!("  • Target word: {}", target_word);
+            println!("  • Total constraints: {}", guess_results.len());
+            println!("  • Complete payload structure:");
+            println!("    guess_results: Vec<(String, Vec<String>)> = [");
+            for (i, (word, pattern)) in ffi_guess_results.iter().enumerate() {
+                println!("      (\"{}\", {:?}), // constraint {}", word, pattern, i + 1);
+            }
+            println!("    ]");
+            println!("  • This is the EXACT payload passed to: get_best_guess(guess_results)");
+            
+            // NEW: Use single server function (CORRECT ARCHITECTURE)
+            // Initialize WORD_MANAGER
+            crate::api::simple::initialize_word_lists().unwrap();
+            
+            // Single server call - server handles everything internally
+            let best_guess = crate::api::simple::get_best_guess(ffi_guess_results.clone());
             
             if let Some(guess) = best_guess {
+                println!("  • Algorithm suggested: {}", guess);
                 guesses.push(guess.clone());
                 
                 // Check if we solved it
@@ -99,18 +121,6 @@ impl WordleBenchmark {
                 // Generate feedback for this guess
                 let feedback = self.generate_feedback(&guess, target_word);
                 guess_results.push(feedback);
-                
-                // Filter remaining words based on feedback
-                let new_remaining_words = self.filter_words_with_feedback(&remaining_words, &guess_results);
-                
-                remaining_words = new_remaining_words;
-                
-                // REMOVED: Early break when remaining_words is empty
-                // This was causing the algorithm to give up prematurely
-                // The algorithm should continue guessing until max_guesses or success
-                // if remaining_words.is_empty() {
-                //     break;
-                // }
             } else {
                 // No valid guess available
                 break;
@@ -124,6 +134,29 @@ impl WordleBenchmark {
             solved: false,
             max_guesses,
         }
+    }
+
+    
+    /// Convert FFI format to internal format
+    fn convert_ffi_to_internal(&self, guess_results: &[(String, Vec<String>)]) -> Vec<GuessResult> {
+        let mut internal_guess_results = Vec::new();
+        for (word, pattern) in guess_results {
+            let mut results = Vec::new();
+            for letter_result in pattern {
+                let lr = letter_result.to_uppercase();
+                let result = match lr.as_str() {
+                    "G" | "GREEN" => LetterResult::Green,
+                    "Y" | "YELLOW" => LetterResult::Yellow,
+                    "X" | "GRAY" | "GREY" => LetterResult::Gray,
+                    _ => LetterResult::Gray,
+                };
+                results.push(result);
+            }
+            internal_guess_results.push(GuessResult::new(word.clone(), [
+                results[0], results[1], results[2], results[3], results[4]
+            ]));
+        }
+        internal_guess_results
     }
 
     /// Run benchmark on a random sample of words

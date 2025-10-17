@@ -3,16 +3,14 @@
 
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
-import 'dart:async';
-import 'dart:convert';
-
-import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
-
 import 'api/simple.dart';
 import 'api/wrdl_helper.dart';
+import 'dart:async';
+import 'dart:convert';
 import 'frb_generated.dart';
 import 'frb_generated.io.dart'
     if (dart.library.js_interop) 'frb_generated.web.dart';
+import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 /// Main entrypoint of the Rust API
 class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
@@ -68,7 +66,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -198859590;
+  int get rustContentHash => 1100504797;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -140,6 +138,10 @@ abstract class RustLibApi extends BaseApi {
 
   List<String> crateApiSimpleGetAnswerWords();
 
+  String? crateApiSimpleGetBestGuess({
+    required List<(String, List<String>)> guessResults,
+  });
+
   List<String> crateApiSimpleGetGuessWords();
 
   String? crateApiSimpleGetIntelligentGuess({
@@ -188,6 +190,12 @@ abstract class RustLibApi extends BaseApi {
   });
 
   Future<String?> crateApiWrdlHelperIntelligentSolverGetBestGuess({
+    required IntelligentSolver that,
+    required List<String> remainingWords,
+    required List<GuessResult> guessResults,
+  });
+
+  Future<List<String>> crateApiWrdlHelperIntelligentSolverGetCandidateWords({
     required IntelligentSolver that,
     required List<String> remainingWords,
     required List<GuessResult> guessResults,
@@ -715,11 +723,36 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: 'get_answer_words', argNames: []);
 
   @override
+  String? crateApiSimpleGetBestGuess({
+    required List<(String, List<String>)> guessResults,
+  }) => handler.executeSync(
+    SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_list_record_string_list_string(guessResults, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 16)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_opt_String,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiSimpleGetBestGuessConstMeta,
+      argValues: [guessResults],
+      apiImpl: this,
+    ),
+  );
+
+  TaskConstMeta get kCrateApiSimpleGetBestGuessConstMeta => const TaskConstMeta(
+    debugName: 'get_best_guess',
+    argNames: ['guessResults'],
+  );
+
+  @override
   List<String> crateApiSimpleGetGuessWords() => handler.executeSync(
     SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 16)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 17)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_list_String,
@@ -746,7 +779,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_list_String(allWords, serializer);
         sse_encode_list_String(remainingWords, serializer);
         sse_encode_list_record_string_list_string(guessResults, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 17)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 18)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_opt_String,
@@ -774,7 +807,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_list_String(remainingWords, serializer);
         sse_encode_list_record_string_list_string(guessResults, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 18)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 19)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_opt_String,
@@ -802,7 +835,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_list_String(remainingWords, serializer);
         sse_encode_list_record_string_list_string(guessResults, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 19)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 20)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_opt_String,
@@ -825,7 +858,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 20)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 21)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_opt_String,
@@ -853,7 +886,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         pdeCallFfi(
           generalizedFrbRustBinding,
           serializer,
-          funcId: 21,
+          funcId: 22,
           port: port_,
         );
       },
@@ -881,7 +914,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         pdeCallFfi(
           generalizedFrbRustBinding,
           serializer,
-          funcId: 22,
+          funcId: 23,
           port: port_,
         );
       },
@@ -903,7 +936,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 23)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 24)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -933,7 +966,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         pdeCallFfi(
           generalizedFrbRustBinding,
           serializer,
-          funcId: 24,
+          funcId: 25,
           port: port_,
         );
       },
@@ -969,7 +1002,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         pdeCallFfi(
           generalizedFrbRustBinding,
           serializer,
-          funcId: 25,
+          funcId: 26,
           port: port_,
         );
       },
@@ -1006,7 +1039,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         pdeCallFfi(
           generalizedFrbRustBinding,
           serializer,
-          funcId: 26,
+          funcId: 27,
           port: port_,
         );
       },
@@ -1041,7 +1074,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         pdeCallFfi(
           generalizedFrbRustBinding,
           serializer,
-          funcId: 27,
+          funcId: 28,
           port: port_,
         );
       },
@@ -1062,6 +1095,42 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<List<String>> crateApiWrdlHelperIntelligentSolverGetCandidateWords({
+    required IntelligentSolver that,
+    required List<String> remainingWords,
+    required List<GuessResult> guessResults,
+  }) => handler.executeNormal(
+    NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_box_autoadd_intelligent_solver(that, serializer);
+        sse_encode_list_String(remainingWords, serializer);
+        sse_encode_list_guess_result(guessResults, serializer);
+        pdeCallFfi(
+          generalizedFrbRustBinding,
+          serializer,
+          funcId: 29,
+          port: port_,
+        );
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_list_String,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiWrdlHelperIntelligentSolverGetCandidateWordsConstMeta,
+      argValues: [that, remainingWords, guessResults],
+      apiImpl: this,
+    ),
+  );
+
+  TaskConstMeta
+  get kCrateApiWrdlHelperIntelligentSolverGetCandidateWordsConstMeta =>
+      const TaskConstMeta(
+        debugName: 'intelligent_solver_get_candidate_words',
+        argNames: ['that', 'remainingWords', 'guessResults'],
+      );
+
+  @override
   Future<IntelligentSolver> crateApiWrdlHelperIntelligentSolverNew({
     required List<String> words,
   }) => handler.executeNormal(
@@ -1072,7 +1141,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         pdeCallFfi(
           generalizedFrbRustBinding,
           serializer,
-          funcId: 28,
+          funcId: 30,
           port: port_,
         );
       },
@@ -1107,7 +1176,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         pdeCallFfi(
           generalizedFrbRustBinding,
           serializer,
-          funcId: 29,
+          funcId: 31,
           port: port_,
         );
       },
@@ -1144,7 +1213,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         pdeCallFfi(
           generalizedFrbRustBinding,
           serializer,
-          funcId: 30,
+          funcId: 32,
           port: port_,
         );
       },
@@ -1172,7 +1241,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_String(word, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 31)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 33)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_bool,
@@ -1197,7 +1266,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_list_String(answerWords, serializer);
         sse_encode_list_String(guessWords, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 32)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 34)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -1233,7 +1302,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_bool(earlyTerminationEnabled, serializer);
         sse_encode_f_64(earlyTerminationThreshold, serializer);
         sse_encode_bool(entropyOnlyScoring, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 33)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 35)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -1275,7 +1344,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_String(guess, serializer);
         sse_encode_String(target, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 34)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 36)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,

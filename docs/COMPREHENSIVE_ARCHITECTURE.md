@@ -284,25 +284,46 @@ List<String> filterWords(List<String> words, List<(String, List<String>)> guessR
 1. **AppService.initialize()** → Centralized service initialization
 2. **FfiService.initialize()** → FFI bridge setup
 3. **GameService.initialize()** → Game logic setup
-4. **Word lists loaded** → From Rust assets or Dart files
+4. **Word lists loaded** → From Rust assets (embedded at compile time)
 
-### **Game Flow**
+### **Game Flow (NEW ARCHITECTURE)**
 1. **User input** → Virtual keyboard or direct input
 2. **Word validation** → FfiService.isValidWord()
 3. **Guess processing** → GameService.addGuess()
 4. **Result evaluation** → User manually sets letter states
-5. **Suggestion request** → FfiService.getIntelligentGuess()
-6. **Word filtering** → FfiService.filterWords()
+5. **Suggestion request** → FfiService.getBestGuess(gameState)
+6. **Server-side filtering** → Rust handles all word filtering internally
 
-### **FFI Communication**
+### **NEW: Client-Server Architecture**
+```
+Client (Dart/Benchmark)     Server (Rust)
+    │                           │
+    ├─ GameState ──────────────► getBestGuess(gameState)
+    │                           │
+    │                           ├─ filterWordsFromGameState()
+    │                           ├─ IntelligentSolver.solve()
+    │                           └─ Return best guess
+    │
+    └─ Best guess ◄─────────────┘
+```
+
+### **FFI Communication (UPDATED)**
 ```
 Flutter (Dart)          Rust (FFI)
     │                      │
     ├─ initializeWordLists() ──► WordManager.load_words()
-    ├─ getIntelligentGuess() ──► IntelligentSolver.solve()
-    ├─ filterWords() ──────────► WordFilter.filter()
+    ├─ getBestGuess() ────────► get_best_guess(gameState)
+    │                           ├─ filter_words_from_gamestate()
+    │                           ├─ IntelligentSolver.solve()
+    │                           └─ Return optimal word
     └─ calculateEntropy() ─────► EntropyCalculator.calculate()
 ```
+
+### **Key Architecture Changes**
+- **✅ Single Source of Truth**: All filtering logic in Rust server
+- **✅ Clean Client Code**: Clients only pass game state
+- **✅ Consistent Behavior**: Same logic for benchmark and Dart
+- **✅ Easier Maintenance**: One place to update filtering logic
 
 ---
 

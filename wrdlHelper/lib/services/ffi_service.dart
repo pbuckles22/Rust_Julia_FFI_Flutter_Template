@@ -101,26 +101,6 @@ class FfiService {
     }
   }
 
-  /// Get the best guess suggestion from remaining words
-  /// Returns null if no suggestion is available
-  static String? getBestGuess(
-    List<String> allWords,
-    List<String> remainingWords,
-    List<(String, List<String>)> guessResults,
-  ) {
-    _ensureInitialized();
-
-    try {
-      // Call our getIntelligentGuess function
-      return ffi.getIntelligentGuess(
-        allWords: allWords,
-        remainingWords: remainingWords,
-        guessResults: guessResults,
-      );
-    } catch (e) {
-      throw AssetLoadException('Failed to get best guess: $e');
-    }
-  }
 
   /// Get best guess using optimized Rust-managed word lists (much faster)
   static String? getBestGuessFast(
@@ -342,6 +322,66 @@ class FfiService {
       return ffi.isValidWord(word: word);
     } on Exception catch (e) {
       return false; // Fail gracefully for validation
+    }
+  }
+
+  // ============================================================================
+  // Cargo Benchmark FFI Functions (Exact Match)
+  // ============================================================================
+
+  /// Initialize benchmark solver (exactly like Cargo benchmark)
+  /// 
+  /// This function initializes the solver with all 14,855 words for maximum coverage,
+  /// exactly matching the Cargo benchmark approach that achieved 99.8% success rate.
+  static void initializeBenchmarkSolver() {
+    _ensureInitialized();
+    try {
+      ffi.initializeBenchmarkSolver();
+    } catch (e) {
+      throw AssetLoadException('Failed to initialize benchmark solver: $e');
+    }
+  }
+
+
+  /// Filter words based on feedback (exactly like Cargo benchmark)
+  /// 
+  /// This function replicates the Cargo benchmark's filter_words_with_feedback logic:
+  /// - word_matches_all_feedback for each word
+  /// - Same pattern matching logic as the benchmark
+  static List<String> filterBenchmarkWords(
+    List<String> words,
+    List<(String, List<String>)> guessResults,
+  ) {
+    _ensureInitialized();
+    try {
+      return ffi.filterBenchmarkWords(
+        words: words,
+        guessResults: guessResults,
+      );
+    } catch (e) {
+      throw AssetLoadException('Failed to filter benchmark words: $e');
+    }
+  }
+
+  // ============================================================================
+  // NEW CLIENT-SERVER ARCHITECTURE FUNCTIONS
+  // ============================================================================
+
+  /// Get best guess from game state (NEW CLIENT-SERVER ARCHITECTURE)
+  /// 
+  /// This function takes game state, filters words internally, and returns best guess.
+  /// This is the main entry point for the new architecture.
+  /// Server handles all filtering internally - client just passes game state.
+  static String? getBestGuess(
+    List<(String, List<String>)> guessResults,
+  ) {
+    _ensureInitialized();
+    try {
+      return ffi.getBestGuess(
+        guessResults: guessResults,
+      );
+    } catch (e) {
+      throw AssetLoadException('Failed to get best guess: $e');
     }
   }
 }

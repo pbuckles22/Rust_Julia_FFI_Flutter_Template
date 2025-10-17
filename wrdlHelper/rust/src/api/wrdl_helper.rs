@@ -161,34 +161,57 @@ impl IntelligentSolver {
         if remaining_words.is_empty() {
             return None;
         }
-        // REMOVED: Early termination optimization that caused information leakage
-        // if remaining_words.len() == 1 {
-        //     return remaining_words.first().cloned();
-        // }
 
-        // --- PERFORMANCE-OPTIMIZED VERSION ---
-        // Use the original fast candidate selection with smart "Hard Mode" logic
-        
-        // Get candidate words (fast, limited set)
+        // For endgame scenarios (few remaining words), use direct strategy
+        if remaining_words.len() <= 2 {
+            return remaining_words.first().cloned();
+        }
+
+        // Get candidate words (for now, use remaining words; in future could use full word list)
         let candidate_words = self.get_candidate_words(remaining_words, _guess_results);
         
-        // Analyze each candidate using entropy
+        // Analyze each candidate using entropy with early termination
         let mut best_word = None;
         let mut best_score = f64::NEG_INFINITY;
+        
+        // BALANCED OPTIMIZATION: Early termination threshold
+        // If we find a word with very high entropy, we can stop early
+        // Adjusted to be less aggressive for better accuracy
+        let early_termination_threshold = 5.0; // Higher threshold for better accuracy
+        let mut candidates_processed = 0;
 
         for candidate in candidate_words.iter() {
             let entropy_score = self.calculate_entropy(candidate, remaining_words);
+            let statistical_score = self.calculate_statistical_score(candidate, remaining_words);
             
             // Prime suspect bonus: prioritize words that could actually win the game
             let is_prime_suspect = remaining_words.contains(candidate);
             let prime_suspect_bonus = if is_prime_suspect { 0.1 } else { 0.0 };
             
+            // Use production settings - full algorithm power (pure entropy)
+            let entropy_weight = 1.0;
+            let statistical_weight = 0.0;
+                    
             // Combine scores with prime suspect bonus
-            let combined_score = entropy_score + prime_suspect_bonus;
+            let combined_score = (entropy_score * entropy_weight) + (statistical_score * statistical_weight) + prime_suspect_bonus;                                                                                               
             
             if combined_score > best_score {
                 best_score = combined_score;
                 best_word = Some(candidate.clone());
+                
+                // CRITICAL OPTIMIZATION: Early termination
+                // If we found a word with very high entropy, stop processing
+                if entropy_score >= early_termination_threshold {
+                    break;
+                }
+            }
+            
+            candidates_processed += 1;
+            
+            // QUALITY-FOCUSED OPTIMIZATION: Limit processing for performance
+            // Don't process more than 100 candidates (reverted from 150)
+            if candidates_processed >= 100 {
+                break;
             }
         }
 
@@ -279,7 +302,7 @@ impl IntelligentSolver {
     /// 
     /// CRITICAL OPTIMIZATION: Limit to 50-100 strategic words instead of thousands
     /// This is the key fix for the 1293ms -> <200ms performance improvement
-    fn get_candidate_words(&self, remaining_words: &[String], _guess_results: &[GuessResult]) -> Vec<String> {
+    pub fn get_candidate_words(&self, remaining_words: &[String], _guess_results: &[GuessResult]) -> Vec<String> {
         let mut candidates = Vec::new();
         
         // Always include all remaining words (prime suspects)

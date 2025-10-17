@@ -573,23 +573,10 @@ class GameService {
     }
   }
 
-  /// Gets intelligent guess using Rust FFI solver with world-class performance
+  /// Gets intelligent guess using new client-server architecture
+  /// Client passes game state, server handles all filtering and logic
   Word? _getIntelligentGuess(GameState gameState) {
-    // Get all available words for the solver
-    // Use centralized Rust word list instead of WordService
-    final allWords = FfiService.getAnswerWords();
-
-    // Get remaining possible words (filtered based on current game state)
-    // Use answer words (2,300) to match Rust benchmark behavior
-    final remainingWords = getFilteredWords(
-      gameState,
-    ).map((w) => w.value).toList();
-
-    if (remainingWords.isEmpty) {
-      return null;
-    }
-
-    // Convert previous guesses to FFI format (String, List<String>)
+    // Convert game state to FFI format
     final guessResults = gameState.guesses.map((guessEntry) {
       final pattern = guessEntry.result.letterStates.map((state) {
         switch (state) {
@@ -604,165 +591,45 @@ class GameService {
       return (guessEntry.word.value, pattern);
     }).toList();
 
-    // COMPREHENSIVE DEBUG LOGGING - FFI Bridge Data Flow
-    DebugLogger.info(
-      '🔍 FFI BRIDGE DEBUG - Calling Rust solver',
-      tag: 'GameService',
-    );
-    DebugLogger.info('📊 INPUT DATA SUMMARY:', tag: 'GameService');
-    DebugLogger.info(
-      '  • allWords: ${allWords.length} words',
-      tag: 'GameService',
-    );
-    DebugLogger.info(
-      '  • remainingWords: ${remainingWords.length} words',
-      tag: 'GameService',
-    );
-    DebugLogger.info(
-      '  • guessResults: ${guessResults.length} previous guesses',
-      tag: 'GameService',
-    );
-
-    // Log game state details
-    DebugLogger.info('🎮 GAME STATE DETAILS:', tag: 'GameService');
-    DebugLogger.info(
-      '  • Current guess number: ${gameState.currentGuess}',
-      tag: 'GameService',
-    );
-    DebugLogger.info(
-      '  • Game status: ${gameState.gameStatus}',
-      tag: 'GameService',
-    );
-    DebugLogger.info(
-      '  • Is game over: ${gameState.isGameOver}',
-      tag: 'GameService',
-    );
-
-    // Log each previous guess with full details
-    DebugLogger.info('📝 PREVIOUS GUESSES HISTORY:', tag: 'GameService');
-    for (var i = 0; i < guessResults.length; i++) {
-      final gr = guessResults[i];
-      final resultString = gr.$2.join();
-      DebugLogger.info(
-        '  Guess ${i + 1}: "${gr.$1}" → $resultString',
-        tag: 'GameService',
-      );
+    // DEBUG: Show complete game state payload (same as benchmark)
+    print('🔍 DART GAME STATE PAYLOAD - Attempt ${gameState.currentGuess}');
+    print('  • Total constraints: ${guessResults.length}');
+    print('  • Complete payload structure:');
+    print('    guess_results: Vec<(String, List<String>)> = [');
+    for (int i = 0; i < guessResults.length; i++) {
+      final (word, pattern) = guessResults[i];
+      print('      ("$word", ${pattern}), // constraint ${i + 1}');
     }
+    print('    ]');
+    print('  • This is the EXACT payload passed to: FfiService.getBestGuess(guessResults)');
 
-    // Log remaining words (first 10 for brevity)
-    DebugLogger.info(
-      '🎯 REMAINING POSSIBLE WORDS (first 10):',
-      tag: 'GameService',
-    );
-    final displayWords = remainingWords.take(10).toList();
-    DebugLogger.info('  ${displayWords.join(", ")}', tag: 'GameService');
-    if (remainingWords.length > 10) {
-      DebugLogger.info(
-        '  ... and ${remainingWords.length - 10} more',
-        tag: 'GameService',
-      );
-    }
-
-    // Log word list integrity
-    DebugLogger.info('📚 WORD LIST INTEGRITY CHECK:', tag: 'GameService');
-    DebugLogger.info(
-      '  • All words sample: ${allWords.take(5).join(", ")}',
-      tag: 'GameService',
-    );
-    DebugLogger.info(
-      '  • All words count: ${allWords.length}',
-      tag: 'GameService',
-    );
-
-    // Trust the algorithm - it knows what it's doing
-    DebugLogger.debug(
-      'Trusting elite Rust algorithm with '
-      '${remainingWords.length} words',
-      tag: 'GameService',
-    );
-
-    // Use the optimized intelligent solver with Rust-managed word lists
-    DebugLogger.info(
-      '🚀 CALLING OPTIMIZED RUST FFI SOLVER...',
-      tag: 'GameService',
-    );
-    
+    // NEW ARCHITECTURE: Pass game state to server, server handles everything
     String? suggestion;
     try {
-      // For first guess (no previous guesses), use pre-computed optimal first
-      // guess
+      // For first guess (no constraints), use optimal first guess
       if (guessResults.isEmpty) {
-        DebugLogger.info(
-          '🎯 Using pre-computed optimal first guess...',
-          tag: 'GameService',
-        );
+        print('  • First guess - using optimal first guess');
         suggestion = FfiService.getOptimalFirstGuess();
-        if (suggestion != null) {
-          DebugLogger.success(
-            '✅ Got optimal first guess: $suggestion',
-            tag: 'GameService',
-          );
-        } else {
-          DebugLogger.warning(
-            '⚠️ No optimal first guess available, falling back to full '
-            'algorithm',
-            tag: 'GameService',
-          );
-        }
       }
       
-      // If we don't have a suggestion yet (not first guess or optimal first
-      // guess failed),
-      // use the MAIN algorithm (99.8% success rate)
+      // For subsequent guesses, use main algorithm with server-side filtering
       if (suggestion == null) {
-        DebugLogger.info(
-          '🧠 Using MAIN algorithm (99.8% success rate)...',
-          tag: 'GameService',
-        );
-        suggestion = FfiService.getBestGuessFast(
-          remainingWords,
-          guessResults,
-        );
+        print('  • Subsequent guess - using server-side algorithm');
+        suggestion = FfiService.getBestGuess(guessResults);
+      }
+      
+      if (suggestion != null) {
+        print('  • Algorithm suggested: $suggestion');
+      } else {
+        print('  • Algorithm returned null');
       }
     } on Exception catch (e) {
+      print('  • FFI solver failed: $e');
       DebugLogger.warning(
-        'FFI solver failed, using fallback: $e',
+        'FFI solver failed: $e',
         tag: 'GameService',
       );
-      // Fallback to simple entropy-based selection
-      if (remainingWords.isNotEmpty) {
-        suggestion = remainingWords.first;
-      }
-    }
-
-    // COMPREHENSIVE DEBUG LOGGING - FFI Response
-    if (suggestion != null) {
-      DebugLogger.success(
-        '✅ SUCCESS: Rust suggested "$suggestion"',
-        tag: 'GameService',
-      );
-      DebugLogger.info('🎯 Suggestion analysis:', tag: 'GameService');
-      DebugLogger.info(
-        '  • Word length: ${suggestion.length}',
-        tag: 'GameService',
-      );
-      DebugLogger.info(
-        '  • Is valid format: ${suggestion.length == 5}',
-        tag: 'GameService',
-      );
-      DebugLogger.info(
-        '  • Is in remaining words: ${remainingWords.contains(suggestion)}',
-        tag: 'GameService',
-      );
-    } else {
-      DebugLogger.error(
-        '❌ FAILURE: Rust solver returned null',
-        tag: 'GameService',
-      );
-      DebugLogger.error(
-        '⚠️  This indicates a serious issue with the algorithm',
-        tag: 'GameService',
-      );
+      return null;
     }
 
     if (suggestion != null) {

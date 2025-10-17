@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wrdlhelper/models/game_state.dart';
+import '../models/game_state.dart';
 
 /// Game controls widget for Wordle game
 ///
@@ -18,6 +18,9 @@ class GameControls extends StatelessWidget {
   /// Callback when undo button is pressed
   final VoidCallback? onUndo;
   
+  /// Callback when benchmark button is pressed
+  final VoidCallback? onBenchmark;
+  
   /// Whether the controls are in loading state
   final bool isLoading;
   
@@ -34,6 +37,7 @@ class GameControls extends StatelessWidget {
     this.onNewGame,
     this.onGetSuggestion,
     this.onUndo,
+    this.onBenchmark,
     this.isLoading = false,
     this.suggestionReceived = false,
     this.suggestionError,
@@ -62,6 +66,7 @@ class GameControls extends StatelessWidget {
         _buildNewGameButton(),
         _buildSuggestionButton(),
         if (gameState.guesses.isNotEmpty) _buildUndoButton(),
+        _buildBenchmarkButton(),
       ],
     );
 
@@ -149,11 +154,22 @@ class GameControls extends StatelessWidget {
   VoidCallback _safeCallback(VoidCallback callback) => () {
       try {
         callback();
-      } on Exception catch (e) {
+      } on Exception {
         // Handle exception gracefully - widget continues to render
         // In a real app, you might want to log this error
       }
     };
+
+  /// Builds the benchmark button
+  Widget _buildBenchmarkButton() => ElevatedButton(
+    onPressed: onBenchmark != null ? _safeCallback(onBenchmark!) : null,
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Colors.purple[100],
+      foregroundColor: Colors.purple[800],
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    ),
+    child: const Text('📊 Benchmark'),
+  );
 
   Widget _buildSuccessMessage() => _buildFeedbackContainer(
       color: Colors.green,
@@ -215,3 +231,4 @@ class GameControls extends StatelessWidget {
       ),
     );
   }
+}

@@ -90,7 +90,7 @@ pub fn initialize_word_lists() -> Result<(), String> {
 
 /// Load answer words directly from Rust assets (same as benchmark)
 fn load_answer_words_from_assets() -> Result<Vec<String>, String> {
-    let word_list_path = "assets/word_lists/official_wordle_words.json";
+    let word_list_path = "../assets/word_lists/official_wordle_words.json";
     
     if std::path::Path::new(word_list_path).exists() {
         let content = std::fs::read_to_string(word_list_path)
@@ -113,7 +113,7 @@ fn load_answer_words_from_assets() -> Result<Vec<String>, String> {
 
 /// Load guess words directly from Rust assets (same as benchmark)
 fn load_guess_words_from_assets() -> Result<Vec<String>, String> {
-    let word_list_path = "assets/word_lists/official_guess_words.txt";
+    let word_list_path = "../assets/word_lists/official_guess_words.txt";
     
     if std::path::Path::new(word_list_path).exists() {
         let content = std::fs::read_to_string(word_list_path)
@@ -498,6 +498,242 @@ pub fn calculate_entropy(candidate_word: String, remaining_words: Vec<String>) -
  * - Time complexity: O(1) for 5-letter words
  * - Space complexity: O(1)
  */
+
+/**
+ * Get all possible remaining words based on current constraints
+ * 
+ * This function returns all words that could still be the answer
+ * based on the current game state and constraints.
+ * 
+ * # Arguments
+ * * `guess_results` - Vector of tuples containing (word, result_pattern)
+ *   - word: The guessed word (e.g., "TARES")
+ *   - result_pattern: Vector of result strings (e.g., ["G", "Y", "Y", "X", "X"])
+ *     - "G" = Green (correct letter, correct position)
+ *     - "Y" = Yellow (correct letter, wrong position)  
+ *     - "X" = Gray (letter not in word)
+ * 
+ * # Returns
+ * * `Vec<String>` - All possible remaining answer words
+ * 
+ * # Example
+ * ```rust
+ * let guess_results = vec![
+ *     ("TARES".to_string(), vec!["G".to_string(), "Y".to_string(), "Y".to_string(), "X".to_string(), "X".to_string()])
+ * ];
+ * let possible_words = get_possible_words(guess_results);
+ * ```
+ */
+#[flutter_rust_bridge::frb(sync)]
+pub fn get_possible_words(
+    guess_results: Vec<(String, Vec<String>)>,
+) -> Vec<String> {
+    // Special case: No constraints - return all answer words
+    if guess_results.is_empty() {
+        return match get_answer_words() {
+            Ok(words) => words,
+            Err(_) => Vec::new(),
+        };
+    }
+
+    // Get all words for filtering
+    let all_words = match get_guess_words() {
+        Ok(words) => words,
+        Err(_) => return Vec::new(),
+    };
+
+    // Convert FFI format to internal format
+    let internal_guess_results: Vec<crate::api::wrdl_helper::GuessResult> = guess_results.iter()
+        .map(|(word, pattern)| {
+            let results = pattern.iter().map(|p| match p.as_str() {
+                "G" => crate::api::wrdl_helper::LetterResult::Green,
+                "Y" => crate::api::wrdl_helper::LetterResult::Yellow,
+                "X" => crate::api::wrdl_helper::LetterResult::Gray,
+                _ => crate::api::wrdl_helper::LetterResult::Gray,
+            }).collect::<Vec<_>>();
+
+            crate::api::wrdl_helper::GuessResult {
+                word: word.clone(),
+                results: [results[0], results[1], results[2], results[3], results[4]].to_vec(),
+            }
+        })
+        .collect();
+
+    // Use the same filtering logic as get_best_guess
+    filter_words_with_feedback(&all_words, &internal_guess_results)
+}
+
+/**
+ * Get count of possible remaining words based on current constraints
+ * 
+ * This function returns the count of words that could still be the answer
+ * based on the current game state and constraints. This is a lightweight
+ * alternative to get_possible_words() for UI updates.
+ * 
+ * # Arguments
+ * * `guess_results` - Vector of tuples containing (word, result_pattern)
+ * 
+ * # Returns
+ * * `i32` - Count of possible remaining answer words
+ * 
+ * # Example
+ * ```rust
+ * let guess_results = vec![
+ *     ("TARES".to_string(), vec!["G".to_string(), "Y".to_string(), "Y".to_string(), "X".to_string(), "X".to_string()])
+ * ];
+ * let count = get_possible_word_count(guess_results);
+ * ```
+ */
+#[flutter_rust_bridge::frb(sync)]
+pub fn get_possible_word_count(
+    guess_results: Vec<(String, Vec<String>)>,
+) -> i32 {
+    let possible_words = get_possible_words(guess_results);
+    possible_words.len() as i32
+}
+
+/**
+ * Get best guess from game state (SINGLE SERVER FUNCTION)
+ * 
+ * This is the main entry point for the client-server architecture.
+ * Takes game state, handles all filtering and algorithm logic internally,
+ * and returns the best guess.
+ * 
+ * # Arguments
+ * - `guess_results`: Vector of (word, pattern) tuples from game state
+ * 
+ * # Returns
+ * - Best guess word, or None if no valid guess available
+ * 
+ * # Architecture
+ * - Client sends: get_best_guess(gameState)
+ * - Server handles: Filter words + Run algorithms + Return best guess
+ */
+#[flutter_rust_bridge::frb(sync)]
+pub fn get_best_guess(
+    guess_results: Vec<(String, Vec<String>)>,
+) -> Option<String> {
+    // Special case: First guess (no constraints) - use optimal first guess
+    if guess_results.is_empty() {
+        return get_optimal_first_guess();
+    }
+    
+    // Get all words for the solver (14,855 guess words including 2,300 answer words)
+    let all_words = match get_guess_words() {
+        Ok(words) => words,
+        Err(_) => return None,
+    };
+    
+    // COPY EXACT LOGIC FROM WORKING BENCHMARK (98-99% success rate)
+    // Convert FFI format to internal format
+    let internal_guess_results: Vec<crate::api::wrdl_helper::GuessResult> = guess_results.iter()
+        .map(|(word, pattern)| {
+            let results = pattern.iter().map(|p| match p.as_str() {
+                "G" => crate::api::wrdl_helper::LetterResult::Green,
+                "Y" => crate::api::wrdl_helper::LetterResult::Yellow,
+                "X" => crate::api::wrdl_helper::LetterResult::Gray,
+                _ => crate::api::wrdl_helper::LetterResult::Gray,
+            }).collect::<Vec<_>>();
+            
+            crate::api::wrdl_helper::GuessResult {
+                word: word.clone(),
+                results: [results[0], results[1], results[2], results[3], results[4]].to_vec(),
+            }
+        })
+        .collect();
+    
+    // Use the EXACT same filtering logic as the working benchmark
+    let eligible_words = filter_words_with_feedback(&all_words, &internal_guess_results);
+    
+    if eligible_words.is_empty() {
+        return None; // No eligible words remaining
+    }
+    
+    // Use the 98.2% algorithm directly (bypassing the old get_intelligent_guess)
+    use crate::api::wrdl_helper::IntelligentSolver;
+    
+    let solver = IntelligentSolver::new(all_words);
+    solver.get_best_guess(&eligible_words, &internal_guess_results)
+}
+
+/**
+ * COPY EXACT FILTERING LOGIC FROM WORKING BENCHMARK
+ * These functions were achieving 98-99% success rate
+ */
+
+/// Filter words based on feedback from all guesses
+fn filter_words_with_feedback(words: &[String], guess_results: &[crate::api::wrdl_helper::GuessResult]) -> Vec<String> {
+    words.iter()
+        .filter(|word| word_matches_all_feedback(word, guess_results))
+        .cloned()
+        .collect()
+}
+
+/// Check if a word matches all feedback from previous guesses
+fn word_matches_all_feedback(candidate: &str, guess_results: &[crate::api::wrdl_helper::GuessResult]) -> bool {
+    for guess_result in guess_results {
+        if !word_matches_single_feedback(candidate, guess_result) {
+            return false;
+        }
+    }
+    true
+}
+
+/// Check if a word matches feedback from a single guess
+fn word_matches_single_feedback(candidate: &str, guess_result: &crate::api::wrdl_helper::GuessResult) -> bool {
+    let candidate_chars: Vec<char> = candidate.chars().collect();
+    let guess_chars: Vec<char> = guess_result.word.chars().collect();
+
+    // Check green letters (exact position matches)
+    for i in 0..5 {
+        if guess_result.results[i] == crate::api::wrdl_helper::LetterResult::Green {
+            if candidate_chars[i] != guess_chars[i] {
+                return false;
+            }
+        }
+    }
+
+    // Check yellow letters (letter exists but not in this position)
+    for i in 0..5 {
+        if guess_result.results[i] == crate::api::wrdl_helper::LetterResult::Yellow {
+            let letter = guess_chars[i];
+            // Letter can't be in the same position
+            if candidate_chars[i] == letter {
+                return false;
+            }
+            // Letter must exist somewhere else
+            if !candidate_chars.contains(&letter) {
+                return false;
+            }
+        }
+    }
+
+    // Check gray letters (letter doesn't exist or we have enough)
+    use std::collections::HashMap;
+    let mut required_counts: HashMap<char, usize> = HashMap::new();
+    for i in 0..5 {
+        if guess_result.results[i] == crate::api::wrdl_helper::LetterResult::Green || 
+           guess_result.results[i] == crate::api::wrdl_helper::LetterResult::Yellow {
+            let letter = guess_chars[i];
+            *required_counts.entry(letter).or_insert(0) += 1;
+        }
+    }
+
+    for i in 0..5 {
+        if guess_result.results[i] == crate::api::wrdl_helper::LetterResult::Gray {
+            let letter = guess_chars[i];
+            let required_count = required_counts.get(&letter).copied().unwrap_or(0);
+            let actual_count = candidate_chars.iter().filter(|&&c| c == letter).count();
+            
+            if actual_count > required_count {
+                return false;
+            }
+        }
+    }
+
+    true
+}
+
 #[flutter_rust_bridge::frb(sync)]
 pub fn simulate_guess_pattern(guess: String, target: String) -> String {
     let solver = IntelligentSolver::new(vec![]);
@@ -710,5 +946,36 @@ mod tests {
         assert!(filtered.contains(&"CLOUD".to_string()));
         assert!(!filtered.contains(&"CRANE".to_string())); // Contains R,A,N,E
         assert!(!filtered.contains(&"CHASE".to_string())); // Contains A,E
+    }
+
+    #[test]
+    fn test_constraint_violation_tares_gyyxx() {
+        // Test case from handoff document: TARES GYYXX should NOT suggest CRAFT
+        // TARES GYYXX means:
+        // - T in position 1 = Green (must be T)
+        // - A in position 2 = Yellow (must be in word but not position 2)
+        // - R in position 3 = Yellow (must be in word but not position 3)
+        // - E in position 4 = Gray (must not be in word)
+        // - S in position 5 = Gray (must not be in word)
+        
+        let guess_results = vec![
+            ("TARES".to_string(), vec!["G".to_string(), "Y".to_string(), "Y".to_string(), "X".to_string(), "X".to_string()])
+        ];
+        
+        // Initialize word lists
+        initialize_word_lists().unwrap();
+        
+        // Get best guess using single server function
+        let result = get_best_guess(guess_results);
+        
+        // CRAFT should NOT be suggested because:
+        // - C in position 1 violates Green constraint (should be T)
+        // - R in position 3 violates Yellow constraint (R should not be in position 3)
+        if let Some(guess) = result {
+            assert_ne!(guess, "CRAFT", "CRAFT violates constraints: C in position 1 (should be T), R in position 3 (should not be R)");
+            println!("✅ Constraint test passed: Suggested '{}' instead of invalid 'CRAFT'", guess);
+        } else {
+            panic!("No valid guess returned");
+        }
     }
 }
