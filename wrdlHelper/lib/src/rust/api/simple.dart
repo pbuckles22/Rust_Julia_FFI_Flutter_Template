@@ -41,14 +41,6 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 String? getBestGuess({required List<(String, List<String>)> guessResults}) =>
     RustLib.instance.api.crateApiSimpleGetBestGuess(guessResults: guessResults);
 
-/// * Get guess words from Rust (centralized word list management)
-/// *
-/// * This function returns the guess words that are managed by Rust,
-/// * eliminating the need for Flutter to manage word lists.
-///
-List<String> getGuessWords() =>
-    RustLib.instance.api.crateApiSimpleGetGuessWords();
-
 /// * Check if a word is valid (centralized validation)
 /// *
 /// * This function checks if a word exists in the Rust-managed word lists,

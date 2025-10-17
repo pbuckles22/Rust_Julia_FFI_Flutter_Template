@@ -88,10 +88,13 @@ pub fn get_best_guess(
     }
     
     // Get all words for the solver (14,855 guess words including 2,300 answer words)
-    let all_words = match get_guess_words() {
-        Ok(words) => words,
+    use crate::api::wrdl_helper::WORD_MANAGER;
+    let manager = match WORD_MANAGER.lock() {
+        Ok(manager) => manager,
         Err(_) => return None,
     };
+    let all_words = manager.get_guess_words().to_vec();
+    drop(manager); // Release lock early
     
     // Convert FFI format to internal format
     let internal_guess_results: Vec<crate::api::wrdl_helper::GuessResult> = guess_results.iter()
@@ -279,19 +282,6 @@ fn load_guess_words_from_assets() -> Result<Vec<String>, String> {
 
 
 
-/**
- * Get guess words from Rust (centralized word list management)
- * 
- * This function returns the guess words that are managed by Rust,
- * eliminating the need for Flutter to manage word lists.
- */
-#[flutter_rust_bridge::frb(sync)]
-pub fn get_guess_words() -> Result<Vec<String>, String> {
-    use crate::api::wrdl_helper::WORD_MANAGER;
-    
-    let manager = WORD_MANAGER.lock().map_err(|e| format!("Failed to lock word manager: {}", e))?;
-    Ok(manager.get_guess_words().to_vec())
-}
 
 /**
  * Check if a word is valid (centralized validation)
