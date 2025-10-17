@@ -461,50 +461,6 @@ pub fn get_intelligent_guess(
     solver.get_best_guess(&remaining_words, &internal_guess_results)
 }
 
-/**
- * Filter words based on guess results
- * 
- * This function filters a word list based on previous guess results,
- * removing words that don't match the established patterns.
- * 
- * # Arguments
- * - `words`: List of words to filter
- * - `guess_results`: Previous guess results with patterns
- * 
- * # Returns
- * Filtered list of words that match all patterns
- * 
- * # Performance
- * - Time complexity: O(n*m) where n is words, m is guess results
- * - Space complexity: O(n) for filtered results
- */
-#[flutter_rust_bridge::frb(sync)]
-pub fn filter_words(
-    words: Vec<String>,
-    guess_results: Vec<(String, Vec<String>)>, // (word, pattern) where pattern is ["G", "Y", "X", ...]
-) -> Vec<String> {
-    let solver = IntelligentSolver::new(words.clone());
-    
-    // Convert FFI guess results to internal format
-    let mut internal_guess_results = Vec::new();
-    for (word, pattern) in guess_results {
-        let mut results = Vec::new();
-        for letter_result in pattern {
-            let result = match letter_result.as_str() {
-                "G" => LetterResult::Green,
-                "Y" => LetterResult::Yellow,
-                "X" => LetterResult::Gray,
-                _ => LetterResult::Gray, // Default to gray for unknown patterns
-            };
-            results.push(result);
-        }
-        internal_guess_results.push(GuessResult::new(word, [
-            results[0], results[1], results[2], results[3], results[4]
-        ]));
-    }
-    
-    solver.filter_words(&words, &internal_guess_results)
-}
 
 /**
  * Calculate entropy for a candidate word

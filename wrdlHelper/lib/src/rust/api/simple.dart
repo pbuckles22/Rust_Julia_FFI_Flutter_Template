@@ -120,30 +120,6 @@ String? getIntelligentGuess({
   guessResults: guessResults,
 );
 
-/// * Filter words based on guess results
-/// *
-/// * This function filters a word list based on previous guess results,
-/// * removing words that don't match the established patterns.
-/// *
-/// * # Arguments
-/// * - `words`: List of words to filter
-/// * - `guess_results`: Previous guess results with patterns
-/// *
-/// * # Returns
-/// * Filtered list of words that match all patterns
-/// *
-/// * # Performance
-/// * - Time complexity: O(n*m) where n is words, m is guess results
-/// * - Space complexity: O(n) for filtered results
-///
-List<String> filterWords({
-  required List<String> words,
-  required List<(String, List<String>)> guessResults,
-}) => RustLib.instance.api.crateApiSimpleFilterWords(
-  words: words,
-  guessResults: guessResults,
-);
-
 /// * Calculate entropy for a candidate word
 /// *
 /// * This function calculates the Shannon entropy (information gain) for a
