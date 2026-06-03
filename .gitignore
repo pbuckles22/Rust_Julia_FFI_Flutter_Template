@@ -109,9 +109,12 @@ debug_*
 # Agent handoff documentation (temporary working files)
 docs/agent-handoff/
 
-# Cursor IDE files
-.cursor
+# Cursor IDE files (keep .cursor/skills and .cursor/rules tracked)
 .cursorignore
+# Handoff notes are local/gitignored
+.cursor/handoff/*-handoff-*.md
+!.cursor/handoff/_template.md
+!.cursor/handoff/README.md
 
 # Additional temporary files found in project
 **/*.backup

@@ -1,0 +1,22 @@
+---
+description: Project context — apply in every session
+alwaysApply: true
+---
+
+# Rust_Julia_FFI_Flutter_Template + Agentic layer
+
+**Product:** Flutter-Rust-Julia FFI template with wrdlHelper (Wordle solver) as reference implementation. **iOS-first** with macOS and Android support.
+
+**CRITICAL:** The FFI bindings between Flutter, Rust, and iOS are **fragile**. Changes to `ios/`, `rust/Cargo.toml`, `flutter_rust_bridge.yaml`, or `rust_builder/` can break the entire build. Read [docs/SETUP_GUIDE.md](docs/SETUP_GUIDE.md) before touching these.
+
+Cursor rules, skills, handoff protocol from AgenticTemplate (manual sync — no upstream remote to protect FFI files).
+
+**Source of truth:** [AGENT_HANDOFF.md](AGENT_HANDOFF.md), [docs/](docs/) (SETUP_GUIDE, TESTING_STRATEGY, COMPREHENSIVE_ARCHITECTURE). Skills: [.cursor/skills/](.cursor/skills/) (DEV_GUIDE.md, TEST_TDD.md, techwriter, tester, code-reviewer, code-quality-gate, tech-lead, tech-debt-evaluator, pm-governance, ui-ux, game-readiness, visual-match, github-feature-workflow).
+
+**TDD:** Read TEST_TDD.md and tester skill first. **Tier 1a:** `cargo test` (Rust). **Tier 1b:** `flutter test` (Flutter). **Tier 2:** `flutter test integration_test/` (device).
+
+**Merge-ready gate:** `cd wrdlHelper && flutter test && cd rust && cargo test && cd ..` — run before pushing to `main`.
+
+**FFI changes:** Before modifying Rust API (`rust/src/api/*.rs`), regenerate bindings after with `flutter_rust_bridge_codegen generate`. **Never edit** `lib/src/rust/` directly — it's generated.
+
+**Handoff:** When the user wants a handoff, run code review (code-reviewer), tech debt (tech-debt-evaluator), and tests; record in handoff note. See [.cursor/rules/handoff-checklist.mdc](.cursor/rules/handoff-checklist.mdc).
