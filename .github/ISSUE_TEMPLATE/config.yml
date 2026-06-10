@@ -1,0 +1,8 @@
+blank_issues: true
+contact_links:
+  - name: Contributing guide
+    url: https://github.com/pbuckles22/Rust_Julia_FFI_Flutter_Template/blob/main/CONTRIBUTING.md
+  - name: Project status
+    url: https://github.com/pbuckles22/Rust_Julia_FFI_Flutter_Template/blob/main/docs/PROJECT_STATUS.md
+  - name: FFI setup guide
+    url: https://github.com/pbuckles22/Rust_Julia_FFI_Flutter_Template/blob/main/docs/SETUP_GUIDE.md

@@ -10,11 +10,21 @@ This repo is a **production-ready template** for Flutter-Rust-Julia FFI integrat
 
 ## Source of truth
 
+- **Contributor entry:** [CONTRIBUTING.md](CONTRIBUTING.md), [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md)
 - **Scope / sprints:** [PM_PLAN.md](PM_PLAN.md) (create if needed)
 - **Architecture:** [docs/COMPREHENSIVE_ARCHITECTURE.md](docs/COMPREHENSIVE_ARCHITECTURE.md)
 - **Setup:** [docs/SETUP_GUIDE.md](docs/SETUP_GUIDE.md)
 - **Testing strategy:** [docs/TESTING_STRATEGY.md](docs/TESTING_STRATEGY.md)
 - **Skills:** [.cursor/skills/](.cursor/skills/) — DEV_GUIDE.md, TEST_TDD.md, DESIGN_SYSTEM.md, techwriter, tester, code-reviewer, code-quality-gate, tech-lead, tech-debt-evaluator, eval-engineer, risk-manager, release-manager, security-reviewer, incident-triager, green-and-clean, context-bootstrapper, session-summarizer, pm-governance, ui-ux, game-readiness, visual-match, github-feature-workflow
+
+## Context hierarchy (what belongs where)
+
+Contributors and agents use **tracked docs** for product truth. See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+- **Level 1:** CONTRIBUTING, PROJECT_STATUS, `.cursor/rules/always.mdc`, this file
+- **Level 2:** PM_PLAN (if maintained), TEST_PLAN / TESTING_STRATEGY
+- **Level 3:** current task plan + acceptance criteria
+- **Level 4 (optional, local only):** `.cursor/handoff/NNNN-handoff-*.md` — gitignored; never sole source of truth
 
 ## High-risk files (DO NOT CHANGE without understanding FFI implications)
 
@@ -35,9 +45,9 @@ This repo is a **production-ready template** for Flutter-Rust-Julia FFI integrat
 
 ## Current state
 
-- **Template:** Production-ready Flutter-Rust-Julia FFI with wrdlHelper reference implementation.
-- **FFI Status:** 100% working — all Rust functions accessible from Flutter.
-- **Test Status:** 19/19 Rust tests passing, Flutter FFI tests passing.
+- **Template:** Production-ready Flutter-Rust-Julia FFI with wrdlHelper reference implementation; contributor onboarding norm (CONTRIBUTING, PROJECT_STATUS, GitHub templates).
+- **FFI Status:** Working — Rust functions accessible from Flutter (verify with merge-ready gate after changes).
+- **Next:** Customize or replace wrdlHelper demo; update docs/PROJECT_STATUS when milestones ship.
 
 ## Run and test
 
@@ -96,9 +106,11 @@ flutter build macos --release
 When ending a session:
 
 1. Run the handoff checklist (code review, tech debt, tests). See [.cursor/rules/handoff-checklist.mdc](.cursor/rules/handoff-checklist.mdc).
-2. Update **PM_PLAN.md** (if you maintain one) when shipped scope changed.
-3. Write a **local** session note: **`.cursor/handoff/NNNN-handoff-YYYY-MM-DD_HHmm.md`** (new monotonic `NNNN` each time).
-4. Update **"Current state"** above only when it helps the next session.
+2. Update **PM_PLAN.md** (if maintained) when shipped scope changed.
+3. Update **[docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md)** and **Current state** above (required for contributor-visible changes).
+4. Optional local note: **`.cursor/handoff/NNNN-handoff-*.md`** — gitignored; promote decisions to tracked docs.
+
+Anything the team must see on GitHub belongs in **PROJECT_STATUS**, **PM_PLAN**, **README**, or the **PR** — not only gitignored handoff files.
 
 ---
 
