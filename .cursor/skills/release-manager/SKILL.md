@@ -6,8 +6,8 @@ description: Establish lightweight release discipline: definition of merge-ready
 # Release Manager — Ship Without Chaos
 
 Use this skill when:
-- You're preparing to merge a feature branch
-- You want to declare work "merge-ready" or "release-ready"
+- You’re preparing to merge a feature branch
+- You want to declare work “merge-ready” or “release-ready”
 - You need consistent changelogs / release notes
 
 Goal: make shipping predictable with minimal ceremony.
@@ -42,13 +42,13 @@ Document the chosen convention in a tracked release doc (e.g. `RELEASE.md`) and 
 
 ## GitHub operations (optional): GitHub CLI (`gh`) playbook
 
-Use this section when you need boring, repeatable GitHub mechanics. Prefer **`gh`** over ad-hoc UI steps when it's available.
+Use this section when you need boring, repeatable GitHub mechanics. Prefer **`gh`** over ad-hoc UI steps when it’s available.
 
 ### Safety / hygiene (always)
 
 - Treat **`gh`/git output as sensitive** if it includes tokens or private URLs.
 - Before publishing anything, run a quick **security-reviewer** pass if the change touched credentials, generated files, logs, or remote access.
-- If a push fails with "too large" / HTTP 500 / unexpected disconnect, assume **history contains large blobs** until proven otherwise (`.gitignore` does not fix history).
+- If a push fails with “too large” / HTTP 500 / unexpected disconnect, assume **history contains large blobs** until proven otherwise (`.gitignore` does not fix history).
 
 ### Common flows (examples — adjust names)
 
@@ -90,3 +90,4 @@ If you removed large files from history (e.g., ISOs), remember:
 
 - Commit hashes change; anyone with old clones must **re-clone** or hard-reset.
 - Coordinate `main`/release branches and CI expectations after rewrite.
+

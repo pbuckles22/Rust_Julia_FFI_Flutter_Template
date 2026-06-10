@@ -5,7 +5,7 @@ description: Receiving-agent protocol. Boots a new agent into the minimum correc
 
 # Context Bootstrapper — Receiving Agent Protocol
 
-Use this skill when starting work on this repo, resuming after a break, switching to a new "feature-agent", or when context feels bloated/confusing.
+Use this skill when starting work on this repo, resuming after a break, switching to a new “feature-agent”, or when context feels bloated/confusing.
 
 Goal: reach a **confident, bounded next step** using **minimal context**.
 
@@ -17,7 +17,7 @@ Goal: reach a **confident, bounded next step** using **minimal context**.
    - `.cursor/rules/always.mdc`
    - `AGENT_HANDOFF.md`
 
-2. **Current phase / feature truth** (choose the one that matches the user's goal)  
+2. **Current phase / feature truth** (choose the one that matches the user’s goal)  
    - `PM_PLAN.md` (phase/scope)
    - `TEST_PLAN.md` (Tier 1 / Tier 2 validation gates)
 
@@ -29,7 +29,7 @@ Goal: reach a **confident, bounded next step** using **minimal context**.
 
 ---
 
-## Produce the "Receiver Brief" (what you must write next)
+## Produce the “Receiver Brief” (what you must write next)
 
 After reading, produce a short brief with:
 
@@ -37,7 +37,7 @@ After reading, produce a short brief with:
 - **Scope**:
   - **In scope**:
   - **Out of scope**:
-- **Constraints**: branch policy, "no guessing", validation tier.
+- **Constraints**: branch policy, “no guessing”, validation tier.
 - **Acceptance criteria**: 2–5 verifiable checks.
 - **Next steps**: 3–7 bite-sized steps, each with a validation hook.
 - **Open questions**: only if something blocks safe progress.
@@ -52,7 +52,7 @@ Preferred context payload for a new session:
 
 - **Tracked truth**: `AGENT_HANDOFF.md` + the relevant plan doc(s) (project state)
 - **One handoff note**: latest only (session delta)
-- **Only the files you're editing** (and their direct dependencies)
+- **Only the files you’re editing** (and their direct dependencies)
 
 Avoid:
 - Full transcript dumps

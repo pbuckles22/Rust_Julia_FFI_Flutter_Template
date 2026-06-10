@@ -7,7 +7,7 @@ description: Evidence-driven debugging/incident workflow: reproduce, isolate, mi
 
 Use this skill when:
 - Something is broken, flaky, or non-deterministic
-- You're doing "investigation work" that can easily drift
+- You’re doing “investigation work” that can easily drift
 - You need to hand off a bug efficiently
 
 Goal: get to a minimal reproducible case, a minimal fix, and a verifiable outcome.
@@ -36,7 +36,7 @@ Goal: get to a minimal reproducible case, a minimal fix, and a verifiable outcom
 
 5. **Fix (minimal)**
    - Prefer the smallest change that addresses the root cause
-   - Avoid "refactor while here" unless explicitly requested
+   - Avoid “refactor while here” unless explicitly requested
 
 6. **Verify**
    - Rerun the reproduction steps
@@ -55,3 +55,4 @@ Goal: get to a minimal reproducible case, a minimal fix, and a verifiable outcom
 - **Fix**: what changed (summary)
 - **Verification**: what was run and result
 - **Next**: if still open, what to try next (bounded)
+

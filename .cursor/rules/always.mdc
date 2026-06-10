@@ -11,7 +11,7 @@ alwaysApply: true
 
 Cursor rules, skills, handoff protocol from AgenticTemplate (manual sync — no upstream remote to protect FFI files).
 
-**Source of truth:** [AGENT_HANDOFF.md](AGENT_HANDOFF.md), [docs/](docs/) (SETUP_GUIDE, TESTING_STRATEGY, COMPREHENSIVE_ARCHITECTURE). Skills: [.cursor/skills/](.cursor/skills/) (DEV_GUIDE.md, TEST_TDD.md, techwriter, tester, code-reviewer, code-quality-gate, tech-lead, tech-debt-evaluator, pm-governance, ui-ux, game-readiness, visual-match, github-feature-workflow).
+**Source of truth:** [PM_PLAN.md](PM_PLAN.md), [AGENT_HANDOFF.md](AGENT_HANDOFF.md), [TECH_DEBT.md](TECH_DEBT.md), [RISKS.md](RISKS.md), [RELEASE.md](RELEASE.md), [INCIDENTS.md](INCIDENTS.md), [docs/](docs/) (SETUP_GUIDE, TESTING_STRATEGY, COMPREHENSIVE_ARCHITECTURE). Skills: [.cursor/skills/](.cursor/skills/) (DEV_GUIDE.md, TEST_TDD.md, techwriter, tester, green-and-clean, context-bootstrapper, session-summarizer, code-reviewer, code-quality-gate, tech-lead, tech-debt-evaluator, eval-engineer, risk-manager, release-manager, security-reviewer, incident-triager, pm-governance, ui-ux, game-readiness, visual-match, github-feature-workflow). **Operating model:** Use green-and-clean for scope discipline; use context-bootstrapper when starting/resuming; use session-summarizer when handing off.
 
 **TDD:** Read TEST_TDD.md and tester skill first. **Tier 1a:** `cargo test` (Rust). **Tier 1b:** `flutter test` (Flutter). **Tier 2:** `flutter test integration_test/` (device).
 

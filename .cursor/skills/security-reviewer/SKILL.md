@@ -39,3 +39,4 @@ Goal: prevent accidental secret leaks and reduce obvious security footguns.
 
 - **Security review**: PASS/WARN/FAIL
 - **Notes**: 1–5 bullets, include mitigations/rollbacks if WARN/FAIL
+

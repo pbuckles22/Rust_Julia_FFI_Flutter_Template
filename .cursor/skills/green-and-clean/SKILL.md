@@ -19,7 +19,7 @@ Use this skill at the start of any non-trivial task, when scope feels unclear, w
 - **No guessing**: if required inputs are missing (paths, branch, VM name, expected behavior), STOP and ask for them.
 - **No drift**: do not expand scope beyond the current feature/phase.
 - **No hidden state**: durable decisions must be written into tracked docs (not only chat, not only local handoff notes).
-- **No "done-ish"**: work is only complete when acceptance criteria and validation are satisfied.
+- **No “done-ish”**: work is only complete when acceptance criteria and validation are satisfied.
 
 ---
 
@@ -27,7 +27,7 @@ Use this skill at the start of any non-trivial task, when scope feels unclear, w
 
 Confirm each item explicitly:
 
-1. **Objective**: one sentence describing what "done" looks like.
+1. **Objective**: one sentence describing what “done” looks like.
 2. **Scope**:
    - **In scope**:
    - **Out of scope**:
@@ -53,7 +53,7 @@ At natural checkpoints (every 1–3 edits / tool calls), run this quick audit:
   - Avoid copying logs unless they directly affect a decision.
 
 Drift response:
-- If new work is discovered, **record it as "Next"** instead of expanding the current scope unless the user explicitly reprioritizes.
+- If new work is discovered, **record it as “Next”** instead of expanding the current scope unless the user explicitly reprioritizes.
 
 ---
 
