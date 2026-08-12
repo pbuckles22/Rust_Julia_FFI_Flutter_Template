@@ -1,22 +1,29 @@
 ---
-description: Project context ‚Äî apply in every session
+description: Project context ó apply in every session
 alwaysApply: true
 ---
 
-# Rust_Julia_FFI_Flutter_Template + Agentic layer
+# Rust_Julia_FFI_Flutter_Template
 
-**Product:** Flutter-Rust-Julia FFI template with wrdlHelper (Wordle solver) as reference implementation. **iOS-first** with macOS and Android support.
+FlutterùRustùJulia FFI template (wrdlHelper reference). **iOS-first**; macOS/Android exist. Manual agentic sync ù no upstream merge (protects FFI files).
 
-**CRITICAL:** The FFI bindings between Flutter, Rust, and iOS are **fragile**. Changes to `ios/`, `rust/Cargo.toml`, `flutter_rust_bridge.yaml`, or `rust_builder/` can break the entire build. Read [docs/SETUP_GUIDE.md](docs/SETUP_GUIDE.md) before touching these.
+**Read first:** [docs/SETUP_GUIDE.md](../../docs/SETUP_GUIDE.md) before touching `ios/`, `rust/Cargo.toml`, `flutter_rust_bridge.yaml`, or `rust_builder/`.
 
-Cursor rules, skills, handoff protocol from AgenticTemplate (manual sync ‚Äî no upstream remote to protect FFI files).
+**Tracked truth:** PM_PLAN.md, AGENT_HANDOFF.md, TEST_PLAN.md, docs/PROJECT_STATUS.md.
 
-**Source of truth:** [AGENT_HANDOFF.md](AGENT_HANDOFF.md), [docs/](docs/) (SETUP_GUIDE, TESTING_STRATEGY, COMPREHENSIVE_ARCHITECTURE). Skills: [.cursor/skills/](.cursor/skills/) (DEV_GUIDE.md, TEST_TDD.md, techwriter, tester, code-reviewer, code-quality-gate, tech-lead, tech-debt-evaluator, pm-governance, ui-ux, game-readiness, visual-match, github-feature-workflow).
+## Project invariants (this template)
 
-**TDD:** Read TEST_TDD.md and tester skill first. **Tier 1a:** `cargo test` (Rust). **Tier 1b:** `flutter test` (Flutter). **Tier 2:** `flutter test integration_test/` (device).
+- FFI bindings are fragile. Never edit `wrdlHelper/lib/src/rust/` (generated). After Rust API changes: `flutter_rust_bridge_codegen generate`.
+- Merge-ready: `cd wrdlHelper && flutter test && cd rust && cargo test && cd ..`
+- Do not stack a Dart-only story on a red `cargo test`.
 
-**Merge-ready gate:** `cd wrdlHelper && flutter test && cd rust && cargo test && cd ..` ‚Äî run before pushing to `main`.
+## Hard rules (one file each ù do not recopy)
 
-**FFI changes:** Before modifying Rust API (`rust/src/api/*.rs`), regenerate bindings after with `flutter_rust_bridge_codegen generate`. **Never edit** `lib/src/rust/` directly ‚Äî it's generated.
-
-**Handoff:** When the user wants a handoff, run code review (code-reviewer), tech debt (tech-debt-evaluator), and tests; record in handoff note. See [.cursor/rules/handoff-checklist.mdc](.cursor/rules/handoff-checklist.mdc).
+| Failure mode | Rule |
+|--------------|------|
+| Next story while current is uncommitted | `one-story-one-ship.mdc` + `ffi-smoke-pause.mdc` |
+| Cursor commit/PR attribution | `no-cursor-commit-attribution.mdc` |
+| Tiers, evidence, harvest | `testing.mdc` + `TEST_TDD.md` |
+| Handoff / epic close | `handoff-checklist.mdc`, `epic-close.mdc` |
+| Gemini drop | `gemini-handoff.mdc` |
+| Branch / commit / push | `github-feature-workflow` + AGENT_HANDOFF |

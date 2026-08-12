@@ -66,6 +66,15 @@ Never leave failing tests on `main`.
 
 ---
 
+## Evidence loop (device/FFI logs → cargo/flutter test → CI)
+
+1. **Emit** — Named events on solver decisions, FFI errors, and UI commits. Fields you would assert (counts, enums, durations). No per-guess spam in the hot solver path.
+2. **Verify** — Device/integration checklist uses those lines. Missing expected line = fail.
+3. **Harvest** — After a find: if the decision is Rust-pure, add `cargo test` first; if it is Dart/FFI wiring, add `flutter test`. Name the test after the scenario. Keep the log as the Tier 2 item.
+4. **CI** — Merge-ready runs those tests every time. Do not leave “we’ll catch it on the next device run” as the only net.
+
+---
+
 ## Merge-ready gate
 
 Run before every push to `main`:

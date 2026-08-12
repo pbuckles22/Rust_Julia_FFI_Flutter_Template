@@ -1,10 +1,15 @@
 ---
-description: Two-tier test strategy — Tier 1 headless, Tier 2 on device/simulator
-alwaysApply: false
+description: Three-tier FFI tests, evidence logs, harvest into cargo/flutter test
+alwaysApply: true
 ---
 
 # Testing
 
-- **Tier 1:** `flutter test` (headless widget/unit). Run via `./script/test.sh` or `flutter test`. Keep green after any logic or test change.
-- **Tier 2:** Integration tests on device/simulator. Run via `./script/test_integration.sh` or `flutter test integration_test/ -d <device_id>`. Default device ID is in TEST_PLAN.md; pass as argument to override.
-- **New runnable behavior:** If the behavior runs on device (e.g. async, native, persistence), add Tier 2 tests and run them before considering the feature done. See TEST_TDD.md and tester skill.
+- **Tier 1a:** `cd wrdlHelper/rust && cargo test` — pure Rust. Keep green after Rust logic changes.
+- **Tier 1b:** `cd wrdlHelper && flutter test` — Dart + FFI service tests (algorithm-testing word list).
+- **Tier 2:** `cd wrdlHelper && flutter test integration_test/` on device/simulator.
+- **New behavior:** Red → green at the tier that owns the logic (Rust first if the decision lives in Rust).
+- **Verify before asking the human:** Run 1a + 1b locally. Do not ask for a device tap-through after only one side is green. Boot a device from `flutter devices` before Tier 2.
+- **Evidence:** Rust: `tracing` / `log` / named `eprintln!` on decisions and FFI errors (not per-call spam in solvers). Dart: `[T2 <topic>]` / `developer.log` on FFI round-trip, errors, UI commits. Silent FFI success is a defect.
+- **Harvest:** A device/FFI find that is expressible without UI **must** become a `cargo test` (prefer) or `flutter test` named after the scenario. Logs feed CI; they are not a substitute for the merge-ready gate.
+- **Merge-ready:** `cd wrdlHelper && flutter test && cd rust && cargo test && cd ..`

@@ -1,0 +1,18 @@
+---
+description: Waiting on cargo/flutter/device FFI verification is a pause
+alwaysApply: true
+---
+
+# FFI smoke pause (overlay)
+
+Generic one-story cycle: `one-story-one-ship.mdc`.
+
+**This template’s gates:**
+
+1. Tier 1a `cargo test` (pure Rust) must be green before asking for Flutter or device checks on that logic.
+2. Tier 1b `flutter test` must be green before asking for device integration.
+3. Tier 2 `flutter test integration_test/` on a booted device/sim is the human/E2E gate.
+
+Waiting on any of those PASSes (or a user waive) is a **pause**. Do not start the next PM story while the current FFI/UI ship is uncommitted.
+
+Do not treat a Dart-only green as proof the Rust side is good, or a host `cargo test` as proof the device FFI path works.
