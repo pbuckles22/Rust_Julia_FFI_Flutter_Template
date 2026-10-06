@@ -20,6 +20,7 @@ Use this skill for **orchestrating** work across files or epics—not for line-b
 - **Definition of done:** Behavior matches the plan story + tests (Tier 1 / Tier 2 per **TEST_TDD.md**); **merge-ready command** green when the change set warrants it; docs (**PM_PLAN**, product plan checkboxes) updated if scope or user-visible contract changed.
 - **Risks:** Call out **data migration**, **permission or security** increases, **integration** with third-party systems, and **performance** timing issues; link mitigations to backlog items when relevant.
 - **Consistency:** Same patterns as existing modules; avoid parallel frameworks or duplicate primitives.
+- **Ship cadence:** Fast loop until they can run it. **UCPH** parks the feature branch. **CMPH** lands `main` and keeps the branch. **SWAT** is epic close. See [wrap-on-command.mdc](../../rules/wrap-on-command.mdc). Do not start the next story while waiting on a human.
 
 ## Workflow
 

@@ -1,62 +1,90 @@
-# Handoff — NNNN — YYYY-MM-DD HHmm
+# Receiver brief — required handoff shape
 
-(Filename: `NNNN-handoff-YYYY-MM-DD_HHmm.md` — monotonic serial + date + 24h time required.)
+**Every UCPH or CMPH close** pastes this brief **in chat** and writes the **same body** to the note. A one-line “landed / pushed” is not a handoff.
 
-**Before writing this note:** Run code review (code-reviewer skill), tech debt (tech-debt-evaluator skill), and your **tests/coverage** commands documented in AGENT_HANDOFF.md. Then fill the sections below.
+- **UCPH:** feature-branch park. **On** is `origin/feature/…` (not merged).
+- **CMPH:** landed on `main`. **On** is `origin/main @ sha`.
 
-## TL;DR (1–2 sentences)
+Do **not** run code-reviewer, dead-code, or tech-debt on mid-epic **UCPH** / **CMPH**. **Gates** (PASS/WARN) only on **SWAT** / epic close, and only in the file.
 
-(Current state + the single most important thing the next agent must know.)
+## Filename (mandatory — last line of chat and note)
 
-## Decisions made (decision + rationale)
+| Location | Pattern |
+|----------|---------|
+| Prefer | `docs/handoff/NNNN-HANDOFF-YYYY-MM-DD_HHmm.md` |
+| Copy | `.cursor/handoff/NNNN-handoff-YYYY-MM-DD_HHmm.md` |
 
--
+- `NNNN` = next unused monotonic serial (`0001`, `0002`, …). Never reuse. Never edit an old note in place.
+- `YYYY-MM-DD_HHmm` = local 24h time.
+- End the brief with: `**Filename:** \`docs/handoff/NNNN-HANDOFF-YYYY-MM-DD_HHmm.md\``
 
-## Next steps (prioritized, verifiable)
+---
 
-1.
-2.
+## Worked example (docs-only close) — copy this density
 
-## Code review
+Receiver brief (0.2 closed)
 
-(Required. Summary from code-reviewer: PASS/WARN/FAIL + brief.)
+**Objective:** Next agent starts the next story only when asked. Do not re-prove this land.
 
-## Tech debt
+**Git**
 
-(Required. Summary from tech-debt-evaluator: "Do first" or short list.)
+| | |
+|--|--|
+| **Story** | 0.2 `[x]` |
+| **Version** | no bump (rules only) |
+| **On** | `origin/main @ abc1234` |
+| **Do not** | re-merge 0.2, or `git log` to confirm |
+| **Next** | wait until asked |
 
-## Code coverage
+**Decisions:** Ship commands are UCPH / CMPH / SWAT; merge to main needs CMPH permission; public version counter is not the story id.
 
-(Required. Your documented test/coverage command — green? one-line summary if useful.)
+**In scope next:** whatever they ask. **Out:** starting the next story during this pause.
 
-## Project readiness
+**Acceptance (already met):** rules land on `main`; no runtime, so no human check.
 
-(Optional. Summary from your project's readiness skill, or N/A.)
+**Next steps:** 1) Stop. 2) On the next ask, branch from this `main`.
 
-## Security review
+**Measured:** none this turn
 
-(If relevant. Summary from security-reviewer: PASS/WARN/FAIL + brief; or N/A.)
+**Filename:** `docs/handoff/0001-HANDOFF-YYYY-MM-DD_HHmm.md`
 
-## Done this session
+---
 
--
--
+## Blank (fill every heading)
 
-## Next up
+Receiver brief (N.M open | closed | WIP)
 
--
+**Objective:** (one sentence: what the next agent does, and what it must not re-prove)
 
-## Open questions / blockers
+**Git**
 
--
-( none )
+| | |
+|--|--|
+| **Story** | N.M `[x]` / `[ ]` |
+| **Version** | public version, or `no bump` |
+| **On** | `origin/main @ <sha>` **or** `origin/feature/… @ <sha> (not merged)` |
+| **Do not** | (the wasted step: re-merge, re-run the check, `git log`) |
+| **Next** | (one story id, or pause until asked) |
 
-## Handoff filename (mandatory)
+**Decisions:** (decision and why)
 
-- Save as: `.cursor/handoff/NNNN-handoff-YYYY-MM-DD_HHmm.md`
-- **`NNNN` must be new** (see [.cursor/handoff/README.md](README.md)). Never overwrite an existing handoff.
+**In scope next:** … **Out:** …
 
-## Key files (optional)
+**Acceptance (already met | not yet):** Tier 1 …; human check …; version …
 
--
--
+**Next steps:** 1) … 2) … 3) …
+
+**Measured:** numbers vs the prior run, or `none this turn`
+
+**Filename:** `docs/handoff/NNNN-HANDOFF-YYYY-MM-DD_HHmm.md`
+
+## Gates (SWAT file only — omit on UCPH and CMPH)
+
+| Gate | Result |
+|------|--------|
+| Code review | PASS / WARN / FAIL + one line |
+| Dead code | none / removed … |
+| Tech debt | none new / Do first: … |
+| Tests | command and result |
+| Readiness | N/A or one line |
+| Security | N/A or PASS/WARN/FAIL |

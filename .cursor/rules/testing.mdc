@@ -13,3 +13,4 @@ alwaysApply: true
 - **Evidence:** Rust: `tracing` / `log` / named `eprintln!` on decisions and FFI errors (not per-call spam in solvers). Dart: `[T2 <topic>]` / `developer.log` on FFI round-trip, errors, UI commits. Silent FFI success is a defect.
 - **Harvest:** A device/FFI find that is expressible without UI **must** become a `cargo test` (prefer) or `flutter test` named after the scenario. Logs feed CI; they are not a substitute for the merge-ready gate.
 - **Merge-ready:** `cd wrdlHelper && flutter test && cd rust && cargo test && cd ..`
+- **Human ask:** [human-check.mdc](human-check.mdc). Both Rust and Flutter tiers green is not a device session. Wait for PASS before committing a device-visible ship.

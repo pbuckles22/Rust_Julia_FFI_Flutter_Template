@@ -94,10 +94,10 @@ flutter build macos --release
 ## Git workflow (how work lands on `main`)
 
 1. **Integration branch:** `main`. All shipped product state should reflect what is merged here.
-2. **Feature branches:** For larger slices, use `feature/<topic>` or `fix/<topic>`, then merge into `main`. See [.cursor/skills/github-feature-workflow/SKILL.md](.cursor/skills/github-feature-workflow/SKILL.md).
-3. **Before push:** Run `flutter test && cd rust && cargo test && cd ..`. Do **NOT** push if FFI tests fail.
-4. **Pull requests:** Optional — document your team's preference.
-5. **After merge:** Delete the feature branch.
+2. **Feature branches:** One story per branch, `feature/<story-id>-short-topic`. Follow [.cursor/skills/github-feature-workflow/SKILL.md](.cursor/skills/github-feature-workflow/SKILL.md) and [.cursor/rules/wrap-on-command.mdc](.cursor/rules/wrap-on-command.mdc). Push the feature branch after the gate. Merge to `main` only after **CMPH** ([.cursor/rules/no-auto-merge-main.mdc](.cursor/rules/no-auto-merge-main.mdc)). **UCPH** does not merge.
+3. **Before push:** Run `flutter test && cd rust && cargo test && cd ..` from `wrdlHelper`. Do **NOT** push if FFI tests fail. CI runs that headless gate. A device run stays local.
+4. **Pull requests:** Optional. Do not invent a PR step.
+5. **After merge:** **CMPH** keeps the feature branch. **CMPHD** deletes local and remote after `main` is pushed. Record the land sha in [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md). See [docs/git/Feature_Branch_Archaeology.md](docs/git/Feature_Branch_Archaeology.md).
 
 ---
 
@@ -105,10 +105,14 @@ flutter build macos --release
 
 When ending a session:
 
-1. Run the handoff checklist (code review, tech debt, tests). See [.cursor/rules/handoff-checklist.mdc](.cursor/rules/handoff-checklist.mdc).
+1. On **UCPH** or **CMPH**, paste the Receiver brief ([.cursor/handoff/_template.md](.cursor/handoff/_template.md)). The review swarm is **SWAT** only ([.cursor/rules/handoff-checklist.mdc](.cursor/rules/handoff-checklist.mdc)).
 2. Update **PM_PLAN.md** (if maintained) when shipped scope changed.
 3. Update **[docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md)** and **Current state** above (required for contributor-visible changes).
 4. Optional local note: **`.cursor/handoff/NNNN-handoff-*.md`** — gitignored; promote decisions to tracked docs.
+
+## Epic close (SWAT)
+
+Do not close an epic because it looks done. Run [.cursor/rules/epic-close.mdc](.cursor/rules/epic-close.mdc) only when they typed **SWAT**, or this **CMPH** is the epic’s last in-scope story.
 
 Anything the team must see on GitHub belongs in **PROJECT_STATUS**, **PM_PLAN**, **README**, or the **PR** — not only gitignored handoff files.
 

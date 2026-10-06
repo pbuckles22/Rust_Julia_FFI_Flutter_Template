@@ -5,9 +5,11 @@ description: Leaving-agent protocol. Produces a compressed, decision-first hando
 
 # Session Summarizer — Leaving Agent Protocol
 
-Use this skill when ending a session, reducing context, handing work to a new agent, or preparing a "feature-agent" to pause safely.
+Use this skill when ending a session, reducing context, handing work to a new agent, or closing **UCPH** / **CMPH**.
 
-Goal: transfer **working state** (decisions, rationale, next steps) with **minimal tokens**.
+Goal: transfer **working state** with **minimal tokens**, in a shape the human reads in chat.
+
+A gitignored note with no matching chat brief is an incomplete handoff. Do not run the review swarm on UCPH or CMPH ([wrap-on-command.mdc](../../rules/wrap-on-command.mdc)).
 
 ---
 
@@ -17,7 +19,7 @@ Always keep (highest value per token):
 1. **Decisions** (what we chose)
 2. **Rationale** (why we chose it)
 3. **Next steps** (what to do next, in order)
-4. **Acceptance criteria / validation** (how to know it's done)
+4. **Acceptance criteria / validation** (how to know it’s done)
 
 Keep only summary-level:
 - Actions taken (headline only)
@@ -38,33 +40,27 @@ If you exceed the budget, remove execution details first.
 
 ---
 
-## Handoff note structure (required)
+## Chat and file (both required on UCPH and CMPH)
 
-Write the handoff note using this structure (mirrors the repo template):
+1. Paste the **Receiver brief** as the closing message. Headings: [`.cursor/handoff/_template.md`](../../handoff/_template.md).
+2. Write that **same body** to `docs/handoff/NNNN-HANDOFF-YYYY-MM-DD_HHmm.md` and copy it to `.cursor/handoff/NNNN-handoff-YYYY-MM-DD_HHmm.md`.
+3. Last line of chat and note: `**Filename:** \`docs/handoff/NNNN-HANDOFF-YYYY-MM-DD_HHmm.md\``
+4. Sync the **Git** rows into `AGENT_HANDOFF.md` → *Current state* (tracked).
 
-### Filename rules (mandatory)
+`NNNN` is new and monotonic. Never reuse it. Never edit a prior note to “update” it. Timestamp is local `YYYY-MM-DD_HHmm`.
 
-- Prefer: `.cursor/handoff/NNNN-handoff-YYYY-MM-DD_HHmm.md`
-- Optional second location: `doc/handoff/NNNN-HANDOFF-YYYY-MM-DD_HHmm.md`
-- **`NNNN` must be new and monotonic** (0001, 0002, …). Never reuse a number.
-- Never edit a prior handoff file to "update" it—write a new one.
+Required headings: Objective, Git (Story, Version, On, Do not, Next), Decisions, In scope / Out, Acceptance, Next steps, Measured, Filename.
 
-### Note contents
+**Measured** is numbers versus the prior run, or `none this turn`. **Gates** live in the SWAT file only, not in the CMPH chat.
 
-- **TL;DR (1–2 sentences)**: current state + the one key thing the next agent must know
-- **Decisions made**: bullet list (decision + rationale)
-- **Done this session**: summary bullets (no logs)
-- **Next steps (prioritized)**: 1–5 steps; each step should be verifiable
-- **Blockers / open questions**: only items that prevent safe progress
-- **Durable docs updated**: list tracked docs updated (or "none")
-- **Key files**: only the handful that matter next
+Keep the chat brief near the worked example length. Strip logs first.
 
 ---
 
-## "Green and Clean" exit check
+## “Green and Clean” exit check
 
 Before ending:
-- Are acceptance criteria satisfied (or clearly not yet)?
-- Were the right validation tiers run (Tier 1 minimum where defined)?
-- Are durable decisions written into tracked docs (not only in the note)?
-- Is the note short enough to prevent context bloat?
+- Chat has the full Receiver brief, not only “see the handoff file.”
+- Filename line is present and `NNNN` is unused.
+- Tracked Git truth matches **On**.
+- Acceptance and any measured numbers are real, not placeholders.

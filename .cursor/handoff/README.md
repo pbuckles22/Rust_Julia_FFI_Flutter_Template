@@ -4,8 +4,10 @@
 
 **Session narratives (usually gitignored):**
 
-- **`docs/handoff/NNNN-HANDOFF-YYYY-MM-DD_HHmm.md`** — optional naming for dated session notes (monotonic `NNNN`).
-- **`.cursor/handoff/NNNN-handoff-YYYY-MM-DD_HHmm.md`** — alternative location (monotonic `NNNN`).
+- **`docs/handoff/NNNN-HANDOFF-YYYY-MM-DD_HHmm.md`** — prefer. Body = **Receiver brief**. Last line is **Filename**. Shape: [`_template.md`](_template.md).
+- **`.cursor/handoff/NNNN-handoff-YYYY-MM-DD_HHmm.md`** — copy of the same brief.
+
+UCPH and CMPH **chat** must paste that brief. A git-only note with no chat is incomplete. Gates (PASS/WARN) are SWAT only.
 
 **Naming rules (do not overwrite history):**
 
@@ -28,8 +30,8 @@ Get-ChildItem -LiteralPath $dir -Filter '*-handoff-*.md' -File -ErrorAction Sile
 '{0:0000}-handoff-YYYY-MM-DD_HHmm.md' -f $next
 ```
 
-See [`.gitignore`](../../.gitignore). If you need a **tracked** contributor guide under `docs/handoff/`, add the file and use a `.gitignore` exception (`!docs/handoff/YourFile.md`) so it is not ignored by the `HANDOFF-*` pattern.
+See [`.gitignore`](../.gitignore). If you need a **tracked** contributor guide under `docs/handoff/`, add the file and use a `.gitignore` exception (`!docs/handoff/YourFile.md`) so it is not ignored by the `HANDOFF-*` pattern.
 
-**Product state on GitHub:** [docs/PROJECT_STATUS.md](../../docs/PROJECT_STATUS.md), [AGENT_HANDOFF.md](../../AGENT_HANDOFF.md) → *Current state*. **Norm:** [CONTRIBUTING.md](../../CONTRIBUTING.md). Promote session decisions to tracked docs before merge.
+**Product state on GitHub:** [docs/PROJECT_STATUS.md](../../docs/PROJECT_STATUS.md), [PM_PLAN.md](../../PM_PLAN.md), [AGENT_HANDOFF.md](../../AGENT_HANDOFF.md) → *Current state*. **Norm:** [CONTRIBUTING.md](../../CONTRIBUTING.md). Promote session decisions to tracked docs before merge.
 
-Run the handoff checklist (`.cursor/rules/handoff-checklist.mdc`) before writing a handoff note.
+Ship cadence is `.cursor/rules/wrap-on-command.mdc`. The review swarm (`.cursor/rules/handoff-checklist.mdc`) runs on SWAT, not on every UCPH or CMPH.

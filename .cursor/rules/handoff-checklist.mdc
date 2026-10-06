@@ -1,38 +1,38 @@
 ---
-description: Before any handoff — run code review, tech debt evaluation, tests/coverage, and optional project readiness; record in handoff note
+description: CMPH is a short land brief; SWAT and epic close run the review swarm
 globs: "**/.cursor/handoff/*.md,**/docs/handoff/*.md,AGENT_HANDOFF.md"
 alwaysApply: false
 ---
 
-# Handoff checklist (mandatory before handoff)
+# Handoff checklist
 
-When the user wants a handoff, or when you are writing or updating a handoff note (e.g. **`docs/handoff/*-HANDOFF-*.md`** or **`.cursor/handoff/*-handoff-*.md`** — often **gitignored**, not on **`main`**) or **AGENT_HANDOFF** "Current state":
+Cadence: [wrap-on-command.mdc](wrap-on-command.mdc). **UCPH** and **CMPH** do not run this swarm. **SWAT** / epic close does.
 
-## When to create a handoff (timing)
+## When to write a note
 
-- **Right time:** You are at a real stopping point: scope is done **or** you are intentionally handing off **mid-flight** with a clear label (e.g. **WIP**, **blocked**, **needs decision**).
-- **Wrong time:** Do **not** write a handoff that reads "ship complete" if delivery is not actually finished (e.g. commits on `main` that were never pushed, CI not run, or known follow-ups omitted). If work is incomplete, **say so explicitly** in **Ship status** or a **Not done** section at the top — not only in **Next up**.
-- **Push:** When your merge-ready command is green and you committed to **`main`**, run **`git push origin main`** before ending unless the user asked you not to push, or push failed (then record the failure and that **`main` is ahead of origin**).
+- **UCPH:** parked on the feature branch. Receiver brief. **On** is not `main`. No Gates section.
+- **CMPH:** this ship is on `main`. Receiver brief. No Gates section.
+- **SWAT / epic close:** last in-scope story, or they typed **SWAT**. Gates below, then [epic-close.mdc](epic-close.mdc).
+- **Mid-flight:** label WIP, blocked, or needs decision. Do not write “ship complete.”
 
-**You must run all four and record results in the handoff note. Do not skip any.**
+**Git truth:** story, version, `origin/main @ sha` or not-merged, **Do not**, **Next**. The next agent trusts it ([context-bootstrapper](../skills/context-bootstrapper/SKILL.md)).
 
-1. **Code review** — Use the **code-reviewer** skill (`.cursor/skills/code-reviewer/SKILL.md`). Review the changed or relevant code since last handoff (or main branch). Output PASS/WARN/FAIL and a short summary. Put the summary in the handoff note under **Code review**.
-2. **Tech debt evaluation** — Use the **tech-debt-evaluator** skill (`.cursor/skills/tech-debt-evaluator/SKILL.md`). Assess current debt; produce prioritized list. Put the short summary or "Do first" items in the handoff note under **Tech debt**.
-   - If a "Do first" item persists across handoffs or blocks progress, promote it into `TECH_DEBT.md` (ranked).
-3. **Tests / coverage** — Run the **merge-ready** command in **AGENT_HANDOFF.md** (`cd wrdlHelper && flutter test && cd rust && cargo test && cd ..`). Note whether Tier 1 is green. Put in the handoff note under **Tests**.
-4. **Project readiness (optional)** — If you maintain a readiness checklist or skill for this product (e.g. **game-readiness**), use it and put the summary under **Project readiness**. Otherwise note "N/A" or skip that section.
-5. **Security review (when relevant)** — If the work touched credentials, logging, remote access, networking, firewall, or installed software, run a lightweight **security-reviewer** pass and record PASS/WARN/FAIL.
+**CMPH git:** commit, merge `main`, push `origin main`, **keep** the feature branch unless they typed **CMPHD** ([no-auto-merge-main.mdc](no-auto-merge-main.mdc)).
 
-6. **Tier 2 (integration / E2E) if needed** — If you added or changed behavior that requires device validation, run `cd wrdlHelper && flutter test integration_test/`. Note in the handoff whether Tier 2 was run and the result. See [docs/TESTING_STRATEGY.md](../../docs/TESTING_STRATEGY.md).
+## SWAT / epic close only (not on UCPH or mid-epic CMPH)
 
-7. **Git commit + push** — If the first checks passed: stage the changes and run `git commit` with a short message. **`git push origin main`** (or merge your branch into `main` then push) after the merge-ready command is green — see **AGENT_HANDOFF.md** → *Git workflow*. Treat "committed but not pushed" as **unfinished** unless the user asked to stop before push.
+1. **Code review** — code-reviewer. PASS/WARN/FAIL under **Code review**.
+2. **Dead code** — dead-code-remover when that skill is available.
+3. **Tech debt** — tech-debt-evaluator. Promote a persistent “Do first” item into `TECH_DEBT.md`.
+4. **Tests** — merge-ready command from AGENT_HANDOFF. Note the result under **Tests**.
+5. **Project readiness** — optional, or N/A.
+6. **Security** — only if the epic touched credentials, logging, remote access, networking, or files.
+7. **Tier 2** — already done per story when the behavior required it. Do not re-run the whole epic unless a gate is missing.
 
-Then complete the rest of the handoff:
+Then status docs, and a GitHub Release when RELEASE.md says so ([epic-close.mdc](epic-close.mdc)).
 
-- Update **PM_PLAN** when scope changed
-- Update **[docs/PROJECT_STATUS.md](../../docs/PROJECT_STATUS.md)** and **AGENT_HANDOFF.md** → *Current state* (required — contributor-visible truth on GitHub)
-- Optional local note: **`docs/handoff/`** or `.cursor/handoff/` (gitignored — promote decisions to tracked docs)
+**Receiver brief in chat** — [`.cursor/handoff/_template.md`](../handoff/_template.md).
 
-When you summarize **Done this session** for humans, use the **two-audience** approach (see **techwriter** skill → *Dual-audience blurbs*).
+**Filename:** `docs/handoff/NNNN-HANDOFF-YYYY-MM-DD_HHmm.md` (never reuse `NNNN`).
 
-**Filename and timestamp:** Prefer **`docs/handoff/NNNN-HANDOFF-YYYY-MM-DD_HHmm.md`** (monotonic `NNNN`, date, 24h time — Windows-safe). See **AGENT_HANDOFF.md** → handoff protocol.
+Gates belong in the **SWAT file only**, not in a mid-epic CMPH chat.

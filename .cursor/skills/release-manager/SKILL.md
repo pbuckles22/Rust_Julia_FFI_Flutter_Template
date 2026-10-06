@@ -6,8 +6,8 @@ description: Establish lightweight release discipline: definition of merge-ready
 # Release Manager — Ship Without Chaos
 
 Use this skill when:
-- You're preparing to merge a feature branch
-- You want to declare work "merge-ready" or "release-ready"
+- You’re preparing to merge a feature branch
+- You want to declare work “merge-ready” or “release-ready”
 - You need consistent changelogs / release notes
 
 Goal: make shipping predictable with minimal ceremony.
@@ -33,22 +33,23 @@ Goal: make shipping predictable with minimal ceremony.
 
 ## Versioning (choose one and stick to it)
 
-- **SemVer** (recommended for libraries/tools): MAJOR.MINOR.PATCH
-- **Date-based** (recommended for internal ops scripts): YYYY.MM.DD[.N]
+- **Plan coordinate** (default when a product has `PM_PLAN` and a user-visible build): `MAJOR.EPIC.COUNTER` plus optional `.FIX`. The counter is ships inside the epic, not the story id. Never go backwards. See [docs/VERSIONING.md](../../../docs/VERSIONING.md) and [pm-versioning.mdc](../../rules/pm-versioning.mdc).
+- **SemVer** (libraries and tools): MAJOR.MINOR.PATCH
+- **Date-based** (internal ops scripts): YYYY.MM.DD[.N]
 
-Document the chosen convention in a tracked release doc (e.g. `RELEASE.md`) and keep it consistent.
+Document the choice in `RELEASE.md`. A user-visible build must not go backwards under any scheme. Local `+BUILD` stays gitignored and out of the public version.
 
 ---
 
 ## GitHub operations (optional): GitHub CLI (`gh`) playbook
 
-Use this section when you need boring, repeatable GitHub mechanics. Prefer **`gh`** over ad-hoc UI steps when it's available.
+Use this section when you need boring, repeatable GitHub mechanics. Prefer **`gh`** over ad-hoc UI steps when it’s available.
 
 ### Safety / hygiene (always)
 
 - Treat **`gh`/git output as sensitive** if it includes tokens or private URLs.
 - Before publishing anything, run a quick **security-reviewer** pass if the change touched credentials, generated files, logs, or remote access.
-- If a push fails with "too large" / HTTP 500 / unexpected disconnect, assume **history contains large blobs** until proven otherwise (`.gitignore` does not fix history).
+- If a push fails with “too large” / HTTP 500 / unexpected disconnect, assume **history contains large blobs** until proven otherwise (`.gitignore` does not fix history).
 
 ### Common flows (examples — adjust names)
 
@@ -78,7 +79,7 @@ git push -u origin --all
 gh pr create --fill
 ```
 
-**Create a GitHub Release from a tag (optional)**
+**Create a GitHub Release (on SWAT, after `main`, when RELEASE.md says this product cuts epic releases)**
 
 ```bash
 gh release create v1.2.3 --notes-file RELEASE_NOTES.md
@@ -90,3 +91,4 @@ If you removed large files from history (e.g., ISOs), remember:
 
 - Commit hashes change; anyone with old clones must **re-clone** or hard-reset.
 - Coordinate `main`/release branches and CI expectations after rewrite.
+

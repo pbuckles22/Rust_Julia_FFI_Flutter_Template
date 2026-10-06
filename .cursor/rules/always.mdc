@@ -21,9 +21,13 @@ FlutterùRustùJulia FFI template (wrdlHelper reference). **iOS-first**; macOS/And
 
 | Failure mode | Rule |
 |--------------|------|
+| Docs or handoff prose before they can run the change | `wrap-on-command.mdc` |
 | Next story while current is uncommitted | `one-story-one-ship.mdc` + `ffi-smoke-pause.mdc` |
+| Merge to `main` without CMPH permission | `no-auto-merge-main.mdc` |
+| Human ask with no install step, or commit before PASS | `human-check.mdc` |
+| Public version guessed, or a number that goes backwards | `pm-versioning.mdc` |
 | Cursor commit/PR attribution | `no-cursor-commit-attribution.mdc` |
 | Tiers, evidence, harvest | `testing.mdc` + `TEST_TDD.md` |
-| Handoff / epic close | `handoff-checklist.mdc`, `epic-close.mdc` |
+| Handoff / epic close | `wrap-on-command.mdc`, `handoff-checklist.mdc`, `epic-close.mdc` |
 | Gemini drop | `gemini-handoff.mdc` |
 | Branch / commit / push | `github-feature-workflow` + AGENT_HANDOFF |
