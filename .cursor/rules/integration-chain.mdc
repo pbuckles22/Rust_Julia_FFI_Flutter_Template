@@ -1,0 +1,59 @@
+---
+description: Integration tests must prove shipped pieces 1..X still work together
+alwaysApply: true
+---
+
+# Integration chain
+
+A red/green test of one piece proves that piece. It does not prove the pieces still work **together**.
+
+When behavior is added or changed, name the chain it sits in: the already-shipped behaviors that call it, feed it, or run after it (1 through this ship). Add or extend an integration test that runs that chain through the **real** interfaces. The test fails if any step breaks, including a step you did not edit.
+
+A new piece joins that chain in the **same** ship as its own unit test. Do not leave “we will wire them later” as the only proof they cooperate.
+
+## Required
+
+1. **Name the chain** in the test’s first line, starting at the first shipped behavior: `Chain: first → … → this`. See *Prefix*.
+2. **Call through.** The neighbors this change integrates with stay real. A mock of the neighbor you just changed is not an integration test.
+3. **Run the suite** that contains those chain tests in the merge-ready gate, not only the new unit test.
+4. **Keep old chains.** A new piece’s unit test does not replace a chain that already covers 1..X.
+
+Headless chain tests are the default so CI can run them. If a boundary exists only in a device, browser, or other runtime, TEST_PLAN names that run, and a headless test still covers the decision when the decision can be expressed without that runtime.
+
+## Harness
+
+Load the production module and call the real function. The test does not reimplement the decision in its own language.
+
+1. **One invoker.** Source or import the production file, call one exported decision, and return what it prints or returns.
+2. **Same record.** The input is the record the runtime writes (the evidence line, message, or row).
+3. **Lock the next stage’s value.** If the next stage branches on a string, a code, or a row, assert that value. A boolean stand-in is not the lock.
+4. **Name the winner.** When two decisions can both match, one test states which one wins.
+5. **Both layers.** Keep a direct test of the inner decision and a test through the outer function that calls it.
+
+The outer call is the chain. The inner call stays required.
+
+## Prefix
+
+The new chain test walks from the first shipped behavior through this one, in order.
+
+Each step receives what the previous step produced. A planted fixture belongs in the unit test. The chain deals, calls, or reads the real output of the step before it.
+
+Older prefix tests stay. The new test does not copy their assertion text, and it does not replace them.
+
+After the unit test and this prefix are green, look once for a missing unit case and a missing chain case.
+
+## Still required
+
+Isolated red/green for the piece you are changing. The chain does not replace it. See [testing.mdc](testing.mdc) and TEST_TDD.md.
+
+## Forbidden
+
+- Calling the ship done because the new unit test is green and the chain was not run.
+- Mocking out the neighbor this change is supposed to integrate with, then labeling that an integration test.
+- Deleting or skipping an older chain test because the new piece has its own test.
+- Treating a runtime log or a single manual pass as the proof that 1..X still work together.
+- Reimplementing the decision in the test’s language and calling that the chain.
+- Grepping the production source for a string and calling that the chain.
+- A chain whose first step is the new behavior, when earlier shipped behaviors feed it.
+- Planting the input the previous step would have produced, then calling only the new function.
+- Stopping when the new unit test is green, without looking for a missing unit case and a missing chain case.

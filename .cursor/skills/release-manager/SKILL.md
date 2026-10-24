@@ -33,7 +33,7 @@ Goal: make shipping predictable with minimal ceremony.
 
 ## Versioning (choose one and stick to it)
 
-- **Plan coordinate** (default when a product has `PM_PLAN` and a user-visible build): `MAJOR.EPIC.COUNTER` plus optional `.FIX`. The counter is ships inside the epic, not the story id. Never go backwards. See [docs/VERSIONING.md](../../../docs/VERSIONING.md) and [pm-versioning.mdc](../../rules/pm-versioning.mdc).
+- **Plan coordinate** (default when a product has `PM_PLAN` and a user-visible build): `MAJOR.EPIC.COUNTER` plus optional `.FIX`. The counter is ships inside the epic, not the story id. Never go backwards. See [doc/VERSIONING.md](../../../doc/VERSIONING.md) and [pm-versioning.mdc](../../rules/pm-versioning.mdc).
 - **SemVer** (libraries and tools): MAJOR.MINOR.PATCH
 - **Date-based** (internal ops scripts): YYYY.MM.DD[.N]
 

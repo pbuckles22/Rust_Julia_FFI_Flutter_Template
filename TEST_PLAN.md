@@ -2,6 +2,8 @@
 
 Three-tier testing for Flutter-Rust FFI. See [docs/TESTING_STRATEGY.md](docs/TESTING_STRATEGY.md) for the algorithm-testing word list approach.
 
+**Integration chain:** A passing `cargo test` of one function is not enough. Merge-ready (`flutter test` and `cargo test`) must include a test that crosses the FFI boundary when the change crosses it, and a test that the shipped behaviors still run together. Device Tier 2 does not replace that. Rule: [.cursor/rules/integration-chain.mdc](.cursor/rules/integration-chain.mdc).
+
 ---
 
 ## Tier 1a: Rust unit tests (fastest)

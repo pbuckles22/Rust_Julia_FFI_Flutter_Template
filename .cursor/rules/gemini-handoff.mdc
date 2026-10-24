@@ -1,20 +1,20 @@
 ---
-description: Transient docs/gemini/ folder for an external LLM. Create it if missing.
-globs: "docs/gemini/**"
+description: Transient doc/gemini/ folder for an external LLM. Create it if missing.
+globs: "doc/gemini/**"
 alwaysApply: true
 ---
 
-# Gemini handoff folder (`docs/gemini/`)
+# Gemini handoff folder (`doc/gemini/`)
 
-`docs/gemini/` is a **transient scratch drop** for handing files to an external LLM and bringing output back. It is **not canonical**. Live source and tracked docs are the source of truth. Working files are disposable. Keep `README.md` tracked.
+`doc/gemini/` is a **transient scratch drop** for handing files to an external LLM and bringing output back. It is **not canonical**. Live source and tracked docs are the source of truth. Working files are disposable. Keep `README.md` tracked.
 
-**Upload size: 10 files** at `docs/gemini/` root. Pack files stay **flat** in that root. `dropzone/` does not count. Most packs are troubleshooting and should **fill all 10 with code**. More source is better. Gathering more than 10 is valid; combine before upload (below).
+**Upload size: 10 files** at `doc/gemini/` root. Pack files stay **flat** in that root. `dropzone/` does not count. Most packs are troubleshooting and should **fill all 10 with code**. More source is better. Gathering more than 10 is valid; combine before upload (below).
 
 Before a new pack, delete every root file except `README.md`. Do not stack on the previous pack. After writing, count the root upload files. On a troubleshooting pack, `README.md` stays on disk because it is tracked, and it is not one of the 10.
 
 ### `dropzone/` (inbound only)
 
-- Keep **`docs/gemini/dropzone/`** always (create it empty if missing).
+- Keep **`doc/gemini/dropzone/`** always (create it empty if missing).
 - **Never delete the `dropzone` folder** on reload.
 - **May delete files inside `dropzone/`** when wiping for a new pack or after folding a reply.
 - Replies land **in** `dropzone/`. They do **not** count toward the 10.
@@ -59,13 +59,13 @@ Uncombined files stay as their own copies. After combining, the upload root is 1
 
 The user said **repo to text**, **full dump**, **snapshot**, or **upload the repo**.
 
-1. Run `scripts/Export-GeminiSnapshot.ps1` at the repo root. It writes gitignored `Gemini_Snapshot.txt`.
+1. Run `script/Export-GeminiSnapshot.ps1` at the repo root. It writes gitignored `Gemini_Snapshot.txt`.
 2. Reload clean: keep `README.md`, keep empty `dropzone/` (clear its files only), remove other root pack files.
 3. Copy that dump into this folder as `Gemini_Snapshot.txt`. It **counts as one file**.
 4. Add `CONTEXT.md` (the review ask).
 5. Do **not** also copy source files. Those files are already inside the dump.
 
-Upload: `docs/gemini/Gemini_Snapshot.txt` + `CONTEXT.md`.
+Upload: `doc/gemini/Gemini_Snapshot.txt` + `CONTEXT.md`.
 
 ## After replies
 

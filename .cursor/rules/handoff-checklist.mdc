@@ -1,6 +1,6 @@
 ---
 description: CMPH is a short land brief; SWAT and epic close run the review swarm
-globs: "**/.cursor/handoff/*.md,**/docs/handoff/*.md,AGENT_HANDOFF.md"
+globs: "**/.cursor/handoff/*.md,**/doc/handoff/*.md,AGENT_HANDOFF.md"
 alwaysApply: false
 ---
 
@@ -33,6 +33,8 @@ Then status docs, and a GitHub Release when RELEASE.md says so ([epic-close.mdc]
 
 **Receiver brief in chat** — [`.cursor/handoff/_template.md`](../handoff/_template.md).
 
-**Filename:** `docs/handoff/NNNN-HANDOFF-YYYY-MM-DD_HHmm.md` (never reuse `NNNN`).
+**Receiver framing (mandatory):** First chat line: **`You are the agent to execute the below hand off.`** Body uses second person (**You** will start on story …; **You** do not re-merge …). **Next** names that story. **Acceptance** and **Next steps** list the unit tests and the chain test you write red before any production code. Never instruct the receiver to “write a handoff” or “UCPH” — that describes the *leaving* agent’s job. Every brief includes this line verbatim, between **Next steps** and **Measured**: `write thorough tests. red, integration, find missing ones of both kinds.`
+
+**Filename:** `doc/handoff/NNNN-HANDOFF-YYYY-MM-DD_HHmm.md` (never reuse `NNNN`).
 
 Gates belong in the **SWAT file only**, not in a mid-epic CMPH chat.

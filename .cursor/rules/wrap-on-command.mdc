@@ -26,7 +26,7 @@ Close-out words name the **work**. Green tests are not permission.
 
 ## Fast loop (default)
 
-1. Code plus the Tier 1 tests that cover it (red, then green).
+1. Code plus red/green for the piece, and an integration test that runs it together with the shipped chain it belongs to ([integration-chain.mdc](integration-chain.mdc)).
 2. The merge-ready command in AGENT_HANDOFF. If the stack compiles, count every documented compile ([testing.mdc](testing.mdc)).
 3. If this ship is user-visible, bump the public version in the same change ([pm-versioning.mdc](pm-versioning.mdc)). Docs-only ships do not bump.
 4. Run the documented install or run step.
@@ -37,7 +37,8 @@ Nothing else. No plan essay, no reviewer skills, no handoff note, until they say
 ## Still mandatory inside the fast loop
 
 - Human **PASS** (or an explicit waive) before commit, when the ship changes what they run ([human-check.mdc](human-check.mdc)).
-- A named Tier 1 test for any lock that can be expressed without the runtime ([testing.mdc](testing.mdc)).
+- A named Tier 1 test for any lock that can be expressed without the runtime, including a decision a long run just found ([testing.mdc](testing.mdc) → *Long run*).
+- The integration chain for the behaviors this change sits in, named `Chain: first → … → this`, not only the new unit test ([integration-chain.mdc](integration-chain.mdc) → *Prefix*).
 - Measured numbers in chat when a runtime session produced them. “See the log” is not a verdict.
 
 ## Forbidden

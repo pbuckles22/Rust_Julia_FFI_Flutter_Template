@@ -5,7 +5,7 @@ alwaysApply: true
 
 # Plan-coordinate versioning
 
-The public version is how a person confirms the build they are running is the one you just produced. Full policy: [docs/VERSIONING.md](../../docs/VERSIONING.md). Record the chosen scheme in `RELEASE.md`.
+The public version is how a person confirms the build they are running is the one you just produced. Full policy: [doc/VERSIONING.md](../../doc/VERSIONING.md). Record the chosen scheme in `RELEASE.md`.
 
 Default when the product has a `PM_PLAN` and a user-visible build:
 
@@ -26,7 +26,7 @@ Libraries and ops scripts may instead pick SemVer or a date scheme in `RELEASE.m
 1. Read `PM_PLAN`. Use this repo’s story ids only.
 2. Read the **shipped** public version. The new number must be greater. Never reuse it and never lower it.
 3. If the story id is unclear, ask before writing the number.
-4. In the same change as the ship: set the version, mark the story when its exit is actually done, and refresh `docs/PROJECT_STATUS.md` plus AGENT_HANDOFF *Current state*. Say the version in the summary.
+4. In the same change as the ship: set the version, mark the story when its exit is actually done, and refresh `doc/PROJECT_STATUS.md` plus AGENT_HANDOFF *Current state*. Say the version in the summary.
 
 ## Releases
 

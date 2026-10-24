@@ -2,7 +2,7 @@
 
 **Human-readable current state.** Keep in sync with [AGENT_HANDOFF.md](../AGENT_HANDOFF.md) → *Current state* when milestones ship.
 
-**Last updated:** 2026-06-10
+**Last updated:** 2026-10-24
 
 ---
 
@@ -26,6 +26,7 @@
 - wrdlHelper reference implementation (Wordle UI + Rust solver)
 - Architecture, setup, and testing docs under `docs/`
 - **Contributor onboarding norm:** CONTRIBUTING.md, PROJECT_STATUS, GitHub PR/issue templates
+- 2026-10-24: shared agentic layer synced from AgenticTemplate (integration-chain, wrap-on-command, receiver-brief first line)
 
 ---
 

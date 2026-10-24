@@ -22,7 +22,7 @@ Goal: reach a **confident, bounded next step** using **minimal context**.
    - `TEST_PLAN.md` (Tier 1 / Tier 2 validation gates)
 
 3. **Most recent session handoff note** (if present)  
-   - `docs/handoff/NNNN-HANDOFF-YYYY-MM-DD_HHmm.md` or `.cursor/handoff/NNNN-handoff-YYYY-MM-DD_HHmm.md` (**highest `NNNN`**)  
+   - `doc/handoff/NNNN-HANDOFF-YYYY-MM-DD_HHmm.md` or `.cursor/handoff/NNNN-handoff-YYYY-MM-DD_HHmm.md` (**highest `NNNN`**)  
    - Expect a **Receiver brief** (Objective, Git, Decisions, In/Out, Acceptance, Next steps, Measured, Filename). Spec: [`.cursor/handoff/_template.md`](../../handoff/_template.md).  
    - Read **that file only** for the session delta. Older notes are history. Do not use them to second-guess a later **Git** block.
 
@@ -34,7 +34,7 @@ Goal: reach a **confident, bounded next step** using **minimal context**.
 
 `AGENT_HANDOFF.md` → *Current state* plus the latest brief **Git** table are the land record.
 
-- If **On** is **`origin/main @ sha`** and story **N.M** is `[x]`: **start at Next steps.** Do not `git log`, `git fetch`, or re-merge to confirm. Do not narrate that you checked it landed.
+- If **On** is **`origin/main @ sha`** and story **N.M** is `[x]`: **You will start on the story named in Next**, and only when the human asks. **Start at Next steps.** The first edits are the unit tests and the chain test listed under **Acceptance (not yet)**. Watch them fail before you add production code. Do not `git log`, `git fetch`, or re-merge to confirm. Do not narrate that you checked it landed.
 - `git status` is only to see if *your* tree is dirty before you edit.
 - Re-check git only when Git truth is missing, says not merged or WIP, the user asked “is it on main?”, or you are the agent who will merge.
 

@@ -42,14 +42,19 @@ If you exceed the budget, remove execution details first.
 
 ## Chat and file (both required on UCPH and CMPH)
 
-1. Paste the **Receiver brief** as the closing message. Headings: [`.cursor/handoff/_template.md`](../../handoff/_template.md).
-2. Write that **same body** to `docs/handoff/NNNN-HANDOFF-YYYY-MM-DD_HHmm.md` and copy it to `.cursor/handoff/NNNN-handoff-YYYY-MM-DD_HHmm.md`.
-3. Last line of chat and note: `**Filename:** \`docs/handoff/NNNN-HANDOFF-YYYY-MM-DD_HHmm.md\``
-4. Sync the **Git** rows into `AGENT_HANDOFF.md` → *Current state* (tracked).
+1. **First line of chat (verbatim):** `You are the agent to execute the below hand off.`
+2. Paste the **Receiver brief** as the closing message — same first line repeated at top of brief. Second person throughout (**You** will start on story …). Headings: [`.cursor/handoff/_template.md`](../../handoff/_template.md).
+3. Write that **same body** to `doc/handoff/NNNN-HANDOFF-YYYY-MM-DD_HHmm.md` and copy it to `.cursor/handoff/NNNN-handoff-YYYY-MM-DD_HHmm.md`.
+4. Last line of chat and note: `**Filename:** \`doc/handoff/NNNN-HANDOFF-YYYY-MM-DD_HHmm.md\``
+5. Sync the **Git** rows into `AGENT_HANDOFF.md` → *Current state* (tracked).
 
 `NNNN` is new and monotonic. Never reuse it. Never edit a prior note to “update” it. Timestamp is local `YYYY-MM-DD_HHmm`.
 
 Required headings: Objective, Git (Story, Version, On, Do not, Next), Decisions, In scope / Out, Acceptance, Next steps, Measured, Filename.
+
+**Next** is `You will start on story X.Y when asked`. **Acceptance (not yet)** and **Next steps** name the unit tests and the chain test for that story. Those tests are written red before any production code. Look once for a missing unit case and a missing chain case.
+
+Every brief includes this line verbatim, on its own line between **Next steps** and **Measured**. Do not drop it and do not paraphrase it: `write thorough tests. red, integration, find missing ones of both kinds.`
 
 **Measured** is numbers versus the prior run, or `none this turn`. **Gates** live in the SWAT file only, not in the CMPH chat.
 

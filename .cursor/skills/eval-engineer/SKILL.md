@@ -55,7 +55,7 @@ Pick the smallest set that fits:
 - **Integrity**: static checks (lint/parse/schema)
 - **Behavior**: one targeted scenario (manual or scripted)
 - **Regression**: verify one previously failing bug stays fixed
-- **Evidence**: a named runtime event (or equivalent) that the scenario must emit; harvest it into Tier 1 when the decision is expressible without the runtime (TEST_TDD → *Evidence loop*)
+- **Evidence**: a named runtime event (or equivalent) that the scenario must emit; harvest it into Tier 1 when the decision is expressible without the runtime, and before the next batch or soak when a long run found it (TEST_TDD → *Evidence loop*, `testing.mdc` → *Long run*)
 
 ---
 
@@ -63,6 +63,9 @@ Pick the smallest set that fits:
 
 - Writing evals that are too slow to run
 - Treating a pasted log as proof **without** a pass/fail check or a test that can replay the decision
+- Treating the next batch or soak as the regression net for a decision already seen
+- Reimplementing a decision in the test, or grepping the source, and calling that the chain (`integration-chain.mdc` → *Harness*)
+- A chain that starts at the new piece, or plants the input the previous step would have produced (`integration-chain.mdc` → *Prefix*)
 - Adding evals without documenting when to run them
 - Silent success (no discrete evidence) on new behavior
 
