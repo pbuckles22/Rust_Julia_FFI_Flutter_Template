@@ -40,4 +40,4 @@ Docs-only and rules-only slices have no human runtime check. Do not invent one. 
 
 ## After both gates
 
-Follow AGENT_HANDOFF → *Git workflow*: merge locally to `main`, push `origin main`. **Keep** the feature branch unless they typed **CMPHD**. Record the land sha in `docs/PROJECT_STATUS.md`. See [docs/git/Feature_Branch_Archaeology.md](../../docs/git/Feature_Branch_Archaeology.md).
+Follow AGENT_HANDOFF → *Git workflow*: merge locally to `main`, push `origin main`. **Keep** the feature branch unless they typed **CMPHD**. Record the land sha in `doc/PROJECT_STATUS.md`. See [doc/git/Feature_Branch_Archaeology.md](../../doc/git/Feature_Branch_Archaeology.md).

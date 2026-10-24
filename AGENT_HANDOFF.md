@@ -105,10 +105,10 @@ flutter build macos --release
 
 When ending a session:
 
-1. On **UCPH** or **CMPH**, paste the Receiver brief ([.cursor/handoff/_template.md](.cursor/handoff/_template.md)). The review swarm is **SWAT** only ([.cursor/rules/handoff-checklist.mdc](.cursor/rules/handoff-checklist.mdc)).
-2. Update **PM_PLAN.md** (if maintained) when shipped scope changed.
-3. Update **[docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md)** and **Current state** above (required for contributor-visible changes).
-4. Optional local note: **`.cursor/handoff/NNNN-handoff-*.md`** — gitignored; promote decisions to tracked docs.
+1. On **UCPH** or **CMPH**, open with `You are the agent to execute the below hand off.` Paste the Receiver brief in second person ([template](.cursor/handoff/_template.md)). **Next** names the story you will start. **Acceptance** and **Next steps** list the unit tests and the chain test to write red before production code. Do not run the review swarm.
+2. On **SWAT**, run [handoff-checklist.mdc](.cursor/rules/handoff-checklist.mdc) first.
+3. Update **PM_PLAN.md** (if maintained) when shipped scope changed.
+4. Update **[docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md)** and **Current state** above (required for contributor-visible changes).
 
 ## Epic close (SWAT)
 

@@ -64,6 +64,10 @@ flutter test integration_test/
 
 Never leave failing tests on `main`.
 
+### Integration chain (with the unit test, not instead of it)
+
+A green `cargo test` of one function is not the gate. If the change crosses the FFI boundary, add a test that calls through that boundary with the other side’s current contract. Also keep a test that the shipped behaviors still run together. Merge-ready runs `flutter test` and `cargo test`. See [integration-chain.mdc](../rules/integration-chain.mdc).
+
 ---
 
 ## Evidence loop (device/FFI logs → cargo/flutter test → CI)

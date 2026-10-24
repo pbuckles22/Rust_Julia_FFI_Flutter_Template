@@ -1,11 +1,11 @@
 ---
-description: Project context ó apply in every session
+description: Project context ? apply in every session
 alwaysApply: true
 ---
 
 # Rust_Julia_FFI_Flutter_Template
 
-FlutterùRustùJulia FFI template (wrdlHelper reference). **iOS-first**; macOS/Android exist. Manual agentic sync ù no upstream merge (protects FFI files).
+Flutter?Rust?Julia FFI template (wrdlHelper reference). **iOS-first**; macOS/Android exist. Manual agentic sync ? no upstream merge (protects FFI files).
 
 **Read first:** [docs/SETUP_GUIDE.md](../../docs/SETUP_GUIDE.md) before touching `ios/`, `rust/Cargo.toml`, `flutter_rust_bridge.yaml`, or `rust_builder/`.
 
@@ -17,17 +17,25 @@ FlutterùRustùJulia FFI template (wrdlHelper reference). **iOS-first**; macOS/And
 - Merge-ready: `cd wrdlHelper && flutter test && cd rust && cargo test && cd ..`
 - Do not stack a Dart-only story on a red `cargo test`.
 
-## Hard rules (one file each ù do not recopy)
+## Hard rules (one file each ? do not recopy)
 
 | Failure mode | Rule |
 |--------------|------|
 | Docs or handoff prose before they can run the change | `wrap-on-command.mdc` |
-| Next story while current is uncommitted | `one-story-one-ship.mdc` + `ffi-smoke-pause.mdc` |
+| Next story while current is uncommitted / waiting on a human | `one-story-one-ship.mdc` + `ffi-smoke-pause.mdc` |
 | Merge to `main` without CMPH permission | `no-auto-merge-main.mdc` |
 | Human ask with no install step, or commit before PASS | `human-check.mdc` |
 | Public version guessed, or a number that goes backwards | `pm-versioning.mdc` |
 | Cursor commit/PR attribution | `no-cursor-commit-attribution.mdc` |
-| Tiers, evidence, harvest | `testing.mdc` + `TEST_TDD.md` |
+| Tiers, evidence logs, harvest into tests | `testing.mdc` + `TEST_TDD.md` |
+| Long run treated as the only regression net | `testing.mdc` ? *Long run* |
+| One piece green while chain 1..X is untested | `integration-chain.mdc` |
+| Chain test reimplements the decision or greps source | `integration-chain.mdc` ? *Harness* |
+| Chain starts at the new piece, or plants the previous step?s output | `integration-chain.mdc` ? *Prefix* |
+| Debugger-only Trace as ?evidence? | `testing.mdc` ? *Evidence sink* |
+| Compiling stack skips a compile / +BUILD | `testing.mdc` ? *Compile counter* |
 | Handoff / epic close | `wrap-on-command.mdc`, `handoff-checklist.mdc`, `epic-close.mdc` |
 | Gemini drop | `gemini-handoff.mdc` |
 | Branch / commit / push | `github-feature-workflow` + AGENT_HANDOFF |
+
+**Keep this index.** Put stack paths, product invariants, and install/smoke overlays in this file. Do not edit shared rule files for a product-only fact.

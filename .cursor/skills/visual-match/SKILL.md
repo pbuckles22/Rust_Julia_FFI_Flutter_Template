@@ -11,7 +11,7 @@ Use this skill when implementing or changing UI graphics (layout, grid, colors, 
 
 ## When to apply
 
-- Drawing or changing custom painting (CustomPainter, canvas).
+- Drawing or changing custom graphics (canvas, DOM, native views, or your UI toolkit).
 - Changing layout, grid, background color, or palette.
 - User says graphics "don't match the examples" or "make it look like the examples."
 

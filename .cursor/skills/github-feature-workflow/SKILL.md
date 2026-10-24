@@ -63,7 +63,7 @@ When 1–4 are green: **commit** and **push the feature branch**. That is the **
 4. **Gate before commit:** meet **[Exit criteria before commit](#exit-criteria-before-commit-ship-bar)**; your merge-ready command is the all-in-one gate here.
 5. **Commit:** clear, imperative subject line; body only if context helps (what/why, not noise). One logical commit per slice is fine; multiple small commits are fine if they tell a story.
 6. **Push:** `git push -u origin <branch>` (first time); later `git push` on that branch.
-7. **Stop before `main` unless CMPH:** The push is the feature branch only until they say **CMPH**, WRAP, land, or ship to main. Then merge in that same close-out ([no-auto-merge-main.mdc](../../rules/no-auto-merge-main.mdc)): `git checkout main && git pull && git merge <branch> && git push origin main`, then paste the Receiver brief ([`.cursor/handoff/_template.md`](../../handoff/_template.md)). **Do not** nudge them toward opening a PR by default. **Keep** the feature branch unless they typed **CMPHD**.
+7. **Stop before `main` unless CMPH:** The push is the feature branch only until they say **CMPH**, WRAP, land, or ship to main. Then merge in that same close-out ([no-auto-merge-main.mdc](../../rules/no-auto-merge-main.mdc)): `git checkout main && git pull && git merge <branch> && git push origin main`, then paste the Receiver brief ([`.cursor/handoff/_template.md`](../../handoff/_template.md)). Open with `You are the agent to execute the below hand off.` **Next** names the story. **Acceptance** and **Next steps** list the unit tests and the chain test to write red before production code. **Do not** nudge them toward opening a PR by default. **Keep** the feature branch unless they typed **CMPHD**.
 8. **Verify CI after push** (when GitHub Actions or equivalent exist): agents do **not** receive GitHub email notifications. After pushing to `main` (or any branch with CI), confirm the remote run — do not treat local merge-ready alone as ship-complete.
 
    ```bash
@@ -77,7 +77,7 @@ When 1–4 are green: **commit** and **push the feature branch**. That is the **
 
    Local tests can pass while CI fails (different OS, env vars, path semantics). Fix and push again until CI is green before declaring the slice done.
 
-9. **After merge to `main`:** checkout `main`, `git pull`. **Keep** local and remote unless they typed **CMPHD** (the **D** means delete). Record the land sha in `docs/PROJECT_STATUS.md`. See [docs/git/Feature_Branch_Archaeology.md](../../../docs/git/Feature_Branch_Archaeology.md).
+9. **After merge to `main`:** checkout `main`, `git pull`. **Keep** local and remote unless they typed **CMPHD** (the **D** means delete). Record the land sha in `doc/PROJECT_STATUS.md`. See [doc/git/Feature_Branch_Archaeology.md](../../../doc/git/Feature_Branch_Archaeology.md).
 10. **Update product state** if scope shipped: [PM_PLAN.md](../../PM_PLAN.md) and your product plan — not only git history.
 
 **PR (explicit opt-in only):** If and only if the user asked for a PR or GitHub review, add a PR with a short title and note merge-ready green. Otherwise skip PR language entirely.

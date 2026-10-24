@@ -60,7 +60,7 @@ Apply to **lines changed and their immediate call sites** (expand context in the
 | **Naming**                | Names state intent (`computeNextFire` not `data`); avoid abbreviations unless domain-standard.                                                   |
 | **Comments**              | Comment **why**, not what the syntax already says. Non-obvious invariants, timing, or quirks deserve a short note.                               |
 | **Duplication**           | Copy-paste across branches in the same diff → consider one helper.                                                                               |
-| **Types**                 | Avoid `dynamic` (Dart) or equivalent weak types; narrow unions at boundaries (messages, storage).                                                |
+| **Types**                 | Avoid `any` (TypeScript) or equivalent weak types; narrow unions at boundaries (messages, storage).                                              |
 | **Error handling**        | User-visible failures should be actionable; silent catches need a one-line rationale.                                                            |
 
 ---
